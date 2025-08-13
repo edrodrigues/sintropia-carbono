@@ -1,0 +1,238 @@
+import type { TrainingModule, SalesScenario, Resource, User } from "./types"
+
+export const mockUsers: User[] = [
+  {
+    id: "1",
+    email: "john.doe@company.com",
+    name: "John Doe",
+    role: "trainee",
+    createdAt: new Date("2024-01-15"),
+    lastLogin: new Date("2024-12-08"),
+  },
+  {
+    id: "2",
+    email: "sarah.trainer@company.com",
+    name: "Sarah Johnson",
+    role: "trainer",
+    createdAt: new Date("2023-11-20"),
+    lastLogin: new Date("2024-12-08"),
+  },
+]
+
+export const mockTrainingModules: TrainingModule[] = [
+  {
+    id: "module-1",
+    title: "Product Knowledge Fundamentals",
+    description: "Master the core features, benefits, and competitive advantages of our flagship product.",
+    category: "product-knowledge",
+    difficulty: "beginner",
+    estimatedDuration: 45,
+    content: [
+      {
+        id: "content-1",
+        type: "text",
+        title: "Product Overview",
+        content: "Our flagship CRM solution helps businesses streamline their sales processes...",
+        order: 1,
+      },
+      {
+        id: "content-2",
+        type: "interactive",
+        title: "Feature Deep Dive",
+        content: "Interactive exploration of key features",
+        duration: 15,
+        order: 2,
+      },
+      {
+        id: "content-3",
+        type: "quiz",
+        title: "Knowledge Check",
+        content: "Test your understanding of product features",
+        duration: 10,
+        order: 3,
+      },
+    ],
+    createdAt: new Date("2024-01-01"),
+    updatedAt: new Date("2024-11-15"),
+  },
+  {
+    id: "module-2",
+    title: "Consultative Selling Techniques",
+    description: "Learn to ask the right questions and position solutions based on customer needs.",
+    category: "sales-techniques",
+    difficulty: "intermediate",
+    estimatedDuration: 60,
+    content: [
+      {
+        id: "content-4",
+        type: "text",
+        title: "The SPIN Selling Method",
+        content: "Situation, Problem, Implication, Need-payoff questions...",
+        order: 1,
+      },
+      {
+        id: "content-5",
+        type: "video",
+        title: "Role-Play Examples",
+        content: "Watch expert demonstrations of consultative selling",
+        duration: 20,
+        order: 2,
+      },
+    ],
+    prerequisites: ["module-1"],
+    createdAt: new Date("2024-01-15"),
+    updatedAt: new Date("2024-11-20"),
+  },
+  {
+    id: "module-3",
+    title: "Handling Customer Objections",
+    description: "Master the art of addressing concerns and turning objections into opportunities.",
+    category: "objection-handling",
+    difficulty: "advanced",
+    estimatedDuration: 75,
+    content: [
+      {
+        id: "content-6",
+        type: "text",
+        title: "Common Objection Types",
+        content: "Price, timing, authority, and need objections...",
+        order: 1,
+      },
+      {
+        id: "content-7",
+        type: "interactive",
+        title: "Objection Response Framework",
+        content: "Practice the LAER method: Listen, Acknowledge, Explore, Respond",
+        duration: 30,
+        order: 2,
+      },
+    ],
+    prerequisites: ["module-1", "module-2"],
+    createdAt: new Date("2024-02-01"),
+    updatedAt: new Date("2024-11-25"),
+  },
+]
+
+export const mockSalesScenarios: SalesScenario[] = [
+  {
+    id: "scenario-1",
+    title: "First-Time Enterprise Prospect",
+    description: "Navigate an initial discovery call with a large enterprise prospect.",
+    difficulty: "intermediate",
+    category: "discovery",
+    customerProfile: {
+      name: "Michael Chen",
+      role: "VP of Sales",
+      company: "TechCorp Industries",
+      personality: "Analytical, detail-oriented, skeptical of new solutions",
+      painPoints: ["Manual reporting processes", "Lack of sales visibility", "Team productivity issues"],
+      budget: "$50K-100K annually",
+      timeline: "3-6 months",
+    },
+    objectives: [
+      "Uncover specific pain points",
+      "Establish credibility and trust",
+      "Secure next meeting with decision makers",
+    ],
+    context: "The prospect responded to a LinkedIn outreach and agreed to a 30-minute discovery call.",
+    expectedDuration: 20,
+  },
+  {
+    id: "scenario-2",
+    title: "Price Objection Handling",
+    description: "Address concerns about pricing while maintaining value proposition.",
+    difficulty: "advanced",
+    category: "objection-handling",
+    customerProfile: {
+      name: "Lisa Rodriguez",
+      role: "Operations Manager",
+      company: "GrowthStart LLC",
+      personality: "Budget-conscious, practical, needs clear ROI",
+      painPoints: ["Limited budget", "Need to justify every expense", "Previous bad software experiences"],
+      budget: "$10K-25K annually",
+      timeline: "1-2 months",
+    },
+    objectives: [
+      "Reframe the conversation around value",
+      "Provide concrete ROI examples",
+      "Offer flexible pricing options",
+    ],
+    context: "The prospect is interested but concerned about the cost compared to competitors.",
+    expectedDuration: 15,
+  },
+]
+
+export const mockResources: Resource[] = [
+  {
+    id: "resource-1",
+    title: "Sales Call Preparation Checklist",
+    type: "checklist",
+    category: "preparation",
+    description: "Essential items to research and prepare before any sales call.",
+    content:
+      "1. Research company background and recent news\n2. Review contact's LinkedIn profile and role\n3. Prepare discovery questions based on industry\n4. Review previous interactions and notes\n5. Set clear call objectives\n6. Prepare relevant case studies\n7. Have pricing information ready\n8. Test technology and backup plans",
+    tags: ["preparation", "discovery", "checklist", "planning"],
+    createdAt: new Date("2024-01-10"),
+    updatedAt: new Date("2024-11-01"),
+  },
+  {
+    id: "resource-2",
+    title: "Competitive Battle Cards",
+    type: "document",
+    category: "competitive-intelligence",
+    description: "Key differentiators and responses to common competitor comparisons.",
+    content:
+      "Our competitive advantages:\n\n1. Superior Integration Capabilities\n- Native integrations with 200+ platforms\n- Real-time data synchronization\n- Custom API development support\n\n2. Advanced Analytics & Reporting\n- AI-powered insights and predictions\n- Customizable dashboards\n- Real-time performance tracking\n\n3. Implementation & Support\n- Dedicated customer success manager\n- 24/7 technical support\n- Comprehensive training programs\n\nCommon Objections & Responses:\n\n'Your competitor is cheaper'\n- Focus on total cost of ownership\n- Highlight superior ROI and efficiency gains\n- Provide case studies showing cost savings\n\n'We're already using [Competitor]'\n- Acknowledge their current solution\n- Focus on gaps and pain points\n- Offer migration support and incentives",
+    tags: ["competitive", "positioning", "objections", "differentiation"],
+    createdAt: new Date("2024-02-15"),
+    updatedAt: new Date("2024-11-30"),
+  },
+  {
+    id: "resource-3",
+    title: "ROI Calculator Template",
+    type: "template",
+    category: "tools",
+    description: "Customizable spreadsheet to demonstrate value and ROI to prospects.",
+    content:
+      "ROI Calculation Framework:\n\n1. Current State Analysis\n- Time spent on manual processes\n- Cost of current tools and licenses\n- Productivity losses due to inefficiencies\n- Error rates and associated costs\n\n2. Future State Benefits\n- Time savings from automation\n- Increased productivity metrics\n- Error reduction and quality improvements\n- Revenue growth opportunities\n\n3. Implementation Costs\n- Software licensing fees\n- Implementation and setup costs\n- Training and change management\n- Ongoing support and maintenance\n\n4. ROI Calculation\n- Total benefits - Total costs = Net benefit\n- (Net benefit / Total costs) × 100 = ROI %\n- Payback period calculation\n\nUse this template to create customized ROI presentations for each prospect based on their specific situation and industry benchmarks.",
+    tags: ["roi", "value", "template", "tools", "calculation"],
+    createdAt: new Date("2024-03-01"),
+    updatedAt: new Date("2024-10-15"),
+  },
+  {
+    id: "resource-4",
+    title: "SPIN Selling Methodology Guide",
+    type: "article",
+    category: "sales-techniques",
+    description: "Comprehensive guide to using SPIN selling techniques in your sales conversations.",
+    content:
+      "SPIN Selling is a proven methodology for consultative selling that focuses on asking the right questions to uncover customer needs and build value.\n\nThe Four Types of SPIN Questions:\n\n1. SITUATION Questions\n- Gather facts about the customer's current situation\n- Understand their business context and environment\n- Examples: 'How many people are on your sales team?' 'What CRM system are you currently using?'\n\n2. PROBLEM Questions\n- Identify pain points and challenges\n- Uncover areas where improvement is needed\n- Examples: 'What challenges are you facing with your current process?' 'How is this affecting your team's productivity?'\n\n3. IMPLICATION Questions\n- Explore the consequences of the problems\n- Help prospects understand the cost of inaction\n- Examples: 'How does this impact your quarterly targets?' 'What happens if this problem continues?'\n\n4. NEED-PAYOFF Questions\n- Get prospects to articulate the value of solving the problem\n- Build desire for your solution\n- Examples: 'How would solving this problem help your team?' 'What would it mean to your business if you could increase efficiency by 30%?'\n\nBest Practices:\n- Start with situation questions to build rapport\n- Use problem questions to identify pain points\n- Leverage implication questions to create urgency\n- Close with need-payoff questions to build value\n- Listen actively and ask follow-up questions\n- Take detailed notes for future reference",
+    tags: ["spin-selling", "questioning", "consultative", "methodology", "discovery"],
+    createdAt: new Date("2024-01-20"),
+    updatedAt: new Date("2024-11-10"),
+  },
+  {
+    id: "resource-5",
+    title: "Objection Handling Masterclass",
+    type: "video",
+    category: "objection-handling",
+    description: "Video training on advanced objection handling techniques with real-world examples.",
+    content:
+      "This comprehensive video series covers advanced objection handling techniques used by top sales professionals.\n\nTopics Covered:\n- The psychology behind customer objections\n- The LAER method (Listen, Acknowledge, Explore, Respond)\n- Common objection types and proven responses\n- Turning objections into opportunities\n- Building confidence in objection handling\n\nVideo Duration: 45 minutes\nIncludes: Interactive exercises and role-play scenarios",
+    tags: ["objection-handling", "video-training", "laer-method", "psychology", "confidence"],
+    createdAt: new Date("2024-02-28"),
+    updatedAt: new Date("2024-11-20"),
+  },
+  {
+    id: "resource-6",
+    title: "Email Templates for Sales Follow-up",
+    type: "template",
+    category: "communication",
+    description: "Professional email templates for various stages of the sales process.",
+    content:
+      "Professional Email Templates Collection:\n\n1. Initial Outreach Template\nSubject: Quick question about [Company Name]'s [specific challenge]\n\nHi [Name],\n\nI noticed [specific observation about their company/industry]. Many [similar companies/roles] I work with are facing [relevant challenge].\n\nI'd love to share how [similar company] solved this challenge and achieved [specific result].\n\nWould you be open to a brief 15-minute conversation this week?\n\nBest regards,\n[Your name]\n\n2. Follow-up After Demo\nSubject: Next steps for [Company Name]\n\nHi [Name],\n\nThank you for taking the time to see our demo yesterday. I was particularly excited to hear about [specific need they mentioned].\n\nBased on our conversation, I believe [specific solution/feature] could help you achieve [their stated goal].\n\nI've attached [relevant resource] that addresses the questions you raised about [specific topic].\n\nWhat would be the best way to move forward? I'm happy to:\n- Set up a trial for your team\n- Connect you with a similar customer for a reference call\n- Prepare a customized proposal\n\nLooking forward to hearing from you.\n\nBest,\n[Your name]\n\n3. Price Objection Response\nSubject: Addressing your budget concerns\n\nHi [Name],\n\nI understand budget is a key consideration for any investment. Let me share how other companies in your situation have approached this:\n\n[Customer example] initially had similar budget constraints but found that the ROI from [specific benefits] more than justified the investment within [timeframe].\n\nI'd be happy to work with you on:\n- A phased implementation approach\n- Flexible payment terms\n- A customized package that fits your current budget\n\nWould you be open to exploring these options?\n\nBest regards,\n[Your name]",
+    tags: ["email-templates", "follow-up", "communication", "outreach", "objections"],
+    createdAt: new Date("2024-03-15"),
+    updatedAt: new Date("2024-11-25"),
+  },
+]
