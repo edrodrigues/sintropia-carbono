@@ -1,30 +1,47 @@
-# Sales training application
+# Sintropia Carbono
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+Dashboard de inteligência colaborativa sobre certificadoras, volumes e tendências do mercado de créditos de carbono e certificados I-REC no Brasil e no mundo.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/edmilsons-projects-5a9f1e39/v0-sales-training-application)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/X45zh4ogGdH)
+## Sobre o Projeto
 
-## Overview
+Sintropia Carbono é um projeto **open source** colaborativo que visa democratizar o acesso a informações sobre o mercado de carbono e certificados de energia renovável (I-REC).
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+## Funcionalidades
 
-## Deployment
+- **Certificadoras**: Informações sobre as 7 principais certificadoras globais e nacionais
+- **I-REC (Brasil)**: Top 25 empresas brasileiras no mercado de certificados I-REC
+- **Carbono (Mundo)**: Top 25 compradores globais de créditos de carbono
+- **Carbono (Brasil)**: Ranking de empresas brasileiras por setor de atuação
 
-Your project is live at:
+## Tecnologias
 
-**[https://vercel.com/edmilsons-projects-5a9f1e39/v0-sales-training-application](https://vercel.com/edmilsons-projects-5a9f1e39/v0-sales-training-application)**
+- HTML5
+- Tailwind CSS
+- JavaScript (vanilla)
+- Chart.js (para visualizações)
 
-## Build your app
+## Como Contribuir
 
-Continue building your app on:
+Este é um projeto colaborativo! Você pode contribuir de várias formas:
 
-**[https://v0.app/chat/projects/X45zh4ogGdH](https://v0.app/chat/projects/X45zh4ogGdH)**
+- 🐛 Reportando bugs
+- 💡 Sugerindo novas funcionalidades
+- 📊 Atualizando dados do mercado
+- 🎨 Melhorando o design
+- 📝 Documentando o projeto
 
-## How It Works
+**Repositório GitHub:** [https://github.com/edrodrigues/sintropia-carbono](https://github.com/edrodrigues/sintropia-carbono)
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+**Email de contato:** ernj@cin.ufpe.br
+
+## Dados
+
+Os dados são consolidados de fontes públicas e atualizados periodicamente. Veja o arquivo `dados.md` para informações detalhadas.
+
+## Licença
+
+Este projeto está sob licença MIT. Sinta-se livre para usar, modificar e distribuir.
+
+---
+
+🌱 **Sintropia Carbono** - Construindo um futuro mais sustentável através da transparência de dados
