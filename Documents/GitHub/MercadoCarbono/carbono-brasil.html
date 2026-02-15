@@ -10,6 +10,18 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         :root {
             --br-fin: #1e3a8a;
@@ -192,6 +204,26 @@
             background: #cbd5e0;
             border-radius: 4px;
         }
+        
+        /* Dark mode styles */
+        .dark body { background-color: #0f172a; color: #e2e8f0; }
+        .dark .bg-white { background-color: #1e293b; }
+        .dark .text-gray-500 { color: #94a3b8; }
+        .dark .text-gray-600 { color: #94a3b8; }
+        .dark .text-gray-700 { color: #cbd5e1; }
+        .dark .text-gray-800 { color: #e2e8f0; }
+        .dark .text-gray-900 { color: #f1f5f9; }
+        .dark .border-gray-200 { border-color: #334155; }
+        .dark .bg-gray-50 { background-color: #0f172a; }
+        .dark .bg-gray-100 { background-color: #1e293b; }
+        .dark .bg-blue-50 { background-color: #1e3a8a; }
+        .dark .bg-blue-100 { background-color: #1e40af; }
+        .dark .bg-green-50 { background-color: #14532d; }
+        .dark .bg-green-100 { background-color: #166534; }
+        .dark .data-table thead th { background-color: #1e293b; color: #e2e8f0; border-color: #334155; }
+        .dark .data-table tbody td { border-color: #334155; }
+        .dark .data-table tbody tr:nth-child(even) { background-color: #1e293b; }
+        .dark .data-table tbody tr:hover { background-color: #334155; }
     </style>
 </head>
 
@@ -218,19 +250,23 @@
                 </a>
                 <nav class="hidden md:flex h-full items-end">
                     <a href="index.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all">Home</a>
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Home</a>
                     <a href="certificadoras.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all">Certificadoras</a>
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Certificadoras</a>
                     <a href="irec-brasil.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all">I-REC
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">I-REC
                         (Brasil)</a>
                     <a href="carbono-mundo.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all">Carbono
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Carbono
                         (Mundo)</a>
                     <a href="carbono-brasil.html"
-                        class="px-6 py-5 text-sm font-semibold text-[#1e40af] border-b-2 border-[#1e40af] bg-blue-50">Carbono
+                        class="px-6 py-5 text-sm font-semibold text-[#1e40af] dark:text-blue-400 border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900/30">Carbono
                         (Brasil)</a>
                 </nav>
+                <!-- Dark Mode Toggle -->
+                <button id="darkModeToggle" class="ml-4 p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
+                    <span id="darkModeIcon">🌙</span>
+                </button>
             </div>
         </div>
     </header>
@@ -404,6 +440,25 @@
         }
 
         renderTable();
+    </script>
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const html = document.documentElement;
+        
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            html.classList.add('dark');
+            darkModeIcon.textContent = '☀️';
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+            darkModeIcon.textContent = isDark ? '☀️' : '🌙';
+        });
     </script>
 </body>
 
