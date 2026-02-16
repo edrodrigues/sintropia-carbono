@@ -266,7 +266,7 @@
                         class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Home</a>
                     <a href="certificadoras.html"
                         class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Certificadoras</a>
-                    <a href="energia-renovavel-mundo.html" class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">I-REC (Mundo)</a>
+                    <a href="irec-mundo.html" class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">I-REC (Mundo)</a>
                     <a href="irec-brasil.html"
                         class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">I-REC
                         (Brasil)</a>
@@ -315,6 +315,26 @@
             </div>
         </div>
 
+        <!-- Charts Section -->
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 md:mb-0">Visualizações de Dados</h3>
+                <div class="flex flex-col md:flex-row gap-2">
+                    <div class="flex gap-2 mb-2 md:mb-0">
+                        <button id="btn-top10" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors">Top 10</button>
+                        <button id="btn-top25" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors">Top 25</button>
+                    </div>
+                    <div class="flex gap-2">
+                        <button id="btn-stacked" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors active-chart">📊 Barras</button>
+                        <button id="btn-pie" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors">🍕 Setores</button>
+                    </div>
+                </div>
+            </div>
+            <div class="relative" style="height: 400px;">
+                <canvas id="mainChart"></canvas>
+            </div>
+        </div>
+
         <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
             <div class="overflow-x-auto custom-scroll">
                 <table class="data-table">
@@ -358,20 +378,6 @@
 
         <div class="mt-6 text-sm text-gray-500">
             <strong>Última atualização:</strong> Fevereiro 2025
-        </div>
-
-        <!-- Charts Section -->
-        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 mt-12">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
-                <h3 class="text-2xl font-bold text-gray-900 mb-4 md:mb-0">Visualizações de Dados</h3>
-                <div class="flex gap-2">
-                    <button id="btn-stacked" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors active-chart">📊 Barras Empilhadas</button>
-                    <button id="btn-pie" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors">🍕 Distribuição por Setor</button>
-                </div>
-            </div>
-            <div class="relative" style="height: 400px;">
-                <canvas id="mainChart"></canvas>
-            </div>
         </div>
     </main>
 
@@ -472,17 +478,34 @@
         // Interactive Charts with Toggle
         const btnStacked = document.getElementById('btn-stacked');
         const btnPie = document.getElementById('btn-pie');
+        const btnTop10 = document.getElementById('btn-top10');
+        const btnTop25 = document.getElementById('btn-top25');
         const mainChartCanvas = document.getElementById('mainChart');
         let mainChart;
+        let currentView = 'top25'; // 'top10' or 'top25'
 
-        // Data for charts (Carbono Brasil - Top 10)
-        const chartData = {
-            labels: ['Banco Votorantim', 'Petrobras', 'Suzano', 'Vale', 'Itaú', 'Bradesco', 'Klabin', 'Natura', 'Banco do Brasil', 'Gerdau'],
-            volumes2024: [3.8, 0.68, 0.42, 0.38, 0.31, 0.29, 0.25, 0.23, 0.21, 0.195],
-            volumes2025: [5.2, 0.75, 0.58, 0.45, 0.39, 0.36, 0.32, 0.29, 0.27, 0.25],
+        // Full data for charts (Carbono Brasil - Top 25)
+        const fullChartData = {
+            labels: ['Banco Votorantim', 'Petrobras', 'Suzano', 'Vale', 'Itaú', 'Bradesco', 'Klabin', 'Natura', 'Banco do Brasil', 'Gerdau', 'Lojas Renner', 'GOL', 'Azul', 'Ambev', 'JBS', 'Raízen', 'Cosan', 'Cielo', 'Marfrig', 'Localiza', "Rede D'Or", 'Neoenergia', 'Cemig', 'TIM', '3tentos'],
+            volumes2024: [3.8, 0.68, 0.42, 0.38, 0.31, 0.29, 0.25, 0.23, 0.21, 0.195, 0.18, 0.175, 0.165, 0.15, 0.14, 0.135, 0.12, 0.115, 0.105, 0.095, 0.09, 0.085, 0.08, 0.075, 0.07],
+            volumes2025: [5.2, 0.75, 0.58, 0.45, 0.39, 0.36, 0.32, 0.29, 0.27, 0.25, 0.24, 0.23, 0.215, 0.195, 0.18, 0.17, 0.155, 0.15, 0.14, 0.13, 0.125, 0.115, 0.11, 0.105, 0.1],
             sectors: ['Financeiro', 'Energia', 'Celulose', 'Mineração', 'Varejo', 'Aviação', 'Bebidas', 'Proteína', 'Siderurgia', 'Cosméticos', 'Saúde', 'Telecom', 'Logística', 'Agro'],
             sectorDistribution: [20, 20, 8, 4, 4, 8, 4, 8, 4, 4, 4, 4, 4, 4]
         };
+
+        // Get current data based on view
+        function getChartData() {
+            const limit = currentView === 'top10' ? 10 : 25;
+            return {
+                labels: fullChartData.labels.slice(0, limit),
+                volumes2024: fullChartData.volumes2024.slice(0, limit),
+                volumes2025: fullChartData.volumes2025.slice(0, limit),
+                sectors: fullChartData.sectors,
+                sectorDistribution: fullChartData.sectorDistribution
+            };
+        }
+
+        let chartData = getChartData();
 
         // Chart configuration functions
         function createStackedChart() {
@@ -560,7 +583,7 @@
             });
         }
 
-        // Toggle functionality
+        // Toggle functionality for chart type
         btnStacked.addEventListener('click', () => {
             btnStacked.classList.add('bg-blue-600', 'text-white');
             btnStacked.classList.remove('bg-gray-200', 'text-gray-700');
@@ -575,6 +598,37 @@
             btnStacked.classList.remove('bg-blue-600', 'text-white');
             btnStacked.classList.add('bg-gray-200', 'text-gray-700');
             createPieChart();
+        });
+
+        // Toggle functionality for Top 10 / Top 25
+        btnTop10.addEventListener('click', () => {
+            currentView = 'top10';
+            btnTop10.classList.add('bg-blue-600', 'text-white');
+            btnTop10.classList.remove('bg-gray-200', 'text-gray-700');
+            btnTop25.classList.remove('bg-blue-600', 'text-white');
+            btnTop25.classList.add('bg-gray-200', 'text-gray-700');
+            chartData = getChartData();
+            // Recreate current chart
+            if (btnStacked.classList.contains('bg-blue-600')) {
+                createStackedChart();
+            } else {
+                createPieChart();
+            }
+        });
+
+        btnTop25.addEventListener('click', () => {
+            currentView = 'top25';
+            btnTop25.classList.add('bg-blue-600', 'text-white');
+            btnTop25.classList.remove('bg-gray-200', 'text-gray-700');
+            btnTop10.classList.remove('bg-blue-600', 'text-white');
+            btnTop10.classList.add('bg-gray-200', 'text-gray-700');
+            chartData = getChartData();
+            // Recreate current chart
+            if (btnStacked.classList.contains('bg-blue-600')) {
+                createStackedChart();
+            } else {
+                createPieChart();
+            }
         });
 
         // Initialize with stacked chart

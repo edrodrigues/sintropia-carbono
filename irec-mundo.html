@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <title>Mercado I-REC | Sintropia Carbono</title>
+    <title>Energia Renovável (Mundo) | Sintropia Carbono</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
@@ -24,22 +21,34 @@
         }
     </script>
     <style>
-        :root {
-            --irec-vendedor: #16a34a;
-            --irec-comprador: #2563eb;
-            --irec-ambos: #9333ea;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #FFFFFF;
-            color: #111827;
         }
 
         .font-mono {
             font-family: 'JetBrains Mono', monospace;
         }
-
+        
+        /* Dark mode styles */
+        .dark body { background-color: #0f172a; color: #e2e8f0; }
+        .dark .bg-white { background-color: #1e293b; }
+        .dark .text-gray-500 { color: #94a3b8; }
+        .dark .text-gray-600 { color: #94a3b8; }
+        .dark .text-gray-700 { color: #cbd5e1; }
+        .dark .text-gray-800 { color: #e2e8f0; }
+        .dark .text-gray-900 { color: #f1f5f9; }
+        .dark .border-gray-200 { border-color: #334155; }
+        .dark .bg-gray-50 { background-color: #0f172a; }
+        .dark .bg-gray-100 { background-color: #1e293b; }
+        .dark .bg-blue-50 { background-color: #1e3a8a; }
+        .dark .bg-blue-100 { background-color: #1e40af; }
+        .dark .bg-green-50 { background-color: #14532d; }
+        .dark .bg-green-100 { background-color: #166534; }
+        .dark .data-table thead th { background-color: #1e293b; color: #e2e8f0; border-color: #334155; }
+        .dark .data-table tbody td { border-color: #334155; }
+        .dark .data-table tbody tr:nth-child(even) { background-color: #1e293b; }
+        .dark .data-table tbody tr:hover { background-color: #334155; }
+        
         .badge {
             display: inline-flex;
             align-items: center;
@@ -50,44 +59,23 @@
             color: #FFFFFF;
             white-space: nowrap;
         }
-
-        .badge-vendedor {
-            background-color: var(--irec-vendedor);
-        }
-
-        .badge-comprador {
-            background-color: var(--irec-comprador);
-        }
-
-        .badge-ambos {
-            background-color: var(--irec-ambos);
-        }
-
-        .growth-25plus {
-            color: #166534;
-            font-weight: 700;
-        }
-
-        .growth-20-24 {
-            color: #16a34a;
-            font-weight: 700;
-        }
-
-        .growth-15-19 {
-            color: #d97706;
-            font-weight: 700;
-        }
-
-        .growth-10-14 {
-            color: #6b7280;
-            font-weight: 700;
-        }
-
-        .growth-under10 {
-            color: #9ca3af;
-            font-weight: 700;
-        }
-
+        
+        .badge-tech { background-color: #2563eb; }
+        .badge-varejo { background-color: #0891b2; }
+        .badge-manufatura { background-color: #7c3aed; }
+        .badge-telecom { background-color: #d97706; }
+        .badge-semi { background-color: #dc2626; }
+        .badge-mineracao { background-color: #52525b; }
+        .badge-alimentos { background-color: #ea580c; }
+        .badge-automotivo { background-color: #1e40af; }
+        .badge-quimica { background-color: #9333ea; }
+        .badge-financeiro { background-color: #1e3a8a; }
+        .badge-saude { background-color: #db2777; }
+        
+        .growth-high { color: #166534; font-weight: 700; }
+        .growth-medium { color: #16a34a; font-weight: 700; }
+        .growth-low { color: #d97706; font-weight: 700; }
+        
         .data-table {
             width: 100%;
             border-collapse: separate;
@@ -120,18 +108,10 @@
             background-color: #f3f4f6;
         }
 
-        .top-1 {
-            background-color: #fef3c7 !important;
-        }
-
-        .top-2 {
-            background-color: #dbeafe !important;
-        }
-
-        .top-3 {
-            background-color: #f3e8ff !important;
-        }
-
+        .top-1 { background-color: #fef3c7 !important; }
+        .top-2 { background-color: #dbeafe !important; }
+        .top-3 { background-color: #f3e8ff !important; }
+        
         .custom-scroll::-webkit-scrollbar {
             height: 8px;
             width: 8px;
@@ -145,26 +125,6 @@
             background: #cbd5e0;
             border-radius: 4px;
         }
-        
-        /* Dark mode styles */
-        .dark body { background-color: #0f172a; color: #e2e8f0; }
-        .dark .bg-white { background-color: #1e293b; }
-        .dark .text-gray-500 { color: #94a3b8; }
-        .dark .text-gray-600 { color: #94a3b8; }
-        .dark .text-gray-700 { color: #cbd5e1; }
-        .dark .text-gray-800 { color: #e2e8f0; }
-        .dark .text-gray-900 { color: #f1f5f9; }
-        .dark .border-gray-200 { border-color: #334155; }
-        .dark .bg-gray-50 { background-color: #0f172a; }
-        .dark .bg-gray-100 { background-color: #1e293b; }
-        .dark .bg-blue-50 { background-color: #1e3a8a; }
-        .dark .bg-blue-100 { background-color: #1e40af; }
-        .dark .bg-green-50 { background-color: #14532d; }
-        .dark .bg-green-100 { background-color: #166534; }
-        .dark .data-table thead th { background-color: #1e293b; color: #e2e8f0; border-color: #334155; }
-        .dark .data-table tbody td { border-color: #334155; }
-        .dark .data-table tbody tr:nth-child(even) { background-color: #1e293b; }
-        .dark .data-table tbody tr:hover { background-color: #334155; }
         
         /* Dark mode banner styles */
         .dark #opensource-banner {
@@ -185,13 +145,12 @@
 <body class="antialiased">
     <!-- Banner Open Source -->
     <div id="opensource-banner" class="bg-gradient-to-r from-lime-200 to-lime-300 text-gray-800 py-2 px-4 text-center text-sm">
-        <span class="banner-text font-semibold">🚀 Projeto Colaborativo Open Source</span> —
-        Contribua no <a href="https://github.com/edrodrigues/sintropia-carbono" target="_blank"
-            class="underline hover:text-lime-700 font-semibold text-lime-800">GitHub</a>
-        ou envie email para <a href="mailto:ernj@cin.ufpe.br"
-            class="underline hover:text-lime-700 font-semibold text-lime-800">ernj@cin.ufpe.br</a>
+        <span class="banner-text font-semibold">🚀 Projeto Colaborativo Open Source</span> — 
+        Contribua no <a href="https://github.com/edrodrigues/sintropia-carbono" target="_blank" class="underline hover:text-lime-700 font-semibold text-lime-800">GitHub</a> 
+        ou envie email para <a href="mailto:ernj@cin.ufpe.br" class="underline hover:text-lime-700 font-semibold text-lime-800">ernj@cin.ufpe.br</a>
     </div>
 
+    <!-- Header -->
     <header class="sticky top-0 z-50 bg-white border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-8 lg:px-16">
             <div class="flex justify-between items-center h-20">
@@ -202,21 +161,14 @@
                     </div>
                 </a>
                 <nav class="hidden md:flex h-full items-end">
-                    <a href="index.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Home</a>
-                    <a href="certificadoras.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Certificadoras</a>
-                    <a href="irec-mundo.html" class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">I-REC (Mundo)</a>
-                    <a href="irec-brasil.html"
-                        class="px-6 py-5 text-sm font-semibold text-[#1e40af] dark:text-blue-400 border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900/30">I-REC
-                        (Brasil)</a>
-                    <a href="carbono-mundo.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Carbono
-                        (Mundo)</a>
-                    <a href="carbono-brasil.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Carbono
-                        (Brasil)</a>
+                    <a href="index.html" class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">Home</a>
+                    <a href="certificadoras.html" class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">Certificadoras</a>
+                    <a href="irec-mundo.html" class="px-6 py-5 text-sm font-semibold text-[#1e40af] border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900 dark:text-blue-200">I-REC (Mundo)</a>
+                    <a href="irec-brasil.html" class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">I-REC (Brasil)</a>
+                    <a href="carbono-mundo.html" class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">Carbono (Mundo)</a>
+                    <a href="carbono-brasil.html" class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">Carbono (Brasil)</a>
                 </nav>
+                
                 <!-- Dark Mode Toggle -->
                 <button id="darkModeToggle" class="ml-4 p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
                     <span id="darkModeIcon">🌙</span>
@@ -227,30 +179,30 @@
 
     <main class="max-w-7xl mx-auto px-8 lg:px-16 py-12">
         <div class="mb-8">
-            <h2 class="text-4xl font-bold text-[#1e40af] mb-2">Mercado Brasileiro de Certificados I-REC</h2>
-            <p class="text-gray-600">Top 25 empresas brasileiras por volume de certificados I-REC transacionados.</p>
+            <h2 class="text-4xl font-bold text-[#1e40af] mb-2">Maiores Compradores de Energia Renovável (Mundo)</h2>
+            <p class="text-gray-600">Top 25 corporações globais por volume de energia renovável negociada (TWh).</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
                 <p class="text-xs font-bold text-gray-500 uppercase mb-2">Volume Total 2025</p>
-                <h3 class="text-3xl font-bold text-[#1e40af]">46.3M</h3>
-                <p class="text-sm text-gray-600 mt-2">I-RECs</p>
+                <h3 class="text-3xl font-bold text-[#1e40af]">425.8</h3>
+                <p class="text-sm text-gray-600 mt-2">TWh</p>
             </div>
             <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Crescimento Médio</p>
-                <h3 class="text-3xl font-bold text-green-600">+26.9%</h3>
-                <p class="text-sm text-gray-600 mt-2">vs 2024</p>
+                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Maior Comprador</p>
+                <h3 class="text-2xl font-bold text-[#1e40af]">Amazon</h3>
+                <p class="text-sm text-gray-600 mt-2">91.2 TWh</p>
             </div>
             <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Vendedores</p>
-                <h3 class="text-3xl font-bold text-green-600">3</h3>
-                <p class="text-sm text-gray-600 mt-2">principais geradores</p>
+                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Maior Crescimento</p>
+                <h3 class="text-3xl font-bold text-green-600">+42.5%</h3>
+                <p class="text-sm text-gray-600 mt-2">Rio Tinto</p>
             </div>
             <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Líder</p>
-                <h3 class="text-2xl font-bold text-[#1e40af]">Eletrobras</h3>
-                <p class="text-sm text-gray-600 mt-2">14.5M I-RECs</p>
+                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Setor Dominante</p>
+                <h3 class="text-3xl font-bold text-[#1e40af]">Tecnologia</h3>
+                <p class="text-sm text-gray-600 mt-2">5 empresas</p>
             </div>
         </div>
 
@@ -280,58 +232,54 @@
                     <thead>
                         <tr>
                             <th style="width: 60px;">Rank</th>
-                            <th style="width: 30%;">Empresa</th>
-                            <th style="width: 15%;">Papel</th>
+                            <th style="width: 25%;">Corporação</th>
+                            <th style="width: 20%;">Setor</th>
                             <th style="width: 15%; text-align: right;">Vol 2024</th>
                             <th style="width: 15%; text-align: right;">Vol 2025</th>
                             <th style="width: 12%; text-align: right;">Delta %</th>
-                            <th style="width: 15%; text-align: right;">Delta I-RECs</th>
+                            <th style="width: 15%; text-align: right;">Delta TWh</th>
                         </tr>
                     </thead>
-                    <tbody id="irec-table">
+                    <tbody id="energia-table">
                     </tbody>
                 </table>
             </div>
         </div>
 
         <div class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
-            <h3 class="text-lg font-bold text-gray-800 mb-4">Legenda - Papel no Mercado</h3>
-            <div class="flex flex-wrap gap-4">
-                <div class="flex items-center gap-2">
-                    <span class="badge badge-vendedor">Vendedor</span>
-                    <span class="text-sm text-gray-600">Gera e vende I-RECs</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="badge badge-comprador">Comprador</span>
-                    <span class="text-sm text-gray-600">Adquire I-RECs para compensação</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="badge badge-ambos">Ambos</span>
-                    <span class="text-sm text-gray-600">Atua em ambos os lados do mercado</span>
-                </div>
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Distribuição por Setor</h3>
+            <div class="flex flex-wrap gap-2">
+                <span class="badge badge-tech">Tecnologia (5)</span>
+                <span class="badge badge-varejo">Varejo (4)</span>
+                <span class="badge badge-alimentos">Alimentos (5)</span>
+                <span class="badge badge-automotivo">Automotivo (2)</span>
+                <span class="badge badge-semi">Semicondutores (2)</span>
+                <span class="badge badge-telecom">Telecom (2)</span>
+                <span class="badge badge-manufatura">Manufatura</span>
+                <span class="badge badge-mineracao">Mineração</span>
+                <span class="badge badge-quimica">Química</span>
+                <span class="badge badge-financeiro">Financeiro</span>
+                <span class="badge badge-saude">Saúde</span>
             </div>
         </div>
 
         <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-r-xl">
-                <h4 class="font-bold text-green-900 mb-2">⚡ Eletrobras Líder</h4>
-                <p class="text-sm text-green-800">A Eletrobras é a maior vendedora de I-RECs do Brasil, com 14.5 milhões
-                    de certificados em 2025, crescimento de 36.55%.</p>
-            </div>
             <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-xl">
-                <h4 class="font-bold text-blue-900 mb-2">📈 Maior Crescimento</h4>
-                <p class="text-sm text-blue-800">A Voltalia Brasil apresentou o maior crescimento do mercado com 56% de
-                    aumento no volume de I-RECs.</p>
+                <h4 class="font-bold text-blue-900 mb-2">🌐 Big Tech Lidera</h4>
+                <p class="text-sm text-blue-800">Amazon, Microsoft, Meta e Google são os 4 maiores compradores, representando juntos 253.9 TWh em 2025.</p>
+            </div>
+            <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-r-xl">
+                <h4 class="font-bold text-green-900 mb-2">📈 Crescimento Expressivo</h4>
+                <p class="text-sm text-green-800">Rio Tinto teve o maior crescimento com 42.53%, saltando de 8.7 para 12.4 TWh.</p>
             </div>
             <div class="bg-purple-50 border-l-4 border-purple-500 p-6 rounded-r-xl">
-                <h4 class="font-bold text-purple-900 mb-2">🏢 Setor Financeiro</h4>
-                <p class="text-sm text-purple-800">Bancos como Itaú, Bradesco e Banco do Brasil são grandes compradores
-                    de I-RECs para compensação de operações.</p>
+                <h4 class="font-bold text-purple-900 mb-2">⚡ Diversidade Setorial</h4>
+                <p class="text-sm text-purple-800">11 setores diferentes representados, desde tecnologia até saúde e alimentos.</p>
             </div>
         </div>
 
         <div class="mt-6 text-sm text-gray-500">
-            <strong>Última atualização:</strong> Fevereiro 2025
+            <strong>Fonte:</strong> Dados compilados através do Gemini Thinking com Deep Research habilitado em 15/02/2026
         </div>
     </main>
 
@@ -340,81 +288,88 @@
             <div class="text-center text-sm text-gray-500">
                 <p><strong>Sintropia Carbono</strong> | Inteligência sobre o mercado de créditos de carbono e I-REC</p>
                 <p class="mt-2">Última atualização: Fevereiro 2025</p>
-                <p class="mt-2">🚀 Contribua com o projeto no GitHub: <a
-                        href="https://github.com/edrodrigues/sintropia-carbono" target="_blank"
-                        class="text-blue-600 hover:underline font-semibold">https://github.com/edrodrigues/sintropia-carbono</a>
-                </p>
+                <p class="mt-2">🚀 Contribua com o projeto no GitHub: <a href="https://github.com/edrodrigues/sintropia-carbono" target="_blank" class="text-blue-600 hover:underline font-semibold">https://github.com/edrodrigues/sintropia-carbono</a></p>
             </div>
         </div>
     </footer>
 
     <script>
-        const irecData = [
-            { rank: 1, empresa: 'Eletrobras', papel: 'Vendedor', vol2024: 9200000, vol2025: 14500000, delta: 36.55 },
-            { rank: 2, empresa: 'Vale', papel: 'Comprador', vol2024: 4200000, vol2025: 5500000, delta: 23.64 },
-            { rank: 3, empresa: 'Neoenergia', papel: 'Ambos', vol2024: 3200000, vol2025: 4800000, delta: 33.33 },
-            { rank: 4, empresa: 'Gerdau', papel: 'Comprador', vol2024: 3200000, vol2025: 4150000, delta: 22.89 },
-            { rank: 5, empresa: 'Petrobras', papel: 'Ambos', vol2024: 2800000, vol2025: 3650000, delta: 23.29 },
-            { rank: 6, empresa: 'JBS', papel: 'Comprador', vol2024: 2400000, vol2025: 3100000, delta: 22.58 },
-            { rank: 7, empresa: 'Braskem', papel: 'Comprador', vol2024: 2100000, vol2025: 2750000, delta: 23.64 },
-            { rank: 8, empresa: 'Voltalia Brasil', papel: 'Vendedor', vol2024: 1100000, vol2025: 2500000, delta: 56.00 },
-            { rank: 9, empresa: 'Raízen', papel: 'Ambos', vol2024: 1800000, vol2025: 2400000, delta: 25.00 },
-            { rank: 10, empresa: 'Suzano', papel: 'Ambos', vol2024: 1550000, vol2025: 2050000, delta: 24.39 },
-            { rank: 11, empresa: 'Ambev', papel: 'Ambos', vol2024: 1250000, vol2025: 1630000, delta: 23.31 },
-            { rank: 12, empresa: 'CGN Brasil Energia', papel: 'Vendedor', vol2024: 950000, vol2025: 1300000, delta: 26.92 },
-            { rank: 13, empresa: 'Itaú Unibanco', papel: 'Comprador', vol2024: 620000, vol2025: 810000, delta: 23.46 },
-            { rank: 14, empresa: 'Bradesco', papel: 'Comprador', vol2024: 550000, vol2025: 720000, delta: 23.61 },
-            { rank: 15, empresa: 'Banco do Brasil', papel: 'Comprador', vol2024: 520000, vol2025: 680000, delta: 23.53 },
-            { rank: 16, empresa: 'Santander Brasil', papel: 'Comprador', vol2024: 480000, vol2025: 625000, delta: 23.20 },
-            { rank: 17, empresa: 'Natura &Co', papel: 'Comprador', vol2024: 410000, vol2025: 535000, delta: 23.36 },
-            { rank: 18, empresa: 'Magazine Luiza', papel: 'Comprador', vol2024: 280000, vol2025: 365000, delta: 23.29 },
-            { rank: 19, empresa: 'Embraer', papel: 'Comprador', vol2024: 260000, vol2025: 340000, delta: 23.53 },
-            { rank: 20, empresa: 'Lojas Renner', papel: 'Comprador', vol2024: 195000, vol2025: 255000, delta: 23.53 },
-            { rank: 21, empresa: 'Leroy Merlin Brasil', papel: 'Comprador', vol2024: 145000, vol2025: 190000, delta: 23.68 },
-            { rank: 22, empresa: 'Decathlon Brasil', papel: 'Comprador', vol2024: 75000, vol2025: 98000, delta: 23.47 },
-            { rank: 23, empresa: 'Cielo', papel: 'Comprador', vol2024: 45000, vol2025: 58000, delta: 22.41 },
-            { rank: 24, empresa: 'Hospital de Clínicas de Porto Alegre', papel: 'Comprador', vol2024: 32824, vol2025: 35000, delta: 6.22 },
-            { rank: 25, empresa: 'SAP Brasil', papel: 'Comprador', vol2024: 22000, vol2025: 28500, delta: 22.81 }
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const html = document.documentElement;
+        
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            html.classList.add('dark');
+            darkModeIcon.textContent = '☀️';
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+            darkModeIcon.textContent = isDark ? '☀️' : '🌙';
+        });
+        
+        const energiaData = [
+            { rank: 1, corp: 'Amazon', setor: 'Tecnologia / E-commerce', setorClass: 'badge-tech', vol2024: 78.4, vol2025: 91.2, delta: 16.33 },
+            { rank: 2, corp: 'Microsoft', setor: 'Tecnologia / Cloud', setorClass: 'badge-tech', vol2024: 55.2, vol2025: 68.5, delta: 24.09 },
+            { rank: 3, corp: 'Meta Platforms', setor: 'Tecnologia / Social Media', setorClass: 'badge-tech', vol2024: 42.1, vol2025: 48.9, delta: 16.15 },
+            { rank: 4, corp: 'Google (Alphabet)', setor: 'Tecnologia / Cloud', setorClass: 'badge-tech', vol2024: 38.6, vol2025: 45.3, delta: 17.36 },
+            { rank: 5, corp: 'Walmart', setor: 'Varejo e Consumo', setorClass: 'badge-varejo', vol2024: 15.8, vol2025: 18.2, delta: 15.19 },
+            { rank: 6, corp: 'Apple', setor: 'Tecnologia / Hardware', setorClass: 'badge-tech', vol2024: 14.3, vol2025: 16.5, delta: 15.38 },
+            { rank: 7, corp: 'Samsung Electronics', setor: 'Manufatura / Eletrônicos', setorClass: 'badge-manufatura', vol2024: 12.1, vol2025: 14.8, delta: 22.31 },
+            { rank: 8, corp: 'TSMC', setor: 'Semicondutores', setorClass: 'badge-semi', vol2024: 11.5, vol2025: 13.9, delta: 20.87 },
+            { rank: 9, corp: 'T-Mobile USA', setor: 'Telecomunicações', setorClass: 'badge-telecom', vol2024: 9.8, vol2025: 11.2, delta: 14.29 },
+            { rank: 10, corp: 'Intel Corporation', setor: 'Semicondutores', setorClass: 'badge-semi', vol2024: 9.2, vol2025: 10.5, delta: 14.13 },
+            { rank: 11, corp: 'Rio Tinto', setor: 'Mineração / Metais', setorClass: 'badge-mineracao', vol2024: 8.7, vol2025: 12.4, delta: 42.53 },
+            { rank: 12, corp: 'Target Corporation', setor: 'Varejo', setorClass: 'badge-varejo', vol2024: 7.9, vol2025: 9.1, delta: 15.19 },
+            { rank: 13, corp: 'Nestlé', setor: 'Alimentos e Bebidas', setorClass: 'badge-alimentos', vol2024: 7.5, vol2025: 8.6, delta: 14.67 },
+            { rank: 14, corp: 'Starbucks', setor: 'Alimentos e Bebidas', setorClass: 'badge-alimentos', vol2024: 6.8, vol2025: 7.4, delta: 8.82 },
+            { rank: 15, corp: 'General Motors', setor: 'Automotivo', setorClass: 'badge-automotivo', vol2024: 6.2, vol2025: 7.1, delta: 14.52 },
+            { rank: 16, corp: 'Ford Motor Company', setor: 'Automotivo', setorClass: 'badge-automotivo', vol2024: 5.9, vol2025: 6.8, delta: 15.25 },
+            { rank: 17, corp: 'LyondellBasell', setor: 'Química / Materiais', setorClass: 'badge-quimica', vol2024: 5.5, vol2025: 6.3, delta: 14.55 },
+            { rank: 18, corp: 'Bank of America', setor: 'Financeiro', setorClass: 'badge-financeiro', vol2024: 5.2, vol2025: 5.8, delta: 11.54 },
+            { rank: 19, corp: 'Anheuser-Busch InBev', setor: 'Alimentos e Bebidas', setorClass: 'badge-alimentos', vol2024: 4.8, vol2025: 5.4, delta: 12.50 },
+            { rank: 20, corp: 'IKEA (Ingka Group)', setor: 'Varejo', setorClass: 'badge-varejo', vol2024: 4.5, vol2025: 5.1, delta: 13.33 },
+            { rank: 21, corp: 'Procter & Gamble', setor: 'Bens de Consumo', setorClass: 'badge-alimentos', vol2024: 4.2, vol2025: 4.7, delta: 11.90 },
+            { rank: 22, corp: 'PepsiCo', setor: 'Alimentos e Bebidas', setorClass: 'badge-alimentos', vol2024: 3.9, vol2025: 4.4, delta: 12.82 },
+            { rank: 23, corp: "McDonald's", setor: 'Alimentos e Bebidas', setorClass: 'badge-alimentos', vol2024: 3.6, vol2025: 4.1, delta: 13.89 },
+            { rank: 24, corp: 'BT Group', setor: 'Telecomunicações', setorClass: 'badge-telecom', vol2024: 3.4, vol2025: 3.8, delta: 11.76 },
+            { rank: 25, corp: 'Bayer', setor: 'Saúde / Agroquímica', setorClass: 'badge-saude', vol2024: 3.1, vol2025: 3.5, delta: 12.90 }
         ];
 
-        const papelBadges = {
-            'Vendedor': 'badge-vendedor',
-            'Comprador': 'badge-comprador',
-            'Ambos': 'badge-ambos'
-        };
-
         function formatNumber(num) {
-            return num.toLocaleString('pt-BR');
+            return num.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
         }
 
         function getGrowthClass(delta) {
-            if (delta >= 25) return 'growth-25plus';
-            if (delta >= 20) return 'growth-20-24';
-            if (delta >= 15) return 'growth-15-19';
-            if (delta >= 10) return 'growth-10-14';
-            return 'growth-under10';
+            if (delta >= 20) return 'growth-high';
+            if (delta >= 15) return 'growth-medium';
+            return 'growth-low';
         }
 
         function getGrowthIcon(delta) {
-            if (delta >= 25) return '🔥';
-            if (delta >= 20) return '✓';
-            if (delta >= 15) return '⚠';
+            if (delta >= 25) return '🚀';
+            if (delta >= 20) return '🔥';
+            if (delta >= 15) return '✓';
             return '';
         }
 
         function renderTable() {
-            const tbody = document.getElementById('irec-table');
-            tbody.innerHTML = irecData.map(row => {
+            const tbody = document.getElementById('energia-table');
+            tbody.innerHTML = energiaData.map(row => {
                 const diff = row.vol2025 - row.vol2024;
                 const growthClass = getGrowthClass(row.delta);
                 const growthIcon = getGrowthIcon(row.delta);
                 const topClass = row.rank <= 3 ? `top-${row.rank}` : '';
-
+                
                 return `
                     <tr class="${topClass}">
                         <td class="font-mono text-center text-gray-500">${row.rank}</td>
-                        <td class="font-bold text-gray-900">${row.empresa}</td>
-                        <td><span class="badge ${papelBadges[row.papel]}">${row.papel}</span></td>
+                        <td class="font-bold text-gray-900">${row.corp}</td>
+                        <td><span class="badge ${row.setorClass}">${row.setor}</span></td>
                         <td class="font-mono text-right">${formatNumber(row.vol2024)}</td>
                         <td class="font-mono text-right font-semibold">${formatNumber(row.vol2025)}</td>
                         <td class="font-mono text-right ${growthClass}">${row.delta.toFixed(2)}% ${growthIcon}</td>
@@ -435,13 +390,13 @@
         let mainChart;
         let currentView = 'top25'; // 'top10' or 'top25'
 
-        // Full data for charts (I-REC Brasil - Top 25)
+        // Full data for charts (Energia Renovável Mundo - Top 25)
         const fullChartData = {
-            labels: ['Eletrobras', 'Vale', 'Neoenergia', 'Gerdau', 'Petrobras', 'JBS', 'Braskem', 'Voltalia Brasil', 'Raízen', 'Suzano', 'Ambev', 'CGN Brasil Energia', 'Itaú Unibanco', 'Bradesco', 'Banco do Brasil', 'Santander Brasil', 'Natura &Co', 'Magazine Luiza', 'Embraer', 'Lojas Renner', 'Leroy Merlin Brasil', 'Decathlon Brasil', 'Cielo', 'Hospital de Clínicas de Porto Alegre', 'SAP Brasil'],
-            volumes2024: [9.2, 4.2, 3.2, 3.2, 2.8, 2.4, 2.1, 1.1, 1.8, 1.55, 1.25, 0.95, 0.62, 0.55, 0.52, 0.48, 0.41, 0.28, 0.26, 0.195, 0.145, 0.075, 0.045, 0.033, 0.022],
-            volumes2025: [14.5, 5.5, 4.8, 4.15, 3.65, 3.1, 2.75, 2.5, 2.4, 2.05, 1.63, 1.3, 0.81, 0.72, 0.68, 0.625, 0.535, 0.365, 0.34, 0.255, 0.19, 0.098, 0.058, 0.035, 0.0285],
-            sectors: ['Vendedor', 'Comprador', 'Ambos'],
-            sectorDistribution: [20, 65, 15]
+            labels: ['Amazon', 'Microsoft', 'Meta', 'Google', 'Walmart', 'Apple', 'Samsung Electronics', 'TSMC', 'T-Mobile USA', 'Intel Corporation', 'Rio Tinto', 'Target Corporation', 'Nestlé', 'Starbucks', 'General Motors', 'Ford Motor Company', 'LyondellBasell', 'Bank of America', 'Anheuser-Busch InBev', 'IKEA', 'Procter & Gamble', 'PepsiCo', "McDonald's", 'BT Group', 'Bayer'],
+            volumes2024: [78.4, 55.2, 42.1, 38.6, 15.8, 14.3, 12.1, 11.5, 9.8, 9.2, 8.7, 7.9, 7.5, 6.8, 6.2, 5.9, 5.5, 5.2, 4.8, 4.5, 4.2, 3.9, 3.6, 3.4, 3.1],
+            volumes2025: [91.2, 68.5, 48.9, 45.3, 18.2, 16.5, 14.8, 13.9, 11.2, 10.5, 12.4, 9.1, 8.6, 7.4, 7.1, 6.8, 6.3, 5.8, 5.4, 5.1, 4.7, 4.4, 4.1, 3.8, 3.5],
+            sectors: ['Tecnologia', 'Varejo', 'Manufatura', 'Semicondutores', 'Telecom', 'Alimentos', 'Automotivo', 'Química', 'Mineração', 'Financeiro', 'Saúde'],
+            sectorDistribution: [35, 18, 6, 8, 8, 14, 4, 2, 2, 2, 1]
         };
 
         // Get current data based on view
@@ -467,13 +422,13 @@
                     labels: chartData.labels,
                     datasets: [
                         {
-                            label: 'Volume 2024 (Milhões)',
+                            label: 'Volume 2024 (TWh)',
                             data: chartData.volumes2024,
                             backgroundColor: '#94a3b8',
                             borderRadius: 4,
                         },
                         {
-                            label: 'Volume 2025 (Milhões)',
+                            label: 'Volume 2025 (TWh)',
                             data: chartData.volumes2025,
                             backgroundColor: '#1e40af',
                             borderRadius: 4,
@@ -488,14 +443,14 @@
                         y: { 
                             stacked: true, 
                             grid: { color: '#e5e7eb' },
-                            ticks: { callback: function(value) { return value + 'M'; } }
+                            ticks: { callback: function(value) { return value + ' TWh'; } }
                         }
                     },
                     plugins: {
                         legend: { position: 'bottom' },
                         title: {
                             display: true,
-                            text: 'Comparação de Volumes I-REC (Milhões)',
+                            text: 'Comparação de Volumes de Energia Renovável (TWh)',
                             font: { size: 14, weight: 'bold' },
                             padding: 20
                         }
@@ -512,7 +467,7 @@
                     labels: chartData.sectors,
                     datasets: [{
                         data: chartData.sectorDistribution,
-                        backgroundColor: ['#16a34a', '#2563eb', '#9333ea'],
+                        backgroundColor: ['#2563eb', '#0891b2', '#7c3aed', '#dc2626', '#d97706', '#ea580c', '#1e40af', '#9333ea', '#52525b', '#1e3a8a', '#db2777'],
                         borderWidth: 2,
                         borderColor: '#ffffff',
                     }]
@@ -525,7 +480,7 @@
                         legend: { position: 'bottom' },
                         title: {
                             display: true,
-                            text: 'Distribuição por Papel no Mercado (%)',
+                            text: 'Distribuição por Setor (%)',
                             font: { size: 14, weight: 'bold' },
                             padding: 20
                         }
@@ -585,25 +540,5 @@
         // Initialize with stacked chart
         createStackedChart();
     </script>
-    <script>
-        // Dark Mode Toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeIcon = document.getElementById('darkModeIcon');
-        const html = document.documentElement;
-        
-        // Check for saved dark mode preference
-        if (localStorage.getItem('darkMode') === 'true') {
-            html.classList.add('dark');
-            darkModeIcon.textContent = '☀️';
-        }
-        
-        darkModeToggle.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            const isDark = html.classList.contains('dark');
-            localStorage.setItem('darkMode', isDark);
-            darkModeIcon.textContent = isDark ? '☀️' : '🌙';
-        });
-    </script>
 </body>
-
 </html>
