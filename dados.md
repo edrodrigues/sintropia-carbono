@@ -22,6 +22,20 @@ Tabela consolidada das principais certificadoras globais e nacionais, com seus v
 - **ODS**: Objetivos de Desenvolvimento Sustentável
 - **IFM**: Manejo Florestal Intensivo
 
+### 10 Maiores Padrões de Certificação de Energia Renovável					
+Nome do Padrão	Site Oficial	País/Região de Origem	Metodologia Principal	Volume Certificado (Dados 2023-2025)	Atributos e Diferenciais
+I-REC (International REC)	trackingstandard.org	Países Baixos (Global)	Book-and-Claim (I-TRACK Foundation)	283 TWh emitidos em 2023; 227 milhões nos primeiros 7 meses de 2025. 1	Padrão global para mercados voluntários; adotado em mais de 50 países; alta transparência. 2
+Guarantees of Origin (GO)	aib-net.org	União Europeia (AIB)	European Energy Certificate System (EECS)	1.084 TWh emitidos em 2024; Total rastreado de 1.670 TWh. 3	Instrumento regulado pela UE; obrigatório para divulgação do mix energético dos fornecedores. 4
+Green-e Energy	green-e.org	EUA e Canadá	Certificação de Varejo e Auditoria de Transação	110 milhões de MWh em 2021; Aumento de 14% nas vendas em 2024. 5	Foco em proteção ao consumidor e critérios rigorosos de adicionalidade para novos projetos. 6
+TIGR (Tradable Instrument for Global Renewables)	apx.com	Estados Unidos (Global)	Registro Digital (APX/Xpansiv)	Representa ~2% do volume internacional; Liderança na Indonésia. 7	Plataforma tecnológica integrada; forte em mercados do sudeste asiático e América Central. 8
+REC Brazil	irec-brazil.org	Brasil	I-REC + Adicionalidade Social e Ambiental (SDGs)	Crescimento de 73% nas emissões I-REC no Brasil em 2023. 9	Chancela brasileira gerida pelo Instituto Totum; exige alinhamento com 5 dos 17 ODS da ONU. 10
+LGC (Large-scale Generation Certificates)	cer.gov.au	Austrália	Large-scale Renewable Energy Target (LRET)	51,5 milhões de certificados em 2024; 82,5 TWh incentivados. 11	Sistema de conformidade legal com transição para rastreamento horário (REGO) em 2025. 12
+Non-Fossil Certificates (NFC)	jepx.org	Japão	Non-Fossil Value Trading Market (JEPX)	143,8 bilhões de kWh em certificados FIT contratados em 2024. 13	Segmentado entre fontes FIT e não-FIT; inclui nuclear como fonte não-fóssil. 14
+UK REGO	ofgem.gov.uk	Reino Unido	Fuel Mix Disclosure (Ofgem)	Emissões retroativas; Mercado atingiu £25/MWh em 2023 antes da correção. 15	Específico para o mercado britânico; essencial para conformidade com o reporte de emissões do governo. 16
+EKOenergy	ekoenergy.org	Finlândia (Global)	Selo de Qualidade e Critérios de Biodiversidade	Screened >3.000 instalações em 2024; Contribuição ao Fundo Climático. 17	Ecolabel independente; exige sustentabilidade além da fonte (impacto em aves, peixes e ecossistemas). 18
+Gold Standard Renewable Energy Label	goldstandard.org	Suíça (Global)	GS4GG (Global Goals for Sustainable Development)	Aplicado sobre RECs para garantir integridade ambiental. 19	Foco em alta qualidade e benefícios sociais diretos; exige consulta pública a stakeholders. 20
+
+
 ### Fonte e Última atualização
 Fonte: Dados compilados através do Gemini Thinking com Deep Research habilitado em 15/02/2026
 
