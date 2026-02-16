@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <title>Brasil por Setor | Sintropia Carbono</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --br-fin: #1e3a8a;
+            --br-energia: #166534;
+            --br-celulose: #92400e;
+            --br-mineração: #52525b;
+            --br-varejo: #0891b2;
+            --br-aviação: #dc2626;
+            --br-bebidas: #ea580c;
+            --br-agro: #7c3aed;
+            --br-saúde: #db2777;
+            --br-telecom: #d97706;
+            --br-siderurgia: #3f3f46;
+            --br-cosméticos: #ec4899;
+            --br-serv-fin: #3b82f6;
+            --br-logística: #06b6d4;
+            --br-proteína: #65a30d;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF;
+            color: #111827;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #FFFFFF;
+            white-space: nowrap;
+        }
+
+        .badge-fin {
+            background-color: var(--br-fin);
+        }
+
+        .badge-energia {
+            background-color: var(--br-energia);
+        }
+
+        .badge-celulose {
+            background-color: var(--br-celulose);
+        }
+
+        .badge-mineração {
+            background-color: var(--br-mineração);
+        }
+
+        .badge-varejo {
+            background-color: var(--br-varejo);
+        }
+
+        .badge-aviação {
+            background-color: var(--br-aviação);
+        }
+
+        .badge-bebidas {
+            background-color: var(--br-bebidas);
+        }
+
+        .badge-agro {
+            background-color: var(--br-agro);
+        }
+
+        .badge-saúde {
+            background-color: var(--br-saúde);
+        }
+
+        .badge-telecom {
+            background-color: var(--br-telecom);
+        }
+
+        .badge-siderurgia {
+            background-color: var(--br-siderurgia);
+        }
+
+        .badge-cosméticos {
+            background-color: var(--br-cosméticos);
+        }
+
+        .badge-serv-fin {
+            background-color: var(--br-serv-fin);
+        }
+
+        .badge-logística {
+            background-color: var(--br-logística);
+        }
+
+        .badge-proteína {
+            background-color: var(--br-proteína);
+        }
+
+        .growth-25plus {
+            color: #166534;
+            font-weight: 700;
+        }
+
+        .growth-20-24 {
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .growth-15-19 {
+            color: #d97706;
+            font-weight: 700;
+        }
+
+        .growth-10-14 {
+            color: #6b7280;
+            font-weight: 700;
+        }
+
+        .growth-under10 {
+            color: #9ca3af;
+            font-weight: 700;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .data-table thead th {
+            background-color: #f3f4f6;
+            font-weight: 700;
+            color: #374151;
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table tbody td {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .data-table tbody tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #f3f4f6;
+        }
+
+        .top-1 {
+            background-color: #fef3c7 !important;
+        }
+
+        .top-2 {
+            background-color: #dbeafe !important;
+        }
+
+        .top-3 {
+            background-color: #f3e8ff !important;
+        }
+
+        .custom-scroll::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+        
+        /* Dark mode styles */
+        .dark body { background-color: #0f172a; color: #e2e8f0; }
+        .dark .bg-white { background-color: #1e293b; }
+        .dark .text-gray-500 { color: #94a3b8; }
+        .dark .text-gray-600 { color: #94a3b8; }
+        .dark .text-gray-700 { color: #cbd5e1; }
+        .dark .text-gray-800 { color: #e2e8f0; }
+        .dark .text-gray-900 { color: #f1f5f9; }
+        .dark .border-gray-200 { border-color: #334155; }
+        .dark .bg-gray-50 { background-color: #0f172a; }
+        .dark .bg-gray-100 { background-color: #1e293b; }
+        .dark .bg-blue-50 { background-color: #1e3a8a; }
+        .dark .bg-blue-100 { background-color: #1e40af; }
+        .dark .bg-green-50 { background-color: #14532d; }
+        .dark .bg-green-100 { background-color: #166534; }
+        .dark .data-table thead th { background-color: #1e293b; color: #e2e8f0; border-color: #334155; }
+        .dark .data-table tbody td { border-color: #334155; }
+        .dark .data-table tbody tr:nth-child(even) { background-color: #1e293b; }
+        .dark .data-table tbody tr:hover { background-color: #334155; }
+    </style>
+</head>
+
+<body class="antialiased">
+    <!-- Banner Open Source -->
+    <div class="bg-gradient-to-r from-lime-200 to-lime-300 text-gray-800 py-2 px-4 text-center text-sm">
+        <span class="font-semibold">🚀 Projeto Colaborativo Open Source</span> —
+        Contribua no <a href="https://github.com/edrodrigues/sintropia-carbono" target="_blank"
+            class="underline hover:text-lime-700 font-semibold text-lime-800">GitHub</a>
+        ou envie email para <a href="mailto:ernj@cin.ufpe.br"
+            class="underline hover:text-lime-700 font-semibold text-lime-800">ernj@cin.ufpe.br</a>
+    </div>
+
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-8 lg:px-16">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3">
+                    <span class="text-3xl">🌱</span>
+                    <div>
+                        <h1 class="font-bold text-xl text-[#1e40af] leading-tight">Sintropia Carbono</h1>
+                    </div>
+                </a>
+                <nav class="hidden md:flex h-full items-end">
+                    <a href="index.html"
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Home</a>
+                    <a href="certificadoras.html"
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Certificadoras</a>
+                    <a href="energia-renovavel-mundo.html" class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">I-REC (Mundo)</a>
+                    <a href="irec-brasil.html"
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">I-REC
+                        (Brasil)</a>
+                    <a href="carbono-mundo.html"
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Carbono
+                        (Mundo)</a>
+                    <a href="carbono-brasil.html"
+                        class="px-6 py-5 text-sm font-semibold text-[#1e40af] dark:text-blue-400 border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900/30">Carbono
+                        (Brasil)</a>
+                </nav>
+                <!-- Dark Mode Toggle -->
+                <button id="darkModeToggle" class="ml-4 p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
+                    <span id="darkModeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-8 lg:px-16 py-12">
+        <div class="mb-8">
+            <h2 class="text-4xl font-bold text-[#1e40af] mb-2">Mercado Brasileiro por Setor</h2>
+            <p class="text-gray-600">Top 25 empresas brasileiras por setor de atuação no mercado de créditos de carbono.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Volume Total 2025</p>
+                <h3 class="text-3xl font-bold text-[#1e40af]">15.9M</h3>
+                <p class="text-sm text-gray-600 mt-2">tCO2e</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Crescimento Médio</p>
+                <h3 class="text-3xl font-bold text-green-600">+23.4%</h3>
+                <p class="text-sm text-gray-600 mt-2">vs 2024</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Setores</p>
+                <h3 class="text-3xl font-bold text-[#1e40af]">15</h3>
+                <p class="text-sm text-gray-600 mt-2">setores representados</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Líder</p>
+                <h3 class="text-2xl font-bold text-[#1e40af]">Banco Votorantim</h3>
+                <p class="text-sm text-gray-600 mt-2">5.2M tCO2e</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div class="overflow-x-auto custom-scroll">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;">Rank</th>
+                            <th style="width: 28%;">Empresa</th>
+                            <th style="width: 15%;">Setor</th>
+                            <th style="width: 15%; text-align: right;">Vol 2024</th>
+                            <th style="width: 15%; text-align: right;">Vol 2025</th>
+                            <th style="width: 12%; text-align: right;">Delta %</th>
+                            <th style="width: 15%; text-align: right;">Delta tCO2e</th>
+                        </tr>
+                    </thead>
+                    <tbody id="brasil-table">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Setores Representados</h3>
+            <div class="flex flex-wrap gap-2">
+                <span class="badge badge-fin">Financeiro (4)</span>
+                <span class="badge badge-energia">Energia (5)</span>
+                <span class="badge badge-celulose">Celulose (2)</span>
+                <span class="badge badge-mineração">Mineração</span>
+                <span class="badge badge-varejo">Varejo</span>
+                <span class="badge badge-aviação">Aviação (2)</span>
+                <span class="badge badge-bebidas">Bebidas</span>
+                <span class="badge badge-proteína">Proteína Animal (2)</span>
+                <span class="badge badge-agro">Agro</span>
+                <span class="badge badge-serv-fin">Serviços Fin.</span>
+                <span class="badge badge-siderurgia">Siderurgia</span>
+                <span class="badge badge-logística">Logística</span>
+                <span class="badge badge-cosméticos">Cosméticos</span>
+                <span class="badge badge-saúde">Saúde</span>
+                <span class="badge badge-telecom">Telecom</span>
+            </div>
+        </div>
+
+        <div class="mt-6 text-sm text-gray-500">
+            <strong>Última atualização:</strong> Fevereiro 2025
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-20">
+        <div class="max-w-7xl mx-auto px-8 lg:px-16 py-8">
+            <div class="text-center text-sm text-gray-500">
+                <p><strong>Sintropia Carbono</strong> | Inteligência sobre o mercado de créditos de carbono e I-REC</p>
+                <p class="mt-2">Última atualização: Fevereiro 2025</p>
+                <p class="mt-2">🚀 Contribua com o projeto no GitHub: <a
+                        href="https://github.com/edrodrigues/sintropia-carbono" target="_blank"
+                        class="text-blue-600 hover:underline font-semibold">https://github.com/edrodrigues/sintropia-carbono</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const brasilData = [
+            { rank: 1, empresa: 'Banco Votorantim (BV)', setor: 'Financeiro', setorClass: 'badge-fin', vol2024: 3800000, vol2025: 5200000, delta: 26.92 },
+            { rank: 2, empresa: 'Petrobras', setor: 'Energia', setorClass: 'badge-energia', vol2024: 680000, vol2025: 750000, delta: 9.33 },
+            { rank: 3, empresa: 'Suzano', setor: 'Celulose', setorClass: 'badge-celulose', vol2024: 420000, vol2025: 580000, delta: 27.59 },
+            { rank: 4, empresa: 'Vale', setor: 'Mineração', setorClass: 'badge-mineração', vol2024: 380000, vol2025: 450000, delta: 15.56 },
+            { rank: 5, empresa: 'Itaú Unibanco', setor: 'Financeiro', setorClass: 'badge-fin', vol2024: 310000, vol2025: 390000, delta: 20.51 },
+            { rank: 6, empresa: 'Bradesco', setor: 'Financeiro', setorClass: 'badge-fin', vol2024: 290000, vol2025: 360000, delta: 19.44 },
+            { rank: 7, empresa: 'Klabin', setor: 'Celulose', setorClass: 'badge-celulose', vol2024: 250000, vol2025: 320000, delta: 21.88 },
+            { rank: 8, empresa: 'Natura &Co', setor: 'Cosméticos', setorClass: 'badge-cosméticos', vol2024: 230000, vol2025: 290000, delta: 20.69 },
+            { rank: 9, empresa: 'Banco do Brasil', setor: 'Financeiro', setorClass: 'badge-fin', vol2024: 210000, vol2025: 270000, delta: 22.22 },
+            { rank: 10, empresa: 'Gerdau', setor: 'Siderurgia', setorClass: 'badge-siderurgia', vol2024: 195000, vol2025: 250000, delta: 22.00 },
+            { rank: 11, empresa: 'Lojas Renner', setor: 'Varejo', setorClass: 'badge-varejo', vol2024: 180000, vol2025: 240000, delta: 25.00 },
+            { rank: 12, empresa: 'GOL Linhas Aéreas', setor: 'Aviação', setorClass: 'badge-aviação', vol2024: 175000, vol2025: 230000, delta: 23.91 },
+            { rank: 13, empresa: 'Azul Linhas Aéreas', setor: 'Aviação', setorClass: 'badge-aviação', vol2024: 165000, vol2025: 215000, delta: 23.26 },
+            { rank: 14, empresa: 'Ambev', setor: 'Bebidas', setorClass: 'badge-bebidas', vol2024: 150000, vol2025: 195000, delta: 23.08 },
+            { rank: 15, empresa: 'JBS', setor: 'Proteína Animal', setorClass: 'badge-proteína', vol2024: 140000, vol2025: 180000, delta: 22.22 },
+            { rank: 16, empresa: 'Raízen', setor: 'Energia/Agro', setorClass: 'badge-energia', vol2024: 135000, vol2025: 170000, delta: 20.59 },
+            { rank: 17, empresa: 'Cosan', setor: 'Energia/Agro', setorClass: 'badge-energia', vol2024: 120000, vol2025: 155000, delta: 22.58 },
+            { rank: 18, empresa: 'Cielo', setor: 'Serviços Fin.', setorClass: 'badge-serv-fin', vol2024: 115000, vol2025: 150000, delta: 23.33 },
+            { rank: 19, empresa: 'Marfrig', setor: 'Proteína Animal', setorClass: 'badge-proteína', vol2024: 105000, vol2025: 140000, delta: 25.00 },
+            { rank: 20, empresa: 'Localiza', setor: 'Logística', setorClass: 'badge-logística', vol2024: 95000, vol2025: 130000, delta: 26.92 },
+            { rank: 21, empresa: "Rede D'Or São Luiz", setor: 'Saúde', setorClass: 'badge-saúde', vol2024: 90000, vol2025: 125000, delta: 28.00 },
+            { rank: 22, empresa: 'Neoenergia', setor: 'Energia', setorClass: 'badge-energia', vol2024: 85000, vol2025: 115000, delta: 26.09 },
+            { rank: 23, empresa: 'Cemig', setor: 'Energia', setorClass: 'badge-energia', vol2024: 80000, vol2025: 110000, delta: 27.27 },
+            { rank: 24, empresa: 'TIM Brasil', setor: 'Telecom', setorClass: 'badge-telecom', vol2024: 75000, vol2025: 105000, delta: 28.57 },
+            { rank: 25, empresa: '3tentos', setor: 'Agronegócio', setorClass: 'badge-agro', vol2024: 70000, vol2025: 100000, delta: 30.00 }
+        ];
+
+        const sectorBadges = {
+            'Financeiro': 'badge-fin', 'Energia': 'badge-energia', 'Celulose': 'badge-celulose',
+            'Mineração': 'badge-mineração', 'Varejo': 'badge-varejo', 'Aviação': 'badge-aviação',
+            'Bebidas': 'badge-bebidas', 'Proteína Animal': 'badge-proteína', 'Agro': 'badge-agro',
+            'Serviços Fin.': 'badge-serv-fin', 'Siderurgia': 'badge-siderurgia', 'Logística': 'badge-logística',
+            'Cosméticos': 'badge-cosméticos', 'Saúde': 'badge-saúde', 'Telecom': 'badge-telecom',
+            'Energia/Agro': 'badge-energia', 'Agronegócio': 'badge-agro'
+        };
+
+        function formatNumber(num) {
+            return num.toLocaleString('pt-BR');
+        }
+
+        function getGrowthClass(delta) {
+            if (delta >= 25) return 'growth-25plus';
+            if (delta >= 20) return 'growth-20-24';
+            if (delta >= 15) return 'growth-15-19';
+            if (delta >= 10) return 'growth-10-14';
+            return 'growth-under10';
+        }
+
+        function getGrowthIcon(delta) {
+            if (delta >= 25) return '🔥';
+            if (delta >= 20) return '✓';
+            if (delta >= 15) return '⚠';
+            return '';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('brasil-table');
+            tbody.innerHTML = brasilData.map(row => {
+                const diff = row.vol2025 - row.vol2024;
+                const growthClass = getGrowthClass(row.delta);
+                const growthIcon = getGrowthIcon(row.delta);
+                const topClass = row.rank <= 3 ? `top-${row.rank}` : '';
+
+                return `
+                    <tr class="${topClass}">
+                        <td class="font-mono text-center text-gray-500">${row.rank}</td>
+                        <td class="font-bold text-gray-900">${row.empresa}</td>
+                        <td><span class="badge ${sectorBadges[row.setor] || 'badge-fin'}">${row.setor}</span></td>
+                        <td class="font-mono text-right">${formatNumber(row.vol2024)}</td>
+                        <td class="font-mono text-right font-semibold">${formatNumber(row.vol2025)}</td>
+                        <td class="font-mono text-right ${growthClass}">${row.delta.toFixed(2)}% ${growthIcon}</td>
+                        <td class="font-mono text-right text-green-600">+${formatNumber(diff)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        renderTable();
+    </script>
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const html = document.documentElement;
+        
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            html.classList.add('dark');
+            darkModeIcon.textContent = '☀️';
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+            darkModeIcon.textContent = isDark ? '☀️' : '🌙';
+        });
+    </script>
+</body>
+
+</html>
