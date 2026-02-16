@@ -10,6 +10,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -358,6 +359,20 @@
         <div class="mt-6 text-sm text-gray-500">
             <strong>Última atualização:</strong> Fevereiro 2025
         </div>
+
+        <!-- Charts Section -->
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 mt-12">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4 md:mb-0">Visualizações de Dados</h3>
+                <div class="flex gap-2">
+                    <button id="btn-stacked" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors active-chart">📊 Barras Empilhadas</button>
+                    <button id="btn-pie" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors">🍕 Distribuição por Setor</button>
+                </div>
+            </div>
+            <div class="relative" style="height: 400px;">
+                <canvas id="mainChart"></canvas>
+            </div>
+        </div>
     </main>
 
     <footer class="bg-white border-t border-gray-200 mt-20">
@@ -453,6 +468,117 @@
         }
 
         renderTable();
+
+        // Interactive Charts with Toggle
+        const btnStacked = document.getElementById('btn-stacked');
+        const btnPie = document.getElementById('btn-pie');
+        const mainChartCanvas = document.getElementById('mainChart');
+        let mainChart;
+
+        // Data for charts (Carbono Brasil - Top 10)
+        const chartData = {
+            labels: ['Banco Votorantim', 'Petrobras', 'Suzano', 'Vale', 'Itaú', 'Bradesco', 'Klabin', 'Natura', 'Banco do Brasil', 'Gerdau'],
+            volumes2024: [3.8, 0.68, 0.42, 0.38, 0.31, 0.29, 0.25, 0.23, 0.21, 0.195],
+            volumes2025: [5.2, 0.75, 0.58, 0.45, 0.39, 0.36, 0.32, 0.29, 0.27, 0.25],
+            sectors: ['Financeiro', 'Energia', 'Celulose', 'Mineração', 'Varejo', 'Aviação', 'Bebidas', 'Proteína', 'Siderurgia', 'Cosméticos', 'Saúde', 'Telecom', 'Logística', 'Agro'],
+            sectorDistribution: [20, 20, 8, 4, 4, 8, 4, 8, 4, 4, 4, 4, 4, 4]
+        };
+
+        // Chart configuration functions
+        function createStackedChart() {
+            if (mainChart) mainChart.destroy();
+            mainChart = new Chart(mainChartCanvas, {
+                type: 'bar',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [
+                        {
+                            label: 'Volume 2024 (Milhões tCO2e)',
+                            data: chartData.volumes2024,
+                            backgroundColor: '#94a3b8',
+                            borderRadius: 4,
+                        },
+                        {
+                            label: 'Volume 2025 (Milhões tCO2e)',
+                            data: chartData.volumes2025,
+                            backgroundColor: '#1e40af',
+                            borderRadius: 4,
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { 
+                            stacked: true, 
+                            grid: { color: '#e5e7eb' },
+                            ticks: { callback: function(value) { return value + 'M'; } }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        title: {
+                            display: true,
+                            text: 'Comparação de Volumes de Carbono - Brasil (Milhões tCO2e)',
+                            font: { size: 14, weight: 'bold' },
+                            padding: 20
+                        }
+                    }
+                }
+            });
+        }
+
+        function createPieChart() {
+            if (mainChart) mainChart.destroy();
+            mainChart = new Chart(mainChartCanvas, {
+                type: 'doughnut',
+                data: {
+                    labels: chartData.sectors,
+                    datasets: [{
+                        data: chartData.sectorDistribution,
+                        backgroundColor: ['#1e3a8a', '#166534', '#92400e', '#52525b', '#0891b2', '#dc2626', '#ea580c', '#65a30d', '#3f3f46', '#ec4899', '#db2777', '#d97706', '#06b6d4', '#7c3aed'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '50%',
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        title: {
+                            display: true,
+                            text: 'Distribuição por Setor (%)',
+                            font: { size: 14, weight: 'bold' },
+                            padding: 20
+                        }
+                    }
+                }
+            });
+        }
+
+        // Toggle functionality
+        btnStacked.addEventListener('click', () => {
+            btnStacked.classList.add('bg-blue-600', 'text-white');
+            btnStacked.classList.remove('bg-gray-200', 'text-gray-700');
+            btnPie.classList.remove('bg-blue-600', 'text-white');
+            btnPie.classList.add('bg-gray-200', 'text-gray-700');
+            createStackedChart();
+        });
+
+        btnPie.addEventListener('click', () => {
+            btnPie.classList.add('bg-blue-600', 'text-white');
+            btnPie.classList.remove('bg-gray-200', 'text-gray-700');
+            btnStacked.classList.remove('bg-blue-600', 'text-white');
+            btnStacked.classList.add('bg-gray-200', 'text-gray-700');
+            createPieChart();
+        });
+
+        // Initialize with stacked chart
+        createStackedChart();
     </script>
     <script>
         // Dark Mode Toggle
