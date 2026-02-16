@@ -22,8 +22,8 @@ Tabela consolidada das principais certificadoras globais e nacionais, com seus v
 - **ODS**: Objetivos de Desenvolvimento Sustentável
 - **IFM**: Manejo Florestal Intensivo
 
-### Última atualização
-Fevereiro 2025
+### Fonte e Última atualização
+Fonte: Dados compilados através do Gemini Thinking com Deep Research habilitado em 15/02/2026
 
 ---
 
@@ -70,8 +70,8 @@ Ranking das principais empresas brasileiras por setor de atuação no mercado de
 
 **Total de setores**: 15 setores representados
 
-### Última atualização
-Fevereiro 2025
+### Fonte e Última atualização
+Fonte: Dados compilados através do Gemini Thinking com Deep Research habilitado em 15/02/2026
 
 ## Mercado Brasileiro compradores de certificados I-REC (Top 25)
 Ranking	Empresa	Papel no Mercado	Volume Estimado/Reportado 2024 (I-RECs)	Volume Projetado/Reportado 2025 (I-RECs)	Delta (%)	Delta (tCO2)
@@ -101,6 +101,9 @@ Ranking	Empresa	Papel no Mercado	Volume Estimado/Reportado 2024 (I-RECs)	Volume 
 24	Hospital de Clínicas de Porto Alegre	Comprador	32.824	35.000	6,22%	2.176
 25	SAP Brasil	Comprador	22.000	28.500	22,81%	6.500
 
+### Fonte e Última atualização
+Fonte: Dados compilados através do Gemini Thinking com Deep Research habilitado em 15/02/2026
+
 ## Compradores de Carbono (Mundo)
 
 Rank	Empresa	Setor	Volume 2024 (tCO2​e)	Volume 2025 (tCO2​e)	Delta (%)	Delta (tCO2)
@@ -129,3 +132,39 @@ Rank	Empresa	Setor	Volume 2024 (tCO2​e)	Volume 2025 (tCO2​e)	Delta (%)	Delta
 23	Amazon	Tecnologia	420.000	550.000	23,64%	130.000
 24	Biomax Biocombustibles	Energia	410.000	480.000	14,58%	70.000
 25	Puma Energy	Energia	390.000	440.000	11,36%	50.000
+
+### Fonte e Última atualização
+Fonte: Dados compilados através do Gemini Thinking com Deep Research habilitado em 15/02/2026
+
+## Maiores Compradores de Energia Renovável (Mundo)
+
+Rank	Corporação	Setor Principal	Volume Negociado 2024 (TWh)	Volume Negociado 2025 (TWh)	Delta (%)	Delta (TWh)
+1	Amazon	Tecnologia / E-commerce	78,4	91,2	16,33%	12,8
+2	Microsoft	Tecnologia / Cloud	55,2	68,5	24,09%	13,3
+3	Meta Platforms	Tecnologia / Social Media	42,1	48,9	16,15%	6,8
+4	Google (Alphabet)	Tecnologia / Cloud	38,6	45,3	17,36%	6,7
+5	Walmart	Varejo e Consumo	15,8	18,2	15,19%	2,4
+6	Apple	Tecnologia / Hardware	14,3	16,5	15,38%	2,2
+7	Samsung Electronics	Manufatura / Eletrônicos	12,1	14,8	22,31%	2,7
+8	TSMC	Semicondutores	11,5	13,9	20,87%	2,4
+9	T-Mobile USA	Telecomunicações	9,8	11,2	14,29%	1,4
+10	Intel Corporation	Semicondutores	9,2	10,5	14,13%	1,3
+11	Rio Tinto	Mineração / Metais	8,7	12,4	42,53%	3,7
+12	Target Corporation	Varejo	7,9	9,1	15,19%	1,2
+13	Nestlé	Alimentos e Bebidas	7,5	8,6	14,67%	1,1
+14	Starbucks	Alimentos e Bebidas	6,8	7,4	8,82%	0,6
+15	General Motors	Automotivo	6,2	7,1	14,52%	0,9
+16	Ford Motor Company	Automotivo	5,9	6,8	15,25%	0,9
+17	LyondellBasell	Química / Materiais	5,5	6,3	14,55%	0,8
+18	Bank of America	Financeiro	5,2	5,8	11,54%	0,6
+19	Anheuser-Busch InBev	Alimentos e Bebidas	4,8	5,4	12,50%	0,6
+20	IKEA (Ingka Group)	Varejo	4,5	5,1	13,33%	0,6
+21	Procter & Gamble	Bens de Consumo	4,2	4,7	11,90%	0,5
+22	PepsiCo	Alimentos e Bebidas	3,9	4,4	12,82%	0,5
+23	McDonald's	Alimentos e Bebidas	3,6	4,1	13,89%	0,5
+24	BT Group	Telecomunicações	3,4	3,8	11,76%	0,4
+25	Bayer	Saúde / Agroquímica	3,1	3,5	12,90%	0,4
+
+
+### Fonte e Última atualização
+Fonte: Dados compilados através do Gemini Thinking com Deep Research habilitado em 15/02/2026
