@@ -126,6 +126,24 @@
             border-radius: 4px;
         }
         
+        /* Dark mode growth indicators - brighter colors for visibility */
+        .dark .growth-high { color: #4ade80; }
+        .dark .growth-medium { color: #22c55e; }
+        .dark .growth-low { color: #fbbf24; }
+        
+        /* Dark mode top highlights - darker backgrounds */
+        .dark .top-1 { background-color: #713f12 !important; }
+        .dark .top-2 { background-color: #1e3a8a !important; }
+        .dark .top-3 { background-color: #581c87 !important; }
+        
+        /* Dark mode scrollbar */
+        .dark .custom-scroll::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        .dark .custom-scroll::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        
         /* Dark mode banner styles */
         .dark #opensource-banner {
             background: linear-gradient(to right, #365314, #4d7c0f) !important;
