@@ -146,19 +146,39 @@
                 </a>
                 <nav class="hidden md:flex h-full items-end">
                     <a href="index.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">Home</a>
+                        class="px-4 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300 flex items-center gap-2"><span>🏠</span>Home</a>
                     <a href="certificadoras.html"
-                        class="px-6 py-5 text-sm font-semibold text-[#1e40af] border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900 dark:text-blue-200">Certificadoras</a>
-                    <a href="irec-mundo.html" class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">I-REC (Mundo)</a>
-                    <a href="irec-brasil.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">I-REC
-                        (Brasil)</a>
-                    <a href="carbono-mundo.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">Carbono
-                        (Mundo)</a>
-                    <a href="carbono-brasil.html"
-                        class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">Carbono
-                        (Brasil)</a>
+                        class="px-4 py-5 text-sm font-semibold text-[#1e40af] border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900 dark:text-blue-200 flex items-center gap-2"><span>🏛️</span>Certificadoras</a>
+                    
+                    <!-- IREC Dropdown -->
+                    <div class="relative group">
+                        <button class="px-4 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300 flex items-center gap-2">
+                            <span>⚡</span>IREC
+                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="hidden group-hover:block absolute top-full left-0 bg-white dark:bg-gray-800 shadow-lg rounded-b-lg border border-gray-200 dark:border-gray-700 py-2 min-w-[160px] z-50">
+                            <a href="irec-brasil.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><span>🇧🇷</span> Brasil</a>
+                            <a href="irec-mundo.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><span>🌎</span> Mundo</a>
+                            <a href="irec-precos.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><span>💰</span> Preços</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Carbono Dropdown -->
+                    <div class="relative group">
+                        <button class="px-4 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300 flex items-center gap-2">
+                            <span>🌍</span>Carbono
+                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="hidden group-hover:block absolute top-full left-0 bg-white dark:bg-gray-800 shadow-lg rounded-b-lg border border-gray-200 dark:border-gray-700 py-2 min-w-[160px] z-50">
+                            <a href="carbono-brasil.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><span>🇧🇷</span> Brasil</a>
+                            <a href="carbono-mundo.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><span>🌎</span> Mundo</a>
+                            <a href="carbono-precos.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><span>💰</span> Preços</a>
+                        </div>
+                    </div>
                 </nav>
                 <!-- Dark Mode Toggle -->
                 <button id="darkModeToggle" class="ml-4 p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">

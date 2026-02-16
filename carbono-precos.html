@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <title>Preços Carbono | Sintropia Carbono</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { primary: '#1e40af' }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .dark body { background-color: #0f172a; color: #e2e8f0; }
+        .dark .bg-white { background-color: #1e293b; }
+        .dark .text-gray-600 { color: #94a3b8; }
+        .dark .text-gray-700 { color: #cbd5e1; }
+        .dark .text-gray-900 { color: #f1f5f9; }
+        .dark .border-gray-200 { border-color: #334155; }
+        .dark .bg-gray-50 { background-color: #0f172a; }
+        .dark .bg-gray-100 { background-color: #1e293b; }
+        .dark .bg-blue-50 { background-color: #1e3a8a; }
+        .dark .bg-green-50 { background-color: #14532d; }
+        .dark .bg-purple-50 { background-color: #581c87; }
+        .dark #opensource-banner { background: linear-gradient(to right, #365314, #4d7c0f) !important; }
+        .dark #opensource-banner .banner-text { color: #ecfccb !important; }
+        .dark #opensource-banner a { color: #bef264 !important; }
+        .data-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        .data-table thead th { background-color: #f3f4f6; font-weight: 700; color: #374151; padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 12px; text-transform: uppercase; }
+        .data-table tbody td { padding: 12px; border-bottom: 1px solid #e5e7eb; font-size: 13px; }
+        .data-table tbody tr:nth-child(even) { background-color: #f9fafb; }
+        .data-table tbody tr:hover { background-color: #f3f4f6; }
+        .dark .data-table thead th { background-color: #1e293b; color: #e2e8f0; border-color: #334155; }
+        .dark .data-table tbody td { border-color: #334155; }
+        .dark .data-table tbody tr:nth-child(even) { background-color: #1e293b; }
+        .dark .data-table tbody tr:hover { background-color: #334155; }
+        .custom-scroll::-webkit-scrollbar { height: 8px; width: 8px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 4px; }
+        .dark .custom-scroll::-webkit-scrollbar-track { background: #1e293b; }
+        .dark .custom-scroll::-webkit-scrollbar-thumb { background: #475569; }
+    </style>
+</head>
+
+<body class="antialiased">
+    <!-- Banner Open Source -->
+    <div id="opensource-banner" class="bg-gradient-to-r from-lime-200 to-lime-300 text-gray-800 py-2 px-4 text-center text-sm">
+        <span class="banner-text font-semibold">🚀 Projeto Colaborativo Open Source</span> —
+        Contribua no <a href="https://github.com/edrodrigues/sintropia-carbono" target="_blank" class="underline hover:text-lime-700 font-semibold text-lime-800">GitHub</a>
+        ou envie email para <a href="mailto:ernj@cin.ufpe.br" class="underline hover:text-lime-700 font-semibold text-lime-800">ernj@cin.ufpe.br</a>
+    </div>
+
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-8 lg:px-16">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3">
+                    <span class="text-3xl">🌱</span>
+                    <div>
+                        <h1 class="font-bold text-xl text-[#1e40af] leading-tight">Sintropia Carbono</h1>
+                    </div>
+                </a>
+                <nav class="hidden md:flex h-full items-end">
+                    <a href="index.html" class="px-4 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300 flex items-center gap-2"><span>🏠</span>Home</a>
+                    <a href="certificadoras.html" class="px-4 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300 flex items-center gap-2"><span>🏛️</span>Certificadoras</a>
+                    
+                    <!-- IREC Dropdown -->
+                    <div class="relative group">
+                        <button class="px-4 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300 flex items-center gap-2">
+                            <span>⚡</span>IREC
+                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="hidden group-hover:block absolute top-full left-0 bg-white dark:bg-gray-800 shadow-lg rounded-b-lg border border-gray-200 dark:border-gray-700 py-2 min-w-[160px] z-50">
+                            <a href="irec-brasil.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><span>🇧🇷</span> Brasil</a>
+                            <a href="irec-mundo.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><span>🌎</span> Mundo</a>
+                            <a href="irec-precos.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><span>💰</span> Preços</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Carbono Dropdown -->
+                    <div class="relative group">
+                        <button class="px-4 py-5 text-sm font-semibold text-[#1e40af] border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900 flex items-center gap-2">
+                            <span>🌍</span>Carbono
+                            <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="hidden group-hover:block absolute top-full left-0 bg-white dark:bg-gray-800 shadow-lg rounded-b-lg border border-gray-200 dark:border-gray-700 py-2 min-w-[160px] z-50">
+                            <a href="carbono-brasil.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><span>🇧🇷</span> Brasil</a>
+                            <a href="carbono-mundo.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"><span>🌎</span> Mundo</a>
+                            <a href="carbono-precos.html" class="block px-4 py-2 text-sm text-[#1e40af] font-semibold bg-blue-50 dark:bg-blue-900/30"><span>💰</span> Preços</a>
+                        </div>
+                    </div>
+                </nav>
+                
+                <button id="darkModeToggle" class="ml-4 p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
+                    <span id="darkModeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-8 lg:px-16 py-12">
+        <div class="mb-8">
+            <h2 class="text-4xl font-bold text-[#1e40af] mb-2">Preços de Carbono</h2>
+            <p class="text-gray-600 dark:text-gray-400">Mercados Globais e Brasil - Análise Completa 2024-2025</p>
+            <p class="text-sm text-gray-500 mt-2">Data da Pesquisa: Fevereiro 2026</p>
+        </div>
+
+        <!-- Resumo Executivo -->
+        <div class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/30 dark:to-blue-900/30 rounded-xl p-6 mb-8 border border-gray-200 dark:border-gray-700">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">📊 SUMÁRIO EXECUTIVO</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                    <p class="text-xs font-bold text-gray-500 uppercase">Mercado Latino-Americano</p>
+                    <h4 class="text-2xl font-bold text-[#1e40af]">USD $63.05B</h4>
+                    <p class="text-xs text-green-600 font-semibold">2025 → USD $824.52B (2034)</p>
+                    <p class="text-xs text-gray-500">CAGR 33.06%</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                    <p class="text-xs font-bold text-gray-500 uppercase">EU ETS</p>
+                    <h4 class="text-2xl font-bold text-green-600">EUR €60-80</h4>
+                    <p class="text-xs text-gray-500">/tCO2e</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                    <p class="text-xs font-bold text-gray-500 uppercase">VCM Global</p>
+                    <h4 class="text-2xl font-bold text-orange-600">USD $3.50-14.80</h4>
+                    <p class="text-xs text-gray-500">/tCO2e por qualidade</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700">
+                    <p class="text-xs font-bold text-gray-500 uppercase">⚠️ VCM Colômbia</p>
+                    <h4 class="text-2xl font-bold text-red-600">Queda 70%+</h4>
+                    <p class="text-xs text-gray-500">Crise de preços REDD+</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mercados de Conformidade -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/30 dark:to-purple-900/30">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">🏛️ Mercados de Carbono de Conformidade</h3>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+                        <h4 class="font-bold text-blue-800 dark:text-blue-200 mb-2">🇪🇺 EU ETS</h4>
+                        <p class="text-2xl font-bold text-[#1e40af]">EUR €60-80</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">/tCO2e</p>
+                        <p class="text-xs text-gray-500 mt-1">Média 2024: €65/tCO2e</p>
+                    </div>
+                    <div class="bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 border border-purple-200 dark:border-purple-800">
+                        <h4 class="font-bold text-purple-800 dark:text-purple-200 mb-2">🇬🇧 UK ETS</h4>
+                        <p class="text-2xl font-bold text-[#1e40af]">GBP £35-45</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">/tCO2e (EUR €40-52)</p>
+                        <p class="text-xs text-gray-500 mt-1">Média 2024: £40/tCO2e</p>
+                    </div>
+                    <div class="bg-green-50 dark:bg-green-900/30 rounded-lg p-4 border border-green-200 dark:border-green-800">
+                        <h4 class="font-bold text-green-800 dark:text-green-200 mb-2">🇺🇸 California</h4>
+                        <p class="text-2xl font-bold text-[#1e40af]">USD $28-32</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">/tCO2e</p>
+                        <p class="text-xs text-gray-500 mt-1">Mínimo: $20.82/tCO2e</p>
+                    </div>
+                    <div class="bg-orange-50 dark:bg-orange-900/30 rounded-lg p-4 border border-orange-200 dark:border-orange-800">
+                        <h4 class="font-bold text-orange-800 dark:text-orange-200 mb-2">🇺🇸 RGGI</h4>
+                        <p class="text-2xl font-bold text-[#1e40af]">USD $13-16</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">/tCO2e</p>
+                        <p class="text-xs text-gray-500 mt-1">Teto -30% até 2030</p>
+                    </div>
+                    <div class="bg-red-50 dark:bg-red-900/30 rounded-lg p-4 border border-red-200 dark:border-red-800">
+                        <h4 class="font-bold text-red-800 dark:text-red-200 mb-2">🇨🇳 China ETS</h4>
+                        <p class="text-2xl font-bold text-[#1e40af]">CNY ¥80-100</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400">/tCO2e (USD $11-14)</p>
+                        <p class="text-xs text-gray-500 mt-1">Cobertura: 4.5B tCO2e</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mercado Voluntário -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">🌱 Mercado Voluntário de Carbono (VCM)</h3>
+            </div>
+            <div class="p-6">
+                <div class="overflow-x-auto custom-scroll mb-6">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nível de Qualidade</th>
+                                <th>Faixa de Preço</th>
+                                <th>Características</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold text-green-600">Alta integridade</td>
+                                <td class="font-mono">USD $14.80/tCO2e</td>
+                                <td>Conforme Princípios Básicos de Carbono, AFOLU com co-benefícios</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold text-blue-600">Médio</td>
+                                <td class="font-mono">USD $7-10/tCO2e</td>
+                                <td>VCS/Gold Standard padrão</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold text-gray-600">Baixa qualidade</td>
+                                <td class="font-mono">USD $3.50/tCO2e</td>
+                                <td>Créditos legados, preocupações de adicionalidade, safras antigas</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Por Tipo de Projeto</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-green-50 dark:bg-green-900/30 rounded-lg p-4">
+                        <h5 class="font-semibold text-green-800 dark:text-green-200 mb-2">Soluções Baseadas na Natureza (NBS)</h5>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                            <li>• REDD+ (alta qualidade): USD $12-18/tCO2e</li>
+                            <li>• ARR (Reflorestamento): USD $15-25/tCO2e</li>
+                            <li>• Manejo Florestal Aprimorado: USD $10-15/tCO2e</li>
+                            <li>• Restauração de mangues: USD $20-30/tCO2e</li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4">
+                        <h5 class="font-semibold text-blue-800 dark:text-blue-200 mb-2">Baseados em Tecnologia</h5>
+                        <ul class="text-sm text-gray-700 dark:text-gray-300 space-y-1">
+                            <li>• Fogões eficientes: USD $4-8/tCO2e</li>
+                            <li>• Captura de metano: USD $6-12/tCO2e</li>
+                            <li>• Captura Direta do Ar (DAC): USD $300-600/tCO2e</li>
+                            <li>• Biochar: USD $100-200/tCO2e</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Brasil -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-yellow-50 to-green-50 dark:from-yellow-900/30 dark:to-green-900/30">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">🇧🇷 Mercado de Carbono do Brasil</h3>
+            </div>
+            <div class="p-6">
+                <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 mb-6 border border-blue-200 dark:border-blue-800">
+                    <h4 class="font-bold text-blue-800 dark:text-blue-200 mb-2">📋 Sistema Brasileiro de Comércio de Emissões (SBCE)</h4>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">Lei 14.590/2023 aprovada em novembro de 2024. Meta operacional: 2025-2026. Administrado pela CVM, negociação na B3.</p>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">I-RECs Brasil (2024-2025)</h4>
+                <div class="overflow-x-auto custom-scroll mb-6">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Fonte de Energia</th>
+                                <th>Preço (USD/MWh)</th>
+                                <th>Tendência</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold">Hidrelétrica</td>
+                                <td class="font-mono text-green-600 font-semibold">0.16-0.18</td>
+                                <td><span class="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded text-xs">-51%</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">Eólica</td>
+                                <td class="font-mono">0.19-0.24</td>
+                                <td><span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded text-xs">Crescente</span></td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">Solar</td>
+                                <td class="font-mono">0.19-0.236</td>
+                                <td><span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded text-xs">Aumentando</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Mercado Voluntário - Faixas de Preço</h4>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tipo de Projeto</th>
+                                <th>Preço 2024 (USD/tCO2e)</th>
+                                <th>Preço 2025 (USD/tCO2e)</th>
+                                <th>Co-benefícios</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold">REDD+ Standard</td>
+                                <td class="font-mono">$8-12</td>
+                                <td class="font-mono text-orange-600">$8-10</td>
+                                <td>Biodiversidade básica</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">REDD+ Premium</td>
+                                <td class="font-mono">$12-15</td>
+                                <td class="font-mono">$12-15</td>
+                                <td>Comunidades indígenas, SDGs</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">REDD+ Legacy</td>
+                                <td class="font-mono">$3-5</td>
+                                <td class="font-mono text-red-600">$2-4</td>
+                                <td>Baixa adicionalidade</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">ARR Restauração Nativa</td>
+                                <td class="font-mono">$15-20</td>
+                                <td class="font-mono">$15-20</td>
+                                <td>Amazônia, Mata Atlântica</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">Mangue/Costeiro</td>
+                                <td class="font-mono">$18-25</td>
+                                <td class="font-mono text-green-600">$18-25</td>
+                                <td>Blue carbon, proteção costeira</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Colômbia -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/30">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">🇨🇴 Mercado de Carbono da Colômbia</h3>
+            </div>
+            <div class="p-6">
+                <div class="bg-red-50 dark:bg-red-900/30 rounded-lg p-4 mb-6 border border-red-200 dark:border-red-800">
+                    <h4 class="font-bold text-red-800 dark:text-red-200 mb-2">⚠️ Crise do Mercado Voluntário (2024-2025)</h4>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">Colapso do mercado: preços REDD+ caíram 70%+ do pico. Causa: redução do teto de compensação de 100% para 50%. Sobrecarga de oferta: 63,7 milhões de créditos pendentes.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-yellow-50 dark:bg-yellow-900/30 rounded-lg p-4 border border-yellow-200 dark:border-yellow-800">
+                        <h4 class="font-bold text-yellow-800 dark:text-yellow-200 mb-2">💰 Taxa de Carbono</h4>
+                        <p class="text-2xl font-bold text-[#1e40af]">USD 6.89-7.00</p>
+                        <p class="text-xs text-gray-500">/tCO2e (COP 27.399)</p>
+                    </div>
+                    <div class="bg-orange-50 dark:bg-orange-900/30 rounded-lg p-4 border border-orange-200 dark:border-orange-800">
+                        <h4 class="font-bold text-orange-800 dark:text-orange-200 mb-2">📉 Créditos REDD+</h4>
+                        <p class="text-2xl font-bold text-red-600">COP 12K-16K</p>
+                        <p class="text-xs text-gray-500">/tCO2e (queda 70%)</p>
+                    </div>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Faixas de Preço VCM</h4>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tipo de Projeto</th>
+                                <th>Preço (USD/tCO2e)</th>
+                                <th>Observação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold">REDD+</td>
+                                <td class="font-mono">12-16</td>
+                                <td>Em crise, queda 70%</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">ARR</td>
+                                <td class="font-mono">15-22</td>
+                                <td>Market share 15-20%</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">Energia</td>
+                                <td class="font-mono">5-9</td>
+                                <td>Compensação até 50%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- México -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">🇲🇽 Mercado de Carbono do México</h3>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-green-50 dark:bg-green-900/30 rounded-lg p-4 border border-green-200 dark:border-green-800">
+                        <h4 class="font-bold text-green-800 dark:text-green-200 mb-2">💰 Taxa de Carbono (IEPS)</h4>
+                        <p class="text-2xl font-bold text-[#1e40af]">EUR €21.57</p>
+                        <p class="text-xs text-gray-500">/tCO2e (OECD 2023)</p>
+                        <p class="text-xs text-gray-600 mt-2">Cobertura: 38,2% das emissões</p>
+                    </div>
+                    <div class="bg-teal-50 dark:bg-teal-900/30 rounded-lg p-4 border border-teal-200 dark:border-teal-800">
+                        <h4 class="font-bold text-teal-800 dark:text-teal-200 mb-2">🏛️ ETS Piloto</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">Fase operacional: final 2025/início 2026</p>
+                        <p class="text-xs text-gray-600 mt-2">~289 instalações reguladas</p>
+                    </div>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Faixas de Preço VCM</h4>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tipo de Projeto</th>
+                                <th>Preço (USD/tCO2e)</th>
+                                <th>Volume/Notas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold">REDD+</td>
+                                <td class="font-mono">N/A</td>
+                                <td>Sem projetos significativos</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">ARR (Florestas)</td>
+                                <td class="font-mono">15-25</td>
+                                <td>300K-600K tCO2/ano</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">Mangues</td>
+                                <td class="font-mono text-green-600 font-semibold">25-30</td>
+                                <td>Premium price</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">Energia</td>
+                                <td class="font-mono">5-10</td>
+                                <td>Market share 8-10%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chile -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">🇨🇱 Mercado de Carbono do Chile</h3>
+            </div>
+            <div class="p-6">
+                <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 mb-6 border border-blue-200 dark:border-blue-800">
+                    <h4 class="font-bold text-blue-800 dark:text-blue-200 mb-2">📈 Roteiro de Preços</h4>
+                    <div class="flex gap-4">
+                        <div>
+                            <p class="text-xs text-gray-500">Atual</p>
+                            <p class="text-xl font-bold text-[#1e40af]">USD 5</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">2030</p>
+                            <p class="text-xl font-bold text-green-600">USD 35</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500">2040</p>
+                            <p class="text-xl font-bold text-purple-600">USD 80</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-indigo-50 dark:bg-indigo-900/30 rounded-lg p-4 border border-indigo-200 dark:border-indigo-800">
+                        <h4 class="font-bold text-indigo-800 dark:text-indigo-200 mb-2">🌱 Mercado de Compensação</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">Ciclo 2024: 4,4M tCO2e aposentados</p>
+                        <p class="text-xs text-gray-600 mt-2">Preço médio: USD 5-6/tCO2e</p>
+                    </div>
+                    <div class="bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 border border-purple-200 dark:border-purple-800">
+                        <h4 class="font-bold text-purple-800 dark:text-purple-200 mb-2">✅ Padrões Aprovados</h4>
+                        <p class="text-xs text-gray-600">VCS, Gold Standard, CAR, ACR, ART</p>
+                    </div>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Faixas de Preço VCM</h4>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tipo de Projeto</th>
+                                <th>Preço (USD/tCO2e)</th>
+                                <th>Market Share</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold">REDD+</td>
+                                <td class="font-mono">N/A</td>
+                                <td>Sem projetos significativos</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">ARR</td>
+                                <td class="font-mono">15-25</td>
+                                <td>5-8%</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">Energia</td>
+                                <td class="font-mono">5-8</td>
+                                <td>Em crescimento</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Argentina -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-sky-50 to-cyan-50 dark:from-sky-900/30 dark:to-cyan-900/30">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">🇦🇷 Mercado de Carbono da Argentina</h3>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-sky-50 dark:bg-sky-900/30 rounded-lg p-4 border border-sky-200 dark:border-sky-800">
+                        <h4 class="font-bold text-sky-800 dark:text-sky-200 mb-2">💰 Taxa de Carbono</h4>
+                        <p class="text-2xl font-bold text-[#1e40af]">ARS 696</p>
+                        <p class="text-xs text-gray-500">/tCO2e (EUR €5,32)</p>
+                        <p class="text-xs text-gray-600 mt-2">Aplicada a combustíveis fósseis</p>
+                    </div>
+                    <div class="bg-cyan-50 dark:bg-cyan-900/30 rounded-lg p-4 border border-cyan-200 dark:border-cyan-800">
+                        <h4 class="font-bold text-cyan-800 dark:text-cyan-200 mb-2">🏛️ Infraestrutura</h4>
+                        <p class="text-sm text-gray-700 dark:text-gray-300">BYMA: 220 toneladas negociadas</p>
+                        <p class="text-xs text-gray-600 mt-2">BACX: plataforma blockchain (jun 2025)</p>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 dark:bg-yellow-900/30 rounded-lg p-4 border border-yellow-200 dark:border-yellow-800">
+                    <h4 class="font-bold text-yellow-800 dark:text-yellow-200 mb-2">⚠️ Status</h4>
+                    <p class="text-sm text-gray-700 dark:text-gray-300">Mercado nascente. ETS em desenvolvimento (projeto IDB). Legislação pendente.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparação Regional -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/30 dark:to-yellow-900/30">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">🌎 América Latina - Comparação de Preços VCM</h3>
+            </div>
+            <div class="p-6">
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>País</th>
+                                <th>REDD+</th>
+                                <th>ARR</th>
+                                <th>Energia</th>
+                                <th>Market Share</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold">🇧🇷 Brasil</td>
+                                <td class="font-mono">$8-15</td>
+                                <td class="font-mono">$12-20</td>
+                                <td class="font-mono">$4-8</td>
+                                <td>45-50%</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">🇨🇴 Colômbia</td>
+                                <td class="font-mono">$12-16</td>
+                                <td class="font-mono">$15-22</td>
+                                <td class="font-mono">$5-9</td>
+                                <td>15-20%</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">🇵🇪 Peru</td>
+                                <td class="font-mono">$10-18</td>
+                                <td class="font-mono">$14-20</td>
+                                <td class="font-mono">N/A</td>
+                                <td>12-15%</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">🇲🇽 México</td>
+                                <td class="font-mono">N/A</td>
+                                <td class="font-mono">$12-18</td>
+                                <td class="font-mono">$5-10</td>
+                                <td>8-10%</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">🇨🇱 Chile</td>
+                                <td class="font-mono">N/A</td>
+                                <td class="font-mono">$15-25</td>
+                                <td class="font-mono">$5-8</td>
+                                <td>5-8%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projeções -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:to-purple-900/30">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white">📈 Projeções de Mercado</h3>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 border border-blue-200 dark:border-blue-800 text-center">
+                        <p class="text-xs font-bold text-gray-500 uppercase">Mercado LatAm 2034</p>
+                        <h4 class="text-3xl font-bold text-[#1e40af]">USD 824B</h4>
+                        <p class="text-xs text-green-600 font-semibold">CAGR: 33%</p>
+                    </div>
+                    <div class="bg-purple-50 dark:bg-purple-900/30 rounded-lg p-4 border border-purple-200 dark:border-purple-800 text-center">
+                        <p class="text-xs font-bold text-gray-500 uppercase">Brasil 2034</p>
+                        <h4 class="text-3xl font-bold text-purple-600">USD 25.2B</h4>
+                        <p class="text-xs text-green-600 font-semibold">CAGR: 28%</p>
+                    </div>
+                    <div class="bg-green-50 dark:bg-green-900/30 rounded-lg p-4 border border-green-200 dark:border-green-800 text-center">
+                        <p class="text-xs font-bold text-gray-500 uppercase">SBCE 2030 (Cenário Base)</p>
+                        <h4 class="text-3xl font-bold text-green-600">USD 30-45</h4>
+                        <p class="text-xs text-gray-500">/tCO2e</p>
+                    </div>
+                </div>
+
+                <h4 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Projeções Brasil - Créditos de Carbono</h4>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Mercado</th>
+                                <th>2025</th>
+                                <th>2027</th>
+                                <th>2030</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="font-semibold">VCM - REDD+ (USD/tCO2e)</td>
+                                <td class="font-mono">$8-15</td>
+                                <td class="font-mono text-orange-600">$6-12</td>
+                                <td class="font-mono text-green-600">$10-18</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">VCM - ARR (USD/tCO2e)</td>
+                                <td class="font-mono">$12-20</td>
+                                <td class="font-mono text-green-600">$15-25</td>
+                                <td class="font-mono text-green-600">$20-35</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">SBCE Voluntário (USD/tCO2e)</td>
+                                <td class="font-mono">-</td>
+                                <td class="font-mono">$10-14</td>
+                                <td class="font-mono text-purple-600">$15-20</td>
+                            </tr>
+                            <tr>
+                                <td class="font-semibold">SBCE Mandatório (USD/tCO2e)</td>
+                                <td class="font-mono">-</td>
+                                <td class="font-mono">-</td>
+                                <td class="font-mono text-purple-600">$30-70</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fontes e Referências -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8">
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-gray-50 to-slate-50 dark:from-gray-900/30 dark:to-slate-900/30">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">📖 Fontes e Referências</h3>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div>
+                        <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Mercados de Conformidade</h4>
+                        <ul class="text-gray-600 dark:text-gray-400 space-y-1">
+                            <li>• RGGI: <a href="https://www.rggi.org" target="_blank" class="text-blue-600 hover:underline">rggi.org</a></li>
+                            <li>• California ARB: <a href="https://ww2.arb.ca.gov" target="_blank" class="text-blue-600 hover:underline">arb.ca.gov</a></li>
+                            <li>• ICAP: <a href="https://icapcarbonaction.com" target="_blank" class="text-blue-600 hover:underline">icapcarbonaction.com</a></li>
+                            <li>• EU Climate Action: <a href="https://climate.ec.europa.eu" target="_blank" class="text-blue-600 hover:underline">climate.ec.europa.eu</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Mercado Voluntário</h4>
+                        <ul class="text-gray-600 dark:text-gray-400 space-y-1">
+                            <li>• Verra: <a href="https://verra.org" target="_blank" class="text-blue-600 hover:underline">verra.org</a></li>
+                            <li>• Gold Standard: <a href="https://www.goldstandard.org" target="_blank" class="text-blue-600 hover:underline">goldstandard.org</a></li>
+                            <li>• ICVCM: <a href="https://icvcm.org" target="_blank" class="text-blue-600 hover:underline">icvcm.org</a></li>
+                            <li>• Ecosystem Marketplace: <a href="https://www.ecosystemmarketplace.com" target="_blank" class="text-blue-600 hover:underline">ecosystemmarketplace.com</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-900 dark:text-white mb-2">América Latina</h4>
+                        <ul class="text-gray-600 dark:text-gray-400 space-y-1">
+                            <li>• CCEE Brasil: <a href="https://www.ccee.org.br" target="_blank" class="text-blue-600 hover:underline">ccee.org.br</a></li>
+                            <li>• Latin America Carbon Forum</li>
+                            <li>• IDB, CAF (bancos de desenvolvimento)</li>
+                            <li>• Ministérios do Ambiente nacionais</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Provedores de Dados</h4>
+                        <ul class="text-gray-600 dark:text-gray-400 space-y-1">
+                            <li>• Bloomberg Carbon</li>
+                            <li>• S&P Global Platts</li>
+                            <li>• Argus Media</li>
+                            <li>• Carbon Pulse: <a href="https://carbon-pulse.com" target="_blank" class="text-blue-600 hover:underline">carbon-pulse.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Glossário -->
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">📚 Glossário</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600 dark:text-gray-400">
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">Crédito de Carbono:</span><span>Uma tonelada métrica de CO2e evitada ou removida, verificada e certificada</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">ETS:</span><span>Sistema de Comércio de Emissões</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">VCM:</span><span>Mercado Voluntário de Carbono</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">REDD+:</span><span>Redução de Emissões do Desmatamento e Degradação mais conservação</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">ARR:</span><span>Florestamento, Reflorestamento e Revegetação</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">AFOLU:</span><span>Agricultura, Silvicultura e Outros Usos da Terra</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">NBS:</span><span>Soluções Baseadas na Natureza</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">SBCE:</span><span>Sistema Brasileiro de Comércio de Emissões</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">SINARE:</span><span>Sistema Nacional de Registro (Brasil)</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">CPI:</span><span>Instrumento de Precificação de Carbono</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">ITMO:</span><span>Resultado de Mitigação Transferido Internacionalmente (Artigo 6.2)</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">MRV:</span><span>Monitoramento, Relato e Verificação</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">CCP:</span><span>Princípios Básicos de Carbono (ICVCM)</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">CORSIA:</span><span>Carbon Offsetting and Reduction Scheme for International Aviation</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">CBAM:</span><span>Mecanismo de Ajuste de Fronteira de Carbono</span></div>
+                <div class="flex gap-2"><span class="font-semibold text-[#1e40af]">CAGR:</span><span>Taxa de Crescimento Anual Composta</span></div>
+            </div>
+            <p class="text-xs text-gray-500 mt-4">Relatório compilado: 16 de fevereiro de 2026 | Próxima atualização: Trimestral</p>
+        </div>
+
+        <!-- Notas Metodológicas -->
+        <div class="bg-gray-50 dark:bg-gray-900 rounded-xl p-6 border border-gray-200 dark:border-gray-700 mb-8">
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">📝 Notas Metodológicas</h3>
+            <div class="text-sm text-gray-600 dark:text-gray-400 space-y-2">
+                <p><strong>Conversões de Moeda:</strong> Taxas médias EUR/USD ~1.08, GBP/USD ~1.27, CNY/USD ~7.2</p>
+                <p><strong>Ranges de Preços:</strong> Refletem volatilidade intra-período. Médias ponderadas quando disponível.</p>
+                <p><strong>Projeções:</strong> Baseadas em políticas anunciadas e em vigor. Não incorporam mudanças regulatórias futuras incertas.</p>
+                <p><strong>Limitações:</strong> 80%+ das transações VCM são OTC/bilaterais com atraso de 1-3 meses. Melhores dados requerem assinaturas pagas.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-20 dark:bg-gray-800 dark:border-gray-700">
+        <div class="max-w-7xl mx-auto px-8 lg:px-16 py-8">
+            <div class="text-center text-sm text-gray-500 dark:text-gray-400">
+                <p><strong>Sintropia Carbono</strong> | Inteligência sobre o mercado de créditos de carbono e I-REC</p>
+                <p class="mt-2">Última atualização: Fevereiro 2026</p>
+                <p class="mt-2">🚀 Contribua com o projeto no GitHub: <a href="https://github.com/edrodrigues/sintropia-carbono" target="_blank" class="text-blue-600 hover:underline font-semibold">https://github.com/edrodrigues/sintropia-carbono</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const html = document.documentElement;
+        if (localStorage.getItem('darkMode') === 'true') { html.classList.add('dark'); darkModeIcon.textContent = '☀️'; }
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+            darkModeIcon.textContent = isDark ? '☀️' : '🌙';
+        });
+    </script>
+</body>
+
+</html>
