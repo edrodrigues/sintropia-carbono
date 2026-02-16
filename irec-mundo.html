@@ -191,7 +191,7 @@
                     <!-- IREC Dropdown -->
                     <div class="relative group">
                         <button class="px-4 py-5 text-sm font-semibold text-[#1e40af] border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900 flex items-center gap-2">
-                            <span>⚡</span>IREC
+                            <span>⚡</span>Energia
                             <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
@@ -262,12 +262,12 @@
                 <h3 class="text-2xl font-bold text-gray-900 mb-4 md:mb-0">Visualizações de Dados</h3>
                 <div class="flex flex-col md:flex-row gap-2">
                     <div class="flex gap-2 mb-2 md:mb-0">
-                        <button id="btn-top10" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors">Top 10</button>
-                        <button id="btn-top25" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors">Top 25</button>
+                        <button id="btn-top10" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors" aria-label="Mostrar top 10">Top 10</button>
+                        <button id="btn-top25" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors" aria-label="Mostrar top 25">Top 25</button>
                     </div>
                     <div class="flex gap-2">
-                        <button id="btn-stacked" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors active-chart">📊 Barras</button>
-                        <button id="btn-pie" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors">🍕 Setores</button>
+                        <button id="btn-stacked" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors active-chart" aria-label="Mostrar gráfico de barras empilhadas">📊 Barras</button>
+                        <button id="btn-pie" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors" aria-label="Mostrar gráfico de setores">🍕 Setores</button>
                     </div>
                 </div>
             </div>
@@ -343,52 +343,50 @@
         </div>
     </footer>
 
+    <script src="shared.js"></script>
     <script>
-        // Dark Mode Toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeIcon = document.getElementById('darkModeIcon');
-        const html = document.documentElement;
-        
-        // Check for saved dark mode preference
-        if (localStorage.getItem('darkMode') === 'true') {
-            html.classList.add('dark');
-            darkModeIcon.textContent = '☀️';
+        let energiaData = [];
+
+        const setorBadges = {
+            'Tecnologia / E-commerce': 'badge-tech',
+            'Tecnologia / Cloud': 'badge-tech',
+            'Tecnologia / Social Media': 'badge-tech',
+            'Tecnologia / Hardware': 'badge-tech',
+            'Varejo e Consumo': 'badge-varejo',
+            'Varejo': 'badge-varejo',
+            'Manufatura / Eletrônicos': 'badge-manufatura',
+            'Semicondutores': 'badge-semi',
+            'Telecomunicações': 'badge-telecom',
+            'Mineração / Metais': 'badge-mineracao',
+            'Alimentos e Bebidas': 'badge-alimentos',
+            'Automotivo': 'badge-automotivo',
+            'Química / Materiais': 'badge-quimica',
+            'Financeiro': 'badge-financeiro',
+            'Bens de Consumo': 'badge-varejo',
+            'Saúde / Agroquímica': 'badge-saude'
+        };
+
+        async function loadData() {
+            try {
+                const data = await fetchDataWithRetry('./dados/dados.json');
+                energiaData = data.energiaRenovavelMundo.map(item => ({
+                    rank: item.rank,
+                    corp: item.empresa,
+                    setor: item.setor,
+                    setorClass: setorBadges[item.setor] || 'badge-tech',
+                    vol2024: item.vol2024,
+                    vol2025: item.vol2025,
+                    delta: item.delta
+                }));
+                renderTable();
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                const tableElement = document.getElementById('energia-table');
+                if (tableElement) {
+                    tableElement.innerHTML = `<tr><td colspan="7" class="text-center text-red-500">Erro: ${error.message}</td></tr>`;
+                }
+            }
         }
-        
-        darkModeToggle.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            const isDark = html.classList.contains('dark');
-            localStorage.setItem('darkMode', isDark);
-            darkModeIcon.textContent = isDark ? '☀️' : '🌙';
-        });
-        
-        const energiaData = [
-            { rank: 1, corp: 'Amazon', setor: 'Tecnologia / E-commerce', setorClass: 'badge-tech', vol2024: 78.4, vol2025: 91.2, delta: 16.33 },
-            { rank: 2, corp: 'Microsoft', setor: 'Tecnologia / Cloud', setorClass: 'badge-tech', vol2024: 55.2, vol2025: 68.5, delta: 24.09 },
-            { rank: 3, corp: 'Meta Platforms', setor: 'Tecnologia / Social Media', setorClass: 'badge-tech', vol2024: 42.1, vol2025: 48.9, delta: 16.15 },
-            { rank: 4, corp: 'Google (Alphabet)', setor: 'Tecnologia / Cloud', setorClass: 'badge-tech', vol2024: 38.6, vol2025: 45.3, delta: 17.36 },
-            { rank: 5, corp: 'Walmart', setor: 'Varejo e Consumo', setorClass: 'badge-varejo', vol2024: 15.8, vol2025: 18.2, delta: 15.19 },
-            { rank: 6, corp: 'Apple', setor: 'Tecnologia / Hardware', setorClass: 'badge-tech', vol2024: 14.3, vol2025: 16.5, delta: 15.38 },
-            { rank: 7, corp: 'Samsung Electronics', setor: 'Manufatura / Eletrônicos', setorClass: 'badge-manufatura', vol2024: 12.1, vol2025: 14.8, delta: 22.31 },
-            { rank: 8, corp: 'TSMC', setor: 'Semicondutores', setorClass: 'badge-semi', vol2024: 11.5, vol2025: 13.9, delta: 20.87 },
-            { rank: 9, corp: 'T-Mobile USA', setor: 'Telecomunicações', setorClass: 'badge-telecom', vol2024: 9.8, vol2025: 11.2, delta: 14.29 },
-            { rank: 10, corp: 'Intel Corporation', setor: 'Semicondutores', setorClass: 'badge-semi', vol2024: 9.2, vol2025: 10.5, delta: 14.13 },
-            { rank: 11, corp: 'Rio Tinto', setor: 'Mineração / Metais', setorClass: 'badge-mineracao', vol2024: 8.7, vol2025: 12.4, delta: 42.53 },
-            { rank: 12, corp: 'Target Corporation', setor: 'Varejo', setorClass: 'badge-varejo', vol2024: 7.9, vol2025: 9.1, delta: 15.19 },
-            { rank: 13, corp: 'Nestlé', setor: 'Alimentos e Bebidas', setorClass: 'badge-alimentos', vol2024: 7.5, vol2025: 8.6, delta: 14.67 },
-            { rank: 14, corp: 'Starbucks', setor: 'Alimentos e Bebidas', setorClass: 'badge-alimentos', vol2024: 6.8, vol2025: 7.4, delta: 8.82 },
-            { rank: 15, corp: 'General Motors', setor: 'Automotivo', setorClass: 'badge-automotivo', vol2024: 6.2, vol2025: 7.1, delta: 14.52 },
-            { rank: 16, corp: 'Ford Motor Company', setor: 'Automotivo', setorClass: 'badge-automotivo', vol2024: 5.9, vol2025: 6.8, delta: 15.25 },
-            { rank: 17, corp: 'LyondellBasell', setor: 'Química / Materiais', setorClass: 'badge-quimica', vol2024: 5.5, vol2025: 6.3, delta: 14.55 },
-            { rank: 18, corp: 'Bank of America', setor: 'Financeiro', setorClass: 'badge-financeiro', vol2024: 5.2, vol2025: 5.8, delta: 11.54 },
-            { rank: 19, corp: 'Anheuser-Busch InBev', setor: 'Alimentos e Bebidas', setorClass: 'badge-alimentos', vol2024: 4.8, vol2025: 5.4, delta: 12.50 },
-            { rank: 20, corp: 'IKEA (Ingka Group)', setor: 'Varejo', setorClass: 'badge-varejo', vol2024: 4.5, vol2025: 5.1, delta: 13.33 },
-            { rank: 21, corp: 'Procter & Gamble', setor: 'Bens de Consumo', setorClass: 'badge-alimentos', vol2024: 4.2, vol2025: 4.7, delta: 11.90 },
-            { rank: 22, corp: 'PepsiCo', setor: 'Alimentos e Bebidas', setorClass: 'badge-alimentos', vol2024: 3.9, vol2025: 4.4, delta: 12.82 },
-            { rank: 23, corp: "McDonald's", setor: 'Alimentos e Bebidas', setorClass: 'badge-alimentos', vol2024: 3.6, vol2025: 4.1, delta: 13.89 },
-            { rank: 24, corp: 'BT Group', setor: 'Telecomunicações', setorClass: 'badge-telecom', vol2024: 3.4, vol2025: 3.8, delta: 11.76 },
-            { rank: 25, corp: 'Bayer', setor: 'Saúde / Agroquímica', setorClass: 'badge-saude', vol2024: 3.1, vol2025: 3.5, delta: 12.90 }
-        ];
 
         function formatNumber(num) {
             return num.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -409,6 +407,10 @@
 
         function renderTable() {
             const tbody = document.getElementById('energia-table');
+            if (!tbody) {
+                console.error('Elemento energia-table não encontrado');
+                return;
+            }
             tbody.innerHTML = energiaData.map(row => {
                 const diff = row.vol2025 - row.vol2024;
                 const growthClass = getGrowthClass(row.delta);
@@ -429,7 +431,7 @@
             }).join('');
         }
 
-        renderTable();
+        loadData();
 
         // Interactive Charts with Toggle
         const btnStacked = document.getElementById('btn-stacked');
@@ -465,6 +467,10 @@
 
         // Chart configuration functions
         function createStackedChart() {
+            if (!mainChartCanvas) {
+                console.error('Canvas do gráfico não encontrado');
+                return;
+            }
             if (mainChart) mainChart.destroy();
             mainChart = new Chart(mainChartCanvas, {
                 type: 'bar',
@@ -510,6 +516,10 @@
         }
 
         function createPieChart() {
+            if (!mainChartCanvas) {
+                console.error('Canvas do gráfico não encontrado');
+                return;
+            }
             if (mainChart) mainChart.destroy();
             mainChart = new Chart(mainChartCanvas, {
                 type: 'doughnut',

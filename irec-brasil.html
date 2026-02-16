@@ -236,7 +236,7 @@
                     <!-- IREC Dropdown -->
                     <div class="relative group">
                         <button class="px-4 py-5 text-sm font-semibold text-[#1e40af] border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900/30 flex items-center gap-2">
-                            <span>⚡</span>IREC
+                            <span>⚡</span>Energia
                             <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
@@ -306,12 +306,12 @@
                 <h3 class="text-2xl font-bold text-gray-900 mb-4 md:mb-0">Visualizações de Dados</h3>
                 <div class="flex flex-col md:flex-row gap-2">
                     <div class="flex gap-2 mb-2 md:mb-0">
-                        <button id="btn-top10" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors">Top 10</button>
-                        <button id="btn-top25" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors">Top 25</button>
+                        <button id="btn-top10" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors" aria-label="Mostrar top 10">Top 10</button>
+                        <button id="btn-top25" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors" aria-label="Mostrar top 25">Top 25</button>
                     </div>
                     <div class="flex gap-2">
-                        <button id="btn-stacked" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors active-chart">📊 Barras</button>
-                        <button id="btn-pie" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors">🍕 Setores</button>
+                        <button id="btn-stacked" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors active-chart" aria-label="Mostrar gráfico de barras empilhadas">📊 Barras</button>
+                        <button id="btn-pie" class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-colors" aria-label="Mostrar gráfico de setores">🍕 Setores</button>
                     </div>
                 </div>
             </div>
@@ -394,40 +394,29 @@
         </div>
     </footer>
 
+    <script src="shared.js"></script>
     <script>
-        const irecData = [
-            { rank: 1, empresa: 'Eletrobras', papel: 'Vendedor', vol2024: 9200000, vol2025: 14500000, delta: 36.55 },
-            { rank: 2, empresa: 'Vale', papel: 'Comprador', vol2024: 4200000, vol2025: 5500000, delta: 23.64 },
-            { rank: 3, empresa: 'Neoenergia', papel: 'Ambos', vol2024: 3200000, vol2025: 4800000, delta: 33.33 },
-            { rank: 4, empresa: 'Gerdau', papel: 'Comprador', vol2024: 3200000, vol2025: 4150000, delta: 22.89 },
-            { rank: 5, empresa: 'Petrobras', papel: 'Ambos', vol2024: 2800000, vol2025: 3650000, delta: 23.29 },
-            { rank: 6, empresa: 'JBS', papel: 'Comprador', vol2024: 2400000, vol2025: 3100000, delta: 22.58 },
-            { rank: 7, empresa: 'Braskem', papel: 'Comprador', vol2024: 2100000, vol2025: 2750000, delta: 23.64 },
-            { rank: 8, empresa: 'Voltalia Brasil', papel: 'Vendedor', vol2024: 1100000, vol2025: 2500000, delta: 56.00 },
-            { rank: 9, empresa: 'Raízen', papel: 'Ambos', vol2024: 1800000, vol2025: 2400000, delta: 25.00 },
-            { rank: 10, empresa: 'Suzano', papel: 'Ambos', vol2024: 1550000, vol2025: 2050000, delta: 24.39 },
-            { rank: 11, empresa: 'Ambev', papel: 'Ambos', vol2024: 1250000, vol2025: 1630000, delta: 23.31 },
-            { rank: 12, empresa: 'CGN Brasil Energia', papel: 'Vendedor', vol2024: 950000, vol2025: 1300000, delta: 26.92 },
-            { rank: 13, empresa: 'Itaú Unibanco', papel: 'Comprador', vol2024: 620000, vol2025: 810000, delta: 23.46 },
-            { rank: 14, empresa: 'Bradesco', papel: 'Comprador', vol2024: 550000, vol2025: 720000, delta: 23.61 },
-            { rank: 15, empresa: 'Banco do Brasil', papel: 'Comprador', vol2024: 520000, vol2025: 680000, delta: 23.53 },
-            { rank: 16, empresa: 'Santander Brasil', papel: 'Comprador', vol2024: 480000, vol2025: 625000, delta: 23.20 },
-            { rank: 17, empresa: 'Natura &Co', papel: 'Comprador', vol2024: 410000, vol2025: 535000, delta: 23.36 },
-            { rank: 18, empresa: 'Magazine Luiza', papel: 'Comprador', vol2024: 280000, vol2025: 365000, delta: 23.29 },
-            { rank: 19, empresa: 'Embraer', papel: 'Comprador', vol2024: 260000, vol2025: 340000, delta: 23.53 },
-            { rank: 20, empresa: 'Lojas Renner', papel: 'Comprador', vol2024: 195000, vol2025: 255000, delta: 23.53 },
-            { rank: 21, empresa: 'Leroy Merlin Brasil', papel: 'Comprador', vol2024: 145000, vol2025: 190000, delta: 23.68 },
-            { rank: 22, empresa: 'Decathlon Brasil', papel: 'Comprador', vol2024: 75000, vol2025: 98000, delta: 23.47 },
-            { rank: 23, empresa: 'Cielo', papel: 'Comprador', vol2024: 45000, vol2025: 58000, delta: 22.41 },
-            { rank: 24, empresa: 'Hospital de Clínicas de Porto Alegre', papel: 'Comprador', vol2024: 32824, vol2025: 35000, delta: 6.22 },
-            { rank: 25, empresa: 'SAP Brasil', papel: 'Comprador', vol2024: 22000, vol2025: 28500, delta: 22.81 }
-        ];
+        let irecData = [];
 
         const papelBadges = {
             'Vendedor': 'badge-vendedor',
             'Comprador': 'badge-comprador',
             'Ambos': 'badge-ambos'
         };
+
+        async function loadData() {
+            try {
+                const data = await fetchDataWithRetry('./dados/dados.json');
+                irecData = data.irecBrasil;
+                renderTable();
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                const tableElement = document.getElementById('irec-table');
+                if (tableElement) {
+                    tableElement.innerHTML = `<tr><td colspan="7" class="text-center text-red-500">Erro: ${error.message}</td></tr>`;
+                }
+            }
+        }
 
         function formatNumber(num) {
             return num.toLocaleString('pt-BR');
@@ -450,6 +439,10 @@
 
         function renderTable() {
             const tbody = document.getElementById('irec-table');
+            if (!tbody) {
+                console.error('Elemento irec-table não encontrado');
+                return;
+            }
             tbody.innerHTML = irecData.map(row => {
                 const diff = row.vol2025 - row.vol2024;
                 const growthClass = getGrowthClass(row.delta);
@@ -470,7 +463,7 @@
             }).join('');
         }
 
-        renderTable();
+        loadData();
 
         // Interactive Charts with Toggle
         const btnStacked = document.getElementById('btn-stacked');
@@ -506,6 +499,10 @@
 
         // Chart configuration functions
         function createStackedChart() {
+            if (!mainChartCanvas) {
+                console.error('Canvas do gráfico não encontrado');
+                return;
+            }
             if (mainChart) mainChart.destroy();
             mainChart = new Chart(mainChartCanvas, {
                 type: 'bar',
@@ -551,6 +548,10 @@
         }
 
         function createPieChart() {
+            if (!mainChartCanvas) {
+                console.error('Canvas do gráfico não encontrado');
+                return;
+            }
             if (mainChart) mainChart.destroy();
             mainChart = new Chart(mainChartCanvas, {
                 type: 'doughnut',
@@ -630,25 +631,6 @@
 
         // Initialize with stacked chart
         createStackedChart();
-    </script>
-    <script>
-        // Dark Mode Toggle
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const darkModeIcon = document.getElementById('darkModeIcon');
-        const html = document.documentElement;
-        
-        // Check for saved dark mode preference
-        if (localStorage.getItem('darkMode') === 'true') {
-            html.classList.add('dark');
-            darkModeIcon.textContent = '☀️';
-        }
-        
-        darkModeToggle.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            const isDark = html.classList.contains('dark');
-            localStorage.setItem('darkMode', isDark);
-            darkModeIcon.textContent = isDark ? '☀️' : '🌙';
-        });
     </script>
 </body>
 
