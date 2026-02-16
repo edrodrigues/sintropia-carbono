@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <title>Compradores de Carbono (Mundo) | Sintropia Carbono</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --sector-tech: #2563eb;
+            --sector-energy: #166534;
+            --sector-cdr: #7c3aed;
+            --sector-finance: #1e40af;
+            --sector-consult: #6b7280;
+            --sector-avia: #dc2626;
+            --sector-media: #0891b2;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF;
+            color: #111827;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #FFFFFF;
+            white-space: nowrap;
+        }
+
+        .badge-tech {
+            background-color: var(--sector-tech);
+        }
+
+        .badge-energy {
+            background-color: var(--sector-energy);
+        }
+
+        .badge-cdr {
+            background-color: var(--sector-cdr);
+        }
+
+        .badge-finance {
+            background-color: var(--sector-finance);
+        }
+
+        .badge-consult {
+            background-color: var(--sector-consult);
+        }
+
+        .badge-avia {
+            background-color: var(--sector-avia);
+        }
+
+        .badge-media {
+            background-color: var(--sector-media);
+        }
+
+        .growth-high {
+            color: #166534;
+            font-weight: 700;
+        }
+
+        .growth-medium {
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .growth-low {
+            color: #d97706;
+            font-weight: 700;
+        }
+
+        .growth-neg {
+            color: #dc2626;
+            font-weight: 700;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .data-table thead th {
+            background-color: #f3f4f6;
+            font-weight: 700;
+            color: #374151;
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table tbody td {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
+        }
+
+        .data-table tbody tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        .data-table tbody tr:hover {
+            background-color: #f3f4f6;
+        }
+
+        .top-1 {
+            background-color: #fef3c7 !important;
+        }
+
+        .top-2 {
+            background-color: #dbeafe !important;
+        }
+
+        .top-3 {
+            background-color: #f3e8ff !important;
+        }
+
+        .custom-scroll::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+        
+        /* Dark mode styles */
+        .dark body { background-color: #0f172a; color: #e2e8f0; }
+        .dark .bg-white { background-color: #1e293b; }
+        .dark .text-gray-500 { color: #94a3b8; }
+        .dark .text-gray-600 { color: #94a3b8; }
+        .dark .text-gray-700 { color: #cbd5e1; }
+        .dark .text-gray-800 { color: #e2e8f0; }
+        .dark .text-gray-900 { color: #f1f5f9; }
+        .dark .border-gray-200 { border-color: #334155; }
+        .dark .bg-gray-50 { background-color: #0f172a; }
+        .dark .bg-gray-100 { background-color: #1e293b; }
+        .dark .bg-blue-50 { background-color: #1e3a8a; }
+        .dark .bg-blue-100 { background-color: #1e40af; }
+        .dark .bg-green-50 { background-color: #14532d; }
+        .dark .bg-green-100 { background-color: #166534; }
+        .dark .data-table thead th { background-color: #1e293b; color: #e2e8f0; border-color: #334155; }
+        .dark .data-table tbody td { border-color: #334155; }
+        .dark .data-table tbody tr:nth-child(even) { background-color: #1e293b; }
+        .dark .data-table tbody tr:hover { background-color: #334155; }
+    </style>
+</head>
+
+<body class="antialiased">
+    <!-- Banner Open Source -->
+    <div class="bg-gradient-to-r from-lime-200 to-lime-300 text-gray-800 py-2 px-4 text-center text-sm">
+        <span class="font-semibold">🚀 Projeto Colaborativo Open Source</span> —
+        Contribua no <a href="https://github.com/edrodrigues/sintropia-carbono" target="_blank"
+            class="underline hover:text-lime-700 font-semibold text-lime-800">GitHub</a>
+        ou envie email para <a href="mailto:ernj@cin.ufpe.br"
+            class="underline hover:text-lime-700 font-semibold text-lime-800">ernj@cin.ufpe.br</a>
+    </div>
+
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-8 lg:px-16">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center gap-3">
+                    <span class="text-3xl">🌱</span>
+                    <div>
+                        <h1 class="font-bold text-xl text-[#1e40af] leading-tight">Sintropia Carbono</h1>
+                    </div>
+                </a>
+                <nav class="hidden md:flex h-full items-end">
+                    <a href="index.html"
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Home</a>
+                    <a href="certificadoras.html"
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Certificadoras</a>
+                    <a href="energia-renovavel-mundo.html" class="px-6 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300">I-REC (Mundo)</a>
+                    <a href="irec-brasil.html"
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">I-REC
+                        (Brasil)</a>
+                    <a href="carbono-mundo.html"
+                        class="px-6 py-5 text-sm font-semibold text-[#1e40af] dark:text-blue-400 border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900/30">Carbono
+                        (Mundo)</a>
+                    <a href="carbono-brasil.html"
+                        class="px-6 py-5 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-all">Carbono
+                        (Brasil)</a>
+                </nav>
+                <!-- Dark Mode Toggle -->
+                <button id="darkModeToggle" class="ml-4 p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
+                    <span id="darkModeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-8 lg:px-16 py-12">
+        <div class="mb-8">
+            <h2 class="text-4xl font-bold text-[#1e40af] mb-2">Compradores de Carbono (Mundo)</h2>
+            <p class="text-gray-600">Top 25 maiores compradores globais de créditos de carbono por volume.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Volume Total 2025</p>
+                <h3 class="text-3xl font-bold text-[#1e40af]">92.4M</h3>
+                <p class="text-sm text-gray-600 mt-2">tCO2e</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Maior Comprador</p>
+                <h3 class="text-2xl font-bold text-[#1e40af]">Microsoft</h3>
+                <p class="text-sm text-gray-600 mt-2">29.5M tCO2e</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Maior Crescimento</p>
+                <h3 class="text-3xl font-bold text-green-600">+95%</h3>
+                <p class="text-sm text-gray-600 mt-2">AtmosClear</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <p class="text-xs font-bold text-gray-500 uppercase mb-2">Setor Dominante</p>
+                <h3 class="text-3xl font-bold text-[#1e40af]">Energia</h3>
+                <p class="text-sm text-gray-600 mt-2">15 empresas</p>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div class="overflow-x-auto custom-scroll">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;">Rank</th>
+                            <th style="width: 25%;">Empresa</th>
+                            <th style="width: 15%;">Setor</th>
+                            <th style="width: 15%; text-align: right;">Vol 2024</th>
+                            <th style="width: 15%; text-align: right;">Vol 2025</th>
+                            <th style="width: 12%; text-align: right;">Delta %</th>
+                            <th style="width: 15%; text-align: right;">Delta tCO2e</th>
+                        </tr>
+                    </thead>
+                    <tbody id="compradores-table">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Distribuição por Setor</h3>
+            <div class="flex flex-wrap gap-2">
+                <span class="badge badge-energy">Energia (15)</span>
+                <span class="badge badge-tech">Tecnologia (4)</span>
+                <span class="badge badge-finance">Financeiro (3)</span>
+                <span class="badge badge-consult">Consultoria (2)</span>
+                <span class="badge badge-cdr">CDR Tech (2)</span>
+                <span class="badge badge-avia">Aviação (1)</span>
+                <span class="badge badge-media">Media/Tech (1)</span>
+            </div>
+        </div>
+
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-xl">
+                <h4 class="font-bold text-blue-900 mb-2">💻 Microsoft Líder</h4>
+                <p class="text-sm text-blue-800">A Microsoft se tornou a maior compradora global em 2025, com 29.5M
+                    tCO2e, crescimento de 81.36%.</p>
+            </div>
+            <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-r-xl">
+                <h4 class="font-bold text-green-900 mb-2">🚀 CDR Tech em Alta</h4>
+                <p class="text-sm text-green-800">Empresas de CDR Tech como AtmosClear e CO280 apresentam crescimento
+                    acima de 85%.</p>
+            </div>
+            <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-r-xl">
+                <h4 class="font-bold text-red-900 mb-2">📉 Shell Reduz</h4>
+                <p class="text-sm text-red-800">Shell apresentou redução de 48.72% nas compras, caindo de 14.5M para
+                    9.75M tCO2e.</p>
+            </div>
+        </div>
+
+        <div class="mt-6 text-sm text-gray-500">
+            <strong>Última atualização:</strong> Fevereiro 2025
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-20">
+        <div class="max-w-7xl mx-auto px-8 lg:px-16 py-8">
+            <div class="text-center text-sm text-gray-500">
+                <p><strong>Sintropia Carbono</strong> | Inteligência sobre o mercado de créditos de carbono e I-REC</p>
+                <p class="mt-2">Última atualização: Fevereiro 2025</p>
+                <p class="mt-2">🚀 Contribua com o projeto no GitHub: <a
+                        href="https://github.com/edrodrigues/sintropia-carbono" target="_blank"
+                        class="text-blue-600 hover:underline font-semibold">https://github.com/edrodrigues/sintropia-carbono</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const compradoresData = [
+            { rank: 1, empresa: 'Microsoft', setor: 'Tecnologia', setorClass: 'badge-tech', vol2024: 5500000, vol2025: 29500000, delta: 81.36 },
+            { rank: 2, empresa: 'Shell', setor: 'Energia', setorClass: 'badge-energy', vol2024: 14500000, vol2025: 9750000, delta: -48.72 },
+            { rank: 3, empresa: 'AtmosClear', setor: 'CDR Tech', setorClass: 'badge-cdr', vol2024: 320000, vol2025: 6750000, delta: 95.26 },
+            { rank: 4, empresa: 'Eni', setor: 'Energia', setorClass: 'badge-energy', vol2024: 3580000, vol2025: 6440000, delta: 44.41 },
+            { rank: 5, empresa: 'Banco Votorantim', setor: 'Financeiro', setorClass: 'badge-finance', vol2024: 3800000, vol2025: 5200000, delta: 26.92 },
+            { rank: 6, empresa: 'Netflix', setor: 'Media/Tech', setorClass: 'badge-media', vol2024: 820000, vol2025: 4800000, delta: 82.92 },
+            { rank: 7, empresa: 'Stockholm Exergi', setor: 'Energia', setorClass: 'badge-energy', vol2024: 300000, vol2025: 3300000, delta: 90.91 },
+            { rank: 8, empresa: 'Guacolda Energía', setor: 'Energia', setorClass: 'badge-energy', vol2024: 1800000, vol2025: 3100000, delta: 41.94 },
+            { rank: 9, empresa: 'Organizacion Terpel', setor: 'Energia', setorClass: 'badge-energy', vol2024: 1600000, vol2025: 2400000, delta: 33.33 },
+            { rank: 10, empresa: 'CO280', setor: 'CDR Tech', setorClass: 'badge-cdr', vol2024: 250000, vol2025: 2000000, delta: 87.50 },
+            { rank: 11, empresa: 'Engie', setor: 'Energia', setorClass: 'badge-energy', vol2024: 2100000, vol2025: 1900000, delta: -10.53 },
+            { rank: 12, empresa: 'Woodside Energy', setor: 'Energia', setorClass: 'badge-energy', vol2024: 1400000, vol2025: 1650000, delta: 15.15 },
+            { rank: 13, empresa: 'PetroChina', setor: 'Energia', setorClass: 'badge-energy', vol2024: 1200000, vol2025: 1450000, delta: 17.24 },
+            { rank: 14, empresa: 'Chevron', setor: 'Energia', setorClass: 'badge-energy', vol2024: 1150000, vol2025: 1300000, delta: 11.54 },
+            { rank: 15, empresa: 'JPMorgan Chase', setor: 'Financeiro', setorClass: 'badge-finance', vol2024: 950000, vol2025: 1250000, delta: 24.00 },
+            { rank: 16, empresa: 'Google (Alphabet)', setor: 'Tecnologia', setorClass: 'badge-tech', vol2024: 782472, vol2025: 1100000, delta: 28.87 },
+            { rank: 17, empresa: 'PwC', setor: 'Consultoria', setorClass: 'badge-consult', vol2024: 650000, vol2025: 850000, delta: 23.53 },
+            { rank: 18, empresa: 'Deloitte', setor: 'Consultoria', setorClass: 'badge-consult', vol2024: 620000, vol2025: 810000, delta: 23.46 },
+            { rank: 19, empresa: 'Petrobras', setor: 'Energia', setorClass: 'badge-energy', vol2024: 680000, vol2025: 750000, delta: 9.33 },
+            { rank: 20, empresa: 'Primax Colombia', setor: 'Energia', setorClass: 'badge-energy', vol2024: 650000, vol2025: 720000, delta: 9.72 },
+            { rank: 21, empresa: 'Goldman Sachs', setor: 'Financeiro', setorClass: 'badge-finance', vol2024: 480000, vol2025: 610000, delta: 21.31 },
+            { rank: 22, empresa: 'Qantas Airways', setor: 'Aviação', setorClass: 'badge-avia', vol2024: 450000, vol2025: 580000, delta: 22.41 },
+            { rank: 23, empresa: 'Amazon', setor: 'Tecnologia', setorClass: 'badge-tech', vol2024: 420000, vol2025: 550000, delta: 23.64 },
+            { rank: 24, empresa: 'Biomax Biocombustibles', setor: 'Energia', setorClass: 'badge-energy', vol2024: 410000, vol2025: 480000, delta: 14.58 },
+            { rank: 25, empresa: 'Puma Energy', setor: 'Energia', setorClass: 'badge-energy', vol2024: 390000, vol2025: 440000, delta: 11.36 }
+        ];
+
+        const setorBadges = {
+            'Tecnologia': 'badge-tech', 'Energia': 'badge-energy', 'CDR Tech': 'badge-cdr',
+            'Financeiro': 'badge-finance', 'Consultoria': 'badge-consult', 'Aviação': 'badge-avia',
+            'Media/Tech': 'badge-media'
+        };
+
+        function formatNumber(num) {
+            return num.toLocaleString('pt-BR');
+        }
+
+        function getGrowthClass(delta) {
+            if (delta >= 80) return 'growth-high';
+            if (delta >= 20) return 'growth-medium';
+            if (delta < 0) return 'growth-neg';
+            return 'growth-low';
+        }
+
+        function getGrowthIcon(delta) {
+            if (delta >= 80) return '🚀';
+            if (delta >= 25) return '🔥';
+            if (delta >= 20) return '✓';
+            if (delta < 0) return '↓';
+            return '';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('compradores-table');
+            tbody.innerHTML = compradoresData.map(row => {
+                const diff = row.vol2025 - row.vol2024;
+                const growthClass = getGrowthClass(row.delta);
+                const growthIcon = getGrowthIcon(row.delta);
+                const topClass = row.rank <= 3 ? `top-${row.rank}` : '';
+                const deltaSign = row.delta >= 0 ? '+' : '';
+                const diffColor = diff >= 0 ? 'text-green-600' : 'text-red-600';
+                const diffSign = diff >= 0 ? '+' : '';
+
+                return `
+                    <tr class="${topClass}">
+                        <td class="font-mono text-center text-gray-500">${row.rank}</td>
+                        <td class="font-bold text-gray-900">${row.empresa}</td>
+                        <td><span class="badge ${setorBadges[row.setor]}">${row.setor}</span></td>
+                        <td class="font-mono text-right">${formatNumber(row.vol2024)}</td>
+                        <td class="font-mono text-right font-semibold">${formatNumber(row.vol2025)}</td>
+                        <td class="font-mono text-right ${growthClass}">${deltaSign}${row.delta.toFixed(2)}% ${growthIcon}</td>
+                        <td class="font-mono text-right ${diffColor}">${diffSign}${formatNumber(diff)}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        renderTable();
+    </script>
+    <script>
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkModeIcon = document.getElementById('darkModeIcon');
+        const html = document.documentElement;
+        
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            html.classList.add('dark');
+            darkModeIcon.textContent = '☀️';
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const isDark = html.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+            darkModeIcon.textContent = isDark ? '☀️' : '🌙';
+        });
+    </script>
+</body>
+
+</html>
