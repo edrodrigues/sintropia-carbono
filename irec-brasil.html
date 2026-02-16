@@ -164,13 +164,27 @@
         .dark .data-table tbody td { border-color: #334155; }
         .dark .data-table tbody tr:nth-child(even) { background-color: #1e293b; }
         .dark .data-table tbody tr:hover { background-color: #334155; }
+        
+        /* Dark mode banner styles */
+        .dark #opensource-banner {
+            background: linear-gradient(to right, #365314, #4d7c0f) !important;
+        }
+        .dark #opensource-banner .banner-text {
+            color: #ecfccb !important;
+        }
+        .dark #opensource-banner a {
+            color: #bef264 !important;
+        }
+        .dark #opensource-banner a:hover {
+            color: #a3e635 !important;
+        }
     </style>
 </head>
 
 <body class="antialiased">
     <!-- Banner Open Source -->
-    <div class="bg-gradient-to-r from-lime-200 to-lime-300 text-gray-800 py-2 px-4 text-center text-sm">
-        <span class="font-semibold">🚀 Projeto Colaborativo Open Source</span> —
+    <div id="opensource-banner" class="bg-gradient-to-r from-lime-200 to-lime-300 text-gray-800 py-2 px-4 text-center text-sm">
+        <span class="banner-text font-semibold">🚀 Projeto Colaborativo Open Source</span> —
         Contribua no <a href="https://github.com/edrodrigues/sintropia-carbono" target="_blank"
             class="underline hover:text-lime-700 font-semibold text-lime-800">GitHub</a>
         ou envie email para <a href="mailto:ernj@cin.ufpe.br"
