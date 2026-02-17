@@ -1,11 +1,10 @@
 import Link from 'next/link';
 import { signup, signInWithGoogle } from '@/app/(auth)/login/actions';
 
-export default function RegisterPage({
-  searchParams,
-}: {
-  searchParams: { message: string; error: string };
+export default async function RegisterPage(props: {
+  searchParams: Promise<{ message: string; error: string }>;
 }) {
+  const searchParams = await props.searchParams;
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4 py-12">
       <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800">
