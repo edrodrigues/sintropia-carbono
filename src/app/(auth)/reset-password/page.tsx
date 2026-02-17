@@ -1,7 +1,7 @@
 import { updatePassword } from '@/app/(auth)/login/actions';
 
 export default async function ResetPasswordPage(props: {
-    searchParams: Promise<{ error: string }>;
+    searchParams: Promise<any>;
 }) {
     const searchParams = await props.searchParams;
     return (

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { resetPassword } from '@/app/(auth)/login/actions';
 
 export default async function ForgotPasswordPage(props: {
-    searchParams: Promise<{ message: string; error: string }>;
+    searchParams: Promise<any>;
 }) {
     const searchParams = await props.searchParams;
     return (
