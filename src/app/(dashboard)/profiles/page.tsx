@@ -58,7 +58,7 @@ export default async function ProfilesPage() {
                     Perfis da Comunidade
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400">
-                    Explore os membros da comunidade Sintropia Carbono e suas contribuições
+                    Explore os membros da comunidade Sintropia e suas contribuições
                 </p>
             </div>
 

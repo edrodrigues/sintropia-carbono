@@ -1,0 +1,11 @@
+# https://sintropia.space/robots.txt
+User-agent: *
+Allow: /
+
+# Block admin/private areas
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/static/
+
+# Sitemap
+Sitemap: https://sintropia.space/sitemap.xml

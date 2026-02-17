@@ -61,7 +61,7 @@ export default async function DashboardPage() {
                     Meu Dashboard
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400">
-                    Acompanhe sua atividade na comunidade Sintropia Carbono
+                    Acompanhe sua atividade na comunidade Sintropia
                 </p>
             </div>
 

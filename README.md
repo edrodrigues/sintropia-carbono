@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌱 Sintropia
 
-## Getting Started
+Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e certificados de energia renovável no Brasil e no mundo.
 
-First, run the development server:
+[![Deploy on Vercel](https://vercel.com/button)](https://vercel.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub Stars](https://img.shields.io/github/stars/edrodrigues/sintropia-carbono)](https://github.com/edrodrigues/sintropia-carbono/stargazers)
+
+## ✨ Funcionalidades
+
+### 📊 Dados e Inteligência
+- **Certificadoras** - 17 padrões de carbono e energia renovável globais e nacionais
+- **Mercado de Carbono** - Rankings, volumes e tendências Brasil e Mundo
+- **Energia Renovável** - I-RECs Brasil e Mundo com preços atualizados
+- **Preços** - Dados de mercados de carbono (EU ETS, VCM) e energia
+
+### 💬 Comunidade
+- **Feed** - Compartilhe notícias, tire dúvidas e discuta sobre o mercado
+- **Perfis** - Explore membros e suas contribuições
+- **Ranking (Leaderboard)** - Veja os membros mais ativos por Karma
+- **Dashboard Pessoal** - Acompanhe sua atividade e reputação
+
+### 🏆 Sistema de Karma
+- Ganhe pontos ao contribuir com a comunidade
+- Badges: Novato, Iniciante, Contribuidor, Especialista, Master
+- Sistema de likes e dislikes em posts e comentários
+
+## 🚀 Tecnologias
+
+- **Frontend:** Next.js 15, React 19, TypeScript
+- **Styling:** Tailwind CSS 4
+- **Database:** Supabase (PostgreSQL)
+- **Charts:** Chart.js
+- **Deploy:** Vercel
+
+## 🛠️ Como Executar
 
 ```bash
+# Clone o repositório
+git clone https://github.com/edrodrigues/sintropia-carbono.git
+cd sintropia-carbono
+
+# Instale as dependências
+npm install
+
+# Configure as variáveis de ambiente
+cp .env.example .env.local
+# Edite .env.local com suas credenciais do Supabase
+
+# Execute o servidor de desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔧 Variáveis de Ambiente
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Crie um arquivo `.env.local` com as seguintes variáveis:
 
-## Learn More
+```env
+NEXT_PUBLIC_SUPABASE_URL=sua_url_supabase
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anonima
+SUPABASE_SERVICE_ROLE_KEY=sua_chave_service_role
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🤝 Como Contribuir
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Contribuições são bem-vindas! Veja como você pode ajudar:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **🐛 Reportar bugs** - Abra uma issue descrevendo o problema
+2. **💡 Sugerir funcionalidades** - Compartilhe suas ideias
+3. **📊 Atualizar dados** - Mantenha as informações do mercado atualizadas
+4. **🎨 Melhorar o design** - Contribua com a interface visual
+5. **📝 Documentar** - Melhore a documentação do projeto
+6. 🚀 **Divulgar** - Compartilhe com sua rede
 
-## Deploy on Vercel
+### 📋 Pré-requisitos para Contribuir
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Node.js 18+
+- NPM ou Yarn
+- Conta no Supabase (para desenvolvimento local)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🌐 SEO Otimizado
+
+- URL canônica: https://sintropia.space
+- Meta tags otimizadas para busca
+- Structured Data (JSON-LD) para Organization e WebSite
+- Sitemap XML automático
+- Robots.txt configurado
+
+## 📱 Design
+
+- Totalmente responsivo (mobile, tablet, desktop)
+- Suporte a Dark Mode
+- Acessibilidade em conformidade com WCAG
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+## 🙏 Agradecimentos
+
+- [Supabase](https://supabase.com) - Backend como serviço
+- [Vercel](https://vercel.com) - Hospedagem
+- [Next.js](https://nextjs.org) - Framework React
+- Todos os contribuidores da comunidade!
+
+---
+
+<p align="center">
+  Feito com 💚 pela comunidade
+</p>

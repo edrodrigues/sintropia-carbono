@@ -14,7 +14,7 @@ export default async function RegisterPage(props: {
             Criar sua Conta
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            Junte-se ao ecossistema Sintropia Carbono
+            Junte-se ao ecossistema Sintropia
           </p>
         </div>
 

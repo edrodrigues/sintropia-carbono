@@ -82,7 +82,7 @@ export function Header() {
               <span className="text-3xl">🌱</span>
               <div>
                 <h1 className="font-bold text-xl text-[#1e40af] dark:text-blue-400 leading-tight">
-                  Sintropia Carbono
+                  Sintropia
                 </h1>
               </div>
             </Link>

@@ -11,7 +11,7 @@ export default async function ForgotPasswordPage(props: {
         <div className="text-center">
           <span className="text-4xl mb-4 block">🌱</span>
           <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-            Sintropia Carbono
+            Sintropia
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
             Acesse sua conta para gerenciar seus ativos de carbono

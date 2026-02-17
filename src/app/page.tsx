@@ -9,7 +9,7 @@ export default function Home() {
       <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
         <div className="text-center max-w-4xl mx-auto mb-16">
           <h1 className="text-5xl font-bold text-[#1e40af] mb-6 tracking-tighter">
-            Sintropia Carbono
+            Sintropia
           </h1>
           <p className="text-gray-600 dark:text-gray-300 text-xl">
             Dashboard de inteligência colaborativa sobre certificadoras, volumes,
@@ -420,7 +420,7 @@ export default function Home() {
             Sobre o Projeto
           </h3>
           <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
-            Sintropia Carbono é um projeto <strong>open source</strong> colaborativo
+            Sintropia é um projeto <strong>open source</strong> colaborativo
             que visa democratizar o acesso a informações sobre o mercado de carbono e
             certificados de energia renovável.
           </p>

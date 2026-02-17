@@ -11,21 +11,43 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Sintropia Carbono: Inteligência sobre o mercado de créditos de carbono e Energia",
+  title: "Sintropia: Inteligência sobre o mercado de créditos de carbono e Energia",
   description:
     "Dashboard de inteligência colaborativa sobre certificadoras, volumes, preços e tendências do mercado de créditos de carbono e certificados de energia no Brasil e no mundo.",
+  keywords: ["carbono", "créditos de carbono", "energia renovável", "I-REC", "certificados de energia", "mercado de carbono", "Brasil", "mundo"],
+  authors: [{ name: "Comunidade Sintropia" }],
+  creator: "Comunidade Sintropia",
+  publisher: "Sintropia",
+  metadataBase: new URL("https://sintropia.space"),
+  alternates: {
+    canonical: "https://sintropia.space",
+    languages: {
+      "pt-BR": "https://sintropia.space",
+    },
+  },
   openGraph: {
-    title: "Sintropia Carbono",
-    description: "Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e energia.",
-    url: "https://sintropiacarbono.com.br",
-    siteName: "Sintropia Carbono",
+    title: "Sintropia: Inteligência sobre o mercado de carbono e energia",
+    description: "Dashboard de inteligência colaborativa sobre certificadoras, volumes, preços e tendências do mercado de créditos de carbono e certificados de energia no Brasil e no mundo.",
+    url: "https://sintropia.space",
+    siteName: "Sintropia",
     locale: "pt_BR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sintropia Carbono",
+    title: "Sintropia: Inteligência sobre o mercado de carbono e energia",
     description: "Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e energia.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   icons: {
     icon: [
@@ -60,6 +82,46 @@ export default function RootLayout({
             gtag('config', 'G-BC4PP7XDM6');
           `}
         </Script>
+        <Script
+          id="organization-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Sintropia",
+              "url": "https://sintropia.space",
+              "description": "Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e energia renovável.",
+              "sameAs": [
+                "https://github.com/edrodrigues/sintropia-carbono"
+              ],
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "community",
+                "url": "https://sintropia.space/feed"
+              },
+              "logo": "https://sintropia.space/favicon.svg"
+            })
+          }}
+        />
+        <Script
+          id="website-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Sintropia",
+              "url": "https://sintropia.space",
+              "description": "Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e energia renovável.",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://sintropia.space/feed?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            })
+          }}
+        />
       </body>
     </html>
   );
