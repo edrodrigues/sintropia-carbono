@@ -1,7 +1,7 @@
 import { updatePassword } from '@/app/(auth)/login/actions';
 
 export default async function ResetPasswordPage(props: {
-    searchParams: Promise<any>;
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
     const searchParams = await props.searchParams;
     return (
@@ -34,7 +34,7 @@ export default async function ResetPasswordPage(props: {
 
                     {searchParams?.error && (
                         <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-xl text-xs text-center font-bold border border-red-100 dark:border-red-800">
-                            ⚠️ {decodeURIComponent(searchParams.error)}
+                            ⚠️ {decodeURIComponent(searchParams.error as string)}
                         </div>
                     )}
 

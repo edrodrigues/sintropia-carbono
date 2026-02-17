@@ -10,7 +10,7 @@ import { Profile } from "@/types";
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const [isEnergyOpen, setIsEnergyOpen] = useState(false);
   const [isCarbonOpen, setIsCarbonOpen] = useState(false);
   const [isComunidadeOpen, setIsComunidadeOpen] = useState(false);

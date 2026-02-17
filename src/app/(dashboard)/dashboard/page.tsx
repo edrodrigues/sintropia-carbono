@@ -46,18 +46,9 @@ export default async function DashboardPage() {
         .order('created_at', { ascending: false })
         .limit(10);
 
-    // Get post titles for comments
-    const postIds = userComments?.map(c => c.post_id).filter(Boolean) || [];
-    const { data: postsMap } = postIds.length > 0 ? await supabase
-        .from('posts')
-        .select('id, title')
-        .in('id', postIds)
-        .then(result => ({ data: result.data?.reduce((acc, p) => ({ ...acc, [p.id]: p }), {}) || null })) : { data: null };
-
     // Calculate stats
     const totalPosts = userPosts?.length || 0;
     const totalComments = userComments?.length || 0;
-    const totalVotes = userVotes?.length || 0;
     const userKarma = profile?.karma || 0;
 
     // Get badge based on karma
@@ -207,7 +198,7 @@ export default async function DashboardPage() {
                             <span className="text-2xl">⭐</span>
                             <h3 className="font-bold text-yellow-900 dark:text-yellow-200">Como funciona o Karma?</h3>
                         </div>
-                        
+
                         <div className="space-y-4 text-sm">
                             <p className="text-yellow-800 dark:text-yellow-300">
                                 Karma é sua reputação na comunidade. Quanto mais contribuições de qualidade, mais Karma você ganha!

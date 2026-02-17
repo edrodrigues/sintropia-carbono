@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { signup, signInWithGoogle } from '@/app/(auth)/login/actions';
+import { signup } from '@/app/(auth)/login/actions';
 
 export default async function RegisterPage(props: {
   searchParams: Promise<{ message: string; error: string }>;

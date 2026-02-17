@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { login, signInWithGoogle } from '@/app/(auth)/login/actions';
+import { login } from '@/app/(auth)/login/actions';
 
-export default async function LoginPage(props: {
-  searchParams: Promise<{ message: string; error: string }>;
+export default async function ForgotPasswordPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const searchParams = await props.searchParams;
   return (

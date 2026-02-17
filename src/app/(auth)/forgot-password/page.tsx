@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { resetPassword } from '@/app/(auth)/login/actions';
 
 export default async function ForgotPasswordPage(props: {
-    searchParams: Promise<any>;
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
     const searchParams = await props.searchParams;
     return (
@@ -36,13 +36,13 @@ export default async function ForgotPasswordPage(props: {
 
                     {searchParams?.error && (
                         <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-3 rounded-xl text-xs text-center font-bold border border-red-100 dark:border-red-800">
-                            ⚠️ {decodeURIComponent(searchParams.error)}
+                            ⚠️ {decodeURIComponent(searchParams.error as string)}
                         </div>
                     )}
 
                     {searchParams?.message && (
                         <div className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 p-3 rounded-xl text-xs text-center font-bold border border-blue-100 dark:border-blue-800">
-                            ✨ {decodeURIComponent(searchParams.message)}
+                            ✨ {decodeURIComponent(searchParams.message as string)}
                         </div>
                     )}
 

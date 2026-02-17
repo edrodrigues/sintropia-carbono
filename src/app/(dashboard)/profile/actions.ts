@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
-import { sanitizeInput, isValidUsername } from '@/lib/utils/sanitize';
+import { isValidUsername } from '@/lib/utils/sanitize';
 
 export async function updateProfile(formData: FormData) {
     const supabase = await createClient();
@@ -80,7 +80,7 @@ export async function updateProfile(formData: FormData) {
 
     if (error) {
         console.error('Error updating profile:', error);
-        
+
         // Check for specific error types
         if (error.message.includes('duplicate key')) {
             return { error: 'Este nome de usuário já está em uso' };

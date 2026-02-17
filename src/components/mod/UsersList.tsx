@@ -22,7 +22,7 @@ export function UsersList() {
     };
 
     fetchUsers();
-  }, []);
+  }, [supabase]);
 
   const getRoleBadge = (role: string) => {
     switch (role) {
