@@ -38,14 +38,6 @@ export default async function DashboardPage() {
         .order('created_at', { ascending: false })
         .limit(5);
 
-    // Fetch user's votes
-    const { data: userVotes } = await supabase
-        .from('votes')
-        .select('target_id, target_type, vote_type, created_at')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(10);
-
     // Calculate stats
     const totalPosts = userPosts?.length || 0;
     const totalComments = userComments?.length || 0;
