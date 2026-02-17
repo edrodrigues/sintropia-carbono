@@ -55,6 +55,8 @@ export interface CommentWithRelations extends Comment {
     author: {
         username: string;
         avatar_url: string | null;
+        karma?: number;
+        display_name?: string | null;
     } | null;
 }
 

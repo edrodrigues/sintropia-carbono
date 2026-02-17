@@ -4,14 +4,28 @@ import { useState } from "react";
 import { VoteButtons } from "@/components/posts/VoteButtons";
 import { CommentSection } from "@/components/comments/CommentSection";
 import { PostWithRelations } from "@/types";
+import Link from "next/link";
 
 interface PostCardProps {
     post: PostWithRelations;
+    onOpenModal?: (post: PostWithRelations) => void;
 }
 
-export function PostCard({ post }: PostCardProps) {
+export function PostCard({ post, onOpenModal }: PostCardProps) {
     const [showComments, setShowComments] = useState(false);
     const [copied, setCopied] = useState(false);
+
+    const handleCardClick = (e: React.MouseEvent) => {
+        if (
+            e.target instanceof HTMLAnchorElement ||
+            e.target instanceof HTMLButtonElement ||
+            (e.target as HTMLElement).closest("button") ||
+            (e.target as HTMLElement).closest("a")
+        ) {
+            return;
+        }
+        onOpenModal?.(post);
+    };
 
     const handleShare = async () => {
         const postUrl = `${window.location.origin}/feed#post-${post.id}`;
@@ -40,7 +54,10 @@ export function PostCard({ post }: PostCardProps) {
     };
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden transition-all hover:shadow-md">
+        <div 
+            className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden transition-all hover:shadow-md cursor-pointer"
+            onClick={handleCardClick}
+        >
             <div className="flex p-4 gap-4">
                 {/* Votos */}
                 <div className="flex-shrink-0 pt-1">
@@ -58,7 +75,7 @@ export function PostCard({ post }: PostCardProps) {
                             {post.category}
                         </span>
                         <span className="text-xs text-gray-500">
-                            Postado por <span className="font-semibold text-gray-700 dark:text-gray-300">@{post.author?.username}</span>
+                            Postado por <Link href={`/u/${post.author?.username}`} className="font-semibold text-gray-700 dark:text-gray-300 hover:text-blue-600">@{post.author?.username}</Link>
                             <span className="mx-1 text-yellow-500 font-bold">({post.author?.karma || 0})</span>
                             • {new Date(post.created_at).toLocaleDateString()}
                         </span>

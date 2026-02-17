@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { sanitizeInput, sanitizeUrl } from "@/lib/utils/sanitize";
 
-export function CreatePostButton() {
+export function CreatePostButton({ onPostCreated }: { onPostCreated?: () => void }) {
     const [isOpen, setIsOpen] = useState(false);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -62,6 +62,7 @@ export function CreatePostButton() {
             setUrl("");
             setError(null);
             router.refresh();
+            onPostCreated?.();
         }
         setLoading(false);
     };
