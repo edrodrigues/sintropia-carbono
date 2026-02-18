@@ -1,7 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { Tooltip } from "@/components/ui/Tooltip";
 import { CarbonoPrecosChart } from "@/components/charts/CarbonoPrecosChart";
 
 export default function CarbonoPrecos() {
@@ -44,15 +43,6 @@ export default function CarbonoPrecos() {
                 <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8 shadow-sm">
                     <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-purple-900/10">
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">🏛️ Mercados Regulados</h3>
-                    </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Mercados de Conformidade */}
-                <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8 shadow-sm">
-                    <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-purple-900/10">
-                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">🏛️ Mercados de Carbono de Conformidade</h3>
                     </div>
                     <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                         {[
