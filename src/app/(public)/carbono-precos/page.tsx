@@ -2,6 +2,15 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { CarbonoPrecosChart } from "@/components/charts/CarbonoPrecosChart";
+import { LastUpdated } from "@/components/ui/LastUpdated";
+import { DataSources } from "@/components/ui/DataSources";
+
+const dataSources = [
+  { name: "BloombergNEF", url: "https://about.bnef.com" },
+  { name: "World Bank Carbon Pricing", url: "https://carbonpricingdashboard.worldbank.org" },
+  { name: "ICAP", url: "https://icapcarbonaction.com" },
+  { name: "B3", url: "https://www.b3.com.br" },
+];
 
 export default function CarbonoPrecos() {
     return (
@@ -139,6 +148,12 @@ export default function CarbonoPrecos() {
                         <p><span className="font-bold text-[#1e40af]">VCM:</span> Mercado Voluntário de Carbono</p>
                     </div>
                 </div>
+
+                <div className="mt-6 flex items-center justify-between">
+                    <LastUpdated dataFile="carbono-precos" />
+                </div>
+
+                <DataSources sources={dataSources} />
             </main>
             <Footer />
         </>

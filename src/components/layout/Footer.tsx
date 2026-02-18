@@ -96,6 +96,14 @@ export function Footer() {
               </li>
               <li>
                 <Link
+                  href="/contribuir"
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors flex items-center gap-2"
+                >
+                  <span>🚀</span> Contribuir
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/login"
                   className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors"
                 >

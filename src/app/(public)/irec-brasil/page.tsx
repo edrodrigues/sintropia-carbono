@@ -2,6 +2,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { IrecBrasilChart } from "@/components/charts/IrecBrasilChart";
+import { LastUpdated } from "@/components/ui/LastUpdated";
+import { DataSources } from "@/components/ui/DataSources";
 
 const irecData = [
   { rank: 1, empresa: "Eletrobras", papel: "Vendedor", vol2024: 9200, vol2025: 14500, delta: 57.61 },
@@ -52,6 +54,13 @@ const getTopClass = (rank: number) => {
   if (rank === 3) return "bg-purple-50 dark:bg-purple-900/20";
   return "";
 };
+
+const dataSources = [
+  { name: "I-REC Brasil", url: "https://irec-brazil.org" },
+  { name: "I-TRACK Foundation", url: "https://trackingstandard.org" },
+  { name: "Eletrobras", url: "https://eletrobras.com" },
+  { name: "ANEEL", url: "https://aneel.gov.br" },
+];
 
 export default function IrecBrasil() {
   const totalVolume = irecData.reduce((acc, row) => acc + row.vol2025, 0);
@@ -232,9 +241,11 @@ export default function IrecBrasil() {
           </div>
         </div>
 
-        <div className="mt-6 text-sm text-gray-500 dark:text-gray-400">
-          <strong>Última atualização:</strong> Fevereiro 2026
+        <div className="mt-6 flex items-center justify-between">
+          <LastUpdated dataFile="irec-brasil" />
         </div>
+
+        <DataSources sources={dataSources} />
       </main>
       <Footer />
     </>

@@ -2,6 +2,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { CarbonoMundoChart } from "@/components/charts/CarbonoMundoChart";
+import { LastUpdated } from "@/components/ui/LastUpdated";
+import { DataSources } from "@/components/ui/DataSources";
 
 const carbonoData = [
     { rank: 1, empresa: "Microsoft", setor: "Tecnologia", vol2024: 5.5, vol2025: 29.5, delta: 81.36, badge: "bg-blue-700" },
@@ -14,6 +16,13 @@ const carbonoData = [
     { rank: 8, empresa: "Guacolda Energía", setor: "Energia", vol2024: 1.8, vol2025: 3.1, delta: 41.94, badge: "bg-green-800" },
     { rank: 9, empresa: "Organizacion Terpel", setor: "Energia", vol2024: 1.6, vol2025: 2.4, delta: 33.33, badge: "bg-green-800" },
     { rank: 10, empresa: "CO280", setor: "CDR Tech", vol2024: 0.25, vol2025: 2.0, delta: 87.50, badge: "bg-purple-700" },
+];
+
+const dataSources = [
+  { name: "Verra Registry", url: "https://verra.org" },
+  { name: "Gold Standard", url: "https://goldstandard.org" },
+  { name: "ACR", url: "https://americancarbonregistry.org" },
+  { name: "CAR", url: "https://climateactionreserve.org" },
 ];
 
 export default function CarbonoMundo() {
@@ -101,6 +110,12 @@ export default function CarbonoMundo() {
                         <p className="text-sm text-red-800 dark:text-red-300">Algumas gigantes da energia estão reduzindo volumes de créditos baseados em natureza para focar em tecnologia.</p>
                     </div>
                 </div>
+
+                <div className="mt-6 flex items-center justify-between">
+                    <LastUpdated dataFile="carbono-mundo" />
+                </div>
+
+                <DataSources sources={dataSources} />
             </main>
             <Footer />
         </>

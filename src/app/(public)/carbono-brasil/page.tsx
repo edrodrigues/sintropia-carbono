@@ -2,6 +2,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { CarbonoBrasilChart } from "@/components/charts/CarbonoBrasilChart";
+import { LastUpdated } from "@/components/ui/LastUpdated";
+import { DataSources } from "@/components/ui/DataSources";
 
 const carbonoData = [
   { rank: 1, empresa: "Banco Votorantim", setor: "Financeiro", vol2024: 3.8, vol2025: 5.2, delta: 36.84 },
@@ -57,6 +59,13 @@ const getTopClass = (rank: number) => {
   if (rank === 3) return "bg-purple-50 dark:bg-purple-900/20";
   return "";
 };
+
+const dataSources = [
+  { name: "Verra Registry", url: "https://verra.org" },
+  { name: "Gold Standard", url: "https://goldstandard.org" },
+  { name: "RenovaBio", url: "https://www.gov.br/anp/pt-br/assuntos/renovaBio" },
+  { name: "B3", url: "https://www.b3.com.br" },
+];
 
 export default function CarbonoBrasil() {
   const totalVolume = carbonoData.reduce((acc, row) => acc + row.vol2025, 0);
@@ -201,9 +210,11 @@ export default function CarbonoBrasil() {
           </div>
         </div>
 
-        <div className="mt-6 text-sm text-gray-500 dark:text-gray-400">
-          <strong>Última atualização:</strong> Fevereiro 2026
+        <div className="mt-6 flex items-center justify-between">
+          <LastUpdated dataFile="carbono-brasil" />
         </div>
+
+        <DataSources sources={dataSources} />
       </main>
       <Footer />
     </>

@@ -2,6 +2,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { IrecMundoChart } from "@/components/charts/IrecMundoChart";
+import { LastUpdated } from "@/components/ui/LastUpdated";
+import { DataSources } from "@/components/ui/DataSources";
 
 const energiaData = [
     { rank: 1, empresa: "Amazon", setor: "Tecnologia / E-commerce", vol2024: 78.4, vol2025: 91.2, delta: 16.33, badge: "bg-blue-600" },
@@ -19,6 +21,13 @@ const energiaData = [
     { rank: 13, empresa: "Nestlé", setor: "Alimentos e Bebidas", vol2024: 7.5, vol2025: 8.6, delta: 14.67, badge: "bg-orange-700" },
     { rank: 14, empresa: "Starbucks", setor: "Alimentos e Bebidas", vol2024: 6.8, vol2025: 7.4, delta: 8.82, badge: "bg-orange-700" },
     { rank: 15, empresa: "General Motors", setor: "Automotivo", vol2024: 6.2, vol2025: 7.1, delta: 14.52, badge: "bg-blue-900" },
+];
+
+const dataSources = [
+  { name: "I-TRACK Foundation", url: "https://trackingstandard.org" },
+  { name: "RE100", url: "https://www.there100.org" },
+  { name: "BloombergNEF", url: "https://about.bnef.com" },
+  { name: "IRENA", url: "https://irena.org" },
 ];
 
 export default function IrecMundo() {
@@ -106,6 +115,12 @@ export default function IrecMundo() {
                         <p className="text-sm text-purple-800 dark:text-purple-300">Empresas de semicondutores e varejo também figuram no topo do ranking global.</p>
                     </div>
                 </div>
+
+                <div className="mt-6 flex items-center justify-between">
+                    <LastUpdated dataFile="irec-mundo" />
+                </div>
+
+                <DataSources sources={dataSources} />
             </main>
             <Footer />
         </>

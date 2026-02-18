@@ -2,6 +2,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { IrecPrecosChart } from "@/components/charts/IrecPrecosChart";
+import { LastUpdated } from "@/components/ui/LastUpdated";
+import { DataSources } from "@/components/ui/DataSources";
 
 export default function IRECPrecos() {
     const brasilData = [
@@ -22,6 +24,13 @@ export default function IRECPrecos() {
         { country: "Índia", tech: "Solar", price: "$0.79 - $0.86", note: "⬆️ Demanda crescendo" },
         { country: "Malásia", tech: "Solar", price: "$5.55", note: "↗️ Em desenvolvimento" },
         { country: "Singapura", tech: "Solar", price: "$75.00", note: "⬆️ Premium por escassez" },
+    ];
+
+    const dataSources = [
+      { name: "I-TRACK Foundation", url: "https://trackingstandard.org" },
+      { name: "I-REC Brasil", url: "https://irec-brazil.org" },
+      { name: "CCEE", url: "https://cce.org.br" },
+      { name: "BloombergNEF", url: "https://about.bnef.com" },
     ];
 
     return (
@@ -189,6 +198,12 @@ export default function IRECPrecos() {
                         </div>
                     </div>
                 </div>
+
+                <div className="mt-6 flex items-center justify-between">
+                    <LastUpdated dataFile="irec-precos" />
+                </div>
+
+                <DataSources sources={dataSources} />
             </main>
             <Footer />
         </>

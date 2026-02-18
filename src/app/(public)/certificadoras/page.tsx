@@ -2,6 +2,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { CertificadorasChart } from "@/components/charts/CertificadorasChart";
+import { LastUpdated } from "@/components/ui/LastUpdated";
+import { DataSources } from "@/components/ui/DataSources";
 
 const certificadoras = [
   // ... (rest of the file)
@@ -24,6 +26,14 @@ const energiaPadroes = [
   { nome: "TIGR", origem: "Global", cobertura: "Energia renovável (Ásia/África)", unidade: "MWh", volume: "45TWh" },
   { nome: "Green-e", origem: "Estados Unidos", cobertura: "Energia renovável certificada", unidade: "MWh", volume: "120TWh" },
   { nome: "EECS", origem: "Europa", cobertura: "Sistema europeu integrado", unidade: "MWh", volume: "720TWh" },
+];
+
+const dataSources = [
+  { name: "Verra Registry", url: "https://verra.org" },
+  { name: "Gold Standard", url: "https://goldstandard.org" },
+  { name: "I-REC Standard", url: "https://trackingstandard.org" },
+  { name: "AIB (GO)", url: "https://aib-net.org" },
+  { name: "Green-e", url: "https://green-e.org" },
 ];
 
 export default function Certificadoras() {
@@ -240,9 +250,11 @@ export default function Certificadoras() {
           </div>
         </div>
 
-        <div className="mt-6 text-sm text-gray-500 dark:text-gray-400">
-          <strong>Última atualização:</strong> Fevereiro 2026
+        <div className="mt-6 flex items-center justify-between">
+          <LastUpdated dataFile="certificadoras" />
         </div>
+
+        <DataSources sources={dataSources} />
       </main>
       <Footer />
     </>
