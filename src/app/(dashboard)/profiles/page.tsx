@@ -74,7 +74,7 @@ export default async function ProfilesPage() {
                                 key={profile.id}
                                 className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow overflow-hidden"
                             >
-                                <div className="p-6">
+                                <Link href={`/u/${profile.username}`} className="block p-6">
                                     <div className="flex items-start gap-4 mb-4">
                                         <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                                             {profile.display_name?.substring(0, 2).toUpperCase() || profile.username?.substring(0, 2).toUpperCase() || '??'}
@@ -116,7 +116,7 @@ export default async function ProfilesPage() {
                                             <div className="text-xs text-gray-500">Comentários</div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
 
                                 <div className="px-6 pb-4">
                                     <Link
@@ -140,7 +140,7 @@ export default async function ProfilesPage() {
 
             {profiles && profiles.length >= 50 && (
                 <div className="text-center mt-8">
-                    <p className="text-gray-500 text-sm">Mostrando os top 50 membros por Karma</p>
+                    <p className="text-gray-500 text-sm">Mostrando os top 50 membros por pontos</p>
                 </div>
             )}
         </div>

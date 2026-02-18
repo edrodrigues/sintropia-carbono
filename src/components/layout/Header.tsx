@@ -287,7 +287,7 @@ export function Header() {
                           <p className="text-xs font-semibold truncate dark:text-gray-200">{user.email}</p>
                         </div>
                         <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-50 dark:border-gray-700">
-                          📊 Dashboard
+                          📊 Minha Página
                         </Link>
                         {(profile?.role === "moderator" || profile?.role === "admin") && (
                           <Link href="/mod" className="block px-4 py-2 text-sm text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors border-b border-gray-50 dark:border-gray-700">

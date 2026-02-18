@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { IrecMundoChart } from "@/components/charts/IrecMundoChart";
 
 const energiaData = [
@@ -25,6 +26,7 @@ export default function IrecMundo() {
         <>
             <Header />
             <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
+                <Breadcrumb />
                 <div className="mb-8">
                     <h2 className="text-4xl font-bold text-[#1e40af] mb-2">Maiores Compradores de Energia Renovável (Mundo)</h2>
                     <p className="text-gray-600 dark:text-gray-400">Top 15 corporações globais por volume de energia renovável negociada (TWh).</p>

@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { ReportsList } from "@/components/mod/ReportsList";
 import { UsersList } from "@/components/mod/UsersList";
 
@@ -203,16 +204,18 @@ export default async function ModDashboard() {
                   className="p-4 flex items-center justify-between"
                 >
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">
+                    <Link href={`/u/${ban.user?.username}`} className="font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">
                       @{ban.user?.username || "Usuário banido"}
-                    </p>
+                    </Link>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       {ban.reason || "Sem motivo especificado"}
                     </p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      por @{ban.moderator?.username || "Moderador"}
+                      por <Link href={`/u/${ban.moderator?.username}`} className="hover:text-blue-600 dark:hover:text-blue-400">
+                        @{ban.moderator?.username || "Moderador"}
+                      </Link>
                     </p>
                     <p className="text-xs text-gray-400 dark:text-gray-500">
                       {ban.expires_at

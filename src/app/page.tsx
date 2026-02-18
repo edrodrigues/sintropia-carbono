@@ -1,20 +1,21 @@
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 export default function Home() {
   return (
     <>
       <Header />
       <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
+        <Breadcrumb />
         <div className="text-center max-w-4xl mx-auto mb-16">
           <h1 className="text-5xl font-bold text-[#1e40af] mb-6 tracking-tighter">
             Sintropia
           </h1>
           <p className="text-gray-600 dark:text-gray-300 text-xl">
-            Dashboard de inteligência colaborativa sobre certificadoras, volumes,
-            preços e tendências do mercado de créditos de carbono e certificados de
-            energia no Brasil e no mundo.
+            Dados sobre o mercado de carbono e energia renovável no Brasil e no mundo.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <span className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full text-sm font-semibold shadow-lg shadow-blue-500/30">
@@ -23,7 +24,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm text-center">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
               Certificadoras Carbono
@@ -35,20 +36,22 @@ export default function Home() {
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm text-center">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
-              Certificadoras Energias Renováveis
+              Certificadoras Energia
             </p>
             <h3 className="text-3xl font-bold text-indigo-600">10</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              padrões de energia renovável globais
+              padrões de energia renovável
             </p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm text-center">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
-              Volume Global VCM
+              Mercado Global
             </p>
             <h3 className="text-3xl font-bold text-[#1e40af]">2.1B</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              tCO2e certificados
+              <Tooltip content="Toneladas de CO2 compensadas">
+                <span className="border-b border-dashed border-gray-400 cursor-help">toneladas de carbono</span>
+              </Tooltip>
             </p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm text-center">
@@ -75,7 +78,9 @@ export default function Home() {
             </p>
             <h3 className="text-3xl font-bold text-indigo-600">46.3M</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              I-RECs em 2025
+              <Tooltip content="Certificados de Energia Renovável (I-REC)">
+                <span className="border-b border-dashed border-gray-400 cursor-help">certificados</span>
+              </Tooltip> em 2025
             </p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm text-center">
@@ -84,7 +89,9 @@ export default function Home() {
             </p>
             <h3 className="text-3xl font-bold text-teal-600">283</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              TWh em 2025
+              <Tooltip content="Terawatt-hora (unidade de energia)">
+                <span className="border-b border-dashed border-gray-400 cursor-help">TWh</span>
+              </Tooltip> em 2025
             </p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm text-center">
@@ -93,7 +100,9 @@ export default function Home() {
             </p>
             <h3 className="text-3xl font-bold text-orange-600">92.4M</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              tCO2e em 2025
+              <Tooltip content="Toneladas de CO2 compensadas">
+                <span className="border-b border-dashed border-gray-400 cursor-help">toneladas de carbono</span>
+              </Tooltip> em 2025
             </p>
           </div>
         </div>
@@ -154,7 +163,7 @@ export default function Home() {
                 Ranking
               </h3>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Veja os membros mais ativos da comunidade por Karma.
+                Veja os membros mais ativos da comunidade.
               </p>
               <div className="mt-4 flex items-center gap-2 text-yellow-600 dark:text-yellow-400 text-sm font-semibold">
                 Ver ranking →
@@ -170,7 +179,7 @@ export default function Home() {
                 <span className="bg-green-600 text-white text-[10px] font-bold px-2 py-1 rounded-full">NOVO</span>
               </div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                Meu Dashboard
+                Minha Página
               </h3>
               <p className="text-gray-600 dark:text-gray-400 text-sm">
                 Acompanhe sua atividade, posts e karma na comunidade.

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Profile } from "@/types";
 
@@ -78,7 +79,7 @@ export function UsersList() {
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
       {users.map((user) => (
         <div key={user.id} className="p-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <Link href={`/u/${user.username}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-bold text-sm overflow-hidden">
               {user.avatar_url ? (
                 <Image
@@ -99,13 +100,7 @@ export function UsersList() {
                 {user.karma} karma • {getRoleBadge(user.role)}
               </p>
             </div>
-          </div>
-          <a
-            href={`/profile/${user.username}`}
-            className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
-          >
-            Ver perfil
-          </a>
+          </Link>
         </div>
       ))}
     </div>

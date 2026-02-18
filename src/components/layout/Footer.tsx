@@ -31,7 +31,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-              Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e certificados de energia renovável.
+              Dados sobre o mercado de carbono e energia renovável.
             </p>
             <div className="flex items-center gap-2">
               <span className="text-xs px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full font-medium">

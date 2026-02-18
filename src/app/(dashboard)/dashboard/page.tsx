@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { Tooltip } from '@/components/ui/Tooltip';
 
 export default async function DashboardPage() {
     const supabase = await createClient();
@@ -68,7 +69,7 @@ export default async function DashboardPage() {
             {/* Karma & Profile Stats */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                 <div className="md:col-span-2 bg-gradient-to-br from-[#1e40af] to-blue-700 p-6 rounded-2xl text-white shadow-lg">
-                    <div className="flex items-center gap-4">
+                    <Link href={`/u/${profile?.username}`} className="flex items-center gap-4 hover:opacity-90 transition-opacity">
                         <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center text-3xl font-bold">
                             {profile?.display_name?.substring(0, 2).toUpperCase() || user.email?.substring(0, 2).toUpperCase()}
                         </div>
@@ -76,12 +77,16 @@ export default async function DashboardPage() {
                             <h3 className="text-xl font-bold">{profile?.display_name || profile?.username || 'Usuário'}</h3>
                             <p className="text-blue-200">@{profile?.username || 'sem usuario'}</p>
                         </div>
-                    </div>
+                    </Link>
                     <div className="mt-6 flex items-center gap-3">
                         <span className="text-4xl">{badge.emoji}</span>
                         <div>
                             <div className="text-3xl font-black">{userKarma.toLocaleString()}</div>
-                            <div className="text-blue-200 text-sm">Karma Total</div>
+                            <div className="text-blue-200 text-sm">
+                                <Tooltip content="Pontos ganhos com contribuições na comunidade">
+                                    Pontos Totais
+                                </Tooltip>
+                            </div>
                         </div>
                     </div>
                 </div>

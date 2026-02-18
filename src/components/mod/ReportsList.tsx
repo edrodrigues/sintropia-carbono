@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Report } from "@/types";
 import { BanUserButton } from "./BanUserButton";
@@ -90,7 +91,9 @@ export function ReportsList({ reports }: ReportsListProps) {
                 {report.reason}
               </p>
               <p className="text-xs text-gray-400">
-                Denunciado por @{report.reporter?.username || "Anônimo"} •{" "}
+                Denunciado por <Link href={`/u/${report.reporter?.username}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+                  @{report.reporter?.username || "Anônimo"}
+                </Link> •{" "}
                 {new Date(report.created_at).toLocaleDateString("pt-BR")}
               </p>
             </div>

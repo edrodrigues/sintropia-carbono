@@ -11,6 +11,8 @@ interface ProfileFormProps {
         user_type?: string;
         organization?: string;
         cargo?: string;
+        linkedin_url?: string;
+        twitter_url?: string;
     } | null;
     email: string
 }
@@ -27,6 +29,8 @@ export default function ProfileForm({
         bio: profile?.bio || '',
         organization: profile?.organization || '',
         cargo: profile?.cargo || '',
+        linkedin_url: profile?.linkedin_url || '',
+        twitter_url: profile?.twitter_url || '',
     });
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -166,6 +170,38 @@ export default function ProfileForm({
                         placeholder="Conte-nos um pouco sobre você ou sua empresa..."
                         maxLength={500}
                         className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white resize-none"
+                    />
+                </div>
+
+                <div className="space-y-2">
+                    <label htmlFor="linkedin_url" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                        LinkedIn
+                        <span className="text-gray-300 font-normal ml-1">(URL do perfil)</span>
+                    </label>
+                    <input
+                        id="linkedin_url"
+                        name="linkedin_url"
+                        type="url"
+                        value={formData.linkedin_url}
+                        onChange={(e) => setFormData({ ...formData, linkedin_url: e.target.value })}
+                        placeholder="https://linkedin.com/in/seu-perfil"
+                        className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                    />
+                </div>
+
+                <div className="space-y-2">
+                    <label htmlFor="twitter_url" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                        Twitter / X
+                        <span className="text-gray-300 font-normal ml-1">(URL do perfil)</span>
+                    </label>
+                    <input
+                        id="twitter_url"
+                        name="twitter_url"
+                        type="url"
+                        value={formData.twitter_url}
+                        onChange={(e) => setFormData({ ...formData, twitter_url: e.target.value })}
+                        placeholder="https://x.com/seu-usuario"
+                        className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
                     />
                 </div>
             </div>

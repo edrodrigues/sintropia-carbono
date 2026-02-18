@@ -11,6 +11,8 @@ export interface Profile {
     organization: string | null;
     cargo: string | null;
     user_type: 'individual' | 'company' | 'ong' | 'government' | null;
+    linkedin_url: string | null;
+    twitter_url: string | null;
     created_at: string;
     updated_at: string;
 }
@@ -35,6 +37,7 @@ export interface PostWithRelations extends Post {
         username: string;
         avatar_url: string | null;
         karma: number;
+        linkedin_url?: string | null;
     } | null;
     votes?: Vote[];
 }
@@ -57,6 +60,7 @@ export interface CommentWithRelations extends Comment {
         avatar_url: string | null;
         karma?: number;
         display_name?: string | null;
+        linkedin_url?: string | null;
     } | null;
 }
 

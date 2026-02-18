@@ -33,7 +33,7 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
     const refreshPosts = async () => {
         const { data } = await supabase
             .from("posts")
-            .select(`*, author:profiles(username, avatar_url, karma)`)
+            .select(`*, author:profiles(username, avatar_url, karma, linkedin_url)`)
             .eq("is_deleted", false)
             .order("created_at", { ascending: false })
             .limit(20);

@@ -18,6 +18,8 @@ export async function updateProfile(formData: FormData) {
     const userType = formData.get('user_type') as string;
     const organization = (formData.get('organization') as string)?.trim();
     const cargo = (formData.get('cargo') as string)?.trim();
+    const linkedinUrl = (formData.get('linkedin_url') as string)?.trim();
+    const twitterUrl = (formData.get('twitter_url') as string)?.trim();
 
     // Validation
     if (username && !isValidUsername(username)) {
@@ -40,6 +42,14 @@ export async function updateProfile(formData: FormData) {
         return { error: 'Cargo deve ter no máximo 100 caracteres' };
     }
 
+    if (linkedinUrl && linkedinUrl.length > 500) {
+        return { error: 'URL do LinkedIn deve ter no máximo 500 caracteres' };
+    }
+
+    if (twitterUrl && twitterUrl.length > 500) {
+        return { error: 'URL do Twitter/X deve ter no máximo 500 caracteres' };
+    }
+
     // Check if profile exists
     const { data: existingProfile } = await supabase
         .from('profiles')
@@ -56,6 +66,8 @@ export async function updateProfile(formData: FormData) {
         user_type: ['company', 'ong', 'government'].includes(userType) ? userType : 'individual',
         organization: organization || null,
         cargo: cargo || null,
+        linkedin_url: linkedinUrl || null,
+        twitter_url: twitterUrl || null,
         updated_at: new Date().toISOString(),
     };
 

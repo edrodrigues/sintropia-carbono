@@ -14,7 +14,7 @@ export default async function ForgotPasswordPage(props: {
             Sintropia
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            Acesse sua conta para gerenciar seus ativos de carbono
+            Acesse sua conta
           </p>
         </div>
 

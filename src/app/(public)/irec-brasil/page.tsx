@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { IrecBrasilChart } from "@/components/charts/IrecBrasilChart";
 
 const irecData = [
@@ -60,6 +61,7 @@ export default function IrecBrasil() {
     <>
       <Header />
       <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
+        <Breadcrumb />
         <div className="mb-8">
           <h2 className="text-4xl font-bold text-[#1e40af] mb-2">
             Mercado Brasileiro de Certificados I-REC

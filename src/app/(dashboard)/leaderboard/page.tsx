@@ -1,4 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 export default async function LeaderboardPage() {
   const supabase = await createClient();
@@ -36,10 +38,10 @@ export default async function LeaderboardPage() {
     <div className="max-w-7xl mx-auto px-8 lg:px-16">
       <div className="mb-12">
         <h1 className="text-5xl font-black text-gray-900 dark:text-gray-100 mb-4 tracking-tight">
-          Wall of Fame
+          Ranking dos Mais Ativos
         </h1>
         <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
-          Os membros mais ativos que estão moldando o futuro do mercado de carbono através de insights e colaboração.
+          Os membros mais ativos que contribuem para a comunidade.
         </p>
       </div>
 
@@ -58,7 +60,9 @@ export default async function LeaderboardPage() {
                   Conquistas
                 </th>
                 <th className="px-8 py-6 text-right text-xs font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">
-                  Karma Total
+                  <Tooltip content="Pontos ganhos com contribuições na comunidade">
+                    Pontos
+                  </Tooltip>
                 </th>
               </tr>
             </thead>
@@ -78,7 +82,7 @@ export default async function LeaderboardPage() {
                       </span>
                     </td>
                     <td className="px-8 py-6">
-                      <div className="flex items-center gap-4">
+                      <Link href={`/u/${user.username}`} className="flex items-center gap-4 hover:opacity-80 transition-opacity">
                         <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-0.5 shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
                           <div className="w-full h-full rounded-[0.9rem] bg-white dark:bg-gray-900 flex items-center justify-center text-blue-600 font-black text-lg">
                             {user.avatar_url ? (
@@ -97,7 +101,7 @@ export default async function LeaderboardPage() {
                           </p>
                           <p className="text-sm text-gray-500">@{user.username}</p>
                         </div>
-                      </div>
+                      </Link>
                     </td>
                     <td className="px-8 py-6">
                       <div className="flex flex-wrap gap-2">
@@ -111,7 +115,7 @@ export default async function LeaderboardPage() {
                             </span>
                           ))
                         ) : (
-                          <span className="text-gray-400 text-xs italic">Nenhuma conquista ainda</span>
+                          <span className="text-gray-400 text-xs italic">Sem conquistas ainda</span>
                         )}
                       </div>
                     </td>

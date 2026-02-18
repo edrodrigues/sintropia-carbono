@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 interface PageProps {
     params: Promise<{ username: string }>;
@@ -52,7 +54,8 @@ export default async function PublicProfilePage(props: PageProps) {
     const badge = getBadge(profile.karma || 0);
 
     return (
-        <div className="container mx-auto max-w-3xl px-4 py-12">
+        <main className="container mx-auto max-w-3xl px-4 py-12">
+            <Breadcrumb />
             <div className="bg-white dark:bg-gray-800 rounded-3xl border border-gray-200 dark:border-gray-700 p-8 mb-8">
                 <div className="flex items-start gap-6">
                     <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-3xl flex-shrink-0">
@@ -74,7 +77,9 @@ export default async function PublicProfilePage(props: PageProps) {
                         <div className="flex flex-wrap gap-4 text-sm">
                             <div className="flex items-center gap-1">
                                 <span className="font-bold text-yellow-600">{profile.karma?.toLocaleString() || 0}</span>
-                                <span className="text-gray-500">Karma</span>
+                                <Tooltip content="Pontos ganhos com contribuições na comunidade">
+                                    <span className="text-gray-500 cursor-help border-b border-dashed border-gray-400">Pontos</span>
+                                </Tooltip>
                             </div>
                             <div className="flex items-center gap-1">
                                 <span className="font-bold text-gray-900 dark:text-gray-100">{postCounts?.length || 0}</span>
@@ -90,6 +95,36 @@ export default async function PublicProfilePage(props: PageProps) {
                             <div className="mt-3 text-sm text-gray-500">
                                 🏢 {profile.organization}
                                 {profile.cargo && ` - ${profile.cargo}`}
+                            </div>
+                        )}
+
+                        {(profile.linkedin_url || profile.twitter_url) && (
+                            <div className="flex gap-3 mt-4">
+                                {profile.linkedin_url && (
+                                    <a
+                                        href={profile.linkedin_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-blue-600 hover:text-blue-700 flex items-center gap-1 text-sm"
+                                        title="LinkedIn"
+                                    >
+                                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                        </svg>
+                                        LinkedIn
+                                    </a>
+                                )}
+                                {profile.twitter_url && (
+                                    <a
+                                        href={profile.twitter_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-gray-900 dark:text-gray-100 hover:text-gray-600 flex items-center gap-1 text-sm"
+                                        title="Twitter/X"
+                                    >
+                                        𝕏
+                                    </a>
+                                )}
                             </div>
                         )}
                     </div>
@@ -137,6 +172,6 @@ export default async function PublicProfilePage(props: PageProps) {
                     )}
                 </div>
             </div>
-        </div>
+        </main>
     );
 }

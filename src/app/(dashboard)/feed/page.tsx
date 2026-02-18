@@ -11,7 +11,7 @@ export default async function FeedPage() {
         .from("posts")
         .select(`
       *,
-      author:profiles(username, avatar_url, karma)
+      author:profiles(username, avatar_url, karma, linkedin_url)
     `)
         .eq("is_deleted", false)
         .order("created_at", { ascending: false })
