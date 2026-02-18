@@ -59,6 +59,9 @@ export async function signInWithGoogle() {
     const supabase = await createClient();
     const origin = (await headers()).get('origin');
 
+    // Sign out any existing session to avoid stale token issues
+    await supabase.auth.signOut();
+
     const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
