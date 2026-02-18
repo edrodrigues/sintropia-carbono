@@ -87,7 +87,7 @@ export function VoteButtons({
             <button
                 onClick={() => handleVote(1)}
                 className={`p-1 rounded-lg transition-colors ${userVote === 1
-                        ? "text-orange-600 bg-orange-50 dark:bg-orange-900/20"
+                        ? "text-blue-600 bg-blue-50 dark:bg-blue-900/20"
                         : "text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
             >
@@ -111,7 +111,7 @@ export function VoteButtons({
             <button
                 onClick={() => handleVote(-1)}
                 className={`p-1 rounded-lg transition-colors ${userVote === -1
-                        ? "text-blue-600 bg-blue-50 dark:bg-blue-900/20"
+                        ? "text-red-600 bg-red-50 dark:bg-red-900/20"
                         : "text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
             >
