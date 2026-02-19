@@ -245,7 +245,7 @@ export default function IrecBrasil() {
           <LastUpdated dataFile="irec-brasil" />
         </div>
 
-        <DataSources sources={dataSources} />
+        <DataSources sources={dataSources} downloadFile={{ name: "dados.md", path: "/dados/dados.md" }} />
       </main>
       <Footer />
     </>

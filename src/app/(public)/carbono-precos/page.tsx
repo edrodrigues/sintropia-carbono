@@ -153,7 +153,7 @@ export default function CarbonoPrecos() {
                     <LastUpdated dataFile="carbono-precos" />
                 </div>
 
-                <DataSources sources={dataSources} />
+                <DataSources sources={dataSources} downloadFile={{ name: "carbono-precos-2024-2025.md", path: "/dados/carbono-precos-2024-2025.md" }} />
             </main>
             <Footer />
         </>

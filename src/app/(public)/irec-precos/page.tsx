@@ -203,7 +203,7 @@ export default function IRECPrecos() {
                     <LastUpdated dataFile="irec-precos" />
                 </div>
 
-                <DataSources sources={dataSources} />
+                <DataSources sources={dataSources} downloadFile={{ name: "irec-precos-2024-2025.md", path: "/dados/irec-precos-2024-2025.md" }} />
             </main>
             <Footer />
         </>

@@ -120,7 +120,7 @@ export default function IrecMundo() {
                     <LastUpdated dataFile="irec-mundo" />
                 </div>
 
-                <DataSources sources={dataSources} />
+                <DataSources sources={dataSources} downloadFile={{ name: "dados.md", path: "/dados/dados.md" }} />
             </main>
             <Footer />
         </>

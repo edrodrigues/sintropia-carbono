@@ -254,7 +254,7 @@ export default function Certificadoras() {
           <LastUpdated dataFile="certificadoras" />
         </div>
 
-        <DataSources sources={dataSources} />
+        <DataSources sources={dataSources} downloadFile={{ name: "dados.md", path: "/dados/dados.md" }} />
       </main>
       <Footer />
     </>

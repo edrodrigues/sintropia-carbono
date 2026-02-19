@@ -115,7 +115,7 @@ export default function CarbonoMundo() {
                     <LastUpdated dataFile="carbono-mundo" />
                 </div>
 
-                <DataSources sources={dataSources} />
+                <DataSources sources={dataSources} downloadFile={{ name: "dados.md", path: "/dados/dados.md" }} />
             </main>
             <Footer />
         </>
