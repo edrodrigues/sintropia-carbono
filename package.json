@@ -9,24 +9,25 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@orth/cli": "^0.2.5",
     "@prisma/client": "^7.4.0",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.95.3",
     "chart.js": "^4.5.1",
-    "next": "15.3.8",
+    "next": "^15.5.12",
     "react": "19.2.3",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "19.2.3"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/eslintrc": "^0.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "15.3.8",
+    "eslint": "^10.0.0",
+    "eslint-config-next": "^16.1.6",
     "prisma": "^6.19.2",
     "tailwindcss": "^4",
     "typescript": "^5"

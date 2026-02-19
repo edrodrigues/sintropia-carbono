@@ -1,0 +1,85 @@
+﻿
+Discoverable Skills (69 total):
+
+find-skill Ô£ô [orthogonal-sh/skills] (26 installs)
+  Find and install skills from the Orthogonal skill library. Use when you need capabilities you don't ...
+  Slug: orthogonal/find-skill
+
+send-text-message Ô£ô [orthogonal-sh/skills] (16 installs)
+  Send SMS text messages to phone numbers. Use when the user asks to send a text, send an SMS, text so...
+  Slug: orthogonal/send-text-message
+
+company-funding-search Ô£ô [orthogonal-sh/skills] (13 installs)
+  Find company funding history, investors, and investment details
+  Slug: orthogonal/company-funding-search
+
+web-scraper Ô£ô [orthogonal-sh/skills] (11 installs)
+  Scrape any website - extract structured data, crawl pages, convert to markdown
+  Slug: orthogonal/web-scraper
+
+lead-enrichment Ô£ô [orthogonal-sh/skills] (9 installs)
+  Enrich leads with email, phone, company data using multiple data sources
+  Slug: orthogonal/lead-enrichment
+
+linkedin-scraper Ô£ô [orthogonal-sh/skills] (9 installs)
+  Get LinkedIn profiles, company pages, posts, and employee data
+  Slug: orthogonal/linkedin-scraper
+
+person-lookup Ô£ô [orthogonal-sh/skills] (9 installs)
+  Look up information about a person - work history, social profiles, contact info
+  Slug: orthogonal/person-lookup
+
+restaurant-booking Ô£ô [orthogonal-sh/skills] (9 installs)
+  Book restaurant reservations via browser automation. Use when asked to make dinner reservations, boo...
+  Slug: orthogonal/restaurant-booking
+
+phone-verification Ô£ô [orthogonal-sh/skills] (8 installs)
+  Verify phone numbers using SMS one-time codes via the Didit API. Use when you need to confirm a user...
+  Slug: orthogonal/phone-verification
+
+investor-research Ô£ô [orthogonal-sh/skills] (8 installs)
+  Research VCs, angels, and investors - portfolio, thesis, contact info
+  Slug: orthogonal/investor-research
+
+find-email-by-name Ô£ô [orthogonal-sh/skills] (8 installs)
+  Find someone's email address given their name and company
+  Slug: orthogonal/find-email-by-name
+
+company-intel Ô£ô [orthogonal-sh/skills] (7 installs)
+  Full company intelligence report - overview, team, funding, products, news
+  Slug: orthogonal/company-intel
+
+verify-email Ô£ô [orthogonal-sh/skills] (7 installs)
+  Verify if an email address is valid and deliverable
+  Slug: orthogonal/verify-email
+
+social-listening Ô£ô [orthogonal-sh/skills] (7 installs)
+  Monitor brand mentions, competitor activity, and industry conversations across social media and the ...
+  Slug: orthogonal/social-listening
+
+amazon-search Ô£ô [orthogonal-sh/skills] (6 installs)
+  Search Amazon products - find items, compare prices, read reviews
+  Slug: orthogonal/amazon-search
+
+get-brand-assets Ô£ô [orthogonal-sh/skills] (6 installs)
+  Get company logos, brand colors, fonts, and style guides
+  Slug: orthogonal/get-brand-assets
+
+searchapi Ô£ô [orthogonal-sh/skills] (6 installs)
+  Multi-platform search - YouTube, Amazon, eBay, Walmart, TikTok, Instagram, and more
+  Slug: orthogonal/searchapi
+
+scrape Ô£ô [orthogonal-sh/skills] (5 installs)
+  Scrape websites, extract structured data, and automate browsers. Use when asked to scrape, extract, ...
+  Slug: orthogonal/scrape
+
+sixtyfour Ô£ô [orthogonal-sh/skills] (5 installs)
+  AI-powered lead enrichment - find emails, phones, and enrich company/lead data
+  Slug: orthogonal/sixtyfour
+
+search Ô£ô [orthogonal-sh/skills] (5 installs)
+  Search the web, platforms, and datasets. Use when asked to search, find, look up, research, or disco...
+  Slug: orthogonal/search
+
+Run 'orth skills show <slug>' to see skill details
+Run 'orth skills add <slug>' to add a skill locally

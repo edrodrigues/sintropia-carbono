@@ -63,212 +63,1056 @@
       "site": "trackingstandard.org",
       "regiao": "Países Baixos (Global)",
       "metodologia": "Book-and-Claim (I-TRACK Foundation)",
-      "volume": "283 TWh emitidos em 2023; 227 milhões nos primeiros 7 meses de 2025",
-      "atributos": "Padrão global para mercados voluntários; adotado em mais de 50 países; alta transparência"
+      "volume": "283 TWh emitidos em 2023; 227 milhões nos primeiros 7 meses de 2025. 1",
+      "atributos": "Padrão global para mercados voluntários; adotado em mais de 50 países; alta transparência. 2"
     },
     {
       "nome": "Guarantees of Origin (GO)",
       "site": "aib-net.org",
       "regiao": "União Europeia (AIB)",
       "metodologia": "European Energy Certificate System (EECS)",
-      "volume": "1.084 TWh emitidos em 2024; Total rastreado de 1.670 TWh",
-      "atributos": "Instrumento regulado pela UE; obrigatório para divulgação do mix energético dos fornecedores"
+      "volume": "1.084 TWh emitidos em 2024; Total rastreado de 1.670 TWh. 3",
+      "atributos": "Instrumento regulado pela UE; obrigatório para divulgação do mix energético dos fornecedores. 4"
     },
     {
       "nome": "Green-e Energy",
       "site": "green-e.org",
       "regiao": "EUA e Canadá",
       "metodologia": "Certificação de Varejo e Auditoria de Transação",
-      "volume": "110 milhões de MWh em 2021; Aumento de 14% nas vendas em 2024",
-      "atributos": "Foco em proteção ao consumidor e critérios rigorosos de adicionalidade para novos projetos"
+      "volume": "110 milhões de MWh em 2021; Aumento de 14% nas vendas em 2024. 5",
+      "atributos": "Foco em proteção ao consumidor e critérios rigorosos de adicionalidade para novos projetos. 6"
     },
     {
       "nome": "TIGR (Tradable Instrument for Global Renewables)",
       "site": "apx.com",
       "regiao": "Estados Unidos (Global)",
       "metodologia": "Registro Digital (APX/Xpansiv)",
-      "volume": "Representa ~2% do volume internacional; Liderança na Indonésia",
-      "atributos": "Plataforma tecnológica integrada; forte em mercados do sudeste asiático e América Central"
+      "volume": "Representa ~2% do volume internacional; Liderança na Indonésia. 7",
+      "atributos": "Plataforma tecnológica integrada; forte em mercados do sudeste asiático e América Central. 8"
     },
     {
       "nome": "REC Brazil",
       "site": "irec-brazil.org",
       "regiao": "Brasil",
       "metodologia": "I-REC + Adicionalidade Social e Ambiental (SDGs)",
-      "volume": "Crescimento de 73% nas emissões I-REC no Brasil em 2023",
-      "atributos": "Chancela brasileira gerida pelo Instituto Totum; exige alinhamento com 5 dos 17 ODS da ONU"
+      "volume": "Crescimento de 73% nas emissões I-REC no Brasil em 2023. 9",
+      "atributos": "Chancela brasileira gerida pelo Instituto Totum; exige alinhamento com 5 dos 17 ODS da ONU. 10"
     },
     {
       "nome": "LGC (Large-scale Generation Certificates)",
       "site": "cer.gov.au",
       "regiao": "Austrália",
       "metodologia": "Large-scale Renewable Energy Target (LRET)",
-      "volume": "51,5 milhões de certificados em 2024; 82,5 TWh incentivados",
-      "atributos": "Sistema de conformidade legal com transição para rastreamento horário (REGO) em 2025"
+      "volume": "51,5 milhões de certificados em 2024; 82,5 TWh incentivados. 11",
+      "atributos": "Sistema de conformidade legal com transição para rastreamento horário (REGO) em 2025. 12"
     },
     {
       "nome": "Non-Fossil Certificates (NFC)",
       "site": "jepx.org",
       "regiao": "Japão",
       "metodologia": "Non-Fossil Value Trading Market (JEPX)",
-      "volume": "143,8 bilhões de kWh em certificados FIT contratados em 2024",
-      "atributos": "Segmentado entre fontes FIT e não-FIT; inclui nuclear como fonte não-fóssil"
+      "volume": "143,8 bilhões de kWh em certificados FIT contratados em 2024. 13",
+      "atributos": "Segmentado entre fontes FIT e não-FIT; inclui nuclear como fonte não-fóssil. 14"
     },
     {
       "nome": "UK REGO",
       "site": "ofgem.gov.uk",
       "regiao": "Reino Unido",
       "metodologia": "Fuel Mix Disclosure (Ofgem)",
-      "volume": "Emissões retroativas; Mercado atingiu £25/MWh em 2023 antes da correção",
-      "atributos": "Específico para o mercado britânico; essencial para conformidade com o reporte de emissões do governo"
+      "volume": "Emissões retroativas; Mercado atingiu £25/MWh em 2023 antes da correção. 15",
+      "atributos": "Específico para o mercado britânico; essencial para conformidade com o reporte de emissões do governo. 16"
     },
     {
       "nome": "EKOenergy",
       "site": "ekoenergy.org",
       "regiao": "Finlândia (Global)",
       "metodologia": "Selo de Qualidade e Critérios de Biodiversidade",
-      "volume": "Screened >3.000 instalações em 2024; Contribuição ao Fundo Climático",
-      "atributos": "Ecolabel independente; exige sustentabilidade além da fonte (impacto em aves, peixes e ecossistemas)"
+      "volume": "Screened >3.000 instalações em 2024; Contribuição ao Fundo Climático. 17",
+      "atributos": "Ecolabel independente; exige sustentabilidade além da fonte (impacto em aves, peixes e ecossistemas). 18"
     },
     {
       "nome": "Gold Standard Renewable Energy Label",
       "site": "goldstandard.org",
       "regiao": "Suíça (Global)",
       "metodologia": "GS4GG (Global Goals for Sustainable Development)",
-      "volume": "Aplicado sobre RECs para garantir integridade ambiental",
-      "atributos": "Foco em alta qualidade e benefícios sociais diretos; exige consulta pública a stakeholders"
+      "volume": "Aplicado sobre RECs para garantir integridade ambiental. 19",
+      "atributos": "Foco em alta qualidade e benefícios sociais diretos; exige consulta pública a stakeholders. 20"
     }
   ],
   "carbonoBrasil": [
-    { "rank": 1, "empresa": "Banco Votorantim (BV)", "setor": "Financeiro", "setorClass": "badge-fin", "vol2024": 3800000, "vol2025": 5200000, "delta": 26.92 },
-    { "rank": 2, "empresa": "Petrobras", "setor": "Energia", "setorClass": "badge-energia", "vol2024": 680000, "vol2025": 750000, "delta": 9.33 },
-    { "rank": 3, "empresa": "Suzano", "setor": "Celulose", "setorClass": "badge-celulose", "vol2024": 420000, "vol2025": 580000, "delta": 27.59 },
-    { "rank": 4, "empresa": "Vale", "setor": "Mineração", "setorClass": "badge-mineração", "vol2024": 380000, "vol2025": 450000, "delta": 15.56 },
-    { "rank": 5, "empresa": "Itaú Unibanco", "setor": "Financeiro", "setorClass": "badge-fin", "vol2024": 310000, "vol2025": 390000, "delta": 20.51 },
-    { "rank": 6, "empresa": "Bradesco", "setor": "Financeiro", "setorClass": "badge-fin", "vol2024": 290000, "vol2025": 360000, "delta": 19.44 },
-    { "rank": 7, "empresa": "Klabin", "setor": "Celulose", "setorClass": "badge-celulose", "vol2024": 250000, "vol2025": 320000, "delta": 21.88 },
-    { "rank": 8, "empresa": "Natura &Co", "setor": "Cosméticos", "setorClass": "badge-cosméticos", "vol2024": 230000, "vol2025": 290000, "delta": 20.69 },
-    { "rank": 9, "empresa": "Banco do Brasil", "setor": "Financeiro", "setorClass": "badge-fin", "vol2024": 210000, "vol2025": 270000, "delta": 22.22 },
-    { "rank": 10, "empresa": "Gerdau", "setor": "Siderurgia", "setorClass": "badge-siderurgia", "vol2024": 195000, "vol2025": 250000, "delta": 22.00 },
-    { "rank": 11, "empresa": "Lojas Renner", "setor": "Varejo", "setorClass": "badge-varejo", "vol2024": 180000, "vol2025": 240000, "delta": 25.00 },
-    { "rank": 12, "empresa": "GOL Linhas Aéreas", "setor": "Aviação", "setorClass": "badge-aviação", "vol2024": 175000, "vol2025": 230000, "delta": 23.91 },
-    { "rank": 13, "empresa": "Azul Linhas Aéreas", "setor": "Aviação", "setorClass": "badge-aviação", "vol2024": 165000, "vol2025": 215000, "delta": 23.26 },
-    { "rank": 14, "empresa": "Ambev", "setor": "Bebidas", "setorClass": "badge-bebidas", "vol2024": 150000, "vol2025": 195000, "delta": 23.08 },
-    { "rank": 15, "empresa": "JBS", "setor": "Proteína Animal", "setorClass": "badge-proteína", "vol2024": 140000, "vol2025": 180000, "delta": 22.22 },
-    { "rank": 16, "empresa": "Raízen", "setor": "Energia", "setorClass": "badge-energia", "vol2024": 135000, "vol2025": 170000, "delta": 20.59 },
-    { "rank": 17, "empresa": "Cosan", "setor": "Energia", "setorClass": "badge-energia", "vol2024": 120000, "vol2025": 155000, "delta": 22.58 },
-    { "rank": 18, "empresa": "Cielo", "setor": "Serviços Fin.", "setorClass": "badge-serv-fin", "vol2024": 115000, "vol2025": 150000, "delta": 23.33 },
-    { "rank": 19, "empresa": "Marfrig", "setor": "Proteína Animal", "setorClass": "badge-proteína", "vol2024": 105000, "vol2025": 140000, "delta": 25.00 },
-    { "rank": 20, "empresa": "Localiza", "setor": "Logística", "setorClass": "badge-logística", "vol2024": 95000, "vol2025": 130000, "delta": 26.92 },
-    { "rank": 21, "empresa": "Rede D'Or São Luiz", "setor": "Saúde", "setorClass": "badge-saúde", "vol2024": 90000, "vol2025": 125000, "delta": 28.00 },
-    { "rank": 22, "empresa": "Neoenergia", "setor": "Energia", "setorClass": "badge-energia", "vol2024": 85000, "vol2025": 115000, "delta": 26.09 },
-    { "rank": 23, "empresa": "Cemig", "setor": "Energia", "setorClass": "badge-energia", "vol2024": 80000, "vol2025": 110000, "delta": 27.27 },
-    { "rank": 24, "empresa": "TIM Brasil", "setor": "Telecom", "setorClass": "badge-telecom", "vol2024": 75000, "vol2025": 105000, "delta": 28.57 },
-    { "rank": 25, "empresa": "3tentos", "setor": "Agronegócio", "setorClass": "badge-agro", "vol2024": 70000, "vol2025": 100000, "delta": 30.00 }
+    {
+      "rank": 1,
+      "empresa": "Banco Votorantim (BV)",
+      "setor": "Financeiro",
+      "setorClass": "badge-fin",
+      "vol2024": 3800000,
+      "vol2025": 5200000,
+      "delta": 36.84
+    },
+    {
+      "rank": 2,
+      "empresa": "Petrobras",
+      "setor": "Energia",
+      "setorClass": "badge-energia",
+      "vol2024": 680000,
+      "vol2025": 750000,
+      "delta": 10.29
+    },
+    {
+      "rank": 3,
+      "empresa": "Suzano",
+      "setor": "Celulose",
+      "setorClass": "badge-celulose",
+      "vol2024": 420000,
+      "vol2025": 580000,
+      "delta": 38.10
+    },
+    {
+      "rank": 4,
+      "empresa": "Vale",
+      "setor": "Mineração",
+      "setorClass": "badge-mineração",
+      "vol2024": 380000,
+      "vol2025": 450000,
+      "delta": 18.42
+    },
+    {
+      "rank": 5,
+      "empresa": "Itaú Unibanco",
+      "setor": "Financeiro",
+      "setorClass": "badge-fin",
+      "vol2024": 310000,
+      "vol2025": 390000,
+      "delta": 25.81
+    },
+    {
+      "rank": 6,
+      "empresa": "Bradesco",
+      "setor": "Financeiro",
+      "setorClass": "badge-fin",
+      "vol2024": 290000,
+      "vol2025": 360000,
+      "delta": 24.14
+    },
+    {
+      "rank": 7,
+      "empresa": "Klabin",
+      "setor": "Celulose",
+      "setorClass": "badge-celulose",
+      "vol2024": 250000,
+      "vol2025": 320000,
+      "delta": 28.00
+    },
+    {
+      "rank": 8,
+      "empresa": "Natura &Co",
+      "setor": "Cosméticos",
+      "setorClass": "badge-cosméticos",
+      "vol2024": 230000,
+      "vol2025": 290000,
+      "delta": 26.09
+    },
+    {
+      "rank": 9,
+      "empresa": "Banco do Brasil",
+      "setor": "Financeiro",
+      "setorClass": "badge-fin",
+      "vol2024": 210000,
+      "vol2025": 270000,
+      "delta": 28.57
+    },
+    {
+      "rank": 10,
+      "empresa": "Gerdau",
+      "setor": "Siderurgia",
+      "setorClass": "badge-siderurgia",
+      "vol2024": 195000,
+      "vol2025": 250000,
+      "delta": 28.21
+    },
+    {
+      "rank": 11,
+      "empresa": "Lojas Renner",
+      "setor": "Varejo",
+      "setorClass": "badge-varejo",
+      "vol2024": 180000,
+      "vol2025": 240000,
+      "delta": 33.33
+    },
+    {
+      "rank": 12,
+      "empresa": "GOL Linhas Aéreas",
+      "setor": "Aviação",
+      "setorClass": "badge-aviação",
+      "vol2024": 175000,
+      "vol2025": 230000,
+      "delta": 31.43
+    },
+    {
+      "rank": 13,
+      "empresa": "Azul Linhas Aéreas",
+      "setor": "Aviação",
+      "setorClass": "badge-aviação",
+      "vol2024": 165000,
+      "vol2025": 215000,
+      "delta": 30.30
+    },
+    {
+      "rank": 14,
+      "empresa": "Ambev",
+      "setor": "Bebidas",
+      "setorClass": "badge-bebidas",
+      "vol2024": 150000,
+      "vol2025": 195000,
+      "delta": 30.00
+    },
+    {
+      "rank": 15,
+      "empresa": "JBS",
+      "setor": "Proteína Animal",
+      "setorClass": "badge-proteína",
+      "vol2024": 140000,
+      "vol2025": 180000,
+      "delta": 28.57
+    },
+    {
+      "rank": 16,
+      "empresa": "Raízen",
+      "setor": "Energia/Agro",
+      "setorClass": "badge-energia",
+      "vol2024": 135000,
+      "vol2025": 170000,
+      "delta": 25.93
+    },
+    {
+      "rank": 17,
+      "empresa": "Cosan",
+      "setor": "Energia/Agro",
+      "setorClass": "badge-energia",
+      "vol2024": 120000,
+      "vol2025": 155000,
+      "delta": 29.17
+    },
+    {
+      "rank": 18,
+      "empresa": "Cielo",
+      "setor": "Serviços Fin.",
+      "setorClass": "badge-serv-fin",
+      "vol2024": 115000,
+      "vol2025": 150000,
+      "delta": 30.43
+    },
+    {
+      "rank": 19,
+      "empresa": "Marfrig",
+      "setor": "Proteína Animal",
+      "setorClass": "badge-proteína",
+      "vol2024": 105000,
+      "vol2025": 140000,
+      "delta": 33.33
+    },
+    {
+      "rank": 20,
+      "empresa": "Localiza",
+      "setor": "Logística",
+      "setorClass": "badge-logística",
+      "vol2024": 95000,
+      "vol2025": 130000,
+      "delta": 36.84
+    },
+    {
+      "rank": 21,
+      "empresa": "Rede D'Or São Luiz",
+      "setor": "Saúde",
+      "setorClass": "badge-saúde",
+      "vol2024": 90000,
+      "vol2025": 125000,
+      "delta": 38.89
+    },
+    {
+      "rank": 22,
+      "empresa": "Neoenergia",
+      "setor": "Energia",
+      "setorClass": "badge-energia",
+      "vol2024": 85000,
+      "vol2025": 115000,
+      "delta": 35.29
+    },
+    {
+      "rank": 23,
+      "empresa": "Cemig",
+      "setor": "Energia",
+      "setorClass": "badge-energia",
+      "vol2024": 80000,
+      "vol2025": 110000,
+      "delta": 37.50
+    },
+    {
+      "rank": 24,
+      "empresa": "TIM Brasil",
+      "setor": "Telecom",
+      "setorClass": "badge-telecom",
+      "vol2024": 75000,
+      "vol2025": 105000,
+      "delta": 40.00
+    },
+    {
+      "rank": 25,
+      "empresa": "3tentos",
+      "setor": "Agronegócio",
+      "setorClass": "badge-agro",
+      "vol2024": 70000,
+      "vol2025": 100000,
+      "delta": 42.86
+    }
   ],
   "irecBrasil": [
-    { "rank": 1, "empresa": "Eletrobras", "papel": "Vendedor", "vol2024": 9200000, "vol2025": 14500000, "delta": 36.55 },
-    { "rank": 2, "empresa": "Vale", "papel": "Comprador", "vol2024": 4200000, "vol2025": 5500000, "delta": 23.64 },
-    { "rank": 3, "empresa": "Neoenergia", "papel": "Ambos", "vol2024": 3200000, "vol2025": 4800000, "delta": 33.33 },
-    { "rank": 4, "empresa": "Gerdau", "papel": "Comprador", "vol2024": 3200000, "vol2025": 4150000, "delta": 22.89 },
-    { "rank": 5, "empresa": "Petrobras", "papel": "Ambos", "vol2024": 2800000, "vol2025": 3650000, "delta": 23.29 },
-    { "rank": 6, "empresa": "JBS", "papel": "Comprador", "vol2024": 2400000, "vol2025": 3100000, "delta": 22.58 },
-    { "rank": 7, "empresa": "Braskem", "papel": "Comprador", "vol2024": 2100000, "vol2025": 2750000, "delta": 23.64 },
-    { "rank": 8, "empresa": "Voltalia Brasil", "papel": "Vendedor", "vol2024": 1100000, "vol2025": 2500000, "delta": 56.00 },
-    { "rank": 9, "empresa": "Raízen", "papel": "Ambos", "vol2024": 1800000, "vol2025": 2400000, "delta": 25.00 },
-    { "rank": 10, "empresa": "Suzano", "papel": "Ambos", "vol2024": 1550000, "vol2025": 2050000, "delta": 24.39 },
-    { "rank": 11, "empresa": "Ambev", "papel": "Ambos", "vol2024": 1250000, "vol2025": 1630000, "delta": 23.31 },
-    { "rank": 12, "empresa": "CGN Brasil Energia", "papel": "Vendedor", "vol2024": 950000, "vol2025": 1300000, "delta": 26.92 },
-    { "rank": 13, "empresa": "Itaú Unibanco", "papel": "Comprador", "vol2024": 620000, "vol2025": 810000, "delta": 23.46 },
-    { "rank": 14, "empresa": "Bradesco", "papel": "Comprador", "vol2024": 550000, "vol2025": 720000, "delta": 23.61 },
-    { "rank": 15, "empresa": "Banco do Brasil", "papel": "Comprador", "vol2024": 520000, "vol2025": 680000, "delta": 23.53 },
-    { "rank": 16, "empresa": "Santander Brasil", "papel": "Comprador", "vol2024": 480000, "vol2025": 625000, "delta": 23.20 },
-    { "rank": 17, "empresa": "Natura &Co", "papel": "Comprador", "vol2024": 410000, "vol2025": 535000, "delta": 23.36 },
-    { "rank": 18, "empresa": "Magazine Luiza", "papel": "Comprador", "vol2024": 280000, "vol2025": 365000, "delta": 23.29 },
-    { "rank": 19, "empresa": "Embraer", "papel": "Comprador", "vol2024": 260000, "vol2025": 340000, "delta": 23.53 },
-    { "rank": 20, "empresa": "Lojas Renner", "papel": "Comprador", "vol2024": 195000, "vol2025": 255000, "delta": 23.53 },
-    { "rank": 21, "empresa": "Leroy Merlin Brasil", "papel": "Comprador", "vol2024": 145000, "vol2025": 190000, "delta": 23.68 },
-    { "rank": 22, "empresa": "Decathlon Brasil", "papel": "Comprador", "vol2024": 75000, "vol2025": 98000, "delta": 23.47 },
-    { "rank": 23, "empresa": "Cielo", "papel": "Comprador", "vol2024": 45000, "vol2025": 58000, "delta": 22.41 },
-    { "rank": 24, "empresa": "Hospital de Clínicas de Porto Alegre", "papel": "Comprador", "vol2024": 32824, "vol2025": 35000, "delta": 6.22 },
-    { "rank": 25, "empresa": "SAP Brasil", "papel": "Comprador", "vol2024": 22000, "vol2025": 28500, "delta": 22.81 }
+    {
+      "rank": 1,
+      "empresa": "Eletrobras",
+      "papel": "Vendedor",
+      "vol2024": 9200000,
+      "vol2025": 14500000,
+      "delta": 57.61
+    },
+    {
+      "rank": 2,
+      "empresa": "Vale",
+      "papel": "Comprador",
+      "vol2024": 4200000,
+      "vol2025": 5500000,
+      "delta": 30.95
+    },
+    {
+      "rank": 3,
+      "empresa": "Neoenergia",
+      "papel": "Ambos",
+      "vol2024": 3200000,
+      "vol2025": 4800000,
+      "delta": 50.00
+    },
+    {
+      "rank": 4,
+      "empresa": "Gerdau",
+      "papel": "Comprador",
+      "vol2024": 3200000,
+      "vol2025": 4150000,
+      "delta": 29.69
+    },
+    {
+      "rank": 5,
+      "empresa": "Petrobras",
+      "papel": "Ambos",
+      "vol2024": 2800000,
+      "vol2025": 3650000,
+      "delta": 30.36
+    },
+    {
+      "rank": 6,
+      "empresa": "JBS",
+      "papel": "Comprador",
+      "vol2024": 2400000,
+      "vol2025": 3100000,
+      "delta": 29.17
+    },
+    {
+      "rank": 7,
+      "empresa": "Braskem",
+      "papel": "Comprador",
+      "vol2024": 2100000,
+      "vol2025": 2750000,
+      "delta": 30.95
+    },
+    {
+      "rank": 8,
+      "empresa": "Voltalia Brasil",
+      "papel": "Vendedor",
+      "vol2024": 1100000,
+      "vol2025": 2500000,
+      "delta": 127.27
+    },
+    {
+      "rank": 9,
+      "empresa": "Raízen",
+      "papel": "Ambos",
+      "vol2024": 1800000,
+      "vol2025": 2400000,
+      "delta": 33.33
+    },
+    {
+      "rank": 10,
+      "empresa": "Suzano",
+      "papel": "Ambos",
+      "vol2024": 1550000,
+      "vol2025": 2050000,
+      "delta": 32.26
+    },
+    {
+      "rank": 11,
+      "empresa": "Ambev",
+      "papel": "Ambos",
+      "vol2024": 1250000,
+      "vol2025": 1630000,
+      "delta": 30.40
+    },
+    {
+      "rank": 12,
+      "empresa": "CGN Brasil Energia",
+      "papel": "Vendedor",
+      "vol2024": 950000,
+      "vol2025": 1300000,
+      "delta": 36.84
+    },
+    {
+      "rank": 13,
+      "empresa": "Itaú Unibanco",
+      "papel": "Comprador",
+      "vol2024": 620000,
+      "vol2025": 810000,
+      "delta": 30.65
+    },
+    {
+      "rank": 14,
+      "empresa": "Bradesco",
+      "papel": "Comprador",
+      "vol2024": 550000,
+      "vol2025": 720000,
+      "delta": 30.91
+    },
+    {
+      "rank": 15,
+      "empresa": "Banco do Brasil",
+      "papel": "Comprador",
+      "vol2024": 520000,
+      "vol2025": 680000,
+      "delta": 30.77
+    },
+    {
+      "rank": 16,
+      "empresa": "Santander Brasil",
+      "papel": "Comprador",
+      "vol2024": 480000,
+      "vol2025": 625000,
+      "delta": 30.21
+    },
+    {
+      "rank": 17,
+      "empresa": "Natura &Co",
+      "papel": "Comprador",
+      "vol2024": 410000,
+      "vol2025": 535000,
+      "delta": 30.49
+    },
+    {
+      "rank": 18,
+      "empresa": "Magazine Luiza",
+      "papel": "Comprador",
+      "vol2024": 280000,
+      "vol2025": 365000,
+      "delta": 30.36
+    },
+    {
+      "rank": 19,
+      "empresa": "Embraer",
+      "papel": "Comprador",
+      "vol2024": 260000,
+      "vol2025": 340000,
+      "delta": 30.77
+    },
+    {
+      "rank": 20,
+      "empresa": "Lojas Renner",
+      "papel": "Comprador",
+      "vol2024": 195000,
+      "vol2025": 255000,
+      "delta": 30.77
+    },
+    {
+      "rank": 21,
+      "empresa": "Leroy Merlin Brasil",
+      "papel": "Comprador",
+      "vol2024": 145000,
+      "vol2025": 190000,
+      "delta": 31.03
+    },
+    {
+      "rank": 22,
+      "empresa": "Decathlon Brasil",
+      "papel": "Comprador",
+      "vol2024": 75000,
+      "vol2025": 98000,
+      "delta": 30.67
+    },
+    {
+      "rank": 23,
+      "empresa": "Cielo",
+      "papel": "Comprador",
+      "vol2024": 45000,
+      "vol2025": 58000,
+      "delta": 28.89
+    },
+    {
+      "rank": 24,
+      "empresa": "Hospital de Clínicas de Porto Alegre",
+      "papel": "Comprador",
+      "vol2024": 32824,
+      "vol2025": 35000,
+      "delta": 6.63
+    },
+    {
+      "rank": 25,
+      "empresa": "SAP Brasil",
+      "papel": "Comprador",
+      "vol2024": 22000,
+      "vol2025": 28500,
+      "delta": 29.55
+    }
   ],
   "carbonoMundo": [
-    { "rank": 1, "empresa": "Microsoft", "setor": "Tecnologia", "setorClass": "badge-tech", "vol2024": 5500000, "vol2025": 29500000, "delta": 81.36 },
-    { "rank": 2, "empresa": "Shell", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 14500000, "vol2025": 9750000, "delta": -48.72 },
-    { "rank": 3, "empresa": "AtmosClear", "setor": "CDR Tech", "setorClass": "badge-cdr", "vol2024": 320000, "vol2025": 6750000, "delta": 95.26 },
-    { "rank": 4, "empresa": "Eni", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 3580000, "vol2025": 6440000, "delta": 44.41 },
-    { "rank": 5, "empresa": "Banco Votorantim", "setor": "Financeiro", "setorClass": "badge-finance", "vol2024": 3800000, "vol2025": 5200000, "delta": 26.92 },
-    { "rank": 6, "empresa": "Netflix", "setor": "Media/Tech", "setorClass": "badge-media", "vol2024": 820000, "vol2025": 4800000, "delta": 82.92 },
-    { "rank": 7, "empresa": "Stockholm Exergi", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 300000, "vol2025": 3300000, "delta": 90.91 },
-    { "rank": 8, "empresa": "Guacolda Energía", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 1800000, "vol2025": 3100000, "delta": 41.94 },
-    { "rank": 9, "empresa": "Organizacion Terpel", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 1600000, "vol2025": 2400000, "delta": 33.33 },
-    { "rank": 10, "empresa": "CO280", "setor": "CDR Tech", "setorClass": "badge-cdr", "vol2024": 250000, "vol2025": 2000000, "delta": 87.50 },
-    { "rank": 11, "empresa": "Engie", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 2100000, "vol2025": 1900000, "delta": -10.53 },
-    { "rank": 12, "empresa": "Woodside Energy", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 1400000, "vol2025": 1650000, "delta": 15.15 },
-    { "rank": 13, "empresa": "PetroChina", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 1200000, "vol2025": 1450000, "delta": 17.24 },
-    { "rank": 14, "empresa": "Chevron", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 1150000, "vol2025": 1300000, "delta": 11.54 },
-    { "rank": 15, "empresa": "JPMorgan Chase", "setor": "Financeiro", "setorClass": "badge-finance", "vol2024": 950000, "vol2025": 1250000, "delta": 24.00 },
-    { "rank": 16, "empresa": "Google (Alphabet)", "setor": "Tecnologia", "setorClass": "badge-tech", "vol2024": 782472, "vol2025": 1100000, "delta": 28.87 },
-    { "rank": 17, "empresa": "PwC", "setor": "Consultoria", "setorClass": "badge-consult", "vol2024": 650000, "vol2025": 850000, "delta": 23.53 },
-    { "rank": 18, "empresa": "Deloitte", "setor": "Consultoria", "setorClass": "badge-consult", "vol2024": 620000, "vol2025": 810000, "delta": 23.46 },
-    { "rank": 19, "empresa": "Petrobras", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 680000, "vol2025": 750000, "delta": 9.33 },
-    { "rank": 20, "empresa": "Primax Colombia", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 650000, "vol2025": 720000, "delta": 9.72 },
-    { "rank": 21, "empresa": "Goldman Sachs", "setor": "Financeiro", "setorClass": "badge-finance", "vol2024": 480000, "vol2025": 610000, "delta": 21.31 },
-    { "rank": 22, "empresa": "Qantas Airways", "setor": "Aviação", "setorClass": "badge-avia", "vol2024": 450000, "vol2025": 580000, "delta": 22.41 },
-    { "rank": 23, "empresa": "Amazon", "setor": "Tecnologia", "setorClass": "badge-tech", "vol2024": 420000, "vol2025": 550000, "delta": 23.64 },
-    { "rank": 24, "empresa": "Biomax Biocombustibles", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 410000, "vol2025": 480000, "delta": 14.58 },
-    { "rank": 25, "empresa": "Puma Energy", "setor": "Energia", "setorClass": "badge-energy", "vol2024": 390000, "vol2025": 440000, "delta": 11.36 }
+    {
+      "rank": 1,
+      "empresa": "Microsoft",
+      "setor": "Tecnologia",
+      "setorClass": "badge-tech",
+      "vol2024": 5500000,
+      "vol2025": 29500000,
+      "delta": 436.36
+    },
+    {
+      "rank": 2,
+      "empresa": "Shell",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 14500000,
+      "vol2025": 9750000,
+      "delta": -32.76
+    },
+    {
+      "rank": 3,
+      "empresa": "AtmosClear",
+      "setor": "CDR Tech",
+      "setorClass": "badge-cdr",
+      "vol2024": 320000,
+      "vol2025": 6750000,
+      "delta": 2009.38
+    },
+    {
+      "rank": 4,
+      "empresa": "Eni",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 3580000,
+      "vol2025": 6440000,
+      "delta": 79.89
+    },
+    {
+      "rank": 5,
+      "empresa": "Banco Votorantim",
+      "setor": "Financeiro",
+      "setorClass": "badge-finance",
+      "vol2024": 3800000,
+      "vol2025": 5200000,
+      "delta": 36.84
+    },
+    {
+      "rank": 6,
+      "empresa": "Netflix",
+      "setor": "Media/Tech",
+      "setorClass": "badge-media",
+      "vol2024": 820000,
+      "vol2025": 4800000,
+      "delta": 485.37
+    },
+    {
+      "rank": 7,
+      "empresa": "Stockholm Exergi",
+      "setor": "Energia/BECCS",
+      "setorClass": "badge-energy",
+      "vol2024": 300000,
+      "vol2025": 3300000,
+      "delta": 1000.00
+    },
+    {
+      "rank": 8,
+      "empresa": "Guacolda Energía",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 1800000,
+      "vol2025": 3100000,
+      "delta": 72.22
+    },
+    {
+      "rank": 9,
+      "empresa": "Organizacion Terpel",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 1600000,
+      "vol2025": 2400000,
+      "delta": 50.00
+    },
+    {
+      "rank": 10,
+      "empresa": "CO280",
+      "setor": "CDR Tech",
+      "setorClass": "badge-cdr",
+      "vol2024": 250000,
+      "vol2025": 2000000,
+      "delta": 700.00
+    },
+    {
+      "rank": 11,
+      "empresa": "Engie",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 2100000,
+      "vol2025": 1900000,
+      "delta": -9.52
+    },
+    {
+      "rank": 12,
+      "empresa": "Woodside Energy",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 1400000,
+      "vol2025": 1650000,
+      "delta": 17.86
+    },
+    {
+      "rank": 13,
+      "empresa": "PetroChina",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 1200000,
+      "vol2025": 1450000,
+      "delta": 20.83
+    },
+    {
+      "rank": 14,
+      "empresa": "Chevron",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 1150000,
+      "vol2025": 1300000,
+      "delta": 13.04
+    },
+    {
+      "rank": 15,
+      "empresa": "JPMorgan Chase",
+      "setor": "Financeiro",
+      "setorClass": "badge-finance",
+      "vol2024": 950000,
+      "vol2025": 1250000,
+      "delta": 31.58
+    },
+    {
+      "rank": 16,
+      "empresa": "Google (Alphabet)",
+      "setor": "Tecnologia",
+      "setorClass": "badge-tech",
+      "vol2024": 782472,
+      "vol2025": 1100000,
+      "delta": 40.58
+    },
+    {
+      "rank": 17,
+      "empresa": "PwC",
+      "setor": "Consultoria",
+      "setorClass": "badge-consult",
+      "vol2024": 650000,
+      "vol2025": 850000,
+      "delta": 30.77
+    },
+    {
+      "rank": 18,
+      "empresa": "Deloitte",
+      "setor": "Consultoria",
+      "setorClass": "badge-consult",
+      "vol2024": 620000,
+      "vol2025": 810000,
+      "delta": 30.65
+    },
+    {
+      "rank": 19,
+      "empresa": "Petrobras",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 680000,
+      "vol2025": 750000,
+      "delta": 10.29
+    },
+    {
+      "rank": 20,
+      "empresa": "Primax Colombia",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 650000,
+      "vol2025": 720000,
+      "delta": 10.77
+    },
+    {
+      "rank": 21,
+      "empresa": "Goldman Sachs",
+      "setor": "Financeiro",
+      "setorClass": "badge-finance",
+      "vol2024": 480000,
+      "vol2025": 610000,
+      "delta": 27.08
+    },
+    {
+      "rank": 22,
+      "empresa": "Qantas Airways",
+      "setor": "Aviação",
+      "setorClass": "badge-avia",
+      "vol2024": 450000,
+      "vol2025": 580000,
+      "delta": 28.89
+    },
+    {
+      "rank": 23,
+      "empresa": "Amazon",
+      "setor": "Tecnologia",
+      "setorClass": "badge-tech",
+      "vol2024": 420000,
+      "vol2025": 550000,
+      "delta": 30.95
+    },
+    {
+      "rank": 24,
+      "empresa": "Biomax Biocombustibles",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 410000,
+      "vol2025": 480000,
+      "delta": 17.07
+    },
+    {
+      "rank": 25,
+      "empresa": "Puma Energy",
+      "setor": "Energia",
+      "setorClass": "badge-energy",
+      "vol2024": 390000,
+      "vol2025": 440000,
+      "delta": 12.82
+    }
   ],
   "energiaRenovavelMundo": [
-    { "rank": 1, "empresa": "Amazon", "setor": "Tecnologia / E-commerce", "vol2024": 78.4, "vol2025": 91.2, "delta": 16.33 },
-    { "rank": 2, "empresa": "Microsoft", "setor": "Tecnologia / Cloud", "vol2024": 55.2, "vol2025": 68.5, "delta": 24.09 },
-    { "rank": 3, "empresa": "Meta Platforms", "setor": "Tecnologia / Social Media", "vol2024": 42.1, "vol2025": 48.9, "delta": 16.15 },
-    { "rank": 4, "empresa": "Google (Alphabet)", "setor": "Tecnologia / Cloud", "vol2024": 38.6, "vol2025": 45.3, "delta": 17.36 },
-    { "rank": 5, "empresa": "Walmart", "setor": "Varejo e Consumo", "vol2024": 15.8, "vol2025": 18.2, "delta": 15.19 },
-    { "rank": 6, "empresa": "Apple", "setor": "Tecnologia / Hardware", "vol2024": 14.3, "vol2025": 16.5, "delta": 15.38 },
-    { "rank": 7, "empresa": "Samsung Electronics", "setor": "Manufatura / Eletrônicos", "vol2024": 12.1, "vol2025": 14.8, "delta": 22.31 },
-    { "rank": 8, "empresa": "TSMC", "setor": "Semicondutores", "vol2024": 11.5, "vol2025": 13.9, "delta": 20.87 },
-    { "rank": 9, "empresa": "T-Mobile USA", "setor": "Telecomunicações", "vol2024": 9.8, "vol2025": 11.2, "delta": 14.29 },
-    { "rank": 10, "empresa": "Intel Corporation", "setor": "Semicondutores", "vol2024": 9.2, "vol2025": 10.5, "delta": 14.13 },
-    { "rank": 11, "empresa": "Rio Tinto", "setor": "Mineração / Metais", "vol2024": 8.7, "vol2025": 12.4, "delta": 42.53 },
-    { "rank": 12, "empresa": "Target Corporation", "setor": "Varejo", "vol2024": 7.9, "vol2025": 9.1, "delta": 15.19 },
-    { "rank": 13, "empresa": "Nestlé", "setor": "Alimentos e Bebidas", "vol2024": 7.5, "vol2025": 8.6, "delta": 14.67 },
-    { "rank": 14, "empresa": "Starbucks", "setor": "Alimentos e Bebidas", "vol2024": 6.8, "vol2025": 7.4, "delta": 8.82 },
-    { "rank": 15, "empresa": "General Motors", "setor": "Automotivo", "vol2024": 6.2, "vol2025": 7.1, "delta": 14.52 },
-    { "rank": 16, "empresa": "Ford Motor Company", "setor": "Automotivo", "vol2024": 5.9, "vol2025": 6.8, "delta": 15.25 },
-    { "rank": 17, "empresa": "LyondellBasell", "setor": "Química / Materiais", "vol2024": 5.5, "vol2025": 6.3, "delta": 14.55 },
-    { "rank": 18, "empresa": "Bank of America", "setor": "Financeiro", "vol2024": 5.2, "vol2025": 5.8, "delta": 11.54 },
-    { "rank": 19, "empresa": "Anheuser-Busch InBev", "setor": "Alimentos e Bebidas", "vol2024": 4.8, "vol2025": 5.4, "delta": 12.50 },
-    { "rank": 20, "empresa": "IKEA (Ingka Group)", "setor": "Varejo", "vol2024": 4.5, "vol2025": 5.1, "delta": 13.33 },
-    { "rank": 21, "empresa": "Procter & Gamble", "setor": "Bens de Consumo", "vol2024": 4.2, "vol2025": 4.7, "delta": 11.90 },
-    { "rank": 22, "empresa": "PepsiCo", "setor": "Alimentos e Bebidas", "vol2024": 3.9, "vol2025": 4.4, "delta": 12.82 },
-    { "rank": 23, "empresa": "McDonald's", "setor": "Alimentos e Bebidas", "vol2024": 3.6, "vol2025": 4.1, "delta": 13.89 },
-    { "rank": 24, "empresa": "BT Group", "setor": "Telecomunicações", "vol2024": 3.4, "vol2025": 3.8, "delta": 11.76 },
-    { "rank": 25, "empresa": "Bayer", "setor": "Saúde / Agroquímica", "vol2024": 3.1, "vol2025": 3.5, "delta": 12.90 }
+    {
+      "rank": 1,
+      "empresa": "Amazon",
+      "setor": "Tecnologia / E-commerce",
+      "vol2024": 78.4,
+      "vol2025": 91.2,
+      "delta": 16.33
+    },
+    {
+      "rank": 2,
+      "empresa": "Microsoft",
+      "setor": "Tecnologia / Cloud",
+      "vol2024": 55.2,
+      "vol2025": 68.5,
+      "delta": 24.09
+    },
+    {
+      "rank": 3,
+      "empresa": "Meta Platforms",
+      "setor": "Tecnologia / Social Media",
+      "vol2024": 42.1,
+      "vol2025": 48.9,
+      "delta": 16.15
+    },
+    {
+      "rank": 4,
+      "empresa": "Google (Alphabet)",
+      "setor": "Tecnologia / Cloud",
+      "vol2024": 38.6,
+      "vol2025": 45.3,
+      "delta": 17.36
+    },
+    {
+      "rank": 5,
+      "empresa": "Walmart",
+      "setor": "Varejo e Consumo",
+      "vol2024": 15.8,
+      "vol2025": 18.2,
+      "delta": 15.19
+    },
+    {
+      "rank": 6,
+      "empresa": "Apple",
+      "setor": "Tecnologia / Hardware",
+      "vol2024": 14.3,
+      "vol2025": 16.5,
+      "delta": 15.38
+    },
+    {
+      "rank": 7,
+      "empresa": "Samsung Electronics",
+      "setor": "Manufatura / Eletrônicos",
+      "vol2024": 12.1,
+      "vol2025": 14.8,
+      "delta": 22.31
+    },
+    {
+      "rank": 8,
+      "empresa": "TSMC",
+      "setor": "Semicondutores",
+      "vol2024": 11.5,
+      "vol2025": 13.9,
+      "delta": 20.87
+    },
+    {
+      "rank": 9,
+      "empresa": "T-Mobile USA",
+      "setor": "Telecomunicações",
+      "vol2024": 9.8,
+      "vol2025": 11.2,
+      "delta": 14.29
+    },
+    {
+      "rank": 10,
+      "empresa": "Intel Corporation",
+      "setor": "Semicondutores",
+      "vol2024": 9.2,
+      "vol2025": 10.5,
+      "delta": 14.13
+    },
+    {
+      "rank": 11,
+      "empresa": "Rio Tinto",
+      "setor": "Mineração / Metais",
+      "vol2024": 8.7,
+      "vol2025": 12.4,
+      "delta": 42.53
+    },
+    {
+      "rank": 12,
+      "empresa": "Target Corporation",
+      "setor": "Varejo",
+      "vol2024": 7.9,
+      "vol2025": 9.1,
+      "delta": 15.19
+    },
+    {
+      "rank": 13,
+      "empresa": "Nestlé",
+      "setor": "Alimentos e Bebidas",
+      "vol2024": 7.5,
+      "vol2025": 8.6,
+      "delta": 14.67
+    },
+    {
+      "rank": 14,
+      "empresa": "Starbucks",
+      "setor": "Alimentos e Bebidas",
+      "vol2024": 6.8,
+      "vol2025": 7.4,
+      "delta": 8.82
+    },
+    {
+      "rank": 15,
+      "empresa": "General Motors",
+      "setor": "Automotivo",
+      "vol2024": 6.2,
+      "vol2025": 7.1,
+      "delta": 14.52
+    },
+    {
+      "rank": 16,
+      "empresa": "Ford Motor Company",
+      "setor": "Automotivo",
+      "vol2024": 5.9,
+      "vol2025": 6.8,
+      "delta": 15.25
+    },
+    {
+      "rank": 17,
+      "empresa": "LyondellBasell",
+      "setor": "Química / Materiais",
+      "vol2024": 5.5,
+      "vol2025": 6.3,
+      "delta": 14.55
+    },
+    {
+      "rank": 18,
+      "empresa": "Bank of America",
+      "setor": "Financeiro",
+      "setorClass": "badge-fin",
+      "vol2024": 5.2,
+      "vol2025": 5.8,
+      "delta": 11.54
+    },
+    {
+      "rank": 19,
+      "empresa": "Anheuser-Busch InBev",
+      "setor": "Alimentos e Bebidas",
+      "vol2024": 4.8,
+      "vol2025": 5.4,
+      "delta": 12.50
+    },
+    {
+      "rank": 20,
+      "empresa": "IKEA (Ingka Group)",
+      "setor": "Varejo",
+      "vol2024": 4.5,
+      "vol2025": 5.1,
+      "delta": 13.33
+    },
+    {
+      "rank": 21,
+      "empresa": "Procter & Gamble",
+      "setor": "Bens de Consumo",
+      "vol2024": 4.2,
+      "vol2025": 4.7,
+      "delta": 11.90
+    },
+    {
+      "rank": 22,
+      "empresa": "PepsiCo",
+      "setor": "Alimentos e Bebidas",
+      "vol2024": 3.9,
+      "vol2025": 4.4,
+      "delta": 12.82
+    },
+    {
+      "rank": 23,
+      "empresa": "McDonald's",
+      "setor": "Alimentos e Bebidas",
+      "vol2024": 3.6,
+      "vol2025": 4.1,
+      "delta": 13.89
+    },
+    {
+      "rank": 24,
+      "empresa": "BT Group",
+      "setor": "Telecomunicações",
+      "vol2024": 3.4,
+      "vol2025": 3.8,
+      "delta": 11.76
+    },
+    {
+      "rank": 25,
+      "empresa": "Bayer",
+      "setor": "Saúde / Agroquímica",
+      "vol2024": 3.1,
+      "vol2025": 3.5,
+      "delta": 12.90
+    }
   ],
   "precosCarbono": {
-    "atualizacao": "2026-02-15",
-    "fonte": "Sintropia Carbono",
+    "atualizacao": "2026-02-19",
+    "fonte": "Sintropia Carbono / Argus / S&P",
     "precos": [
-      { "padrao": "Verra (VCS)", "preco": 12.50, "moeda": "USD", "unidade": "tCO2e", "data": "2026-02-15" },
-      { "padrao": "Gold Standard", "preco": 18.75, "moeda": "USD", "unidade": "tCO2e", "data": "2026-02-15" },
-      { "padrao": "ACR", "preco": 9.80, "moeda": "USD", "unidade": "tCO2e", "data": "2026-02-15" },
-      { "padrao": "CAR", "preco": 8.50, "moeda": "USD", "unidade": "tCO2e", "data": "2026-02-15" },
-      { "padrao": "GCC", "preco": 6.20, "moeda": "USD", "unidade": "tCO2e", "data": "2026-02-15" },
-      { "padrao": "RenovaBio", "preco": 145.00, "moeda": "BRL", "unidade": "CBIO", "data": "2026-02-15" }
+      {
+        "padrao": "Verra (VCS) - REDD+ Standard",
+        "preco": 9.00,
+        "moeda": "USD",
+        "unidade": "tCO2e",
+        "data": "2026-02-19"
+      },
+      {
+        "padrao": "Verra (VCS) - REDD+ Premium",
+        "preco": 13.50,
+        "moeda": "USD",
+        "unidade": "tCO2e",
+        "data": "2026-02-19"
+      },
+      {
+        "padrao": "Gold Standard",
+        "preco": 16.50,
+        "moeda": "USD",
+        "unidade": "tCO2e",
+        "data": "2026-02-19"
+      },
+      {
+        "padrao": "ARR (Restauração Nativa)",
+        "preco": 17.50,
+        "moeda": "USD",
+        "unidade": "tCO2e",
+        "data": "2026-02-19"
+      },
+      {
+        "padrao": "Mangue / Blue Carbon",
+        "preco": 22.50,
+        "moeda": "USD",
+        "unidade": "tCO2e",
+        "data": "2026-02-19"
+      },
+      {
+        "padrao": "Biochar",
+        "preco": 150.00,
+        "moeda": "USD",
+        "unidade": "tCO2e",
+        "data": "2026-02-19"
+      },
+      {
+        "padrao": "DAC (Direct Air Capture)",
+        "preco": 450.00,
+        "moeda": "USD",
+        "unidade": "tCO2e",
+        "data": "2026-02-19"
+      },
+      {
+        "padrao": "RenovaBio",
+        "preco": 145.00,
+        "moeda": "BRL",
+        "unidade": "CBIO",
+        "data": "2026-02-19"
+      }
     ]
   },
   "precosIrec": {
-    "atualizacao": "2026-02-15",
-    "fonte": "Sintropia Carbono",
+    "atualizacao": "2026-02-19",
+    "fonte": "Sintropia Carbono / I-TRACK / Argus",
     "precos": [
-      { "pais": "Brasil", "preco": 4.50, "moeda": "USD", "unidade": "MWh", "data": "2026-02-15" },
-      { "pais": "EUA", "preco": 8.20, "moeda": "USD", "unidade": "MWh", "data": "2026-02-15" },
-      { "pais": "Europa (GO)", "preco": 12.30, "moeda": "USD", "unidade": "MWh", "data": "2026-02-15" },
-      { "pais": "China (GEC)", "preco": 3.80, "moeda": "USD", "unidade": "MWh", "data": "2026-02-15" },
-      { "pais": "Índia", "preco": 2.50, "moeda": "USD", "unidade": "MWh", "data": "2026-02-15" },
-      { "pais": "Japão (NFC)", "preco": 15.60, "moeda": "USD", "unidade": "MWh", "data": "2026-02-15" }
+      {
+        "pais": "Brasil (Hidro)",
+        "preco": 0.17,
+        "moeda": "USD",
+        "unidade": "MWh",
+        "data": "2026-02-19"
+      },
+      {
+        "pais": "Brasil (Eólica/Solar)",
+        "preco": 0.215,
+        "moeda": "USD",
+        "unidade": "MWh",
+        "data": "2026-02-19"
+      },
+      {
+        "pais": "Chile (Eólica/Solar)",
+        "preco": 2.70,
+        "moeda": "USD",
+        "unidade": "MWh",
+        "data": "2026-02-19"
+      },
+      {
+        "pais": "México (Eólica)",
+        "preco": 4.675,
+        "moeda": "USD",
+        "unidade": "MWh",
+        "data": "2026-02-19"
+      },
+      {
+        "pais": "Índia (Solar)",
+        "preco": 0.825,
+        "moeda": "USD",
+        "unidade": "MWh",
+        "data": "2026-02-19"
+      },
+      {
+        "pais": "Europa (GO - Avg)",
+        "preco": 1.30,
+        "moeda": "USD",
+        "unidade": "MWh",
+        "data": "2026-02-19"
+      },
+      {
+        "pais": "Singapura (Solar)",
+        "preco": 75.00,
+        "moeda": "USD",
+        "unidade": "MWh",
+        "data": "2026-02-19"
+      }
     ]
   }
 }
