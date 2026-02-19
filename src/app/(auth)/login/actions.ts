@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
+import { sendWelcomeEmail } from '@/lib/email';
 
 export async function login(formData: FormData) {
     const supabase = await createClient();
@@ -45,6 +46,9 @@ export async function signup(formData: FormData) {
     if (error) {
         redirect('/register?error=' + encodeURIComponent(error.message));
     }
+
+    // Send welcome email (non-blocking, don't wait)
+    sendWelcomeEmail(email, name || 'Usuario').catch(console.error);
 
     redirect('/login?message=Cadastro realizado! Verifique seu e-mail para confirmar a conta.');
 }
