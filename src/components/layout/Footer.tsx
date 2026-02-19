@@ -147,6 +147,11 @@ export function Footer() {
               Última atualização: Fevereiro 2026
             </p>
           </div>
+          <div className="text-center mt-4">
+            <p className="text-sm text-gray-500 dark:text-gray-500 flex items-center justify-center gap-1">
+              Feito com <span className="text-red-500">❤️</span>  em Recife/Pernambuco
+            </p>
+          </div>
         </div>
       </div>
     </footer>
