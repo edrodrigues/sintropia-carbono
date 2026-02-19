@@ -272,9 +272,9 @@ export function Header() {
                 onMouseEnter={() => setShowCreateTooltip(true)}
                 onMouseLeave={() => setShowCreateTooltip(false)}
               >
-                <button
+                  <button
                   onClick={handleCreatePostClick}
-                  className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-[#1e40af] dark:text-blue-300 text-sm font-bold transition-all hover:bg-blue-100 dark:hover:bg-blue-900/50"
+                  className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-[#1e40af] dark:text-blue-300 text-sm font-bold transition-all hover:bg-blue-100 dark:hover:bg-blue-900/50 cursor-pointer"
                   aria-label="Criar novo Post"
                 >
                   <div className="w-6 h-6 rounded-full bg-[#1e40af] text-white flex items-center justify-center">

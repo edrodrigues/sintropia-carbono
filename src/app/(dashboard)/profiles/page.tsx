@@ -72,9 +72,9 @@ export default async function ProfilesPage() {
                         return (
                             <div
                                 key={profile.id}
-                                className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+                                className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col h-full"
                             >
-                                <Link href={`/u/${profile.username}`} className="block p-6">
+                                <Link href={`/u/${profile.username}`} className="block p-6 flex-1 flex flex-col">
                                     <div className="flex items-start gap-4 mb-4">
                                         <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
                                             {profile.display_name?.substring(0, 2).toUpperCase() || profile.username?.substring(0, 2).toUpperCase() || '??'}
@@ -91,11 +91,15 @@ export default async function ProfilesPage() {
                                         </div>
                                     </div>
 
-                                    {profile.bio && (
-                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                                            {profile.bio}
-                                        </p>
-                                    )}
+                                    <div className="min-h-[3rem] mb-4">
+                                        {profile.bio ? (
+                                            <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                                                {profile.bio}
+                                            </p>
+                                        ) : (
+                                            <div className="h-full"></div>
+                                        )}
+                                    </div>
 
                                     <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
                                         <span className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full">
@@ -106,7 +110,7 @@ export default async function ProfilesPage() {
                                         </span>
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
+                                    <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100 dark:border-gray-700 mt-auto">
                                         <div className="text-center">
                                             <div className="text-lg font-bold text-gray-900 dark:text-white">{posts}</div>
                                             <div className="text-xs text-gray-500">Posts</div>
