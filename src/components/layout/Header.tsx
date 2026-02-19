@@ -268,19 +268,22 @@ export function Header() {
 
               {/* Create Post Button */}
               <div 
-                className="relative h-full flex items-end pb-5 ml-[5px]"
+                className="relative h-full flex items-end pb-5"
                 onMouseEnter={() => setShowCreateTooltip(true)}
                 onMouseLeave={() => setShowCreateTooltip(false)}
               >
                 <button
                   onClick={handleCreatePostClick}
-                  className="w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-xl flex items-center justify-center transition-all shadow-lg hover:shadow-xl"
+                  className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-[#1e40af] dark:text-blue-300 text-sm font-bold transition-all hover:bg-blue-100 dark:hover:bg-blue-900/50"
                   aria-label="Criar novo Post"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M5 12h14"/>
-                    <path d="M12 5v14"/>
-                  </svg>
+                  <div className="w-6 h-6 rounded-full bg-[#1e40af] text-white flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h14"/>
+                      <path d="M12 5v14"/>
+                    </svg>
+                  </div>
+                  <span className="hidden sm:inline">Novo Post</span>
                 </button>
                 
                 {/* Tooltip */}
@@ -298,7 +301,7 @@ export function Header() {
                 <>
                   {user ? (
                     <div
-                      className="relative group"
+                      className="relative group mr-[5px]"
                       onMouseEnter={handleContaMouseEnter}
                       onMouseLeave={handleContaMouseLeave}
                     >
@@ -339,7 +342,7 @@ export function Header() {
                   ) : (
                     <Link
                       href="/login"
-                      className="px-5 py-2.5 rounded-lg bg-[#1e40af] hover:bg-blue-700 text-white text-sm font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95"
+                      className="px-5 py-2.5 rounded-lg bg-[#1e40af] hover:bg-blue-700 text-white text-sm font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95 mr-[5px]"
                     >
                       Entrar
                     </Link>

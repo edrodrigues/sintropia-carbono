@@ -85,7 +85,17 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
             </button>
 
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                <div 
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) {
+                            setIsOpen(false);
+                            setError(null);
+                            setKeywords([]);
+                            setKeywordInput("");
+                        }
+                    }}
+                >
                     <div className="bg-white dark:bg-gray-800 w-full max-w-xl rounded-3xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
                         <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
                             <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Novo Post</h2>
