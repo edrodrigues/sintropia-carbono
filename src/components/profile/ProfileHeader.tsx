@@ -80,7 +80,7 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
           
           {isOwnProfile && (
             <Link
-              href="/profile"
+              href="/profile/edit"
               className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-medium rounded-xl transition-colors"
             >
               Editar Perfil

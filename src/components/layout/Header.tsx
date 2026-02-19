@@ -15,11 +15,22 @@ export function Header() {
   const [isCarbonOpen, setIsCarbonOpen] = useState(false);
   const [isComunidadeOpen, setIsComunidadeOpen] = useState(false);
   const [isContaOpen, setIsContaOpen] = useState(false);
+  const [contaTimer, setContaTimer] = useState<NodeJS.Timeout | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
   const supabase = createClient();
+
+  const handleContaMouseEnter = () => {
+    if (contaTimer) clearTimeout(contaTimer);
+    setIsContaOpen(true);
+  };
+
+  const handleContaMouseLeave = () => {
+    const timer = setTimeout(() => setIsContaOpen(false), 300);
+    setContaTimer(timer);
+  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -48,6 +59,12 @@ export function Header() {
 
     return () => subscription.unsubscribe();
   }, [supabase]);
+
+  useEffect(() => {
+    return () => {
+      if (contaTimer) clearTimeout(contaTimer);
+    };
+  }, [contaTimer]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -247,8 +264,8 @@ export function Header() {
                   {user ? (
                     <div
                       className="relative group"
-                      onMouseEnter={() => setIsContaOpen(true)}
-                      onMouseLeave={() => setIsContaOpen(false)}
+                      onMouseEnter={handleContaMouseEnter}
+                      onMouseLeave={handleContaMouseLeave}
                     >
                       <button className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-[#1e40af] dark:text-blue-300 text-sm font-bold">
                         <div className="w-6 h-6 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-[10px]">
@@ -256,7 +273,11 @@ export function Header() {
                         </div>
                         <span className="hidden sm:inline">Minha Conta</span>
                       </button>
-                      <div className={`absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1 z-50 ${isContaOpen ? 'block' : 'hidden'} transition-all transform origin-top-right`}>
+                      <div 
+                        className={`absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1 z-50 ${isContaOpen ? 'block' : 'hidden'} transition-all transform origin-top-right`}
+                        onMouseEnter={handleContaMouseEnter}
+                        onMouseLeave={handleContaMouseLeave}
+                      >
                         <div className="px-4 py-2 border-b border-gray-50 dark:border-gray-700">
                           <p className="text-[10px] text-gray-400 uppercase font-bold">Logado como</p>
                           <p className="text-xs font-semibold truncate dark:text-gray-200">{user.email}</p>

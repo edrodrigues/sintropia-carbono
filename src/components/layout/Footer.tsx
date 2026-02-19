@@ -16,7 +16,7 @@ export function Footer() {
     { href: "/feed", label: "Posts", icon: "📝" },
     { href: "/profiles", label: "Perfis", icon: "👥" },
     { href: "/leaderboard", label: "Ranking", icon: "🏆" },
-    { href: "/dashboard", label: "Meu Dashboard", icon: "📊" },
+    { href: "/dashboard", label: "Minha Página", icon: "📊" },
   ];
 
   return (

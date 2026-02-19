@@ -1,8 +1,11 @@
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
-import ProfileForm from '@/app/(dashboard)/profile/ProfileForm';
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
+import { ProfileHeader } from "@/components/profile/ProfileHeader";
+import { StatsDashboard } from "@/components/profile/StatsDashboard";
+import { calculateAchievements } from "@/lib/achievements";
+import Link from "next/link";
 
-export default async function ProfilePage() {
+export default async function MyProfilePage() {
   const supabase = await createClient();
 
   const {
@@ -10,56 +13,126 @@ export default async function ProfilePage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login');
+    redirect("/login");
   }
 
   const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
     .single();
 
+  if (!profile) {
+    redirect("/profile");
+  }
+
+  const { data: posts } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("author_id", profile.id)
+    .eq("is_deleted", false)
+    .order("created_at", { ascending: false })
+    .limit(10);
+
+  const { count: postCount } = await supabase
+    .from("posts")
+    .select("id", { count: "exact", head: true })
+    .eq("author_id", profile.id)
+    .eq("is_deleted", false);
+
+  const { count: commentCount } = await supabase
+    .from("comments")
+    .select("id", { count: "exact", head: true })
+    .eq("author_id", profile.id)
+    .eq("is_deleted", false);
+
+  const userPostIds = posts?.map((p) => p.id) || [];
+  const { count: upvotesReceived } = await supabase
+    .from("votes")
+    .select("id", { count: "exact", head: true })
+    .in("target_id", userPostIds.length > 0 ? userPostIds : [""])
+    .eq("vote_type", 1);
+
+  const { count: higherKarmaCount } = await supabase
+    .from("profiles")
+    .select("id", { count: "exact", head: true })
+    .gt("karma", profile.karma || 0);
+
+  const stats = {
+    posts: postCount || 0,
+    comments: commentCount || 0,
+    upvotes: upvotesReceived || 0,
+    ranking: higherKarmaCount !== null ? higherKarmaCount + 1 : 1,
+  };
+
+  const achievements = calculateAchievements(profile, {
+    postCount: postCount || 0,
+    commentCount: commentCount || 0,
+    upvotesReceived: upvotesReceived || 0,
+    hasLinkedIn: !!profile.linkedin_url,
+    createdAt: profile.created_at,
+  });
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <div className="mb-10 text-center">
-        <h2 className="text-4xl font-bold text-[#1e40af] mb-3 dark:text-blue-400">Seu Perfil</h2>
-        <p className="text-gray-600 dark:text-gray-400">Gerencie suas informações pessoais e como elas aparecem na plataforma.</p>
+    <main className="container mx-auto max-w-5xl px-4 py-8">
+      <ProfileHeader
+        profile={profile}
+        achievements={achievements}
+        isOwnProfile={true}
+      />
+
+      <StatsDashboard stats={stats} />
+
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+          Meus Posts
+        </h2>
+        <Link
+          href="/feed"
+          className="text-sm text-[#1e40af] dark:text-blue-400 hover:underline"
+        >
+          Criar novo post →
+        </Link>
       </div>
-
-      <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800">
-        <div className="relative h-32 bg-gradient-to-r from-blue-600 to-indigo-700">
-          <div className="absolute -bottom-12 left-8">
-            <div className="w-24 h-24 rounded-2xl bg-[#1e40af] border-4 border-white dark:border-gray-900 shadow-xl flex items-center justify-center text-4xl text-white font-bold">
-              {profile?.display_name?.substring(0, 1).toUpperCase() || user.email?.substring(0, 1).toUpperCase()}
-            </div>
-          </div>
-        </div>
-
-        <div className="pt-16 pb-12 px-8">
-          <div className="flex flex-wrap items-center justify-between gap-6 mb-8 pb-8 border-b border-gray-100 dark:border-gray-800">
-            <div>
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                {profile?.display_name || profile?.username || 'Usuário'}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {posts && posts.length > 0 ? (
+          posts.map((post) => (
+            <a
+              key={post.id}
+              href="/feed"
+              className="block bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 uppercase">
+                  {post.category}
+                </span>
+                <span className="text-xs text-gray-500">
+                  {new Date(post.created_at).toLocaleDateString("pt-BR")}
+                </span>
+              </div>
+              <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-1">
+                {post.title}
               </h3>
-              <p className="text-gray-500">@{profile?.username}</p>
-            </div>
-            <div className="flex gap-4 text-center">
-              <div className="px-6 py-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-2xl border border-yellow-100 dark:border-yellow-900/30">
-                <p className="text-xs font-bold text-yellow-600 uppercase tracking-widest mb-1">Karma</p>
-                <p className="text-2xl font-black text-yellow-700 dark:text-yellow-500">{profile?.karma || 0}</p>
-              </div>
-              <div className="px-6 py-3 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/30">
-                <p className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Membro desde</p>
-                <p className="text-2xl font-black text-blue-700 dark:text-blue-500">
-                  {new Date(profile?.created_at).getFullYear()}
+              {post.content && (
+                <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-3">
+                  {post.content}
                 </p>
+              )}
+              <div className="flex items-center justify-between text-xs text-gray-500">
+                <span>⬆ {post.karma}</span>
+                <span>💬 {post.comment_count}</span>
               </div>
-            </div>
+            </a>
+          ))
+        ) : (
+          <div className="col-span-full text-center py-8 text-gray-500">
+            Nenhum post ainda.{" "}
+            <Link href="/feed" className="text-[#1e40af] hover:underline">
+              Criar primeiro post
+            </Link>
           </div>
-
-          <ProfileForm profile={profile} email={user.email!} />
-        </div>
+        )}
       </div>
-    </div>
+    </main>
   );
 }
