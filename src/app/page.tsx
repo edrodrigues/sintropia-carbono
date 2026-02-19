@@ -13,14 +13,14 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="text-5xl font-bold text-[#1e40af] mb-6 tracking-tight">
-            Por que existe a Sintropia?
+            Por que Sintropia?
           </h1>
           <p className="text-2xl text-gray-700 dark:text-gray-300 mb-8 font-medium">
             Preços de carbono e energia renovável são difíceis de encontrar.
             Plataformas globais cobram $249/mês. Dados brasileiros são raros.
           </p>
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-            <strong>Sintropia é a primeira plataforma gratuita e open source</strong> que torna o mercado de carbono transparente e acessível.
+            Sintropia é a primeira plataforma gratuita e open source que integra dados e comunidade sobre mercado de carbono e de energias renováveis.
           </p>
         </div>
 
