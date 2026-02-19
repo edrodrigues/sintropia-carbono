@@ -118,6 +118,22 @@ export function Footer() {
                   ✨ Criar Conta
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/privacidade"
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors"
+                >
+                  🔒 Privacidade
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/termos"
+                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors"
+                >
+                  📄 Termos
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
