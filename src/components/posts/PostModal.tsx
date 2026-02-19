@@ -178,10 +178,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
     const handleDelete = async () => {
         setLoading(true);
 
-        const { error: deleteError } = await supabase
-            .from("posts")
-            .update({ is_deleted: true })
-            .eq("id", post.id);
+        const { error: deleteError } = await supabase.rpc("delete_post", { post_id: post.id });
 
         if (deleteError) {
             setError("Erro ao excluir post: " + deleteError.message);
