@@ -16,6 +16,7 @@ export function Header() {
   const [isComunidadeOpen, setIsComunidadeOpen] = useState(false);
   const [isContaOpen, setIsContaOpen] = useState(false);
   const [contaTimer, setContaTimer] = useState<NodeJS.Timeout | null>(null);
+  const [showCreateTooltip, setShowCreateTooltip] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -69,6 +70,14 @@ export function Header() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.refresh();
+  };
+
+  const handleCreatePostClick = () => {
+    if (user) {
+      router.push("/feed?create=true");
+    } else {
+      router.push("/login");
+    }
   };
 
   const isActive = (path: string) => pathname === path;
@@ -255,6 +264,32 @@ export function Header() {
                     <span>👤</span> Meu Perfil
                   </Link>
                 </div>
+              </div>
+
+              {/* Create Post Button */}
+              <div 
+                className="relative h-full flex items-end pb-5 ml-[5px]"
+                onMouseEnter={() => setShowCreateTooltip(true)}
+                onMouseLeave={() => setShowCreateTooltip(false)}
+              >
+                <button
+                  onClick={handleCreatePostClick}
+                  className="w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-xl flex items-center justify-center transition-all shadow-lg hover:shadow-xl"
+                  aria-label="Criar novo Post"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14"/>
+                    <path d="M12 5v14"/>
+                  </svg>
+                </button>
+                
+                {/* Tooltip */}
+                {showCreateTooltip && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-gray-800 text-white text-xs font-medium rounded-lg whitespace-nowrap z-50">
+                    Criar novo Post
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-800 rotate-45"></div>
+                  </div>
+                )}
               </div>
             </nav>
 

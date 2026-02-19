@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { FeedPostCard } from "@/components/posts/FeedPostCard";
 import { CreatePostButton } from "@/components/posts/CreatePostButton";
@@ -15,6 +16,8 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
     const [selectedPost, setSelectedPost] = useState<PostWithRelations | null>(null);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [sortBy, setSortBy] = useState<SortOption>("new");
+    const searchParams = useSearchParams();
+    const shouldOpenCreateModal = searchParams.get("create") === "true";
     const supabase = createClient();
 
     useEffect(() => {
@@ -41,13 +44,13 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
 
         switch (sortBy) {
             case "top":
-                query = query.order("karma", { ascending: false });
+                query = query.order("comment_count", { ascending: false });
                 break;
             case "new":
                 query = query.order("created_at", { ascending: false });
                 break;
             case "best":
-                query = query.order("comment_count", { ascending: false });
+                query = query.order("karma", { ascending: false });
                 break;
         }
 
@@ -106,7 +109,7 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
                 </div>
 
                 <div className="space-y-6">
-                    <CreatePostButton onPostCreated={refreshPosts} />
+                    <CreatePostButton onPostCreated={refreshPosts} initialOpen={shouldOpenCreateModal} />
 
                     <div className="border-t border-gray-200 dark:border-gray-700">
                         {posts && posts.length > 0 ? (
