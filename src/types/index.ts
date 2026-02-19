@@ -24,6 +24,7 @@ export interface Post {
     content: string | null;
     url: string | null;
     category: string;
+    keywords: string[] | null;
     karma: number;
     comment_count: number;
     is_locked: boolean;

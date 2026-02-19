@@ -11,6 +11,8 @@ export function CreatePostButton({ onPostCreated }: { onPostCreated?: () => void
     const [content, setContent] = useState("");
     const [url, setUrl] = useState("");
     const [category, setCategory] = useState("news");
+    const [keywords, setKeywords] = useState<string[]>([]);
+    const [keywordInput, setKeywordInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const supabase = createClient();
@@ -51,6 +53,7 @@ export function CreatePostButton({ onPostCreated }: { onPostCreated?: () => void
             content: sanitizedContent,
             url: sanitizedUrl,
             category,
+            keywords: keywords.length > 0 ? keywords : null,
         });
 
         if (insertError) {
@@ -60,6 +63,8 @@ export function CreatePostButton({ onPostCreated }: { onPostCreated?: () => void
             setTitle("");
             setContent("");
             setUrl("");
+            setKeywords([]);
+            setKeywordInput("");
             setError(null);
             router.refresh();
             onPostCreated?.();
@@ -88,6 +93,8 @@ export function CreatePostButton({ onPostCreated }: { onPostCreated?: () => void
                                 onClick={() => {
                                     setIsOpen(false);
                                     setError(null);
+                                    setKeywords([]);
+                                    setKeywordInput("");
                                 }}
                                 className="text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-full transition-colors"
                             >
@@ -141,6 +148,51 @@ export function CreatePostButton({ onPostCreated }: { onPostCreated?: () => void
                                     <option value="question">Dúvida</option>
                                     <option value="link">Link</option>
                                 </select>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
+                                    Palavras-chave
+                                </label>
+                                <div className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus-within:ring-2 focus-within:ring-blue-500 transition-all">
+                                    <div className="flex flex-wrap gap-2 mb-2">
+                                        {keywords.map((keyword, index) => (
+                                            <span
+                                                key={index}
+                                                className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-lg"
+                                            >
+                                                {keyword}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setKeywords(keywords.filter((_, i) => i !== index))}
+                                                    className="hover:text-blue-900 dark:hover:text-blue-100"
+                                                >
+                                                    ×
+                                                </button>
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <input
+                                        type="text"
+                                        value={keywordInput}
+                                        onChange={(e) => setKeywordInput(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                e.preventDefault();
+                                                const trimmed = keywordInput.trim().toLowerCase();
+                                                if (trimmed && !keywords.includes(trimmed)) {
+                                                    setKeywords([...keywords, trimmed]);
+                                                    setKeywordInput("");
+                                                }
+                                            }
+                                        }}
+                                        placeholder="Digite e pressione Enter para adicionar"
+                                        className="w-full bg-transparent text-gray-900 dark:text-gray-100 outline-none text-sm"
+                                    />
+                                </div>
+                                <p className="text-xs text-gray-500 mt-1">
+                                    Pressione Enter para separar as palavras-chave
+                                </p>
                             </div>
 
                             <div>

@@ -29,6 +29,8 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
     const [editContent, setEditContent] = useState(post.content || "");
     const [editUrl, setEditUrl] = useState(post.url || "");
     const [editCategory, setEditCategory] = useState(post.category);
+    const [editKeywords, setEditKeywords] = useState<string[]>(post.keywords || []);
+    const [editKeywordInput, setEditKeywordInput] = useState("");
     
     const supabase = createClient();
 
@@ -148,6 +150,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                 content: editContent.trim() ? sanitizeInput(editContent.trim()) : null,
                 url: editUrl.trim() ? sanitizeUrl(editUrl.trim()) : null,
                 category: editCategory,
+                keywords: editKeywords.length > 0 ? editKeywords : null,
                 updated_at: new Date().toISOString(),
             })
             .eq("id", post.id);
@@ -164,6 +167,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
             content: editContent.trim() || null,
             url: editUrl.trim() || null,
             category: editCategory,
+            keywords: editKeywords.length > 0 ? editKeywords : null,
         };
 
         onPostUpdated(updatedPost);
@@ -326,6 +330,51 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                             </div>
 
                             <div>
+                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
+                                    Palavras-chave
+                                </label>
+                                <div className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus-within:ring-2 focus-within:ring-blue-500 transition-all">
+                                    <div className="flex flex-wrap gap-2 mb-2">
+                                        {editKeywords.map((keyword, index) => (
+                                            <span
+                                                key={index}
+                                                className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-lg"
+                                            >
+                                                {keyword}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => setEditKeywords(editKeywords.filter((_, i) => i !== index))}
+                                                    className="hover:text-blue-900 dark:hover:text-blue-100"
+                                                >
+                                                    ×
+                                                </button>
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <input
+                                        type="text"
+                                        value={editKeywordInput}
+                                        onChange={(e) => setEditKeywordInput(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                e.preventDefault();
+                                                const trimmed = editKeywordInput.trim().toLowerCase();
+                                                if (trimmed && !editKeywords.includes(trimmed)) {
+                                                    setEditKeywords([...editKeywords, trimmed]);
+                                                    setEditKeywordInput("");
+                                                }
+                                            }
+                                        }}
+                                        placeholder="Digite e pressione Enter para adicionar"
+                                        className="w-full bg-transparent text-gray-900 dark:text-gray-100 outline-none text-sm"
+                                    />
+                                </div>
+                                <p className="text-xs text-gray-500 mt-1">
+                                    Pressione Enter para separar as palavras-chave
+                                </p>
+                            </div>
+
+                            <div>
                                 <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Conteúdo</label>
                                 <textarea
                                     value={editContent}
@@ -346,6 +395,8 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                         setEditContent(post.content || "");
                                         setEditUrl(post.url || "");
                                         setEditCategory(post.category);
+                                        setEditKeywords(post.keywords || []);
+                                        setEditKeywordInput("");
                                         setError(null);
                                     }}
                                     className="flex-1 px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
@@ -401,6 +452,19 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                     </svg>
                                     {new URL(post.url).hostname}
                                 </a>
+                            )}
+
+                            {post.keywords && post.keywords.length > 0 && (
+                                <div className="flex flex-wrap gap-2 mb-6">
+                                    {post.keywords.map((keyword, index) => (
+                                        <span
+                                            key={index}
+                                            className="px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 text-xs font-medium rounded-lg"
+                                        >
+                                            #{keyword}
+                                        </span>
+                                    ))}
+                                </div>
                             )}
 
                             <div className="flex items-center gap-4 py-4 border-y border-gray-200 dark:border-gray-700 mb-6">
