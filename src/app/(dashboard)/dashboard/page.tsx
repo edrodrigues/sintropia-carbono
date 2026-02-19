@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { Tooltip } from '@/components/ui/Tooltip';
 import { calculateAchievements } from '@/lib/achievements';
 import { AchievementList } from '@/components/profile/AchievementBadges';
 

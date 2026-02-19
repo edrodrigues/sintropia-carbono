@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { FeedPostCard } from "@/components/posts/FeedPostCard";
 import { CreatePostButton } from "@/components/posts/CreatePostButton";
@@ -33,7 +33,7 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
         setSelectedPost(null);
     };
 
-    const refreshPosts = async () => {
+    const refreshPosts = useCallback(async () => {
         let query = supabase
             .from("posts")
             .select(`*, author:profiles(username, avatar_url, karma, linkedin_url)`)
@@ -54,11 +54,11 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
         const { data } = await query.limit(20);
 
         if (data) setPosts(data as PostWithRelations[]);
-    };
+    }, [sortBy, supabase]);
 
     useEffect(() => {
         refreshPosts();
-    }, [sortBy]);
+    }, [sortBy, refreshPosts]);
 
     const handlePostUpdated = (updatedPost: PostWithRelations) => {
         setPosts(prev => prev.map(p => p.id === updatedPost.id ? updatedPost : p));
