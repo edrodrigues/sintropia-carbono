@@ -1,10 +1,18 @@
 import 'dotenv/config';
 import { resolve } from 'path';
 import dotenv from 'dotenv';
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 
 dotenv.config({ path: resolve(__dirname, '../.env.local') });
 
 import { Resend } from 'resend';
+import { 
+  sendDripEmail1_Welcome,
+  sendDripEmail2_CarbonCredits,
+  sendDripEmail3_IREC,
+  sendDripEmail4_Community,
+  sendDripEmail5_Action
+} from '../src/lib/email';
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 if (!RESEND_API_KEY) {
@@ -15,186 +23,63 @@ const resend = new Resend(RESEND_API_KEY);
 
 const APP_URL = 'https://sintropia.space/';
 
-const styles = `
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { 
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #0f172a; 
-    color: #f8fafc; 
-    line-height: 1.6;
-  }
-  .container { 
-    max-width: 600px; 
-    margin: 0 auto; 
-    padding: 40px 20px; 
-  }
-  .card { 
-    background-color: #1e293b; 
-    border-radius: 12px; 
-    padding: 32px; 
-    border: 1px solid #334155;
-  }
-  .logo { 
-    text-align: center; 
-    margin-bottom: 24px; 
-  }
-  .logo h1 { 
-    color: #10b981; 
-    font-size: 28px; 
-    font-weight: 700;
-  }
-  .logo span { 
-    color: #f8fafc; 
-  }
-  h1 { 
-    color: #10b981; 
-    font-size: 24px; 
-    font-weight: 600; 
-    margin-bottom: 20px;
-  }
-  h2 { 
-    color: #10b981; 
-    font-size: 20px; 
-    font-weight: 600; 
-    margin: 24px 0 12px;
-  }
-  h3 { 
-    color: #f8fafc; 
-    font-size: 16px; 
-    font-weight: 600; 
-    margin: 20px 0 8px;
-  }
-  p { 
-    color: #cbd5e1; 
-    margin-bottom: 16px;
-  }
-  ul { 
-    color: #cbd5e1; 
-    margin: 12px 0;
-    padding-left: 20px;
-  }
-  li { 
-    margin-bottom: 8px;
-  }
-  .btn { 
-    display: inline-block; 
-    background-color: #10b981; 
-    color: #ffffff; 
-    padding: 14px 28px; 
-    text-decoration: none; 
-    border-radius: 8px; 
-    font-weight: 600;
-    margin-top: 8px;
-  }
-  .btn:hover {
-    background-color: #059669;
-  }
-  .footer { 
-    text-align: center; 
-    margin-top: 32px; 
-    padding-top: 24px; 
-    border-top: 1px solid #334155;
-  }
-  .footer p { 
-    color: #64748b; 
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
-  .footer a {
-    color: #10b981;
-    text-decoration: none;
-  }
-  .highlight {
-    background-color: #10b981;
-    color: #ffffff;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-weight: 600;
-  }
-</style>
-`;
+const DRIP_SCHEDULE = [
+  { day: 0, name: 'welcome', fn: sendDripEmail1_Welcome },
+  { day: 2, name: 'carbon_credits', fn: sendDripEmail2_CarbonCredits },
+  { day: 4, name: 'irec', fn: sendDripEmail3_IREC },
+  { day: 6, name: 'community', fn: sendDripEmail4_Community },
+  { day: 9, name: 'action', fn: sendDripEmail5_Action },
+];
 
-function buildEmail(title: string, content: string, ctaLink?: string, ctaText?: string) {
-  const cta = ctaLink && ctaText ? `<a href="${ctaLink}" class="btn">${ctaText}</a>` : '';
-  
-  return `
-<div class="card">
-  <div class="logo">
-    <h1>Sintropia<span></span></h1>
-  </div>
-  <h1>${title}</h1>
-  ${content}
-  ${cta}
-  <div class="footer">
-    <p>© 2026 Sintropia. Projeto Open Source e Feito com ❤️  em Recife/Pernambuco.</p>
-    <p><a href="${APP_URL}">Acesse a Sintropia</a></p>
-  </div>
-</div>
-  `.trim();
+interface SentEmailRecord {
+  email: string;
+  sentAt: string;
+  emailType: string;
 }
 
-function buildWelcomeEmailHtml(name: string) {
-  const title = 'Bem-vindo(a) à Sintropia 🌿';
-  const content = `
-    <p>Olá ${name},</p>
-    <p>Obrigado por se juntar à comunidade Sintropia. Estamos muito animados em tê-lo conosco!</p>
-    <p>Com sua conta, você pode:</p>
-    <ul>
-      <li>Acompanhar preços de carbono e créditos IREC em tempo real</li>
-      <li>Conectar-se com outros profissionais do mercado</li>
-      <li>Compartilhar conteúdo e participar de discussões</li>
-      <li>Explorar oportunidades de negócio</li>
-    </ul>
-  `;
-  const html = buildEmail(title, content, APP_URL, 'Começar agora');
-  
-  return `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title}</title>
-  ${styles}
-</head>
-<body>
-  <div class="container">
-    ${html}
-  </div>
-</body>
-</html>
-  `.trim();
+interface TrackingData {
+  contacts: Record<string, SentEmailRecord[]>;
 }
 
-async function sendEmail(to: string, name: string) {
+const TRACKING_FILE = resolve(__dirname, '../data/drip-tracking.json');
+
+function loadTracking(): TrackingData {
   try {
-    await new Promise(resolve => setTimeout(resolve, 1200));
-    
-    const FROM_ADDRESS = 'Sintropia <noreply@contato.sintropia.space>';
-    
-    const { data, error } = await resend.emails.send({
-      from: FROM_ADDRESS,
-      to,
-      subject: 'Bem-vindo(a) à Sintropia 🌿',
-      html: buildWelcomeEmailHtml(name),
-    });
-
-    if (error) {
-      console.error(`Failed to send to ${to}:`, error);
-      return { success: false, error, email: to };
+    if (existsSync(TRACKING_FILE)) {
+      return JSON.parse(readFileSync(TRACKING_FILE, 'utf-8'));
     }
-
-    console.log(`Sent to ${to}:`, data?.id);
-    return { success: true, data, email: to };
-  } catch (error) {
-    console.error(`Exception sending to ${to}:`, error);
-    return { success: false, error, email: to };
+  } catch (e) {
+    console.error('Error loading tracking file:', e);
   }
+  return { contacts: {} };
+}
+
+function saveTracking(data: TrackingData) {
+  const dir = resolve(__dirname, '../data');
+  try {
+    if (!existsSync(dir)) {
+      mkdirSync(dir, { recursive: true });
+    }
+    writeFileSync(TRACKING_FILE, JSON.stringify(data, null, 2));
+  } catch (e) {
+    console.error('Error saving tracking file:', e);
+  }
+}
+
+function hasEmailBeenSent(tracking: TrackingData, email: string, emailType: string): boolean {
+  const contact = tracking.contacts[email];
+  if (!contact) return false;
+  return contact.some(record => record.emailType === emailType);
+}
+
+interface ContactRecord {
+  email: string;
+  first_name?: string;
+  created_at?: string;
 }
 
 async function getAudienceContacts(audienceId: string) {
-  const contacts: { email: string; first_name?: string }[] = [];
+  const contacts: ContactRecord[] = [];
   let cursor: string | undefined;
   let attempts = 0;
   const maxAttempts = 3;
@@ -228,6 +113,7 @@ async function getAudienceContacts(audienceId: string) {
         contacts.push(...data.data.map(c => ({
           email: c.email,
           first_name: c.first_name ?? undefined,
+          created_at: (c as unknown as { created_at?: string }).created_at,
         })));
       }
 
@@ -254,6 +140,49 @@ async function listAudiences() {
 }
 
 async function main() {
+  const args = process.argv.slice(2);
+  
+  if (args.includes('--help') || args.includes('-h')) {
+    console.log(`
+Drip Campaign Email Sender
+
+Usage: npx tsx scripts/send-drip-emails.ts [options]
+
+Options:
+  --dry-run         Run without actually sending emails
+  --email=<type>   Send only a specific email type
+  --days=<n>       Simulate n days since signup (for testing)
+  --help, -h       Show this help message
+
+Email types:
+  welcome       - Day 0: Welcome email
+  carbon_credits - Day 2: Understanding Carbon Credits
+  irec          - Day 4: IREC Certificates
+  community     - Day 6: Community & Karma
+  action        - Day 9: Call to Action
+
+Examples:
+  npx tsx scripts/send-drip-emails.ts                  # Run full drip campaign
+  npx tsx scripts/send-drip-emails.ts --dry-run         # Test without sending
+  npx tsx scripts/send-drip-emails.ts --email=welcome   # Send only welcome email
+  npx tsx scripts/send-drip-emails.ts --days=5          # Simulate 5 days since signup
+`);
+    return;
+  }
+
+  const dryRun = args.includes('--dry-run');
+  const emailIndex = args.findIndex(arg => arg.startsWith('--email='));
+  const specificEmail = emailIndex >= 0 ? args[emailIndex].replace('--email=', '') : null;
+  const daysIndex = args.findIndex(arg => arg.startsWith('--days='));
+  const simulatedDays = daysIndex >= 0 ? parseInt(args[daysIndex].replace('--days=', ''), 10) : null;
+
+  if (dryRun) {
+    console.log('=== DRY RUN MODE ===\n');
+  }
+
+  console.log('Loading drip email tracking...');
+  const tracking = loadTracking();
+
   console.log('Listing audiences...');
   const audiences = await listAudiences();
   
@@ -268,7 +197,7 @@ async function main() {
     return;
   }
 
-  let contacts: { email: string; first_name?: string }[] = [];
+  let contacts: ContactRecord[] = [];
   
   for (const audience of audiences) {
     console.log(`\nFetching contacts from audience: ${audience.name} (${audience.id})...`);
@@ -284,39 +213,102 @@ async function main() {
     return;
   }
 
-  const accountEmail = 'ernj@cin.ufpe.br';
-  const testContact = contacts.find(c => c.email === accountEmail);
-  
-  if (testContact) {
-    console.log(`\nSending test email to ${testContact.email}...`);
-    const result = await sendEmail(testContact.email, testContact.first_name || 'Amigo');
-    console.log('Test result:', result.success ? 'SUCCESS' : 'FAILED');
-  } else {
-    console.log(`\nAccount email ${accountEmail} not found in contacts, skipping test.`);
-  }
+  if (specificEmail) {
+    console.log(`\nSending specific email type: ${specificEmail}`);
+    const emailConfig = DRIP_SCHEDULE.find(e => e.name === specificEmail);
+    if (!emailConfig) {
+      console.error(`Email type "${specificEmail}" not found. Available: ${DRIP_SCHEDULE.map(e => e.name).join(', ')}`);
+      return;
+    }
 
-  console.log(`\nSending welcome drip email to ${contacts.length} contacts...`);
-  
-  const results = [];
-  for (const contact of contacts) {
-    const result = await sendEmail(contact.email, contact.first_name || 'Amigo');
-    results.push({ status: result.success ? 'fulfilled' : 'rejected', value: result });
-  }
-
-  const successful = results.filter(r => r.status === 'fulfilled' && (r as PromiseFulfilledResult<{ success: boolean }>).value.success).length;
-  const failed = results.filter(r => !(r as PromiseFulfilledResult<{ success: boolean }>).value.success).length;
-
-  console.log(`\nResults: ${successful} sent, ${failed} failed`);
-  
-  if (failed > 0) {
-    console.log('\nFailed emails:');
-    results.forEach((r, i) => {
-      if (r.status === 'fulfilled' && !(r as PromiseFulfilledResult<{ success: boolean; email: string; error?: unknown }>).value.success) {
-        const val = r as PromiseFulfilledResult<{ success: boolean; email: string; error?: unknown }>;
-        console.log(`  - ${val.value.email}: ${val.value.error}`);
+    const results = [];
+    for (const contact of contacts) {
+      if (hasEmailBeenSent(tracking, contact.email, specificEmail)) {
+        console.log(`Skipping ${contact.email} - already sent ${specificEmail}`);
+        continue;
       }
-    });
+
+      console.log(`Sending ${specificEmail} to ${contact.email}...`);
+      if (!dryRun) {
+        await new Promise(resolve => setTimeout(resolve, 800));
+        const result = await emailConfig.fn(contact.email, contact.first_name || 'Amigo');
+        
+        if (result.success) {
+          if (!tracking.contacts[contact.email]) {
+            tracking.contacts[contact.email] = [];
+          }
+          tracking.contacts[contact.email].push({
+            email: contact.email,
+            sentAt: new Date().toISOString(),
+            emailType: specificEmail,
+          });
+          saveTracking(tracking);
+          console.log(`  ✓ Sent to ${contact.email}`);
+        } else {
+          console.log(`  ✗ Failed: ${result.error}`);
+        }
+        results.push(result);
+      }
+    }
+    console.log(`\nCompleted sending ${specificEmail}`);
+    return;
   }
+
+  const now = new Date();
+  console.log(`\n=== Sending Drip Campaign (${now.toISOString()}) ===\n`);
+
+  for (const dripConfig of DRIP_SCHEDULE) {
+    console.log(`\n--- ${dripConfig.name} (Day ${dripConfig.day}) ---`);
+    let sent = 0;
+    let skipped = 0;
+
+    for (const contact of contacts) {
+      if (hasEmailBeenSent(tracking, contact.email, dripConfig.name) && simulatedDays === null) {
+        skipped++;
+        continue;
+      }
+
+      const createdAt = contact.created_at ? new Date(contact.created_at) : now;
+      const daysSinceSignup = simulatedDays !== null 
+        ? simulatedDays 
+        : Math.floor((now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24));
+
+      if (daysSinceSignup < dripConfig.day) {
+        console.log(`Skipping ${contact.email} - only ${daysSinceSignup} days since signup (needs ${dripConfig.day})`);
+        skipped++;
+        continue;
+      }
+
+      console.log(`Sending to ${contact.email} (Day ${daysSinceSignup})...`);
+      if (!dryRun) {
+        await new Promise(resolve => setTimeout(resolve, 800));
+        const result = await dripConfig.fn(contact.email, contact.first_name || 'Amigo');
+        
+        if (result.success) {
+          if (!tracking.contacts[contact.email]) {
+            tracking.contacts[contact.email] = [];
+          }
+          tracking.contacts[contact.email].push({
+            email: contact.email,
+            sentAt: new Date().toISOString(),
+            emailType: dripConfig.name,
+          });
+          saveTracking(tracking);
+          sent++;
+          console.log(`  ✓ Sent ${dripConfig.name} to ${contact.email}`);
+        } else {
+          console.log(`  ✗ Failed: ${result.error}`);
+        }
+      } else {
+        console.log(`  [DRY RUN] Would send ${dripConfig.name} to ${contact.email}`);
+        sent++;
+      }
+    }
+
+    console.log(`Sent: ${sent}, Skipped: ${skipped}`);
+  }
+
+  console.log('\n=== Drip Campaign Complete ===');
 }
 
 main().catch(console.error);
