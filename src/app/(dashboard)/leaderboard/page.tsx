@@ -30,6 +30,7 @@ export default async function LeaderboardPage() {
     if (karma >= 1000) badges.push("👑 Master");
     else if (karma >= 500) badges.push("💎 Especialista");
     else if (karma >= 100) badges.push("🌟 Contribuidor");
+    else if (karma >= 50) badges.push("🌿 Aprendiz");
     else if (karma >= 10) badges.push("🌱 Iniciante");
     return badges;
   };

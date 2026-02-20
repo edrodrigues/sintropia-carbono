@@ -27,7 +27,8 @@ const getBadge = (karma: number) => {
   if (karma >= 1000) return { emoji: "👑", label: "Master", nextLevel: 2000, color: "yellow" };
   if (karma >= 500) return { emoji: "💎", label: "Especialista", nextLevel: 1000, color: "blue" };
   if (karma >= 100) return { emoji: "🌟", label: "Contribuidor", nextLevel: 500, color: "green" };
-  if (karma >= 10) return { emoji: "🌱", label: "Iniciante", nextLevel: 100, color: "emerald" };
+  if (karma >= 50) return { emoji: "🌿", label: "Aprendiz", nextLevel: 100, color: "teal" };
+  if (karma >= 10) return { emoji: "🌱", label: "Iniciante", nextLevel: 50, color: "emerald" };
   return { emoji: "🥚", label: "Novato", nextLevel: 10, color: "gray" };
 };
 

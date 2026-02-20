@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Profile } from "@/types";
+import { StreakDisplay } from "@/components/gamification/StreakBadge";
+import { getStreakEmoji } from "@/types/gamification";
 
 export function Header() {
   const pathname = usePathname();
@@ -20,6 +22,7 @@ export function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  const [streak, setStreak] = useState<number>(0);
 
   const supabase = createClient();
 
@@ -45,6 +48,13 @@ export function Header() {
           .eq("id", user.id)
           .single();
         setProfile(profile);
+        
+        const { data: streakData } = await supabase
+          .from("user_streaks")
+          .select("current_streak")
+          .eq("user_id", user.id)
+          .maybeSingle();
+        setStreak(streakData?.current_streak || 0);
       }
 
       setLoading(false);
@@ -263,10 +273,23 @@ export function Header() {
                   >
                     <span>👤</span> Meu Perfil
                   </Link>
+                  <Link
+                    href="/conquistas"
+                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <span>🎖️</span> Conquistas
+                  </Link>
                 </div>
               </div>
 
-              {/* Create Post Button */}
+              {/* Streak Display */}
+                {user && streak > 0 && (
+                  <div className="h-full flex items-end pb-5">
+                    <StreakDisplay currentStreak={streak} />
+                  </div>
+                )}
+                
+                {/* Create Post Button */}
               <div 
                 className="relative h-full flex items-end pb-5"
                 onMouseEnter={() => setShowCreateTooltip(true)}

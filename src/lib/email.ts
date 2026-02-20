@@ -7,7 +7,7 @@ function getResend() {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
-const FROM_EMAIL = 'Sintropia <noreply@seudominio.com>';
+const FROM_EMAIL = 'Sintropia <noreply@contato.sintropia.space>';
 const APP_URL = 'https://sintropia.space/';
 
 const styles = `

@@ -210,6 +210,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
         if (karma >= 1000) return { emoji: "👑", label: "Master" };
         if (karma >= 500) return { emoji: "💎", label: "Especialista" };
         if (karma >= 100) return { emoji: "🌟", label: "Contribuidor" };
+        if (karma >= 50) return { emoji: "🌿", label: "Aprendiz" };
         if (karma >= 10) return { emoji: "🌱", label: "Iniciante" };
         return { emoji: "🥚", label: "Novato" };
     };

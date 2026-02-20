@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { StatsDashboard } from "@/components/profile/StatsDashboard";
 import { calculateAchievements } from "@/lib/achievements";
+import { decodeHtmlServer } from "@/lib/utils/sanitize";
 import Link from "next/link";
 
 export default async function MyProfilePage() {
@@ -111,11 +112,11 @@ export default async function MyProfilePage() {
                 </span>
               </div>
               <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-1">
-                {post.title}
+                {decodeHtmlServer(post.title)}
               </h3>
               {post.content && (
                 <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-3">
-                  {post.content}
+                  {decodeHtmlServer(post.content)}
                 </p>
               )}
               <div className="flex items-center justify-between text-xs text-gray-500">
