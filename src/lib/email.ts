@@ -157,7 +157,7 @@ function buildEmail(title: string, content: string, ctaLink?: string, ctaText?: 
   ${content}
   ${cta}
   <div class="footer">
-    <p>© 2026 Sintropia. Todos os direitos reservados.</p>
+    <p>© 2026 Sintropia. Projeto Open Source e Feito com ❤️  em Recife/Pernambuco.</p>
     <p><a href="${APP_URL}">Acesse a Sintropia</a></p>
   </div>
 </div>

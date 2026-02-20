@@ -4,6 +4,7 @@ import { useState } from "react";
 import { VoteButtons } from "@/components/posts/VoteButtons";
 import { CommentSection } from "@/components/comments/CommentSection";
 import { PostWithRelations } from "@/types";
+import { decodeHtml } from "@/lib/utils/sanitize";
 import Link from "next/link";
 
 interface PostCardProps {
@@ -97,13 +98,13 @@ export function PostCard({ post, onOpenModal }: PostCardProps) {
                         </span>
                     </div>
 
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
-                        {post.title}
+<h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
+                        {decodeHtml(post.title)}
                     </h3>
 
                     {post.content && (
                         <p className="text-gray-700 dark:text-gray-300 mb-3 whitespace-pre-wrap line-clamp-3">
-                            {post.content}
+                            {decodeHtml(post.content)}
                         </p>
                     )}
 

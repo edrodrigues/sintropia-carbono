@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { TopicTags, commonTopicTags } from "@/components/posts/TopicTags";
+import { decodeHtml } from "@/lib/utils/sanitize";
 import type { PostWithRelations } from "@/types";
 
 interface FeedPostCardProps {
@@ -81,7 +82,7 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
         
         <div className="flex-1 p-4 pb-6">
           <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
-            {post.title}
+            {decodeHtml(post.title)}
           </h3>
           
           {post.url && (
@@ -117,7 +118,7 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
           
           {post.content && (
             <p className="text-gray-700 dark:text-gray-300 mb-3 whitespace-pre-wrap line-clamp-2">
-              {post.content}
+              {decodeHtml(post.content)}
             </p>
           )}
           

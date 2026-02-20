@@ -4,6 +4,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { StatsDashboard } from "@/components/profile/StatsDashboard";
 import { calculateAchievements } from "@/lib/achievements";
+import { decodeHtmlServer } from "@/lib/utils/sanitize";
 
 interface PageProps {
     params: Promise<{ username: string }>;
@@ -100,11 +101,11 @@ export default async function PublicProfilePage(props: PageProps) {
                                     </span>
                                 </div>
                                 <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-1">
-                                    {post.title}
+                                    {decodeHtmlServer(post.title)}
                                 </h3>
                                 {post.content && (
                                     <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-3">
-                                        {post.content}
+                                        {decodeHtmlServer(post.content)}
                                     </p>
                                 )}
                                 <div className="flex items-center justify-between text-xs text-gray-500">

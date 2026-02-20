@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { PostWithRelations, CommentWithRelations } from "@/types";
 import { VoteButtons } from "./VoteButtons";
-import { sanitizeInput, sanitizeUrl } from "@/lib/utils/sanitize";
+import { sanitizeInput, sanitizeUrl, decodeHtml } from "@/lib/utils/sanitize";
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 
@@ -438,13 +438,13 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                             </div>
 
                             <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-                                {post.title}
+                                {decodeHtml(post.title)}
                             </h2>
 
                             {post.content && (
                                 <div className="prose prose-gray dark:prose-invert max-w-none mb-6">
                                     <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
-                                        {post.content}
+                                        {decodeHtml(post.content)}
                                     </p>
                                 </div>
                             )}
