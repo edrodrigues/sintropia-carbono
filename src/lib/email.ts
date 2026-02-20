@@ -1,6 +1,11 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY is not set');
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 const FROM_EMAIL = 'Sintropia <noreply@seudominio.com>';
 const APP_URL = 'https://sintropia.space/';
@@ -107,6 +112,7 @@ const styles = `
 
 export async function sendEmail(to: string, subject: string, html: string) {
   try {
+    const resend = getResend();
     const { data, error } = await resend.emails.send({
       from: FROM_EMAIL,
       to,
