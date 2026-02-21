@@ -20,12 +20,16 @@ const certificadoras = [
 ];
 
 const energiaPadroes = [
-  { nome: "I-REC", origem: "Global", cobertura: "Energia elétrica renovável", unidade: "MWh", volume: "1.2TWh" },
-  { nome: "GO (Guarantee of Origin)", origem: "União Europeia", cobertura: "Energia renovável UE", unidade: "MWh", volume: "850TWh" },
-  { nome: "REC", origem: "Estados Unidos", cobertura: "Energia renovável EUA", unidade: "MWh", volume: "380TWh" },
-  { nome: "TIGR", origem: "Global", cobertura: "Energia renovável (Ásia/África)", unidade: "MWh", volume: "45TWh" },
-  { nome: "Green-e", origem: "Estados Unidos", cobertura: "Energia renovável certificada", unidade: "MWh", volume: "120TWh" },
-  { nome: "EECS", origem: "Europa", cobertura: "Sistema europeu integrado", unidade: "MWh", volume: "720TWh" },
+  { nome: "I-REC (International REC)", origem: "Países Baixos (Global)", cobertura: "Book-and-Claim - +50 países", metodologia: "I-TRACK Foundation", volume: "283 TWh (2023)", url: "https://trackingstandard.org" },
+  { nome: "Guarantees of Origin (GO)", origem: "União Europeia (AIB)", cobertura: "Sistema Europeu EECS", metodologia: "European Energy Certificate System", volume: "1.084 TWh (2024)", url: "https://aib-net.org" },
+  { nome: "Green-e Energy", origem: "EUA e Canadá", cobertura: "Certificação de Varejo", metodologia: "Auditoria de Transação", volume: "110 MWh (2021)", url: "https://green-e.org" },
+  { nome: "TIGR (Tradable Instrument for Global Renewables)", origem: "EUA (Global)", cobertura: "Sudeste Asiático e América Central", metodologia: "Registro Digital (APX/Xpansiv)", volume: "~2% mercado internacional", url: "https://apx.com" },
+  { nome: "REC Brazil", origem: "Brasil", cobertura: "I-REC + Adicionalidade Social", metodologia: "Instituto Totum (SDGs)", volume: "+73% crescimento (2023)", url: "https://irec-brazil.org" },
+  { nome: "LGC (Large-scale Generation Certificates)", origem: "Austrália", cobertura: "Large-scale Renewable Energy Target", metodologia: "LRET + REGO (2025)", volume: "51.5M certificados (2024)", url: "https://cer.gov.au" },
+  { nome: "Non-Fossil Certificates (NFC)", origem: "Japão", cobertura: "Mercado JEPX", metodologia: "Non-Fossil Value Trading", volume: "143.8 bilhões kWh (2024)", url: "https://jepx.org" },
+  { nome: "UK REGO", origem: "Reino Unido", cobertura: "Fuel Mix Disclosure", metodologia: "Ofgem", volume: "£25/MWh (2023)", url: "https://ofgem.gov.uk" },
+  { nome: "EKOenergy", origem: "Finlândia (Global)", cobertura: "Selo de Qualidade Global", metodologia: "Critérios de Biodiversidade", volume: "3.000+ instalações (2024)", url: "https://ekoenergy.org" },
+  { nome: "Gold Standard Renewable Energy Label", origem: "Suíça (Global)", cobertura: "GS4GG - Objetivos ODS", metodologia: "Consulta pública a stakeholders", volume: "Aplicado sobre RECs", url: "https://goldstandard.org" },
 ];
 
 const dataSources = [
@@ -34,6 +38,12 @@ const dataSources = [
   { name: "I-REC Standard", url: "https://trackingstandard.org" },
   { name: "AIB (GO)", url: "https://aib-net.org" },
   { name: "Green-e", url: "https://green-e.org" },
+  { name: "APX/TIGR", url: "https://apx.com" },
+  { name: "REC Brazil", url: "https://irec-brazil.org" },
+  { name: "CER (Austrália)", url: "https://cer.gov.au" },
+  { name: "JEPX (Japão)", url: "https://jepx.org" },
+  { name: "Ofgem (UK REGO)", url: "https://ofgem.gov.uk" },
+  { name: "EKOenergy", url: "https://ekoenergy.org" },
 ];
 
 export default function Certificadoras() {
@@ -137,10 +147,10 @@ export default function Certificadoras() {
                     Cobertura
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Unidade
+                    Metodologia
                   </th>
                   <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Volume Estimado
+                    Volume
                   </th>
                 </tr>
               </thead>
@@ -151,9 +161,14 @@ export default function Certificadoras() {
                     className="hover:bg-gray-50 dark:hover:bg-gray-700/50"
                   >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="font-semibold text-[#1e40af]">
-                        {padrao.nome}
-                      </span>
+                      <a
+                        href={padrao.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#1e40af] hover:underline font-semibold"
+                      >
+                        {padrao.nome} ↗
+                      </a>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">
                       {padrao.origem}
@@ -161,10 +176,8 @@ export default function Certificadoras() {
                     <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">
                       {padrao.cobertura}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-xs font-mono bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-2 py-1 rounded">
-                        {padrao.unidade}
-                      </span>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">
+                      {padrao.metodologia}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right font-mono font-semibold text-gray-900 dark:text-gray-100">
                       {padrao.volume}
