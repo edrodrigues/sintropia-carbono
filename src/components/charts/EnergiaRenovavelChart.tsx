@@ -31,33 +31,33 @@ const fullChartData = {
         "Guarantees of Origin",
         "Green-e Energy",
         "TIGR",
-        "REC Brazil",
         "LGC (Austrália)",
-        "NFC (Japão)",
         "UK REGO",
+        "NFC (Japão)",
+        "REC Brazil",
         "EKOenergy",
         "Gold Standard RE",
     ],
     volumes2024: [
-        283000,
-        1084000,
-        110000000,
-        0,
-        0,
-        82500000,
-        143800000,
+        283000000,
+        1084000000,
+        143576000,
+        9870000,
+        51500000,
+        40100000,
+        15343000,
         0,
         0,
         0,
     ],
     volumes2025: [
-        350000,
-        1200000,
-        125000000,
         0,
         0,
-        90000000,
-        150000000,
+        0,
+        0,
+        57000000,
+        0,
+        0,
         0,
         0,
         0,
@@ -79,10 +79,16 @@ export function EnergiaRenovavelChart() {
     const [view, setView] = useState<"all" | "top5">("all");
     const [type, setType] = useState<"bar" | "pie">("bar");
 
-    const limit = view === "top5" ? 5 : 10;
-    const labels = fullChartData.labels.slice(0, limit);
-    const data2024 = fullChartData.volumes2024.slice(0, limit);
-    const data2025 = fullChartData.volumes2025.slice(0, limit);
+    const dataWithVolume = fullChartData.labels.map((label, i) => ({
+        label,
+        volume2024: fullChartData.volumes2024[i],
+        volume2025: fullChartData.volumes2025[i],
+    })).filter(d => d.volume2024 > 0 || d.volume2025 > 0);
+
+    const displayData = view === "top5" ? dataWithVolume.slice(0, 5) : dataWithVolume;
+    const labels = displayData.map(d => d.label);
+    const data2024 = displayData.map(d => d.volume2024);
+    const data2025 = displayData.map(d => d.volume2025);
 
     const barData: ChartData<"bar"> = {
         labels,
