@@ -4,8 +4,8 @@ import { useState } from "react";
 import { VoteButtons } from "@/components/posts/VoteButtons";
 import { CommentSection } from "@/components/comments/CommentSection";
 import { PostWithRelations } from "@/types";
-import { decodeHtml } from "@/lib/utils/sanitize";
 import Link from "next/link";
+import { sanitizeUrl, decodeHtmlServer } from "@/lib/utils/sanitize";
 
 interface PostCardProps {
     post: PostWithRelations;
@@ -15,6 +15,15 @@ interface PostCardProps {
 export function PostCard({ post, onOpenModal }: PostCardProps) {
     const [showComments, setShowComments] = useState(false);
     const [copied, setCopied] = useState(false);
+
+    const safeUrl = post.url ? sanitizeUrl(post.url) : null;
+    const displayUrl = safeUrl ? (() => {
+        try {
+            return new URL(safeUrl).hostname;
+        } catch {
+            return safeUrl;
+        }
+    })() : null;
 
     const handleCardClick = (e: React.MouseEvent) => {
         if (
@@ -98,25 +107,25 @@ export function PostCard({ post, onOpenModal }: PostCardProps) {
                         </span>
                     </div>
 
-<h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
-                        {decodeHtml(post.title)}
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
+                        {decodeHtmlServer(post.title)}
                     </h3>
 
                     {post.content && (
                         <p className="text-gray-700 dark:text-gray-300 mb-3 whitespace-pre-wrap line-clamp-3">
-                            {decodeHtml(post.content)}
+                            {decodeHtmlServer(post.content)}
                         </p>
                     )}
 
-                    {post.url && (
+                    {safeUrl && displayUrl && (
                         <a
-                            href={post.url}
+                            href={safeUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline text-sm flex items-center gap-1 mb-3"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
-                            {new URL(post.url).hostname}
+                            {displayUrl}
                         </a>
                     )}
 

@@ -19,11 +19,14 @@ Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono 
 - **Perfis** - Explore membros e suas contribuições
 - **Ranking (Leaderboard)** - Veja os membros mais ativos por Karma
 - **Dashboard Pessoal** - Acompanhe sua atividade e reputação
+- **Denúncias e Moderação** - Sistema de reports para manter comunidade segura
 
-### 🏆 Sistema de Karma
-- Ganhe pontos ao contribuir com a comunidade
-- Badges: Novato, Iniciante, Contribuidor, Especialista, Master
-- Sistema de likes e dislikes em posts e comentários
+### 🏆 Sistema de Karma e Gamificação
+- **Pontos de Karma** - Ganhe pontos ao contribuir com a comunidade
+- **Badges**: Novato, Iniciante, Contribuidor, Especialista, Master
+- **Sistema de Streaks** - Mantenha sua sequência diária de atividades
+- **Missões Semanais** - Complete objetivos para ganhar recompensas de karma
+- **Sistema de Likes** - Likes e dislikes em posts e comentários
 
 ## 🚀 Tecnologias
 
@@ -31,6 +34,8 @@ Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono 
 - **Styling:** Tailwind CSS 4
 - **Database:** Supabase (PostgreSQL)
 - **Charts:** Chart.js
+- **Email:** Resend
+- **Testing:** Playwright
 - **Deploy:** Vercel
 
 ## 🛠️ Como Executar
@@ -55,13 +60,45 @@ Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
 
 ## 🔧 Variáveis de Ambiente
 
-Crie um arquivo `.env.local` com as seguintes variáveis:
+Crie um arquivo `.env.local` com as following variáveis:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=sua_url_supabase
 NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anonima
 SUPABASE_SERVICE_ROLE_KEY=sua_chave_service_role
+RESEND_API_KEY=sua_chave_resend
 ```
+
+## 🧪 Testes
+
+```bash
+# Execute os testes E2E
+npm test
+
+# Execute os testes com UI
+npm run test:ui
+```
+
+## 🔐 Segurança
+
+- **Headers de Segurança**: X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy
+- **Sanitização de Input**: Proteção contra XSS em entradas de usuário
+- **Verificação de Funções**: Ações de moderação verificam permissões no servidor
+- **RLS (Row Level Security)**: Políticas de acesso a dados no Supabase
+
+## 🌐 SEO Otimizado
+
+- URL canônica: https://sintropia.space
+- Meta tags otimizadas para busca
+- Structured Data (JSON-LD) para Organization e WebSite
+- Sitemap XML automático
+- Robots.txt configurado
+
+## 📱 Design
+
+- Totalmente responsivo (mobile, tablet, desktop)
+- Suporte a Dark Mode
+- Acessibilidade em conformidade com WCAG
 
 ## 🤝 Como Contribuir
 
@@ -80,20 +117,6 @@ Contribuições são bem-vindas! Veja como você pode ajudar:
 - NPM ou Yarn
 - Conta no Supabase (para desenvolvimento local)
 
-## 🌐 SEO Otimizado
-
-- URL canônica: https://sintropia.space
-- Meta tags otimizadas para busca
-- Structured Data (JSON-LD) para Organization e WebSite
-- Sitemap XML automático
-- Robots.txt configurado
-
-## 📱 Design
-
-- Totalmente responsivo (mobile, tablet, desktop)
-- Suporte a Dark Mode
-- Acessibilidade em conformidade com WCAG
-
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
@@ -103,6 +126,7 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para de
 - [Supabase](https://supabase.com) - Backend como serviço
 - [Vercel](https://vercel.com) - Hospedagem
 - [Next.js](https://nextjs.org) - Framework React
+- [Resend](https://resend.com) - Email transacional
 - Todos os contribuidores da comunidade!
 
 ---

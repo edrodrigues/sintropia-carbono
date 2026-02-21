@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { banUser } from "@/lib/mod-actions";
 
 interface BanUserButtonProps {
   userId: string;
@@ -13,52 +13,26 @@ export function BanUserButton({ userId, username }: BanUserButtonProps) {
   const [reason, setReason] = useState("");
   const [duration, setDuration] = useState<"7days" | "permanent">("7days");
   const [loading, setLoading] = useState(false);
-  const supabase = createClient();
+  const [error, setError] = useState<string | null>(null);
 
   const handleBan = async () => {
     if (!reason.trim()) return;
 
     setLoading(true);
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    setError(null);
 
-    if (!user) {
-      alert("Você precisa estar logado.");
+    const result = await banUser(userId, reason, duration);
+
+    if (!result.success) {
+      setError(result.error || 'Erro desconhecido');
       setLoading(false);
       return;
     }
 
-    const expiresAt = duration === "permanent" 
-      ? null 
-      : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
-
-    const { error: banError } = await supabase.from("bans").insert({
-      user_id: userId,
-      moderator_id: user.id,
-      reason,
-      expires_at: expiresAt,
-    });
-
-    if (banError) {
-      alert("Erro ao banir usuário: " + banError.message);
-      setLoading(false);
-      return;
-    }
-
-    const { error: profileError } = await supabase
-      .from("profiles")
-      .update({ role: "banned" })
-      .eq("id", userId);
-
-    if (profileError) {
-      alert("Erro ao atualizar perfil: " + profileError.message);
-    } else {
-      setIsOpen(false);
-      setReason("");
-    }
-
+    setIsOpen(false);
+    setReason("");
     setLoading(false);
+    window.location.reload();
   };
 
   return (
@@ -132,10 +106,19 @@ export function BanUserButton({ userId, username }: BanUserButtonProps) {
                 />
               </div>
 
+              {error && (
+                <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                  <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+                </div>
+              )}
+
               <div className="flex gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsOpen(false);
+                    setError(null);
+                  }}
                   className="flex-1 px-4 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                 >
                   Cancelar
