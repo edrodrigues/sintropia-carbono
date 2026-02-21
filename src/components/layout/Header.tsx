@@ -282,33 +282,36 @@ export function Header() {
                 </div>
               </div>
 
+            </nav>
+
+            <div className="flex items-center gap-2">
               {/* Streak Display */}
-                {user && streak > 0 && (
-                  <div className="h-full flex items-end pb-5">
-                    <StreakDisplay currentStreak={streak} />
-                  </div>
-                )}
-                
-                {/* Create Post Button */}
-              <div 
-                className="relative h-full flex items-end pb-5"
+              {user && streak > 0 && (
+                <div className="flex items-center">
+                  <StreakDisplay currentStreak={streak} />
+                </div>
+              )}
+
+              {/* Create Post Button */}
+              <div
+                className="relative flex items-center"
                 onMouseEnter={() => setShowCreateTooltip(true)}
                 onMouseLeave={() => setShowCreateTooltip(false)}
               >
-                  <button
+                <button
                   onClick={handleCreatePostClick}
-                  className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-[#1e40af] dark:text-blue-300 text-sm font-bold transition-all hover:bg-blue-100 dark:hover:bg-blue-900/50 cursor-pointer"
+                  className="flex items-center gap-2 h-10 px-4 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-[#1e40af] dark:text-blue-300 text-[13px] font-bold transition-all hover:bg-blue-100 dark:hover:bg-blue-900/50 cursor-pointer active:scale-95"
                   aria-label="Criar novo Post"
                 >
-                  <div className="w-6 h-6 rounded-full bg-[#1e40af] text-white flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14"/>
-                      <path d="M12 5v14"/>
+                  <div className="w-5 h-5 rounded-full bg-[#1e40af] text-white flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M5 12h14" />
+                      <path d="M12 5v14" />
                     </svg>
                   </div>
                   <span className="hidden sm:inline">Novo Post</span>
                 </button>
-                
+
                 {/* Tooltip */}
                 {showCreateTooltip && (
                   <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-gray-800 text-white text-xs font-medium rounded-lg whitespace-nowrap z-50">
@@ -317,31 +320,29 @@ export function Header() {
                   </div>
                 )}
               </div>
-            </nav>
 
-            <div className="flex items-center gap-3">
               {!loading && (
                 <>
                   {user ? (
                     <div
-                      className="relative group mr-[5px]"
+                      className="relative group"
                       onMouseEnter={handleContaMouseEnter}
                       onMouseLeave={handleContaMouseLeave}
                     >
-                      <button className="flex items-center gap-2 p-1.5 px-3 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-[#1e40af] dark:text-blue-300 text-sm font-bold">
-                        <div className="w-6 h-6 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-[10px]">
+                      <button className="flex items-center gap-2 h-10 px-4 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-[#1e40af] dark:text-blue-300 text-[13px] font-bold transition-all active:scale-95">
+                        <div className="w-5 h-5 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-[9px] font-black">
                           {user.email?.substring(0, 2).toUpperCase()}
                         </div>
                         <span className="hidden sm:inline">Minha Conta</span>
                       </button>
-                      <div 
+                      <div
                         className={`absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1 z-50 ${isContaOpen ? 'block' : 'hidden'} transition-all transform origin-top-right`}
                         onMouseEnter={handleContaMouseEnter}
                         onMouseLeave={handleContaMouseLeave}
                       >
                         <div className="px-4 py-2 border-b border-gray-50 dark:border-gray-700">
-                          <p className="text-[10px] text-gray-400 uppercase font-bold">Logado como</p>
-                          <p className="text-xs font-semibold truncate dark:text-gray-200">{user.email}</p>
+                          <p className="text-[10px] text-gray-400 uppercase font-bold text-center">Logado como</p>
+                          <p className="text-xs font-semibold truncate dark:text-gray-200 text-center">{user.email}</p>
                         </div>
                         <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-50 dark:border-gray-700">
                           📊 Minha Página
@@ -365,7 +366,7 @@ export function Header() {
                   ) : (
                     <Link
                       href="/login"
-                      className="px-5 py-2.5 rounded-lg bg-[#1e40af] hover:bg-blue-700 text-white text-sm font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95 mr-[5px]"
+                      className="h-10 px-6 rounded-lg bg-[#1e40af] hover:bg-blue-700 text-white text-sm font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95 flex items-center"
                     >
                       Entrar
                     </Link>
