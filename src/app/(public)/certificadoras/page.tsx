@@ -6,14 +6,13 @@ import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 
 const certificadoras = [
-  // ... (rest of the file)
-  { nome: "Verra (VCS)", sede: "EUA", foco: "REDD+, Florestas, Energia", unidade: "tCO2e", volume: "1.1B", url: "https://verra.org" },
+  { nome: "Verra (VCS)", sede: "EUA", foco: "REDD+, Florestas, Indústria", unidade: "tCO2e", volume: "1.1B", url: "https://verra.org" },
   { nome: "Gold Standard", sede: "Suíça", foco: "ODS, Energia, Florestas", unidade: "tCO2e", volume: "245M", url: "https://goldstandard.org" },
-  { nome: "RenovaBio", sede: "Brasil", foco: "Biocombustíveis", unidade: "CBIO", volume: "135M", url: "https://.gov.br/anp/renovabio" },
+  { nome: "RenovaBio", sede: "Brasil", foco: "Biocombustíveis", unidade: "CBIO", volume: "135M", url: "https://www.gov.br/anp/pt-br/assuntos/renovaBio" },
   { nome: "ACR (American Carbon Registry)", sede: "EUA", foco: "Florestas, Manejo", unidade: "tCO2e", volume: "250M", url: "https://americancarbonregistry.org" },
   { nome: "CAR (Climate Action Reserve)", sede: "EUA", foco: "Florestas, Aterros", unidade: "tCO2e", volume: "195M", url: "https://climateactionreserve.org" },
-  { nome: "ART/TREES", sede: "EUA", foco: "REDD+ Jurisdicional", unidade: "tCO2e", volume: "45M", url: "https://artreest.org" },
-  { nome: "GCC (Global Climate Council)", sede: "EUA", foco: "Energia Renovável", unidade: "tCO2e", volume: "20M", url: "https://gcc01.org" },
+  { nome: "ART/TREES", sede: "Jurisdicional", foco: "REDD+ em escala estatal", unidade: "tCO2e", volume: "45M", url: "https://artredd.org" },
+  { nome: "GCC (Global Climate Council)", sede: "Catar", foco: "Energia Renovável", unidade: "tCO2e", volume: "20M", url: "https://globalcarboncouncil.com" },
   { nome: "Plan Vivo", sede: "Reino Unido", foco: "REDD+, Agricultura", unidade: "tCO2e", volume: "14M", url: "https://planvivo.org" },
   { nome: "CDM (Clean Development Mechanism)", sede: "Global", foco: "Projetos CDM", unidade: "tCO2e", volume: "9M", url: "https://cdm.unfccc.int" },
   { nome: "Social Carbon", sede: "Brasil", foco: "REDD+, Comunidades", unidade: "tCO2e", volume: "7M", url: "https://socialcarbon.org" },
@@ -54,17 +53,24 @@ export default function Certificadoras() {
         <Breadcrumb />
         <div className="mb-8">
           <h2 className="text-4xl font-bold text-[#1e40af] mb-2">
-            Certificadoras e Padrões de Carbono
+            Certificadoras e Padrões
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
-            Principais certificadoras globais e nacionais com seus volumes
-            certificados e áreas de foco.
+            Principais certificadoras e padrões de carbono e energia renovável.
           </p>
         </div>
 
         <CertificadorasChart />
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="mt-12 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+              🌍 Certificadoras de Carbono
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Principais padrões e certificadoras de créditos de carbono.
+            </p>
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -124,13 +130,12 @@ export default function Certificadoras() {
         </div>
 
         <div className="mt-12 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              ⚡ Padrões de Certificação de Energia Renovável
+              ⚡ Certificadoras de Energia Renovável
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              Sistemas de rastreamento e certificação de energia limpa utilizados
-              globalmente.
+              Sistemas de rastreamento e certificação de energia limpa.
             </p>
           </div>
           <div className="overflow-x-auto">
