@@ -22,7 +22,7 @@ export function LastUpdated({ dataFile, className = "" }: LastUpdatedProps) {
       "irec-brasil": "2026-02-15",
       "irec-mundo": "2026-02-15",
       "irec-precos": "2026-02-15",
-      "certificadoras": "2026-02-15",
+      "certificadoras": "2026-02-21",
     };
 
     const dateStr = fileDates[dataFile] || "2026-02-15";
