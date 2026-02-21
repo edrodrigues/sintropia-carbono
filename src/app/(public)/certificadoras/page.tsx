@@ -2,6 +2,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { CertificadorasChart } from "@/components/charts/CertificadorasChart";
+import { EnergiaRenovavelChart } from "@/components/charts/EnergiaRenovavelChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 
@@ -19,16 +20,16 @@ const certificadoras = [
 ];
 
 const energiaPadroes = [
-  { nome: "I-REC (International REC)", origem: "Países Baixos (Global)", cobertura: "Book-and-Claim - +50 países", metodologia: "I-TRACK Foundation", volume: "283 TWh (2023)", url: "https://trackingstandard.org" },
-  { nome: "Guarantees of Origin (GO)", origem: "União Europeia (AIB)", cobertura: "Sistema Europeu EECS", metodologia: "European Energy Certificate System", volume: "1.084 TWh (2024)", url: "https://aib-net.org" },
-  { nome: "Green-e Energy", origem: "EUA e Canadá", cobertura: "Certificação de Varejo", metodologia: "Auditoria de Transação", volume: "110 MWh (2021)", url: "https://green-e.org" },
-  { nome: "TIGR (Tradable Instrument for Global Renewables)", origem: "EUA (Global)", cobertura: "Sudeste Asiático e América Central", metodologia: "Registro Digital (APX/Xpansiv)", volume: "~2% mercado internacional", url: "https://apx.com" },
-  { nome: "REC Brazil", origem: "Brasil", cobertura: "I-REC + Adicionalidade Social", metodologia: "Instituto Totum (SDGs)", volume: "+73% crescimento (2023)", url: "https://irec-brazil.org" },
-  { nome: "LGC (Large-scale Generation Certificates)", origem: "Austrália", cobertura: "Large-scale Renewable Energy Target", metodologia: "LRET + REGO (2025)", volume: "51.5M certificados (2024)", url: "https://cer.gov.au" },
-  { nome: "Non-Fossil Certificates (NFC)", origem: "Japão", cobertura: "Mercado JEPX", metodologia: "Non-Fossil Value Trading", volume: "143.8 bilhões kWh (2024)", url: "https://jepx.org" },
-  { nome: "UK REGO", origem: "Reino Unido", cobertura: "Fuel Mix Disclosure", metodologia: "Ofgem", volume: "£25/MWh (2023)", url: "https://ofgem.gov.uk" },
-  { nome: "EKOenergy", origem: "Finlândia (Global)", cobertura: "Selo de Qualidade Global", metodologia: "Critérios de Biodiversidade", volume: "3.000+ instalações (2024)", url: "https://ekoenergy.org" },
-  { nome: "Gold Standard Renewable Energy Label", origem: "Suíça (Global)", cobertura: "GS4GG - Objetivos ODS", metodologia: "Consulta pública a stakeholders", volume: "Aplicado sobre RECs", url: "https://goldstandard.org" },
+  { nome: "I-REC (International REC)", origem: "Países Baixos (Global)", metodologia: "Book-and-Claim (I-TRACK Foundation)", volume2024: "283.000.000 MWh", volume2025: "Parcial (ex.: 54M no Brasil até meados)", atributos: "Padrão global para mercados voluntários; adotado em mais de 50 países; alta transparência.", url: "https://trackingstandard.org" },
+  { nome: "Guarantees of Origin (GO)", origem: "União Europeia (AIB)", metodologia: "European Energy Certificate System (EECS)", volume2024: "1.084.000.000 MWh", volume2025: "Não disponível", atributos: "Instrumento regulado pela UE; obrigatório para divulgação do mix energético dos fornecedores.", url: "https://aib-net.org" },
+  { nome: "Green-e Energy", origem: "EUA e Canadá", metodologia: "Certificação de Varejo e Auditoria de Transação", volume2024: "143.576.000 MWh", volume2025: "Não disponível", atributos: "Foco em proteção ao consumidor e critérios rigorosos de adicionalidade para novos projetos.", url: "https://green-e.org" },
+  { nome: "TIGR (Tradable Instrument for Global Renewables)", origem: "EUA (Global)", metodologia: "Registro Digital (APX/Xpansiv)", volume2024: "~9.870.000 MWh (2023)", volume2025: "Não disponível", atributos: "Plataforma tecnológica integrada; forte em mercados do sudeste asiático e América Central.", url: "https://apx.com" },
+  { nome: "REC Brazil", origem: "Brasil", metodologia: "I-REC + Adicionalidade Social e Ambiental (SDGs)", volume2024: "Parcial (ex.: 1,4M por uma empresa)", volume2025: "Não disponível", atributos: "Chancela brasileira gerida pelo Instituto Totum; exige alinhamento com 5 dos 17 ODS da ONU.", url: "https://irec-brazil.org" },
+  { nome: "LGC (Large-scale Generation Certificates)", origem: "Austrália", metodologia: "Large-scale Renewable Energy Target (LRET)", volume2024: "51.500.000 MWh", volume2025: "Projeção: 54-57M MWh", atributos: "Sistema de conformidade legal com transição para rastreamento horário (REGO) em 2025.", url: "https://cer.gov.au" },
+  { nome: "Non-Fossil Certificates (NFC)", origem: "Japão", metodologia: "Non-Fossil Value Trading Market (JEPX)", volume2024: "Parcial (~15.343 GWh em uma rodada FY2024)", volume2025: "Não disponível", atributos: "Segmentado entre fontes FIT e não-FIT; inclui nuclear como fonte não-fóssil.", url: "https://jepx.org" },
+  { nome: "UK REGO", origem: "Reino Unido", metodologia: "Fuel Mix Disclosure (Ofgem)", volume2024: "~40.100.000 MWh (estimativa ROCs)", volume2025: "Não disponível", atributos: "Específico para o mercado britânico; essencial para conformidade com o reporte de emissões do governo.", url: "https://ofgem.gov.uk" },
+  { nome: "EKOenergy", origem: "Finlândia (Global)", metodologia: "Selo de Qualidade e Critérios de Biodiversidade", volume2024: "Record (volume exato não especificado)", volume2025: "Não disponível", atributos: "Ecolabel independente; exige sustentabilidade além da fonte (impacto em aves, peixes e ecossistemas).", url: "https://ekoenergy.org" },
+  { nome: "Gold Standard Renewable Energy Label", origem: "Suíça (Global)", metodologia: "GS4GG (Global Goals for Sustainable Development)", volume2024: "Não disponível", volume2025: "Não disponível", atributos: "Aplicado sobre RECs para garantir integridade ambiental; foco em alta qualidade e benefícios sociais diretos.", url: "https://goldstandard.org" },
 ];
 
 const dataSources = [
@@ -129,6 +130,10 @@ export default function Certificadoras() {
           </div>
         </div>
 
+        <div className="mt-16">
+          <EnergiaRenovavelChart />
+        </div>
+
         <div className="mt-12 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
@@ -149,13 +154,13 @@ export default function Certificadoras() {
                     Origem
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Cobertura
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Metodologia
                   </th>
-                  <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Volume
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    Volume 2024
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    Volume 2025
                   </th>
                 </tr>
               </thead>
@@ -178,19 +183,54 @@ export default function Certificadoras() {
                     <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">
                       {padrao.origem}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">
-                      {padrao.cobertura}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">
+                    <td className="px-6 py-4 text-gray-600 dark:text-gray-400 text-sm">
                       {padrao.metodologia}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right font-mono font-semibold text-gray-900 dark:text-gray-100">
-                      {padrao.volume}
+                    <td className="px-6 py-4 whitespace-nowrap font-mono text-sm text-gray-900 dark:text-gray-100">
+                      {padrao.volume2024}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                      {padrao.volume2025}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+
+        <div className="mt-12 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+              💡 Atributos e Diferenciais
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              Principais características de cada padrão de certificação.
+            </p>
+          </div>
+          <div className="p-6">
+            <div className="grid gap-4">
+              {energiaPadroes.map((padrao, index) => (
+                <div key={index} className="flex items-start gap-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <div className="flex-shrink-0 w-8 h-8 bg-cyan-100 dark:bg-cyan-900/30 rounded-full flex items-center justify-center text-cyan-600 dark:text-cyan-400 font-bold text-sm">
+                    {index + 1}
+                  </div>
+                  <div className="flex-1">
+                    <a
+                      href={padrao.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#1e40af] hover:underline font-semibold"
+                    >
+                      {padrao.nome}
+                    </a>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm mt-1">
+                      {padrao.atributos}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
