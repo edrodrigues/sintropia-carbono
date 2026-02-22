@@ -5,6 +5,7 @@ import { CertificadorasChart } from "@/components/charts/CertificadorasChart";
 import { EnergiaRenovavelChart } from "@/components/charts/EnergiaRenovavelChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
+import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
 const certificadoras = [
   { nome: "Verra (VCS)", sede: "EUA", foco: "REDD+, Florestas, Indústria", unidade: "tCO2e", volume: "1.1B", url: "https://verra.org" },
@@ -72,61 +73,44 @@ export default function Certificadoras() {
               Principais padrões e certificadoras de créditos de carbono.
             </p>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-50 dark:bg-gray-700">
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Certificadora
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Sede / Região
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Foco Principal
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Unidade
-                  </th>
-                  <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Volume Total Certificado
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {certificadoras.map((cert, index) => (
-                  <tr
-                    key={index}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-700/50"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <a
-                        href={cert.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#1e40af] hover:underline font-semibold"
-                      >
-                        {cert.nome} ↗
-                      </a>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">
-                      {cert.sede}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">
-                      {cert.foco}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-xs font-mono bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded">
-                        {cert.unidade}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right font-mono font-semibold text-gray-900 dark:text-gray-100">
-                      {cert.volume}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="p-6">
+            <Card>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableHeader>Certificadora</TableHeader>
+                    <TableHeader>Sede / Região</TableHeader>
+                    <TableHeader>Foco Principal</TableHeader>
+                    <TableHeader>Unidade</TableHeader>
+                    <TableHeader className="text-right">Volume Total</TableHeader>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {certificadoras.map((cert, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        <a
+                          href={cert.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#1e40af] hover:underline font-semibold"
+                        >
+                          {cert.nome} ↗
+                        </a>
+                      </TableCell>
+                      <TableCell>{cert.sede}</TableCell>
+                      <TableCell>{cert.foco}</TableCell>
+                      <TableCell>
+                        <span className="text-xs font-mono bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded">
+                          {cert.unidade}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-right font-mono font-semibold">{cert.volume}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Card>
           </div>
         </div>
 
@@ -143,59 +127,40 @@ export default function Certificadoras() {
               Sistemas de rastreamento e certificação de energia limpa.
             </p>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-50 dark:bg-gray-700">
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Padrão
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Origem
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Metodologia
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Volume 2024
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Volume 2025
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {energiaPadroes.map((padrao, index) => (
-                  <tr
-                    key={index}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-700/50"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <a
-                        href={padrao.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#1e40af] hover:underline font-semibold"
-                      >
-                        {padrao.nome} ↗
-                      </a>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-400">
-                      {padrao.origem}
-                    </td>
-                    <td className="px-6 py-4 text-gray-600 dark:text-gray-400 text-sm">
-                      {padrao.metodologia}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap font-mono text-sm text-gray-900 dark:text-gray-100">
-                      {padrao.volume2024}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
-                      {padrao.volume2025}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="p-6">
+            <Card>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableHeader>Padrão</TableHeader>
+                    <TableHeader>Origem</TableHeader>
+                    <TableHeader>Metodologia</TableHeader>
+                    <TableHeader>Volume 2024</TableHeader>
+                    <TableHeader>Volume 2025</TableHeader>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {energiaPadroes.map((padrao, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        <a
+                          href={padrao.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#1e40af] hover:underline font-semibold"
+                        >
+                          {padrao.nome} ↗
+                        </a>
+                      </TableCell>
+                      <TableCell>{padrao.origem}</TableCell>
+                      <TableCell>{padrao.metodologia}</TableCell>
+                      <TableCell className="font-mono">{padrao.volume2024}</TableCell>
+                      <TableCell>{padrao.volume2025}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Card>
           </div>
         </div>
 

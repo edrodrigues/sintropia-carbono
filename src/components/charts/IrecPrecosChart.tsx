@@ -1,28 +1,6 @@
 "use client";
 
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    LogarithmicScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ChartData,
-    ChartOptions,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    LogarithmicScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-);
+import { Card, Title, BarChart, BarList } from "@/components/ui/tremor";
 
 const priceData = [
     { country: "Brasil", price: 0.18 },
@@ -35,62 +13,41 @@ const priceData = [
     { country: "Singapura", price: 75.0 },
 ];
 
-export function IrecPrecosChart() {
-    const data: ChartData<"bar"> = {
-        labels: priceData.map((d) => d.country),
-        datasets: [
-            {
-                label: "Preço USD/MWh",
-                data: priceData.map((d) => d.price),
-                backgroundColor: (context) => {
-                    const value = context.raw as number;
-                    if (value > 50) return "#dc2626"; // Singapura
-                    if (value < 0.5) return "#16a34a"; // Brasil
-                    return "#2563eb";
-                },
-                borderRadius: 4,
-            },
-        ],
-    };
+const getBarColor = (price: number) => {
+    if (price > 50) return "#dc2626";
+    if (price < 0.5) return "#16a34a";
+    return "#2563eb";
+};
 
-    const options: ChartOptions<"bar"> = {
-        responsive: true,
-        maintainAspectRatio: false,
-        indexAxis: "y",
-        scales: {
-            x: {
-                type: "logarithmic",
-                title: { display: true, text: "Preço (Escala Logarítmica USD)" },
-                grid: { color: "rgba(0, 0, 0, 0.05)" },
-            },
-            y: {
-                grid: { display: false },
-            },
-        },
-        plugins: {
-            legend: { display: false },
-            title: {
-                display: true,
-                text: "Comparativo de Preços I-REC por País (USD/MWh)",
-                font: { size: 14, weight: "bold" },
-                padding: 20,
-            },
-            tooltip: {
-                callbacks: {
-                    label: (context) => ` $${context.raw}`,
-                },
-            },
-        },
-    };
+export function IrecPrecosChart() {
+    const barData = priceData.map((d) => ({
+        name: d.country,
+        value: d.price,
+    }));
+
+    const barListData = priceData.map((d) => ({
+        name: d.country,
+        value: d.price,
+        color: getBarColor(d.price),
+    }));
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-8 mb-8">
+        <Card>
             <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">
                 Disparidade de Preços Globais
             </h3>
-            <div className="relative h-[400px]">
-                <Bar data={data} options={options} />
+            <Title className="text-center mb-4">Comparativo de Preços I-REC por País (USD/MWh)</Title>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
+                <div>
+                    <Title className="text-sm text-gray-500 mb-2">Visualização em Barras</Title>
+                    <BarChart data={barData} className="h-[350px]" />
+                </div>
+                <div>
+                    <Title className="text-sm text-gray-500 mb-2">Por País</Title>
+                    <BarList data={barListData} className="h-[350px]" />
+                </div>
             </div>
-        </div>
+        </Card>
     );
 }

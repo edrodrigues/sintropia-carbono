@@ -1,7 +1,7 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
-import { CarbonPlanChart } from "@/components/charts/CarbonPlanChart";
+import CarbonPlanChartWrapper from "@/components/charts/CarbonPlanChartWrapper";
 import { DataSources } from "@/components/ui/DataSources";
 import { Callout } from "@/components/ui/tremor";
 
@@ -25,7 +25,7 @@ export default function CarbonoProjetos() {
           </p>
         </div>
 
-        <CarbonPlanChart />
+        <CarbonPlanChartWrapper />
 
         <div className="mt-12">
           <Callout title="Entendendo os IDs dos Projetos" variant="info">

@@ -4,6 +4,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { IrecPrecosChart } from "@/components/charts/IrecPrecosChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
+import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
 export default function IRECPrecos() {
     const brasilData = [
@@ -71,28 +72,28 @@ export default function IRECPrecos() {
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">🇧🇷 Mercado Brasileiro - Líder Global</h3>
                     </div>
                     <div className="p-6">
-                        <div className="overflow-x-auto mb-6">
-                            <table className="w-full text-left">
-                                <thead>
-                                    <tr className="bg-gray-50 dark:bg-gray-700/50">
-                                        <th className="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-300 uppercase">Tecnologia</th>
-                                        <th className="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-300 uppercase">Preço (USD/MWh)</th>
-                                        <th className="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-300 uppercase">Vintage</th>
-                                        <th className="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-300 uppercase text-right">Data</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                        <Card className="mb-6">
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableHeader>Tecnologia</TableHeader>
+                                        <TableHeader>Preço (USD/MWh)</TableHeader>
+                                        <TableHeader>Vintage</TableHeader>
+                                        <TableHeader className="text-right">Data</TableHeader>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
                                     {brasilData.map((row, i) => (
-                                        <tr key={i} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
-                                            <td className="px-6 py-4 font-bold">{row.tech}</td>
-                                            <td className="px-6 py-4 font-mono text-green-600 font-bold">{row.price}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-500">{row.vintage}</td>
-                                            <td className="px-6 py-4 text-sm text-gray-500 text-right">{row.date}</td>
-                                        </tr>
+                                        <TableRow key={i}>
+                                            <TableCell className="font-bold">{row.tech}</TableCell>
+                                            <TableCell className="font-mono text-green-600 font-bold">{row.price}</TableCell>
+                                            <TableCell>{row.vintage}</TableCell>
+                                            <TableCell className="text-right">{row.date}</TableCell>
+                                        </TableRow>
                                     ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                </TableBody>
+                            </Table>
+                        </Card>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
                                 <h5 className="font-bold text-yellow-800 dark:text-yellow-200 mb-2">📉 Por que tão baixo?</h5>
@@ -118,26 +119,26 @@ export default function IRECPrecos() {
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">🌍 Ásia-Pacífico - Destaques</h3>
                     </div>
                     <div className="p-6">
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left">
-                                <thead>
-                                    <tr className="bg-gray-50 dark:bg-gray-700/50">
-                                        <th className="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-300 uppercase">País</th>
-                                        <th className="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-300 uppercase">Preço (USD/MWh)</th>
-                                        <th className="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-300 uppercase text-right">Observação</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                        <Card>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableHeader>País</TableHeader>
+                                        <TableHeader>Preço (USD/MWh)</TableHeader>
+                                        <TableHeader className="text-right">Observação</TableHeader>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
                                     {globalData.map((row, i) => (
-                                        <tr key={i} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
-                                            <td className="px-6 py-4 font-bold">{row.country}</td>
-                                            <td className="px-6 py-4 font-mono font-bold text-orange-600">{row.price}</td>
-                                            <td className="px-6 py-4 text-xs font-semibold text-right">{row.note}</td>
-                                        </tr>
+                                        <TableRow key={i}>
+                                            <TableCell className="font-bold">{row.country}</TableCell>
+                                            <TableCell className="font-mono font-bold text-orange-600">{row.price}</TableCell>
+                                            <TableCell className="text-right">{row.note}</TableCell>
+                                        </TableRow>
                                     ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                </TableBody>
+                            </Table>
+                        </Card>
                     </div>
                 </div>
 
@@ -147,28 +148,28 @@ export default function IRECPrecos() {
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">🌎 América Latina - Mercado Regional</h3>
                     </div>
                     <div className="p-6">
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left">
-                                <thead>
-                                    <tr className="bg-gray-50 dark:bg-gray-700/50">
-                                        <th className="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-300 uppercase">País</th>
-                                        <th className="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-300 uppercase">Tech</th>
-                                        <th className="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-300 uppercase">Preço (USD)</th>
-                                        <th className="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-300 uppercase text-right">Tendência</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                        <Card>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableHeader>País</TableHeader>
+                                        <TableHeader>Tech</TableHeader>
+                                        <TableHeader>Preço (USD)</TableHeader>
+                                        <TableHeader className="text-right">Tendência</TableHeader>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
                                     {amLatinaData.map((row, i) => (
-                                        <tr key={i} className="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
-                                            <td className="px-6 py-4 font-bold">{row.country}</td>
-                                            <td className="px-6 py-4 text-sm">{row.tech}</td>
-                                            <td className="px-6 py-4 font-mono font-bold text-[#1e40af] dark:text-blue-400">{row.price}</td>
-                                            <td className="px-6 py-4 text-xs font-semibold text-right">{row.trend}</td>
-                                        </tr>
+                                        <TableRow key={i}>
+                                            <TableCell className="font-bold">{row.country}</TableCell>
+                                            <TableCell>{row.tech}</TableCell>
+                                            <TableCell className="font-mono font-bold text-[#1e40af] dark:text-blue-400">{row.price}</TableCell>
+                                            <TableCell className="text-right">{row.trend}</TableCell>
+                                        </TableRow>
                                     ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                </TableBody>
+                            </Table>
+                        </Card>
                     </div>
                 </div>
 

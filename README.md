@@ -33,10 +33,23 @@ Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono 
 - **Frontend:** Next.js 15, React 19, TypeScript
 - **Styling:** Tailwind CSS 4
 - **Database:** Supabase (PostgreSQL)
-- **Charts:** Chart.js
+- **Charts & Tables:** Tremor (Recharts-based)
 - **Email:** Resend
 - **Testing:** Playwright
 - **Deploy:** Vercel
+
+## 📈 Desenvolvimento Recente
+
+### Migração para Tremor
+O projeto passou por uma migração completa para a biblioteca Tremor:
+- **Gráficos**: 9 componentes de gráficos migrados de Chart.js para Tremor (BarChart, DonutChart, LineChart)
+- **Tabelas**: 11 tabelas migradas de HTML nativo para Tremor Table
+- **Componentes customizados**: Biblioteca Tremor estendida com LineChart
+
+### Performance
+- Lazy loading implementado na página carbono-projetos
+- Code splitting automático com Next.js dynamic imports
+- Skeleton loading para melhor experiência de usuário
 
 ## 🛠️ Como Executar
 

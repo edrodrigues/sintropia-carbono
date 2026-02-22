@@ -4,6 +4,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { IrecMundoChart } from "@/components/charts/IrecMundoChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
+import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
 const energiaData = [
     { rank: 1, empresa: "Amazon", setor: "Tecnologia / E-commerce", vol2024: 78.4, vol2025: 91.2, delta: 16.33, badge: "bg-blue-600" },
@@ -66,40 +67,38 @@ export default function IrecMundo() {
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="bg-gray-50 dark:bg-gray-700/50">
-                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Rank</th>
-                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Corporação</th>
-                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Setor</th>
-                                    <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Vol 2024</th>
-                                    <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Vol 2025</th>
-                                    <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">Delta %</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                {energiaData.map((row) => (
-                                    <tr key={row.rank} className={`hover:bg-gray-50 dark:hover:bg-gray-700/50 ${row.rank <= 3 ? (row.rank === 1 ? 'bg-amber-50 dark:bg-amber-900/10' : row.rank === 2 ? 'bg-blue-50 dark:bg-blue-900/10' : 'bg-purple-50 dark:bg-purple-900/10') : ''}`}>
-                                        <td className="px-6 py-4 whitespace-nowrap font-mono text-gray-500 dark:text-gray-400">{row.rank}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap font-bold text-gray-900 dark:text-gray-100">{row.empresa}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white ${row.badge}`}>
-                                                {row.setor}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-right font-mono text-gray-600 dark:text-gray-400">{row.vol2024.toFixed(1)}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-right font-mono font-semibold text-gray-900 dark:text-gray-100">{row.vol2025.toFixed(1)}</td>
-                                        <td className={`px-6 py-4 whitespace-nowrap text-right font-mono font-bold ${row.delta >= 20 ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400'}`}>
-                                            {row.delta.toFixed(1)}% {row.delta >= 25 ? '🚀' : ''}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <Card>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableHeader>Rank</TableHeader>
+                                <TableHeader>Corporação</TableHeader>
+                                <TableHeader>Setor</TableHeader>
+                                <TableHeader className="text-right">Vol 2024</TableHeader>
+                                <TableHeader className="text-right">Vol 2025</TableHeader>
+                                <TableHeader className="text-right">Delta %</TableHeader>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {energiaData.map((row) => (
+                                <TableRow key={row.rank} className={row.rank <= 3 ? (row.rank === 1 ? 'bg-amber-50 dark:bg-amber-900/10' : row.rank === 2 ? 'bg-blue-50 dark:bg-blue-900/10' : 'bg-purple-50 dark:bg-purple-900/10') : ''}>
+                                    <TableCell className="font-mono">{row.rank}</TableCell>
+                                    <TableCell className="font-bold">{row.empresa}</TableCell>
+                                    <TableCell>
+                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white ${row.badge}`}>
+                                            {row.setor}
+                                        </span>
+                                    </TableCell>
+                                    <TableCell className="text-right font-mono">{row.vol2024.toFixed(1)}</TableCell>
+                                    <TableCell className="text-right font-mono font-semibold">{row.vol2025.toFixed(1)}</TableCell>
+                                    <TableCell className={`text-right font-mono font-bold ${row.delta >= 20 ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400'}`}>
+                                        {row.delta.toFixed(1)}% {row.delta >= 25 ? '🚀' : ''}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Card>
 
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">

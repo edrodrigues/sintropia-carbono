@@ -4,6 +4,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { CarbonoBrasilChart } from "@/components/charts/CarbonoBrasilChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
+import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
 const carbonoData = [
   { rank: 1, empresa: "Banco Votorantim", setor: "Financeiro", vol2024: 3.8, vol2025: 5.2, delta: 36.84 },
@@ -124,73 +125,38 @@ export default function CarbonoBrasil() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-50 dark:bg-gray-700">
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider w-16">
-                    Rank
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Empresa
-                  </th>
-                  <th className="px-6 py-4 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Setor
-                  </th>
-                  <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Vol 2024
-                  </th>
-                  <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Vol 2025
-                  </th>
-                  <th className="px-6 py-4 text-right text-xs font-bold text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    Delta %
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {carbonoData.map((row) => (
-                  <tr
-                    key={row.rank}
-                    className={`hover:bg-gray-50 dark:hover:bg-gray-700/50 ${getTopClass(
-                      row.rank
-                    )}`}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap font-mono text-center text-gray-500 dark:text-gray-400">
-                      {row.rank}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap font-bold text-gray-900 dark:text-gray-100">
-                      {row.empresa}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white ${getSetorBadge(
-                          row.setor
-                        )}`}
-                      >
-                        {row.setor}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right font-mono text-gray-600 dark:text-gray-400">
-                      {row.vol2024.toFixed(2)}M
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right font-mono font-semibold text-gray-900 dark:text-gray-100">
-                      {row.vol2025.toFixed(2)}M
-                    </td>
-                    <td
-                      className={`px-6 py-4 whitespace-nowrap text-right font-mono ${getGrowthClass(
-                        row.delta
-                      )}`}
-                    >
-                      +{row.delta.toFixed(2)}%
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <Card>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableHeader className="w-16">Rank</TableHeader>
+                <TableHeader>Empresa</TableHeader>
+                <TableHeader>Setor</TableHeader>
+                <TableHeader className="text-right">Vol 2024</TableHeader>
+                <TableHeader className="text-right">Vol 2025</TableHeader>
+                <TableHeader className="text-right">Delta %</TableHeader>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {carbonoData.map((row) => (
+                <TableRow key={row.rank} className={getTopClass(row.rank)}>
+                  <TableCell className="font-mono text-center">{row.rank}</TableCell>
+                  <TableCell className="font-bold">{row.empresa}</TableCell>
+                  <TableCell>
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white ${getSetorBadge(row.setor)}`}>
+                      {row.setor}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-right font-mono">{row.vol2024.toFixed(2)}M</TableCell>
+                  <TableCell className="text-right font-mono font-semibold">{row.vol2025.toFixed(2)}M</TableCell>
+                  <TableCell className={`text-right font-mono ${getGrowthClass(row.delta)}`}>
+                    +{row.delta.toFixed(2)}%
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Card>
 
         <div className="mt-8 bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4">

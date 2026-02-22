@@ -1,29 +1,7 @@
 "use client";
 
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement,
-    ChartData,
-    ChartOptions,
-} from "chart.js";
-import { Bar, Doughnut } from "react-chartjs-2";
 import { useState } from "react";
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement
-);
+import { Card, Title, BarChart, DonutChart } from "@/components/ui/tremor";
 
 const fullChartData = {
     labels: [
@@ -75,113 +53,39 @@ const fullChartData = {
     regionDistribution: [35, 25, 15, 10, 8, 4, 2, 1],
 };
 
+const regionColors = [
+    "#2563eb",
+    "#0891b2",
+    "#10b981",
+    "#f59e0b",
+    "#ef4444",
+    "#8b5cf6",
+    "#ec4899",
+    "#6366f1",
+];
+
 export function EnergiaRenovavelChart() {
     const [view, setView] = useState<"all" | "top5">("all");
     const [type, setType] = useState<"bar" | "pie">("bar");
+    const [year, setYear] = useState<"2024" | "2025">("2024");
 
-    const dataWithVolume = fullChartData.labels.map((label, i) => ({
-        label,
-        volume2024: fullChartData.volumes2024[i],
-        volume2025: fullChartData.volumes2025[i],
-    })).filter(d => d.volume2024 > 0 || d.volume2025 > 0);
+    const barData = fullChartData.labels
+        .map((label, i) => ({
+            name: label,
+            value: year === "2024" ? fullChartData.volumes2024[i] : fullChartData.volumes2025[i],
+        }))
+        .filter(d => d.value > 0);
 
-    const displayData = view === "top5" ? dataWithVolume.slice(0, 5) : dataWithVolume;
-    const labels = displayData.map(d => d.label);
-    const data2024 = displayData.map(d => d.volume2024);
-    const data2025 = displayData.map(d => d.volume2025);
+    const displayData = view === "top5" ? barData.slice(0, 5) : barData;
 
-    const barData: ChartData<"bar"> = {
-        labels,
-        datasets: [
-            {
-                label: "2024",
-                data: data2024,
-                backgroundColor: "#64748b",
-                borderRadius: 4,
-            },
-            {
-                label: "2025",
-                data: data2025,
-                backgroundColor: "#0891b2",
-                borderRadius: 4,
-            },
-        ],
-    };
-
-    const barOptions: ChartOptions<"bar"> = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            x: {
-                stacked: false,
-                grid: { display: false },
-            },
-            y: {
-                stacked: false,
-                grid: { color: "rgba(0, 0, 0, 0.05)" },
-                ticks: {
-                    callback: function(value) {
-                        const num = Number(value);
-                        if (num >= 1000000) {
-                            return (num / 1000000).toFixed(0) + "M";
-                        }
-                        if (num >= 1000) {
-                            return (num / 1000).toFixed(0) + "K";
-                        }
-                        return num;
-                    },
-                },
-            },
-        },
-        plugins: {
-            legend: { position: "bottom" },
-            title: {
-                display: true,
-                text: "Volume de Certificados por Padrão (MWh)",
-                font: { size: 14, weight: "bold" },
-                padding: 20,
-            },
-        },
-    };
-
-    const pieData: ChartData<"doughnut"> = {
-        labels: fullChartData.regions,
-        datasets: [
-            {
-                data: fullChartData.regionDistribution,
-                backgroundColor: [
-                    "#2563eb",
-                    "#0891b2",
-                    "#10b981",
-                    "#f59e0b",
-                    "#ef4444",
-                    "#8b5cf6",
-                    "#ec4899",
-                    "#6366f1",
-                ],
-                borderWidth: 2,
-                borderColor: "#ffffff",
-            },
-        ],
-    };
-
-    const pieOptions: ChartOptions<"doughnut"> = {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: "50%",
-        plugins: {
-            legend: { position: "bottom" },
-            title: {
-                display: true,
-                text: "Distribuição por Região (%)",
-                font: { size: 14, weight: "bold" },
-                padding: 20,
-            },
-        },
-    };
+    const regionData = fullChartData.regions.map((region, i) => ({
+        name: region,
+        value: fullChartData.regionDistribution[i],
+        color: regionColors[i],
+    }));
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-8 mb-8">
+        <Card>
             <div className="flex flex-col md:flex-row justify-between items-center mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 md:mb-0">
                     ⚡ Energia Renovável - Dados Gerais
@@ -229,13 +133,43 @@ export function EnergiaRenovavelChart() {
                     </div>
                 </div>
             </div>
+            
+            {type === "bar" && (
+                <div className="flex gap-2 mb-4">
+                    <button
+                        onClick={() => setYear("2024")}
+                        className={`px-4 py-2 rounded-lg font-semibold transition-colors ${year === "2024"
+                                ? "bg-slate-600 text-white"
+                                : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                            }`}
+                    >
+                        2024
+                    </button>
+                    <button
+                        onClick={() => setYear("2025")}
+                        className={`px-4 py-2 rounded-lg font-semibold transition-colors ${year === "2025"
+                                ? "bg-cyan-600 text-white"
+                                : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                            }`}
+                    >
+                        2025
+                    </button>
+                </div>
+            )}
+
             <div className="relative h-[400px]">
                 {type === "bar" ? (
-                    <Bar data={barData} options={barOptions} />
+                    <>
+                        <Title className="text-center mb-4">Volume de Certificados por Padrão (MWh)</Title>
+                        <BarChart data={displayData} className="h-[320px]" />
+                    </>
                 ) : (
-                    <Doughnut data={pieData} options={pieOptions} />
+                    <>
+                        <Title className="text-center mb-4">Distribuição por Região (%)</Title>
+                        <DonutChart data={regionData} className="h-[320px]" />
+                    </>
                 )}
             </div>
-        </div>
+        </Card>
     );
 }

@@ -1,29 +1,7 @@
 "use client";
 
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement,
-    ChartData,
-    ChartOptions,
-} from "chart.js";
-import { Bar, Doughnut } from "react-chartjs-2";
 import { useState } from "react";
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement
-);
+import { Card, Title, BarChart, DonutChart } from "@/components/ui/tremor";
 
 const fullChartData = {
     labels: [
@@ -81,104 +59,45 @@ const fullChartData = {
     sectorDistribution: [20, 20, 8, 4, 4, 8, 4, 8, 4, 4, 4, 4, 4, 4],
 };
 
+const sectorColors = [
+    "#1e3a8a",
+    "#166534",
+    "#92400e",
+    "#52525b",
+    "#0891b2",
+    "#dc2626",
+    "#ea580c",
+    "#65a30d",
+    "#3f3f46",
+    "#ec4899",
+    "#db2777",
+    "#d97706",
+    "#06b6d4",
+    "#7c3aed",
+];
+
 export function CarbonoBrasilChart() {
     const [view, setView] = useState<"top10" | "top25">("top25");
     const [type, setType] = useState<"bar" | "pie">("bar");
+    const [year, setYear] = useState<"2024" | "2025">("2024");
 
     const limit = view === "top10" ? 10 : 25;
-    const labels = fullChartData.labels.slice(0, limit);
-    const data2024 = fullChartData.volumes2024.slice(0, limit);
-    const data2025 = fullChartData.volumes2025.slice(0, limit);
 
-    const barData: ChartData<"bar"> = {
-        labels,
-        datasets: [
-            {
-                label: "Volume 2024 (Milhões tCO2e)",
-                data: data2024,
-                backgroundColor: "#94a3b8",
-                borderRadius: 4,
-            },
-            {
-                label: "Volume 2025 (Milhões tCO2e)",
-                data: data2025,
-                backgroundColor: "#1e40af",
-                borderRadius: 4,
-            },
-        ],
-    };
+    const barData = fullChartData.labels
+        .slice(0, limit)
+        .map((label, i) => ({
+            name: label,
+            value: year === "2024" ? fullChartData.volumes2024[i] : fullChartData.volumes2025[i],
+        }));
 
-    const barOptions: ChartOptions<"bar"> = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            x: {
-                stacked: true,
-                grid: { display: false },
-            },
-            y: {
-                stacked: true,
-                grid: { color: "rgba(0, 0, 0, 0.05)" },
-                ticks: {
-                    callback: (value) => value + "M",
-                },
-            },
-        },
-        plugins: {
-            legend: { position: "bottom" },
-            title: {
-                display: true,
-                text: "Comparação de Volumes de Carbono - Brasil (Milhões tCO2e)",
-                font: { size: 14, weight: "bold" },
-                padding: 20,
-            },
-        },
-    };
-
-    const pieData: ChartData<"doughnut"> = {
-        labels: fullChartData.sectors,
-        datasets: [
-            {
-                data: fullChartData.sectorDistribution,
-                backgroundColor: [
-                    "#1e3a8a",
-                    "#166534",
-                    "#92400e",
-                    "#52525b",
-                    "#0891b2",
-                    "#dc2626",
-                    "#ea580c",
-                    "#65a30d",
-                    "#3f3f46",
-                    "#ec4899",
-                    "#db2777",
-                    "#d97706",
-                    "#06b6d4",
-                    "#7c3aed",
-                ],
-                borderWidth: 2,
-                borderColor: "#ffffff",
-            },
-        ],
-    };
-
-    const pieOptions: ChartOptions<"doughnut"> = {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: "50%",
-        plugins: {
-            legend: { position: "bottom" },
-            title: {
-                display: true,
-                text: "Distribuição por Setor (%)",
-                font: { size: 14, weight: "bold" },
-                padding: 20,
-            },
-        },
-    };
+    const sectorData = fullChartData.sectors.map((sector, i) => ({
+        name: sector,
+        value: fullChartData.sectorDistribution[i],
+        color: sectorColors[i],
+    }));
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-8 mb-8">
+        <Card>
             <div className="flex flex-col md:flex-row justify-between items-center mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 md:mb-0">
                     Visualizações de Dados
@@ -226,13 +145,43 @@ export function CarbonoBrasilChart() {
                     </div>
                 </div>
             </div>
+
+            {type === "bar" && (
+                <div className="flex gap-2 mb-4">
+                    <button
+                        onClick={() => setYear("2024")}
+                        className={`px-4 py-2 rounded-lg font-semibold transition-colors ${year === "2024"
+                                ? "bg-slate-600 text-white"
+                                : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                            }`}
+                    >
+                        2024
+                    </button>
+                    <button
+                        onClick={() => setYear("2025")}
+                        className={`px-4 py-2 rounded-lg font-semibold transition-colors ${year === "2025"
+                                ? "bg-blue-600 text-white"
+                                : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
+                            }`}
+                    >
+                        2025
+                    </button>
+                </div>
+            )}
+
             <div className="relative h-[400px]">
                 {type === "bar" ? (
-                    <Bar data={barData} options={barOptions} />
+                    <>
+                        <Title className="text-center mb-4">Comparação de Volumes de Carbono - Brasil (Milhões tCO2e)</Title>
+                        <BarChart data={barData} className="h-[320px]" />
+                    </>
                 ) : (
-                    <Doughnut data={pieData} options={pieOptions} />
+                    <>
+                        <Title className="text-center mb-4">Distribuição por Setor (%)</Title>
+                        <DonutChart data={sectorData} className="h-[320px]" />
+                    </>
                 )}
             </div>
-        </div>
+        </Card>
     );
 }

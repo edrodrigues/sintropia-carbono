@@ -7,5 +7,6 @@ export { Select } from "./Select";
 export { Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "./Table";
 export { BarChart, BarList } from "./BarChart";
 export { DonutChart } from "./DonutChart";
+export { LineChart } from "./LineChart";
 export { Callout } from "./Callout";
 export { Tooltip } from "../Tooltip";

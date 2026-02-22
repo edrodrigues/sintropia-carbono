@@ -4,6 +4,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { CarbonoPrecosChart } from "@/components/charts/CarbonoPrecosChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
+import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
 const dataSources = [
   { name: "BloombergNEF", url: "https://about.bnef.com" },
@@ -74,34 +75,34 @@ export default function CarbonoPrecos() {
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">🌱 Mercado Voluntário (VCM)</h3>
                     </div>
                     <div className="p-6">
-                        <div className="overflow-x-auto">
-                            <table className="w-full">
-                                <thead>
-                                    <tr className="bg-gray-50 dark:bg-gray-700/50">
-                                        <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase">Qualidade</th>
-                                        <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase">Preço (USD/tCO2e)</th>
-                                        <th className="px-6 py-3 text-left text-xs font-bold text-gray-500 dark:text-gray-300 uppercase">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                    <tr>
-                                        <td className="px-6 py-4 font-bold text-green-600">Alta Integridade</td>
-                                        <td className="px-6 py-4 font-mono">$14.80</td>
-                                        <td className="px-6 py-4 text-sm">Prêmio por qualidade e co-benefícios</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="px-6 py-4 font-bold text-blue-600">Padrão Mercado</td>
-                                        <td className="px-6 py-4 font-mono">$7.00 - $10.00</td>
-                                        <td className="px-6 py-4 text-sm">VCS/Gold Standard padrão</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="px-6 py-4 font-bold text-gray-500">Legado / Baixa</td>
-                                        <td className="px-6 py-4 font-mono">$3.50</td>
-                                        <td className="px-6 py-4 text-sm">Projetos antigos com dúvidas de adicionalidade</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <Card>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableHeader>Qualidade</TableHeader>
+                                        <TableHeader>Preço (USD/tCO2e)</TableHeader>
+                                        <TableHeader>Status</TableHeader>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell className="font-bold text-green-600">Alta Integridade</TableCell>
+                                        <TableCell className="font-mono">$14.80</TableCell>
+                                        <TableCell>Prêmio por qualidade e co-benefícios</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell className="font-bold text-blue-600">Padrão Mercado</TableCell>
+                                        <TableCell className="font-mono">$7.00 - $10.00</TableCell>
+                                        <TableCell>VCS/Gold Standard padrão</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell className="font-bold text-gray-500">Legado / Baixa</TableCell>
+                                        <TableCell className="font-mono">$3.50</TableCell>
+                                        <TableCell>Projetos antigos com dúvidas de adicionalidade</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </Card>
                     </div>
                 </div>
 
