@@ -95,7 +95,7 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
           <div className="flex items-center gap-2 mb-3">
             <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0 overflow-hidden">
               {post.author?.avatar_url ? (
-                <Image src={post.author.avatar_url} alt="" fill className="object-cover rounded-full" unoptimized />
+                <Image src={post.author.avatar_url} alt="" fill className="object-cover rounded-full" />
               ) : (
                 (post.author?.username?.[0] || "?").toUpperCase()
               )}

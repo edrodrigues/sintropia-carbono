@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
+import Image from "next/image";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
@@ -81,10 +82,7 @@ export default async function LeaderboardPage() {
                       <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-0.5 shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
                         <div className="w-full h-full rounded-[0.9rem] bg-white dark:bg-gray-900 flex items-center justify-center text-blue-600 font-black text-lg">
                           {user.avatar_url ? (
-                            <>
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={user.avatar_url} alt={user.username} className="w-full h-full rounded-[0.9rem] object-cover" />
-                            </>
+                            <Image src={user.avatar_url} alt={user.username} fill className="rounded-[0.9rem] object-cover" />
                           ) : (
                             (user.display_name || user.username).substring(0, 2).toUpperCase()
                           )}

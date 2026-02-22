@@ -47,7 +47,6 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
                 alt={profile.display_name || profile.username}
                 fill
                 className="object-cover"
-                unoptimized
               />
             ) : (
               (profile.display_name?.[0] || profile.username?.[0] || "?").toUpperCase()
