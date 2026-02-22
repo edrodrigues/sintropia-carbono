@@ -1,47 +1,8 @@
 "use client";
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  PointElement,
-  LineElement,
-} from "chart.js";
-import { Bar, Doughnut, Line } from "react-chartjs-2";
-import { useState, useMemo } from "react";
-import { carbonProjectsData, countryToContinent, getStats, type CarbonProject } from "@/data/carbon-plan";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  PointElement,
-  LineElement
-);
-
-const countryColors = [
-  "#3b82f6",
-  "#22c55e",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
-  "#ec4899",
-  "#14b8a6",
-  "#f97316",
-  "#6366f1",
-  "#84cc16",
-  "#06b6d4",
-  "#a855f7",
-];
+import { useState, useMemo, useEffect } from "react";
+import { carbonProjectsData as localData, countryToContinent, getStats, type CarbonProject } from "@/data/carbon-plan";
+import { Card, Metric, MetricSubtitle, Title, Badge, TextInput, Select, Table, TableHead, TableBody, TableRow, TableHeader, TableCell, BarChart, DonutChart, BarList, Tooltip } from "@/components/ui/tremor";
 
 const continentColors: Record<string, string> = {
   "South America": "#22c55e",
@@ -54,17 +15,114 @@ const continentColors: Record<string, string> = {
   Unknown: "#6b7280",
 };
 
+const chartColors = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316", "#6366f1", "#84cc16"];
+
+interface ApiResponse {
+  projects: CarbonProject[];
+  stats: {
+    totalProjects: number;
+    forestProjects: number;
+    countries: number;
+    continents: number;
+    totalCredits: number;
+    countryStats: Record<string, number>;
+    continentStats: Record<string, number>;
+    categoryStats: Record<string, number>;
+    creditsByCountry: Record<string, number>;
+    vintageStats: Record<string, number>;
+  };
+  pagination: {
+    total: number;
+    limit: number;
+    offset: number;
+  };
+  error?: string;
+  fallback?: boolean;
+}
+
 export function CarbonPlanChart() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [selectedType, setSelectedType] = useState<string>("");
   const [sortBy, setSortBy] = useState<"country" | "name">("country");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 50;
 
-  const stats = useMemo(() => getStats(), []);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [projects, setProjects] = useState<CarbonProject[]>([]);
+  const [stats, setStats] = useState<{
+    totalProjects: number;
+    forestProjects: number;
+    countries: number;
+    continents: number;
+    totalCredits: number;
+    countryStats: Record<string, number>;
+    continentStats: Record<string, number>;
+    categoryStats: Record<string, number>;
+    creditsByCountry: Record<string, number>;
+    vintageStats: Record<string, number>;
+  } | null>(null);
+  const [useFallback, setUseFallback] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/carbon-projects?limit=1000');
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+
+        const data: ApiResponse = await response.json();
+
+        if (data.error && data.fallback) {
+          throw new Error('Using local data');
+        }
+
+        setProjects(data.projects);
+        setStats(data.stats);
+        setUseFallback(false);
+      } catch (err) {
+        console.log('Using fallback data:', err);
+        setUseFallback(true);
+        // Use local data as fallback
+        const localStats = getStats();
+        setStats({
+          totalProjects: localStats.totalProjects,
+          forestProjects: localStats.forestProjects,
+          countries: localStats.countries,
+          continents: localStats.continents,
+          totalCredits: 0,
+          countryStats: localStats.countryStats,
+          continentStats: {},
+          categoryStats: {},
+          creditsByCountry: {},
+          vintageStats: {},
+        });
+        // Map local data to match API format
+        const mappedProjects = localData.map(p => ({
+          project_id: p.project_id,
+          name: p.name,
+          category: p.category,
+          country: p.country,
+          project_type: p.project_type,
+          proponent: p.proponent,
+          protocol: p.protocol,
+        }));
+        setProjects(mappedProjects);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const filteredProjects = useMemo(() => {
-    let filtered = [...carbonProjectsData];
+    let filtered = [...projects];
 
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
@@ -81,11 +139,7 @@ export function CarbonPlanChart() {
     }
 
     if (selectedType) {
-      filtered = filtered.filter((p: CarbonProject) => {
-        if (selectedType === "forest") return p.category === "forest";
-        if (selectedType === "other") return p.category !== "forest";
-        return true;
-      });
+      filtered = filtered.filter((p: CarbonProject) => p.category === selectedType);
     }
 
     filtered.sort((a: CarbonProject, b: CarbonProject) => {
@@ -99,319 +153,419 @@ export function CarbonPlanChart() {
     });
 
     return filtered;
-  }, [searchTerm, selectedCountry, selectedType, sortBy, sortOrder]);
+  }, [projects, searchTerm, selectedCountry, selectedType, sortBy, sortOrder]);
 
-  const countryStats = useMemo(() => {
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedCountry, selectedType]);
+
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedProjects = filteredProjects.slice(startIndex, endIndex);
+
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, totalPages]);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 400, behavior: 'smooth' });
+  };
+
+  const countryStatsData = useMemo(() => {
+    if (!stats) return [];
     const sorted = Object.entries(stats.countryStats).sort((a, b) => b[1] - a[1]);
-    return sorted.slice(0, 15);
+    return sorted.slice(0, 15).map(([name, value]) => ({ name, value }));
   }, [stats]);
 
-  const continentStats = useMemo(() => {
-    const contStats: Record<string, number> = {};
-    carbonProjectsData.forEach((p: CarbonProject) => {
-      const continent = countryToContinent[p.country] || "Unknown";
-      contStats[continent] = (contStats[continent] || 0) + 1;
-    });
-    return Object.entries(contStats).sort((a, b) => b[1] - a[1]);
-  }, []);
-
-  const countryChartData = {
-    labels: countryStats.map(([country]) => country),
-    datasets: [
-      {
-        label: "Projetos",
-        data: countryStats.map(([, count]) => count),
-        backgroundColor: countryColors.slice(0, countryStats.length),
-        borderWidth: 0,
-        borderRadius: 6,
-      },
-    ],
-  };
-
-  const continentChartData = {
-    labels: continentStats.map(([continent]) => continent),
-    datasets: [
-      {
-        data: continentStats.map(([, count]) => count),
-        backgroundColor: continentStats.map(([continent]) => continentColors[continent] || "#6b7280"),
-        borderWidth: 2,
-        borderColor: "#ffffff",
-      },
-    ],
-  };
-
-  const typeChartData = {
-    labels: ["Florestal", "Outros"],
-    datasets: [
-      {
-        data: [stats.forestProjects, stats.totalProjects - stats.forestProjects],
-        backgroundColor: ["#22c55e", "#6b7280"],
-        borderWidth: 0,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        padding: 12,
-        cornerRadius: 8,
-      },
-    },
-    scales: {
-      x: { grid: { display: false } },
-      y: { grid: { color: "rgba(0, 0, 0, 0.05)" } },
-    },
-  };
-
-  const doughnutOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: "bottom" as const,
-        labels: { padding: 20, usePointStyle: true, font: { size: 12 } },
-      },
-    },
-  };
-
-  const uniqueCountries = Array.from(new Set(carbonProjectsData.map((p: CarbonProject) => p.country))).sort();
-
-  const protocolStats = useMemo(() => {
-    const protStats: Record<string, number> = {};
-    carbonProjectsData.forEach((p: CarbonProject) => {
-      const protocols = p.protocol.split("/");
-      protocols.forEach(prot => {
-        const clean = prot.trim();
-        protStats[clean] = (protStats[clean] || 0) + 1;
+  const continentStatsData = useMemo(() => {
+    if (!stats || !stats.continentStats || Object.keys(stats.continentStats).length === 0) {
+      // Calculate from local data if not available from API
+      const contStats: Record<string, number> = {};
+      localData.forEach((p: CarbonProject) => {
+        const continent = countryToContinent[p.country] || "Unknown";
+        contStats[continent] = (contStats[continent] || 0) + 1;
       });
-    });
-    return Object.entries(protStats).sort((a, b) => b[1] - a[1]);
-  }, []);
+      return Object.entries(contStats)
+        .sort((a, b) => b[1] - a[1])
+        .map(([name, value]) => ({
+          name,
+          value,
+          color: continentColors[name] || "#6b7280"
+        }));
+    }
+    return Object.entries(stats.continentStats)
+      .sort((a, b) => b[1] - a[1])
+      .map(([name, value]) => ({
+        name,
+        value,
+        color: continentColors[name] || "#6b7280"
+      }));
+  }, [stats]);
 
-  const protocolChartData = {
-    labels: protocolStats.map(([protocol]) => protocol),
-    datasets: [
-      {
-        label: "Projetos",
-        data: protocolStats.map(([, count]) => count),
-        backgroundColor: ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899"],
-        borderWidth: 0,
-        borderRadius: 6,
-      },
-    ],
+  const typeChartData = useMemo(() => {
+    if (!stats) return [
+      { name: "Florestal", value: 0, color: "#22c55e" },
+      { name: "Outros", value: 0, color: "#6b7280" },
+    ];
+    return [
+      { name: "Florestal", value: stats.forestProjects, color: "#22c55e" },
+      { name: "Outros", value: stats.totalProjects - stats.forestProjects, color: "#6b7280" },
+    ];
+  }, [stats]);
+
+  const categoryColors: Record<string, string> = {
+    "forest": "#22c55e",
+    "agriculture": "#f59e0b",
+    "renewable-energy": "#3b82f6",
+    "fuel-switching": "#ef4444",
+    "biochar": "#8b5cf6",
+    "energy-efficiency": "#ec4899",
+    "land-use": "#14b8a6",
+    "carbon-capture": "#6366f1",
+    "ghg-management": "#84cc16",
+    "unknown": "#6b7280",
   };
 
-  const protocolLabels: Record<string, string> = {
-    "VM0047": "Plantar árvores e medir crescimento via satélite",
-    "VM0048": "Evitar desmatamento em nível de estado/país, distribuindo créditos entre projetos",
-    "VM0007": "Manual das regras de REDD+ (versão antiga)",
-    "VM0038": "Recarregar carro elétrico = gerar crédito de carbono",
-    "ACM0022": "Tratamento de resíduos sólidos",
-    "AMS-I-D": "Geração hidrelétrica",
-    "AMS-I-F": "Geração solar/eólica",
-    "AMS-III-D": "Eficiência energética",
+  const PortugueseCategoryNames: Record<string, string> = {
+    "forest": "Florestal",
+    "agriculture": "Agricultura",
+    "renewable-energy": "Energia Renovável",
+    "fuel-switching": "Subst. Combustível",
+    "biochar": "Biochar",
+    "energy-efficiency": "Eficiência Energética",
+    "land-use": "Uso da Terra",
+    "carbon-capture": "Captura de Carbono",
+    "ghg-management": "Gestão de GEE",
+    "unknown": "Pendente",
   };
 
-  const protocolDescriptions: Record<string, string> = {
-    "VM0047": "Afforestation, Reforestation and Revegetation (ARR) - Plantio de árvores em áreas degradadas, com monitoramento por satélite",
-    "VM0048": "REDD+ (Reducing Emissions from Deforestation) - Evitar desmatamento em escala jurisdicional, distribuindo créditos entre projetos",
-    "VM0007": "REDD+ Methodology Framework - Framework metodológico para projetos REDD+ (versão anterior)",
-    "VM0038": "Eletrificação de Veículos - Créditos por carregar veículos elétricos ou substituir veículos a combustão",
-    "ACM0022": "Decomposição de Resíduos - Tratamento de resíduos orgânicos sólidos via compostagem ou digestão anaeróbica",
-    "AMS-I-D": "Energia Renovável Conectada à Rede - Geração de energia renovável conectada à rede elétrica",
-    "AMS-I-F": "Energia Renovável para Carregamento de Veículos - Energia renovável destinada ao carregamento de veículos elétricos",
-    "AMS-III-D": "Eficiência Energética - Melhorias de eficiência energética em processos industriais",
+  const categoryChartData = useMemo(() => {
+    if (!stats || !stats.categoryStats) return [];
+
+    const entries = Object.entries(stats.categoryStats)
+      .sort((a, b) => b[1] - a[1]);
+
+    const topCount = 6;
+    const topEntries = entries.slice(0, topCount);
+    const otherEntries = entries.slice(topCount);
+
+    const result = topEntries.map(([name, value]) => ({
+      name: PortugueseCategoryNames[name] || name,
+      value,
+      color: categoryColors[name] || "#94a3b8"
+    }));
+
+    if (otherEntries.length > 0) {
+      const othersValue = otherEntries.reduce((sum, [_, val]) => sum + val, 0);
+      result.push({
+        name: "Outros",
+        value: othersValue,
+        color: "#94a3b8" // Slate-400 for 'Others'
+      });
+    }
+
+    return result;
+  }, [stats]);
+
+  const creditsByCountryData = useMemo(() => {
+    if (!stats || !stats.creditsByCountry) return [];
+    return Object.entries(stats.creditsByCountry)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([name, value]) => ({ name, value }));
+  }, [stats]);
+
+  const vintageChartData = useMemo(() => {
+    if (!stats || !stats.vintageStats) return [];
+    return Object.entries(stats.vintageStats)
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([name, value]) => ({ name, value }));
+  }, [stats]);
+
+  const uniqueCountries = useMemo(() => {
+    return Array.from(new Set(projects.map((p: CarbonProject) => p.country))).sort();
+  }, [projects]);
+
+  const categoryOptions = useMemo(() => {
+    if (!stats?.categoryStats) return [];
+    return Object.keys(stats.categoryStats).map(cat => ({
+      value: cat,
+      label: PortugueseCategoryNames[cat] || cat.charAt(0).toUpperCase() + cat.slice(1).replace(/-/g, " ")
+    })).sort((a, b) => a.label.localeCompare(b.label));
+  }, [stats]);
+
+  const getBadgeColor = (category: string) => {
+    const colors: Record<string, string> = {
+      "forest": "green",
+      "agriculture": "amber",
+      "renewable-energy": "blue",
+      "fuel-switching": "red",
+      "biochar": "violet",
+      "energy-efficiency": "pink",
+      "land-use": "emerald",
+      "carbon-capture": "indigo",
+      "ghg-management": "lime",
+      "unknown": "gray",
+    };
+    return (colors[category] || "gray") as any;
   };
+
+  const getTypeBadgeColor = (projectType: string): "green" | "emerald" | "gray" => {
+    if (projectType?.includes("REDD")) return "green";
+    if (projectType?.includes("Afforestation")) return "emerald";
+    return "gray";
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
+      {useFallback && (
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 text-sm text-yellow-800 dark:text-yellow-200">
+          Usando dados locais. O banco de dados não está disponível.
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
-          <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Total de Projetos</p>
-          <h3 className="text-3xl font-bold text-[#1e40af] dark:text-blue-400">{stats.totalProjects}</h3>
-        </div>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
-          <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Projetos Florestais</p>
-          <h3 className="text-3xl font-bold text-green-600 dark:text-green-400">{stats.forestProjects}</h3>
-        </div>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
-          <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Países</p>
-          <h3 className="text-3xl font-bold text-purple-600 dark:text-purple-400">{stats.countries}</h3>
-        </div>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
-          <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Continentes</p>
-          <h3 className="text-3xl font-bold text-cyan-600 dark:text-cyan-400">{stats.continents}</h3>
-        </div>
+        <Card>
+          <MetricSubtitle>Total de Projetos</MetricSubtitle>
+          <Metric>{stats?.totalProjects || 0}</Metric>
+        </Card>
+        <Card>
+          <MetricSubtitle>Créditos Emitidos</MetricSubtitle>
+          <Metric className="text-green-600 dark:text-green-400">
+            {stats?.totalCredits ? (stats.totalCredits / 1000000).toFixed(1) + 'M' : '0'}
+          </Metric>
+        </Card>
+        <Card>
+          <MetricSubtitle>Países</MetricSubtitle>
+          <Metric className="text-purple-600 dark:text-purple-400">{stats?.countries || 0}</Metric>
+        </Card>
+        <Card>
+          <MetricSubtitle>Categorias</MetricSubtitle>
+          <Metric className="text-cyan-600 dark:text-cyan-400">
+            {stats?.categoryStats ? Object.keys(stats.categoryStats).length : 0}
+          </Metric>
+        </Card>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Mapa Global de Projetos</h3>
+      <Card>
+        <Title>Mapa Global de Projetos</Title>
         <div className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-lg p-8 text-center">
           <div className="text-6xl mb-4">🌍</div>
           <p className="text-gray-600 dark:text-gray-400 mb-4">
             Visualização geográfica em desenvolvimento
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            {continentStats.map(([continent, count]) => (
-              <span
-                key={continent}
-                className="px-3 py-1 rounded-full text-sm font-medium"
-                style={{ backgroundColor: continentColors[continent] + "20", color: continentColors[continent] }}
-              >
-                {continent}: {count}
-              </span>
+            {continentStatsData.map((item) => (
+              <Badge key={item.name} color="blue">
+                {item.name}: {item.value}
+              </Badge>
             ))}
           </div>
         </div>
-      </div>
+      </Card>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Projetos por País</h3>
-          <div className="h-[300px]">
-            <Bar data={countryChartData} options={chartOptions} />
-          </div>
-        </div>
+        <Card>
+          <Title>Projetos por País</Title>
+          <BarChart data={countryStatsData} />
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Por Continente</h3>
-          <div className="h-[300px]">
-            <Doughnut data={continentChartData} options={doughnutOptions} />
-          </div>
-        </div>
+        <Card>
+          <Title>Por Continente</Title>
+          <DonutChart data={continentStatsData} />
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Tipo de Projeto</h3>
-          <div className="h-[250px]">
-            <Doughnut data={typeChartData} options={doughnutOptions} />
+        <Card className="lg:col-span-2">
+          <Title>Projetos por Categoria</Title>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <DonutChart data={categoryChartData} showLegend={false} className="h-[240px]" />
+            <div className="space-y-4">
+              <BarList data={categoryChartData} />
+            </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Metodologias Verra</h3>
-          <div className="h-[250px]">
-            <Bar data={protocolChartData} options={chartOptions} />
+        <Card>
+          <div className="flex items-center gap-2 mb-4">
+            <Title className="mb-0 text-sm xl:text-base">Top 10 Países</Title>
+            <Tooltip
+              className="w-80 whitespace-normal text-left"
+              content="A predominância massiva dos EUA no gráfico de créditos deve-se à completude dos dados de emissão: enquanto muitos projetos de outros países estão apenas registrados, os projetos dos EUA possuem o histórico completo de quantidades emitidas (vintages) carregado no sistema."
+            >
+              <span className="cursor-help text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+              </span>
+            </Tooltip>
           </div>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {protocolStats.map(([protocol, count]) => (
-              <div key={protocol} className="relative group">
-                <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium cursor-help">
-                  {protocol}: {count}
-                </span>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 px-3 py-2 bg-gray-800 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                  {protocolDescriptions[protocol] || "Metodologia Verra"}
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-8 border-r-8 border-t-8 border-transparent border-t-gray-800"></div>
-                </div>
-              </div>
-            ))}
+          <div className="mt-2">
+            <BarList
+              data={creditsByCountryData.map(item => ({
+                ...item,
+                name: item.name,
+                value: item.value,
+                color: item.name === "United States" ? "#3b82f6" : "#94a3b8"
+              }))}
+            />
           </div>
-        </div>
+        </Card>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Lista de Projetos</h3>
-        
+      <Card>
+        <div className="flex items-center gap-2 mb-4">
+          <Title className="mb-0">Créditos Emitidos por Ano (Vintage)</Title>
+          <Tooltip
+            className="w-72 whitespace-normal text-left"
+            content='Observação sobre "Vintage Delay": Você notará que 2024 e 2025 ainda mostram valores menores. Isso é normal e correto tecnicamente, pois no mercado de carbono existe o chamado Reporting Lag: leva-se de 1 a 2 anos para que as reduções de um ano sejam verificadas, registradas e os créditos efetivamente emitidos (Vintages). Conforme novos dados forem inseridos, esses anos "subirão" no gráfico.'
+          >
+            <span className="cursor-help text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+            </span>
+          </Tooltip>
+        </div>
+        <BarChart data={vintageChartData} />
+      </Card>
+
+      <Card>
+        <Title>Lista de Projetos</Title>
+
         <div className="flex flex-col sm:flex-row gap-3 mb-4">
-          <input
+          <TextInput
             type="text"
             placeholder="Buscar projeto..."
             value={searchTerm}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
-            className="flex-1 px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
-          <select
+          <Select
             value={selectedCountry}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedCountry(e.target.value)}
-            className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-          >
-            <option value="">Todos os países</option>
-            {uniqueCountries.map((country: string) => (
-              <option key={country} value={country}>{country}</option>
-            ))}
-          </select>
-          <select
+            options={[
+              { value: "", label: "Todos os países" },
+              ...uniqueCountries.map((c: string) => ({ value: c, label: c }))
+            ]}
+          />
+          <Select
             value={selectedType}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedType(e.target.value)}
-            className="px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-          >
-            <option value="">Todos os tipos</option>
-            <option value="forest">Florestal</option>
-            <option value="other">Outros</option>
-          </select>
+            options={[
+              { value: "", label: "Todas as categorias" },
+              ...categoryOptions
+            ]}
+          />
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-gray-200 dark:border-gray-700">
-                <th 
-                  className="text-left py-3 px-3 font-semibold text-gray-600 dark:text-gray-400 cursor-pointer hover:text-blue-500"
-                  onClick={() => { setSortBy("country"); setSortOrder(sortOrder === "asc" ? "desc" : "asc"); }}
-                >
-                  País {sortBy === "country" && (sortOrder === "asc" ? "↑" : "↓")}
-                </th>
-                <th className="text-left py-3 px-3 font-semibold text-gray-600 dark:text-gray-400">Projeto</th>
-                <th className="text-left py-3 px-3 font-semibold text-gray-600 dark:text-gray-400">Tipo</th>
-                <th className="text-left py-3 px-3 font-semibold text-gray-600 dark:text-gray-400">Categoria</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredProjects.slice(0, 50).map((project: CarbonProject) => (
-                <tr key={project.project_id} className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
-                  <td className="py-3 px-3">
-                    <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium">
-                      {project.country}
-                    </span>
-                  </td>
-                  <td className="py-3 px-3 max-w-xs">
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableHeader onClick={() => { setSortBy("country"); setSortOrder(sortOrder === "asc" ? "desc" : "asc"); }}>
+                País {sortBy === "country" && (sortOrder === "asc" ? "↑" : "↓")}
+              </TableHeader>
+              <TableHeader>Projeto</TableHeader>
+              <TableHeader>Tipo</TableHeader>
+              <TableHeader>Categoria</TableHeader>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {paginatedProjects.map((project: CarbonProject) => (
+              <TableRow key={project.project_id}>
+                <TableCell>
+                  <Badge color="blue">{project.country}</Badge>
+                </TableCell>
+                <TableCell>
+                  <div className="max-w-xs">
                     <p className="font-medium text-gray-900 dark:text-white truncate">{project.name}</p>
                     <p className="text-xs text-gray-500">{project.project_id}</p>
-                  </td>
-                  <td className="py-3 px-3">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      project.project_type.includes("REDD")
-                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                        : project.project_type.includes("Afforestation")
-                        ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
-                        : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-                    }`}>
-                      {project.project_type === "Unknown" ? "Outros" : project.project_type}
-                    </span>
-                  </td>
-                  <td className="py-3 px-3">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      project.category === "forest"
-                        ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                        : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
-                    }`}>
-                      {project.category === "forest" ? "🌲 Florestal" : "📌 Outro"}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <Badge color={getTypeBadgeColor(project.project_type)}>
+                    {project.project_type === "Unknown" || !project.project_type ? "Outros" : project.project_type}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Badge color={getBadgeColor(project.category)}>
+                    {project.category === "forest" ? "🌲 " : "📌 "}
+                    {PortugueseCategoryNames[project.category] || project.category}
+                  </Badge>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+
         {filteredProjects.length > 50 && (
-          <p className="text-center text-sm text-gray-500 mt-4">
-            Mostrando 50 de {filteredProjects.length} projetos
-          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <p className="text-sm text-gray-500">
+              Mostrando {startIndex + 1}-{Math.min(endIndex, filteredProjects.length)} de {filteredProjects.length} projetos
+            </p>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-3 py-1.5 text-sm rounded-lg border border-gray-300 dark:border-gray-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              >
+                ← Anterior
+              </button>
+
+              <div className="flex items-center gap-1">
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let pageNum: number;
+                  if (totalPages <= 5) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNum = totalPages - 4 + i;
+                  } else {
+                    pageNum = currentPage - 2 + i;
+                  }
+
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => handlePageChange(pageNum)}
+                      className={`w-8 h-8 text-sm rounded-lg transition-colors ${currentPage === pageNum
+                        ? 'bg-blue-600 text-white'
+                        : 'border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
+                        }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1.5 text-sm rounded-lg border border-gray-300 dark:border-gray-600 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              >
+                Próxima →
+              </button>
+            </div>
+          </div>
         )}
-        
+
         {filteredProjects.length === 0 && (
           <p className="text-center text-gray-500 py-8">
             Nenhum projeto encontrado com os filtros selecionados.
           </p>
         )}
-      </div>
+      </Card>
     </div>
   );
 }

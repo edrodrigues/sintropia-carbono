@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GeistSans } from "geist/font/sans";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -66,7 +67,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} light`}>
+    <html lang="pt-BR" className={`${GeistSans.className} ${inter.variable} light antialiased dark:bg-gray-950`}>
       <body className="antialiased font-sans bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
         <StrictModeFix />
         {children}
