@@ -21,11 +21,13 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 const CSV_PATH = path.join(__dirname, '..', 'dados', 'CarbonPlan', 'projects.csv');
 
-function parseCSV(content) {
+type CSVRow = Record<string, string>;
+
+function parseCSV(content: string): CSVRow[] {
   const lines = content.trim().split('\n');
   const headers = lines[0].split(',').map(h => h.trim());
   
-  const rows = [];
+  const rows: CSVRow[] = [];
   for (let i = 1; i < lines.length; i++) {
     const values = lines[i].split(',');
     const row: Record<string, string> = {};
@@ -37,7 +39,7 @@ function parseCSV(content) {
   return rows;
 }
 
-async function insertProjects(projects, batchSize = 100) {
+async function insertProjects(projects: CSVRow[], batchSize = 100) {
   const totalBatches = Math.ceil(projects.length / batchSize);
   
   for (let i = 0; i < projects.length; i += batchSize) {

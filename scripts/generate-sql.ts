@@ -8,14 +8,16 @@ const __dirname = path.dirname(__filename);
 const PROJECTS_CSV_PATH = path.join(__dirname, '..', 'dados', 'CarbonPlan', 'projects.csv');
 const CREDITS_CSV_PATH = path.join(__dirname, '..', 'dados', 'CarbonPlan', 'credits.csv');
 
-function parseCSV(content) {
+type CSVRow = Record<string, string>;
+
+function parseCSV(content: string): CSVRow[] {
   const lines = content.trim().split('\n');
   const headers = lines[0].split(',').map(h => h.trim());
   
-  const rows = [];
+  const rows: CSVRow[] = [];
   for (let i = 1; i < lines.length; i++) {
     const values = lines[i].split(',');
-    const row = {};
+    const row: Record<string, string> = {};
     headers.forEach((header, index) => {
       row[header] = values[index]?.trim() || '';
     });
@@ -24,7 +26,7 @@ function parseCSV(content) {
   return rows;
 }
 
-function generateProjectsSQL(projects) {
+function generateProjectsSQL(projects: CSVRow[]) {
   let sql = 'INSERT INTO carbon_projects (project_id, name, category, country, project_type, project_type_source, project_url, proponent, protocol, registry, status, is_compliance, issued, retired) VALUES\n';
   
   const values = projects.map(p => {
@@ -38,7 +40,7 @@ function generateProjectsSQL(projects) {
   return sql;
 }
 
-function generateCreditsSQL(credits) {
+function generateCreditsSQL(credits: CSVRow[]) {
   let sql = 'INSERT INTO carbon_credits (project_id, quantity, vintage, transaction_date, transaction_type) VALUES\n';
   
   const values = credits.map(c => {

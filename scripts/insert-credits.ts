@@ -21,11 +21,13 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 const CSV_PATH = path.join(__dirname, '..', 'dados', 'CarbonPlan', 'credits.csv');
 
-function parseCSV(content) {
+type CSVRow = Record<string, string>;
+
+function parseCSV(content: string): CSVRow[] {
   const lines = content.trim().split('\n');
   const headers = lines[0].split(',').map(h => h.trim());
   
-  const rows = [];
+  const rows: CSVRow[] = [];
   for (let i = 1; i < lines.length; i++) {
     const values = lines[i].split(',');
     const row: Record<string, string> = {};
@@ -50,7 +52,7 @@ async function getExistingProjectIds() {
   return new Set(data.map(p => p.project_id));
 }
 
-async function insertCredits(credits, projectIds, batchSize = 1000) {
+async function insertCredits(credits: CSVRow[], projectIds: Set<string>, batchSize = 1000) {
   const validCredits = credits.filter(c => projectIds.has(c.project_id));
   console.log(`Filtering to ${validCredits.length} credits with valid project_ids`);
   
