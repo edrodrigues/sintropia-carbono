@@ -31,6 +31,7 @@ export function Breadcrumb() {
       "carbono-brasil": "Carbono Brasil",
       "carbono-mundo": "Carbono Mundo",
       "carbono-precos": "Preços Carbono",
+      "carbono-projetos": "Projetos Carbono",
       certificadoras: "Certificadoras",
       "irec-brasil": "IREC Brasil",
       "irec-mundo": "IREC Mundo",

@@ -194,7 +194,7 @@ export function Header() {
                   </svg>
                 </button>
                 <div
-                  className={`absolute top-full left-0 bg-white dark:bg-gray-800 shadow-lg rounded-b-lg border border-gray-200 dark:border-gray-700 py-2 min-w-[160px] z-50 ${isCarbonOpen ? "block" : "hidden"
+                  className={`absolute top-full left-0 bg-white dark:bg-gray-800 shadow-lg rounded-b-lg border border-gray-200 dark:border-gray-700 py-2 min-w-[180px] z-50 ${isCarbonOpen ? "block" : "hidden"
                     }`}
                 >
                   <Link
@@ -208,6 +208,12 @@ export function Header() {
                     className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <span>🌎</span> Mundo
+                  </Link>
+                  <Link
+                    href="/carbono-projetos"
+                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <span>📊</span> Projetos
                   </Link>
                   <Link
                     href="/carbono-precos"
