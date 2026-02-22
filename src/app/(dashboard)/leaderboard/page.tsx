@@ -133,51 +133,6 @@ export default async function LeaderboardPage() {
           </div>
         )}
       </Card>
-                        </div>
-                        <div>
-                          <p className="font-bold text-gray-900 dark:text-gray-100 text-lg">
-                            {user.display_name || user.username}
-                          </p>
-                          <p className="text-sm text-gray-500">@{user.username}</p>
-                        </div>
-                      </Link>
-                    </td>
-                    <td className="px-8 py-6">
-                      <div className="flex flex-wrap gap-2">
-                        {badges.length > 0 ? (
-                          badges.map((badge) => (
-                            <span
-                              key={badge}
-                              className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-[10px] font-black uppercase tracking-wider rounded-lg border border-gray-200 dark:border-gray-700"
-                            >
-                              {badge}
-                            </span>
-                          ))
-                        ) : (
-                          <span className="text-gray-400 text-xs italic">Sem conquistas ainda</span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-8 py-6 text-right">
-                      <span className="text-2xl font-black text-blue-600 dark:text-blue-400 tabular-nums">
-                        {(user.karma || 0).toLocaleString()}
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-
-          {(!users || users.length === 0) && (
-            <div className="text-center py-24">
-              <div className="text-6xl mb-6 opacity-20">🌫️</div>
-              <h3 className="text-xl font-bold text-gray-400">Nenhum dado disponível</h3>
-              <p className="text-gray-500">Comece a participar para aparecer no ranking!</p>
-            </div>
-          )}
-        </div>
-      </div>
     </div>
   );
 }
