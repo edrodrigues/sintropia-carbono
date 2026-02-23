@@ -7,6 +7,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { CarbonoBrasilChart } from "@/components/charts/CarbonoBrasilChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
+import { MobileTableWrapper } from "@/components/ui/MobileTable";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
 export const metadata: Metadata = {
@@ -138,36 +139,18 @@ export default function CarbonoBrasil() {
         </div>
 
         <Card>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableHeader className="w-16">Rank</TableHeader>
-                <TableHeader>Empresa</TableHeader>
-                <TableHeader>Setor</TableHeader>
-                <TableHeader className="text-right">Vol 2024</TableHeader>
-                <TableHeader className="text-right">Vol 2025</TableHeader>
-                <TableHeader className="text-right">Delta %</TableHeader>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {carbonoData.map((row) => (
-                <TableRow key={row.rank} className={getTopClass(row.rank)}>
-                  <TableCell className="font-mono text-center">{row.rank}</TableCell>
-                  <TableCell className="font-bold">{row.empresa}</TableCell>
-                  <TableCell>
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white ${getSetorBadge(row.setor)}`}>
-                      {row.setor}
-                    </span>
-                  </TableCell>
-                  <TableCell className="text-right font-mono">{row.vol2024.toFixed(2)}M</TableCell>
-                  <TableCell className="text-right font-mono font-semibold">{row.vol2025.toFixed(2)}M</TableCell>
-                  <TableCell className={`text-right font-mono ${getGrowthClass(row.delta)}`}>
-                    +{row.delta.toFixed(2)}%
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <MobileTableWrapper
+            data={carbonoData as unknown as Record<string, unknown>[]}
+            defaultMobileColumns={["rank", "empresa", "delta"]}
+            columns={[
+              { key: "rank", header: "Rank", align: "center" },
+              { key: "empresa", header: "Empresa" },
+              { key: "setor", header: "Setor", mobileHidden: true },
+              { key: "vol2024", header: "Vol 2024", align: "right", mobileHidden: true },
+              { key: "vol2025", header: "Vol 2025", align: "right", mobileHidden: true },
+              { key: "delta", header: "Delta %", align: "right" },
+            ]}
+          />
         </Card>
 
         <div className="mt-8 bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">

@@ -7,6 +7,7 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { IrecMundoChart } from "@/components/charts/IrecMundoChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
+import { MobileTableWrapper } from "@/components/ui/MobileTable";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
 export const metadata: Metadata = {
@@ -80,36 +81,18 @@ export default function IrecMundo() {
                 </div>
 
                 <Card>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableHeader>Rank</TableHeader>
-                                <TableHeader>Corporação</TableHeader>
-                                <TableHeader>Setor</TableHeader>
-                                <TableHeader className="text-right">Vol 2024</TableHeader>
-                                <TableHeader className="text-right">Vol 2025</TableHeader>
-                                <TableHeader className="text-right">Delta %</TableHeader>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {energiaData.map((row) => (
-                                <TableRow key={row.rank} className={row.rank <= 3 ? (row.rank === 1 ? 'bg-amber-50 dark:bg-amber-900/10' : row.rank === 2 ? 'bg-blue-50 dark:bg-blue-900/10' : 'bg-purple-50 dark:bg-purple-900/10') : ''}>
-                                    <TableCell className="font-mono">{row.rank}</TableCell>
-                                    <TableCell className="font-bold">{row.empresa}</TableCell>
-                                    <TableCell>
-                                        <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white ${row.badge}`}>
-                                            {row.setor}
-                                        </span>
-                                    </TableCell>
-                                    <TableCell className="text-right font-mono">{row.vol2024.toFixed(1)}</TableCell>
-                                    <TableCell className="text-right font-mono font-semibold">{row.vol2025.toFixed(1)}</TableCell>
-                                    <TableCell className={`text-right font-mono font-bold ${row.delta >= 20 ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400'}`}>
-                                        {row.delta.toFixed(1)}% {row.delta >= 25 ? '🚀' : ''}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                    <MobileTableWrapper
+                        data={energiaData as unknown as Record<string, unknown>[]}
+                        defaultMobileColumns={["rank", "empresa", "delta"]}
+                        columns={[
+                            { key: "rank", header: "Rank", align: "center" },
+                            { key: "empresa", header: "Corporação" },
+                            { key: "setor", header: "Setor", mobileHidden: true },
+                            { key: "vol2024", header: "Vol 2024", align: "right", mobileHidden: true },
+                            { key: "vol2025", header: "Vol 2025", align: "right", mobileHidden: true },
+                            { key: "delta", header: "Delta %", align: "right" },
+                        ]}
+                    />
                 </Card>
 
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
