@@ -1,5 +1,6 @@
 export const revalidate = 3600;
 
+import { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -7,6 +8,15 @@ import { IrecMundoChart } from "@/components/charts/IrecMundoChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+
+export const metadata: Metadata = {
+  title: "Maiores Compradores Energia Renovável Mundo 2025",
+  description: "Top 15 corporações globais por volume de energia renovável. Amazon, Microsoft, Meta e Google lideram. Dados em TWh.",
+  keywords: ["energia renovável mundo", "maiores compradores energia", "Amazon energia renovável", "RE100 empresas", "TWh energia"],
+  alternates: {
+    canonical: "https://sintropia.space/irec-mundo",
+  },
+};
 
 const energiaData = [
     { rank: 1, empresa: "Amazon", setor: "Tecnologia / E-commerce", vol2024: 78.4, vol2025: 91.2, delta: 16.33, badge: "bg-blue-600" },

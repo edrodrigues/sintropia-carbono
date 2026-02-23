@@ -1,10 +1,18 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { StatsDashboard } from "@/components/profile/StatsDashboard";
 import { calculateAchievements } from "@/lib/achievements";
 import { decodeHtmlServer } from "@/lib/utils/sanitize";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function MyProfilePage() {
   const supabase = await createClient();

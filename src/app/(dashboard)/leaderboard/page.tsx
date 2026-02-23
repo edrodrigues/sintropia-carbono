@@ -1,8 +1,16 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import Image from "next/image";
+import { Metadata } from "next";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function LeaderboardPage() {
   const supabase = await createClient();

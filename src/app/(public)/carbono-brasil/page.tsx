@@ -1,5 +1,6 @@
 export const revalidate = 3600;
 
+import { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -7,6 +8,15 @@ import { CarbonoBrasilChart } from "@/components/charts/CarbonoBrasilChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+
+export const metadata: Metadata = {
+  title: "Ranking Carbono Brasil 2025 | Maiores Empresas por Setor",
+  description: "Top 20 empresas brasileiras que mais compensam carbono por setor. Banco Votorantim, Petrobras, Suzano e Vale lideram o mercado brasileiro de créditos de carbono.",
+  keywords: ["carbono Brasil", "créditos de carbono Brasil", "empresas carbono", "ranking carbono", "compensação carbono", "tCO2e Brasil"],
+  alternates: {
+    canonical: "https://sintropia.space/carbono-brasil",
+  },
+};
 
 const carbonoData = [
   { rank: 1, empresa: "Banco Votorantim", setor: "Financeiro", vol2024: 3.8, vol2025: 5.2, delta: 36.84 },

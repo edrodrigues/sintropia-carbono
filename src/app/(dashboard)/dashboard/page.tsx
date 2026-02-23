@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { Metadata } from 'next';
 import { calculateAchievements } from '@/lib/achievements';
 import { AchievementList } from '@/components/profile/AchievementBadges';
 import { getWeekStart } from '@/lib/missions';
@@ -8,6 +9,13 @@ import { getStreakBonus, getStreakEmoji } from '@/types/gamification';
 import { StreakBadge } from '@/components/gamification/StreakBadge';
 import { StreakUpdater } from '@/components/gamification/StreakUpdater';
 import type { WeeklyMission } from '@/types/gamification';
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function DashboardPage() {
     const supabase = await createClient();

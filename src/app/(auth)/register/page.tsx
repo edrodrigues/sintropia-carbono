@@ -1,6 +1,15 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
 import { signup } from '@/app/(auth)/login/actions';
 import { GoogleButton } from '@/components/GoogleButton';
+
+export const metadata: Metadata = {
+  title: "Criar Conta | Sintropia",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function RegisterPage(props: {
   searchParams: Promise<{ message: string; error: string }>;

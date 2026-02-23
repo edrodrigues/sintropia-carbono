@@ -1,5 +1,6 @@
 export const revalidate = 3600;
 
+import { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -7,6 +8,15 @@ import { CarbonoMundoChart } from "@/components/charts/CarbonoMundoChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+
+export const metadata: Metadata = {
+  title: "Ranking Carbono Mundo 2025 | Maiores Compradores Globais",
+  description: "Top 10 maiores compradores de créditos de carbono no mundo. Microsoft, Shell e Big Techs lideram. Veja o volume em milhões de tCO2e.",
+  keywords: ["carbono mundo", "maiores compradores carbono", "Microsoft carbono", "Big Tech carbono", "créditos carbono globais"],
+  alternates: {
+    canonical: "https://sintropia.space/carbono-mundo",
+  },
+};
 
 const carbonoData = [
     { rank: 1, empresa: "Microsoft", setor: "Tecnologia", vol2024: 5.5, vol2025: 29.5, delta: 81.36, badge: "bg-blue-700" },

@@ -1,6 +1,15 @@
 import Link from 'next/link';
+import { Metadata } from 'next';
 import { login } from '@/app/(auth)/login/actions';
 import { GoogleButton } from '@/components/GoogleButton';
+
+export const metadata: Metadata = {
+  title: "Login | Sintropia",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function ForgotPasswordPage(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

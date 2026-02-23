@@ -1,11 +1,21 @@
 export const revalidate = 3600;
 
+import { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import CarbonPlanChartWrapper from "@/components/charts/CarbonPlanChartWrapper";
 import { DataSources } from "@/components/ui/DataSources";
 import { Callout } from "@/components/ui/tremor";
+
+export const metadata: Metadata = {
+  title: "Projetos de Carbono | Visualização Interativa",
+  description: "Visualização interativa dos projetos de carbono registrados no mercado voluntário. Dados do CarbonPlan com projetos Verra, Gold Standard e outros.",
+  keywords: ["projetos carbono", "CarbonPlan", "Verra projetos", "Gold Standard", "créditos carbono projetos"],
+  alternates: {
+    canonical: "https://sintropia.space/carbono-projetos",
+  },
+};
 
 export default function CarbonoProjetos() {
   const dataSources = [

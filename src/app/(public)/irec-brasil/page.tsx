@@ -1,5 +1,6 @@
 export const revalidate = 3600;
 
+import { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -7,6 +8,15 @@ import { IrecBrasilChart } from "@/components/charts/IrecBrasilChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+
+export const metadata: Metadata = {
+  title: "I-REC Brasil 2025 | Ranking Empresas Certificados Energia",
+  description: "Top 20 empresas brasileiras por volume de certificados I-REC transacionados. Eletrobras, Vale, Neoenergia e Gerdau lideram o mercado.",
+  keywords: ["I-REC Brasil", "certificados energia renovável", "I-REC empresas", "energia renovável Brasil", "volume I-REC"],
+  alternates: {
+    canonical: "https://sintropia.space/irec-brasil",
+  },
+};
 
 const irecData = [
   { rank: 1, empresa: "Eletrobras", papel: "Vendedor", vol2024: 9200, vol2025: 14500, delta: 57.61 },

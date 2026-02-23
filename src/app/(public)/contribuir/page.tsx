@@ -1,4 +1,14 @@
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contribuir | Sintropia - Projeto Open Source",
+  description: "Contribua com o projeto Sintropia. Código aberto, documentação, reporte de erros e sugestões. Junte-se à comunidade.",
+  keywords: ["contribuir projeto", "open source carbono", "Sintropia GitHub", "desenvolvimento colaborativo"],
+  alternates: {
+    canonical: "https://sintropia.space/contribuir",
+  },
+};
 
 export default function ContribuirPage() {
   return (

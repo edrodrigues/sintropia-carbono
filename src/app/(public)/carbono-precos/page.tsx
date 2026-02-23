@@ -1,5 +1,6 @@
 export const revalidate = 3600;
 
+import { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -7,6 +8,15 @@ import { CarbonoPrecosChart } from "@/components/charts/CarbonoPrecosChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+
+export const metadata: Metadata = {
+  title: "Preços Carbono 2025 | Mercado Regulado e Voluntário",
+  description: "Preços do carbono no mercado regulado (EU ETS, UK ETS) e voluntário. Comparativo de preços por qualidade e projeções para o Brasil.",
+  keywords: ["preços carbono", "EU ETS preço", "mercado carbono", "tonelada CO2 preço", "crédito carbono valor", "VCM carbono"],
+  alternates: {
+    canonical: "https://sintropia.space/carbono-precos",
+  },
+};
 
 const dataSources = [
   { name: "BloombergNEF", url: "https://about.bnef.com" },

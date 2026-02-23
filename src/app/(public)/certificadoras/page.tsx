@@ -1,5 +1,6 @@
 export const revalidate = 3600;
 
+import { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -8,6 +9,15 @@ import { EnergiaRenovavelChart } from "@/components/charts/EnergiaRenovavelChart
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+
+export const metadata: Metadata = {
+  title: "Certificadoras Carbono e Energia | Verra, Gold Standard, I-REC",
+  description: "Principais certificadoras e padrões de carbono e energia renovável. Verra, Gold Standard, RenovaBio, ACR, I-REC e outros padrões explained.",
+  keywords: ["certificadoras carbono", "Verra", "Gold Standard", "I-REC", "RenovaBio", "certificação energia renovável"],
+  alternates: {
+    canonical: "https://sintropia.space/certificadoras",
+  },
+};
 
 const certificadoras = [
   { nome: "Verra (VCS)", sede: "EUA", foco: "REDD+, Florestas, Indústria", unidade: "tCO2e", volume: "1.1B", url: "https://verra.org" },

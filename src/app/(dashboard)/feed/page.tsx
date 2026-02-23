@@ -1,6 +1,14 @@
 import { createClient } from "@/lib/supabase/server";
 import FeedClient from "./FeedClient";
 import { PostWithRelations } from "@/types";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export const dynamic = "force-dynamic";
 

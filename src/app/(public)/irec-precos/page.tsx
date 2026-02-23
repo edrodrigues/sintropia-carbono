@@ -1,5 +1,6 @@
 export const revalidate = 3600;
 
+import { Metadata } from "next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -7,6 +8,15 @@ import { IrecPrecosChart } from "@/components/charts/IrecPrecosChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+
+export const metadata: Metadata = {
+  title: "Preços I-REC 2025 | Brasil e Mundo",
+  description: "Preços de certificados I-REC por país e tecnologia. Brasil tem os menores preços do mundo. Comparativo global com Singapura, Índia e outros.",
+  keywords: ["preços I-REC", "I-REC Brasil", "certificado energia preço", "MWh energia renovável", "I-REC global"],
+  alternates: {
+    canonical: "https://sintropia.space/irec-precos",
+  },
+};
 
 export default function IRECPrecos() {
     const brasilData = [
