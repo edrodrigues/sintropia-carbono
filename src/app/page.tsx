@@ -16,10 +16,7 @@ export default function Home() {
             Sintropia
           </h1>
           <p className="text-2xl text-gray-700 dark:text-gray-300 mb-8 font-medium">
-            Inteligência gratuita sobre o mercado de carbono e I-REC no Brasil. Rankings, preços e tendências em tempo real.
-          </p>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-            Plataformas globais cobram $249/mês. Dados brasileiros são raros. A gente resolve isso.
+            Inteligência gratuita sobre o mercado de carbono e energias renováveis no Brasil e no mundo. Rankings, preços e comunidade. Colaborativo e Open Source.
           </p>
         </div>
 
