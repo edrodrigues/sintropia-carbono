@@ -6,6 +6,15 @@ Allow: /
 Disallow: /api/
 Disallow: /admin/
 Disallow: /_next/static/
+Disallow: /dashboard
+Disallow: /profile
+Disallow: /feed
+Disallow: /profiles
+Disallow: /leaderboard
+Disallow: /conquistas
+Disallow: /mod
+Disallow: /posts
+Disallow: /u/
 
 # Sitemap
 Sitemap: https://sintropia.space/sitemap.xml

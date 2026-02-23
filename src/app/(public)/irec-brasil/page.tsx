@@ -140,8 +140,8 @@ export default function IrecBrasil() {
                 <TableHeader className="w-16">Rank</TableHeader>
                 <TableHeader>Empresa</TableHeader>
                 <TableHeader>Papel</TableHeader>
-                <TableHeader className="text-right">Vol 2024</TableHeader>
-                <TableHeader className="text-right">Vol 2025</TableHeader>
+                <TableHeader className="text-right">Vol 2024 (mil)</TableHeader>
+                <TableHeader className="text-right">Vol 2025 (mil)</TableHeader>
                 <TableHeader className="text-right">Delta %</TableHeader>
               </TableRow>
             </TableHead>

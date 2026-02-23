@@ -13,14 +13,13 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="text-5xl font-bold text-[#1e40af] mb-6 tracking-tight">
-            Por que Sintropia?
+            Sintropia
           </h1>
           <p className="text-2xl text-gray-700 dark:text-gray-300 mb-8 font-medium">
-            Preços de carbono e energia renovável são difíceis de encontrar.
-            Plataformas globais cobram $249/mês. Dados brasileiros são raros.
+            Inteligência gratuita sobre o mercado de carbono e I-REC no Brasil. Rankings, preços e tendências em tempo real.
           </p>
-          <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
-            Sintropia é a primeira plataforma gratuita e open source que integra dados e comunidade sobre mercado de carbono e de energias renováveis.
+          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+            Plataformas globais cobram $249/mês. Dados brasileiros são raros. A gente resolve isso.
           </p>
         </div>
 
@@ -175,6 +174,24 @@ export default function Home() {
               </p>
               <div className="text-teal-600 font-semibold">
                 Ver comparativo →
+              </div>
+            </Link>
+
+            <Link
+              href="/carbono-projetos"
+              className="bg-gradient-to-br from-amber-50 to-white dark:from-amber-900/20 dark:to-gray-800 p-6 rounded-xl border border-amber-200 dark:border-amber-800 block hover:shadow-lg transition-all hover:-translate-y-1"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <span className="text-3xl">🌳</span>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                  Projetos Carbono
+                </h3>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                Explore projetos de carbono registrados no mercado voluntário. Dados do CarbonPlan.
+              </p>
+              <div className="text-amber-600 font-semibold">
+                Ver projetos →
               </div>
             </Link>
           </div>
