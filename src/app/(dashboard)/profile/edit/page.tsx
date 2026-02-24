@@ -2,7 +2,12 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import ProfileForm from '@/app/(dashboard)/profile/ProfileForm';
 
-export default async function EditProfilePage() {
+export default async function EditProfilePage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const searchParams = await props.searchParams;
+  const onboarding = searchParams.onboarding === 'true';
+  
   const supabase = await createClient();
 
   const {
@@ -18,6 +23,16 @@ export default async function EditProfilePage() {
     .select('*')
     .eq('id', user.id)
     .single();
+
+  if (onboarding) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
+        <div className="max-w-lg w-full">
+          <ProfileForm profile={profile} email={user.email!} onboarding={true} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
@@ -41,7 +56,7 @@ export default async function EditProfilePage() {
               <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {profile?.display_name || profile?.username || 'Usuário'}
               </h3>
-              <p className="text-gray-500">@{profile?.username}</p>
+              <p className="text-gray-500">@{profile?.username || 'usuario'}</p>
             </div>
             <div className="flex gap-4 text-center">
               <div className="px-6 py-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-2xl border border-yellow-100 dark:border-yellow-900/30">

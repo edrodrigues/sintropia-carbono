@@ -5,6 +5,7 @@ export async function GET(request: Request) {
     const { searchParams, origin } = new URL(request.url)
     const code = searchParams.get('code')
     const next = searchParams.get('next') ?? '/'
+    const onboarding = searchParams.get('onboarding')
 
     if (code) {
         const supabase = await createClient()
@@ -19,13 +20,13 @@ export async function GET(request: Request) {
         const forwardedHost = request.headers.get('x-forwarded-host')
         const isLocalEnv = process.env.NODE_ENV === 'development'
         
-        if (isLocalEnv) {
-            return NextResponse.redirect(`${origin}${next}`)
-        } else if (forwardedHost) {
-            return NextResponse.redirect(`https://${forwardedHost}${next}`)
-        } else {
-            return NextResponse.redirect(`${origin}${next}`)
+        let redirectUrl = isLocalEnv ? `${origin}${next}` : forwardedHost ? `https://${forwardedHost}${next}` : `${origin}${next}`
+        
+        if (onboarding === 'true') {
+            redirectUrl = `${origin}/profile/edit?onboarding=true`
         }
+        
+        return NextResponse.redirect(redirectUrl)
     }
 
     return NextResponse.redirect(`${origin}/login?error=No+authorization+code+received`)
