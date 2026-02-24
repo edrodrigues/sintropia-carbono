@@ -22,21 +22,16 @@ export async function login(formData: FormData) {
         password: formData.get('password') as string,
     };
 
-    try {
-        const { error } = await withTimeout(
-            supabase.auth.signInWithPassword(data),
-            LOGIN_TIMEOUT_MS
-        );
+    const { error } = await withTimeout(
+        supabase.auth.signInWithPassword(data),
+        LOGIN_TIMEOUT_MS
+    );
 
-        if (error) {
-            redirect('/login?error=' + encodeURIComponent(error.message));
-        }
-
-        redirect('/');
-    } catch (err) {
-        const message = err instanceof Error ? err.message : 'Erro ao fazer login. Tente novamente.';
-        redirect('/login?error=' + encodeURIComponent(message));
+    if (error) {
+        redirect('/login?error=' + encodeURIComponent(error.message));
     }
+
+    redirect('/');
 }
 
 export async function signup(formData: FormData) {
@@ -47,35 +42,30 @@ export async function signup(formData: FormData) {
     const name = formData.get('name') as string;
     const username = formData.get('username') as string;
 
-    try {
-        const { error } = await withTimeout(
-            supabase.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: {
-                        name: name,
-                        username: username,
-                        user_type: formData.get('user_type') as string || 'individual',
-                    },
-                    emailRedirectTo: `${(await headers()).get('origin')}/auth/callback`,
+    const { error } = await withTimeout(
+        supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    name: name,
+                    username: username,
+                    user_type: formData.get('user_type') as string || 'individual',
                 },
-            }),
-            LOGIN_TIMEOUT_MS
-        );
+                emailRedirectTo: `${(await headers()).get('origin')}/auth/callback`,
+            },
+        }),
+        LOGIN_TIMEOUT_MS
+    );
 
-        if (error) {
-            redirect('/register?error=' + encodeURIComponent(error.message));
-        }
-
-        // Send welcome email (non-blocking, don't wait)
-        sendWelcomeEmail(email, name || 'Usuario').catch(console.error);
-
-        redirect('/login?message=Cadastro realizado! Verifique seu e-mail para confirmar a conta.');
-    } catch (err) {
-        const message = err instanceof Error ? err.message : 'Erro ao criar conta. Tente novamente.';
-        redirect('/register?error=' + encodeURIComponent(message));
+    if (error) {
+        redirect('/register?error=' + encodeURIComponent(error.message));
     }
+
+    // Send welcome email (non-blocking, don't wait)
+    sendWelcomeEmail(email, name || 'Usuario').catch(console.error);
+
+    redirect('/login?message=Cadastro realizado! Verifique seu e-mail para confirmar a conta.');
 }
 
 export async function logout() {
