@@ -221,6 +221,9 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
         <div
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
             onClick={handleBackdropClick}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
         >
             <div className="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200 flex flex-col">
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
@@ -246,10 +249,10 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                 href={post.author.linkedin_url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-blue-600 hover:text-blue-700"
-                                title="LinkedIn"
+                                className="text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
+                                aria-label="Perfil LinkedIn"
                             >
-                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                                 </svg>
                             </a>
@@ -260,19 +263,19 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                             <>
                                 <button
                                     onClick={() => setIsEditing(true)}
-                                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400"
-                                    aria-label="Editar"
+                                    className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    aria-label="Editar post"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
                                     </svg>
                                 </button>
                                 <button
                                     onClick={() => setShowDeleteConfirm(true)}
-                                    className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-red-500"
-                                    aria-label="Excluir"
+                                    className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                    aria-label="Excluir post"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                                         <polyline points="3 6 5 6 21 6" />
                                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
                                     </svg>
@@ -281,10 +284,10 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                         )}
                         <button
                             onClick={onClose}
-                            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                            aria-label="Fechar"
+                            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            aria-label="Fechar modal"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                                 <line x1="18" y1="6" x2="6" y2="18" />
                                 <line x1="6" y1="6" x2="18" y2="18" />
                             </svg>
@@ -302,8 +305,9 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                     {isEditing ? (
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Título</label>
+                                <label htmlFor="edit-title" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Título</label>
                                 <input
+                                    id="edit-title"
                                     type="text"
                                     value={editTitle}
                                     onChange={(e) => setEditTitle(e.target.value)}
@@ -316,8 +320,9 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">URL (opcional)</label>
+                                <label htmlFor="edit-url" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">URL (opcional)</label>
                                 <input
+                                    id="edit-url"
                                     type="url"
                                     value={editUrl}
                                     onChange={(e) => setEditUrl(e.target.value)}
@@ -327,8 +332,9 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Categoria</label>
+                                <label htmlFor="edit-category" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Categoria</label>
                                 <select
+                                    id="edit-category"
                                     value={editCategory}
                                     onChange={(e) => setEditCategory(e.target.value)}
                                     className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
@@ -386,8 +392,9 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Conteúdo</label>
+                                <label htmlFor="edit-content" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Conteúdo</label>
                                 <textarea
+                                    id="edit-content"
                                     value={editContent}
                                     onChange={(e) => setEditContent(e.target.value)}
                                     maxLength={2000}
@@ -410,14 +417,14 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                         setEditKeywordInput("");
                                         setError(null);
                                     }}
-                                    className="flex-1 px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+                                    className="flex-1 px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                                 >
                                     Cancelar
                                 </button>
                                 <button
                                     onClick={handleSaveEdit}
                                     disabled={loading}
-                                    className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                                    className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                 >
                                     {loading ? "Salvando..." : "Salvar"}
                                 </button>
@@ -438,7 +445,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                 </span>
                             </div>
 
-                            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+                            <h2 id="modal-title" className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
                                 {decodeHtml(post.title)}
                             </h2>
 
@@ -455,9 +462,10 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                     href={post.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-blue-600 hover:text-blue-700 dark:text-blue-400 transition-colors mb-6"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-blue-600 hover:text-blue-700 dark:text-blue-400 transition-colors mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                                    aria-label={`Abrir link: ${new URL(post.url).hostname}`}
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                                         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                                         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                                     </svg>
@@ -499,21 +507,24 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                 )}
 
                                 <form onSubmit={handleSubmitComment} className="mb-6">
+                                    <label htmlFor="new-comment" className="sr-only">Escrever comentário</label>
                                     <textarea
+                                        id="new-comment"
                                         value={newComment}
                                         onChange={(e) => setNewComment(e.target.value)}
                                         placeholder="O que você acha disso?"
                                         maxLength={1000}
+                                        aria-describedby="comment-counter"
                                         className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none h-24"
                                     />
                                     <div className="flex justify-between items-center mt-2">
-                                        <span className="text-xs text-gray-400">
+                                        <span id="comment-counter" className="text-xs text-gray-400">
                                             {newComment.length}/1000
                                         </span>
                                         <button
                                             type="submit"
                                             disabled={loading || !newComment.trim()}
-                                            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors"
+                                            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                                         >
                                             {loading ? "Enviando..." : "Comentar"}
                                         </button>
@@ -552,10 +563,10 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                                                     href={comment.author.linkedin_url}
                                                                     target="_blank"
                                                                     rel="noopener noreferrer"
-                                                                    className="text-blue-600 hover:text-blue-700"
-                                                                    title="LinkedIn"
+                                                                    className="text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
+                                                                    aria-label="Perfil LinkedIn"
                                                                 >
-                                                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                                                         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                                                                     </svg>
                                                                 </a>

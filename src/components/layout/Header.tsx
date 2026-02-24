@@ -7,34 +7,18 @@ import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Profile } from "@/types";
 import { StreakDisplay } from "@/components/gamification/StreakBadge";
-import { getStreakEmoji } from "@/types/gamification";
+import { Tooltip } from "@/components/ui/Tooltip";
 
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const [isEnergyOpen, setIsEnergyOpen] = useState(false);
-  const [isCarbonOpen, setIsCarbonOpen] = useState(false);
-  const [isComunidadeOpen, setIsComunidadeOpen] = useState(false);
-  const [isContaOpen, setIsContaOpen] = useState(false);
-  const [contaTimer, setContaTimer] = useState<NodeJS.Timeout | null>(null);
-  const [showCreateTooltip, setShowCreateTooltip] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [streak, setStreak] = useState<number>(0);
 
   const supabase = createClient();
-
-  const handleContaMouseEnter = () => {
-    if (contaTimer) clearTimeout(contaTimer);
-    setIsContaOpen(true);
-  };
-
-  const handleContaMouseLeave = () => {
-    const timer = setTimeout(() => setIsContaOpen(false), 300);
-    setContaTimer(timer);
-  };
 
   useEffect(() => {
     const getUser = async () => {
@@ -48,7 +32,7 @@ export function Header() {
           .eq("id", user.id)
           .single();
         setProfile(profile);
-        
+
         const { data: streakData } = await supabase
           .from("user_streaks")
           .select("current_streak")
@@ -71,318 +55,214 @@ export function Header() {
     return () => subscription.unsubscribe();
   }, [supabase]);
 
-  useEffect(() => {
-    return () => {
-      if (contaTimer) clearTimeout(contaTimer);
-    };
-  }, [contaTimer]);
-
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.refresh();
   };
 
-  const handleCreatePostClick = () => {
-    if (user) {
-      router.push("/feed?create=true");
-    } else {
-      router.push("/login");
+  const menuItems = [
+    { label: "Certificadoras", href: "/certificadoras" },
+    {
+      label: "Energia",
+      href: "/irec-brasil",
+      subItems: [
+        { label: "Mercado Brasil", href: "/irec-brasil", desc: "Veja quem são os maiores compradores de certificados I-REC no Brasil." },
+        { label: "Mercado Global", href: "/irec-mundo", desc: "Veja quem são os maiores compradores de certificados I-REC no Mundo." },
+        { label: "Preços", href: "/irec-precos", desc: "Confirme os preços dos certificados I-REC de forma comparada entre os mercados." },
+      ]
+    },
+    {
+      label: "Carbono",
+      href: "/carbono-brasil",
+      subItems: [
+        { label: "Mercado Brasil", href: "/carbono-brasil", desc: "Veja quem são os maiores compradores de créditos de carbono no Brasil." },
+        { label: "Mercado Mundo", href: "/carbono-mundo", desc: "Veja quem são os maiores compradores de créditos de carbono no mundo." },
+        { label: "Preços", href: "/carbono-precos", desc: "Análise comparada e evolução dos preços" },
+        { label: "Dados dos Projetos", href: "/carbono-projetos", desc: "Dados sobre 7700+ Projetos de carbono." },
+      ]
+    },
+    {
+      label: "Comunidade",
+      href: "/feed",
+      subItems: [
+        { label: "Feed de Notícias", href: "/feed", desc: "Insights e posts da nossa rede de especialistas." },
+        { label: "Ranking de Membros", href: "/leaderboard", desc: "Veja quem são os maiores contribuidores." },
+        { label: "Minhas Missões", href: "/conquistas", desc: "Ganhe karma e suba de nível na plataforma." },
+      ]
+    },
+  ];
+
+  const [activeMenu, setActiveMenu] = useState<number | null>(null);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [keyboardFocusedIndex, setKeyboardFocusedIndex] = useState<number | null>(null);
+
+  const handleKeyDown = (e: React.KeyboardEvent, idx: number) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setActiveMenu(activeMenu === idx ? null : idx);
+    }
+    if (e.key === 'Escape') {
+      setActiveMenu(null);
     }
   };
 
-  const isActive = (path: string) => pathname === path;
-
   return (
-    <>
-      <header className="sticky top-0 z-50 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-8 lg:px-16">
-          <div className="flex justify-between items-center h-20">
-            <Link href="/" className="flex items-center gap-3">
-              <span className="text-3xl">🌱</span>
-              <div>
-                <h1 className="font-bold text-xl text-[#1e40af] dark:text-blue-400 leading-tight">
-                  Sintropia
-                </h1>
-              </div>
-            </Link>
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 w-full" onMouseLeave={() => { setActiveMenu(null); setShowProfileMenu(false); }}>
+      <div className="max-w-7xl mx-auto px-8 lg:px-16 flex items-center justify-between h-20">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="w-9 h-9 rounded-lg bg-forest-green flex items-center justify-center shadow-premium group-hover:bg-emerald-700 transition-colors">
+            <span className="text-white text-xl">🌱</span>
+          </div>
+          <span className="font-bold text-2xl tracking-tight text-forest-green">SINTROPIA</span>
+        </Link>
 
-            <nav className="hidden md:flex h-full items-end gap-1">
+        {/* Navigation */}
+        <nav className="hidden lg:flex items-center gap-2 h-full" role="navigation" aria-label="Menu principal">
+          {menuItems.map((item, idx) => (
+            <div
+              key={item.href}
+              className="relative h-full flex items-center"
+              onMouseEnter={() => { setActiveMenu(idx); setShowProfileMenu(false); }}
+              onFocus={() => { setActiveMenu(idx); setShowProfileMenu(false); }}
+            >
               <Link
-                href="/"
-                className={`px-4 py-5 text-sm font-semibold flex items-center gap-2 transition-all ${isActive("/")
-                  ? "text-[#1e40af] border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900/30"
-                  : "text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-300"
+                href={item.href}
+                aria-expanded={item.subItems ? activeMenu === idx : undefined}
+                aria-haspopup={item.subItems ? "true" : undefined}
+                onKeyDown={(e) => item.subItems && handleKeyDown(e, idx)}
+                className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold tracking-wide transition-all rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-2 ${pathname === item.href || (item.subItems?.some(s => pathname === s.href))
+                  ? "text-forest-green bg-emerald-50/50"
+                  : "text-slate-500 hover:text-forest-green hover:bg-slate-50"
                   }`}
               >
-                <span>🏠</span>Home
-              </Link>
-              <Link
-                href="/certificadoras"
-                className={`px-4 py-5 text-sm font-semibold flex items-center gap-2 transition-all ${isActive("/certificadoras")
-                  ? "text-[#1e40af] border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900/30"
-                  : "text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-300"
-                  }`}
-              >
-                <span>🏛️</span>Certificadoras
+                {item.label}
+                {item.subItems && (
+                  <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${activeMenu === idx ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                )}
               </Link>
 
-              <div
-                className="relative group h-full flex items-end"
-                onMouseEnter={() => setIsEnergyOpen(true)}
-                onMouseLeave={() => setIsEnergyOpen(false)}
-              >
-                <button className="px-4 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300 flex items-center gap-2">
-                  <span>⚡</span>Energia
-                  <svg
-                    className={`w-4 h-4 transition-transform ${isEnergyOpen ? "rotate-180" : ""}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-                <div
-                  className={`absolute top-full left-0 bg-white dark:bg-gray-800 shadow-lg rounded-b-lg border border-gray-200 dark:border-gray-700 py-2 min-w-[160px] z-50 ${isEnergyOpen ? "block" : "hidden"
-                    }`}
+              {/* Dropdown Menu */}
+              {item.subItems && activeMenu === idx && (
+                <div 
+                  className="absolute top-[calc(100%-10px)] left-0 w-72 bg-white rounded-2xl shadow-premium-lg border border-slate-100 p-3 pt-4 animate-in fade-in slide-in-from-top-2 duration-200"
+                  role="menu"
                 >
-                  <Link
-                    href="/irec-brasil"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>🇧🇷</span> Brasil
-                  </Link>
-                  <Link
-                    href="/irec-mundo"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>🌎</span> Mundo
-                  </Link>
-                  <Link
-                    href="/irec-precos"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>💰</span> Preços
-                  </Link>
-                </div>
-              </div>
-
-              <div
-                className="relative group h-full flex items-end"
-                onMouseEnter={() => setIsCarbonOpen(true)}
-                onMouseLeave={() => setIsCarbonOpen(false)}
-              >
-                <button className="px-4 py-5 text-sm font-semibold text-gray-500 hover:text-[#1e40af] transition-all dark:text-gray-400 dark:hover:text-blue-300 flex items-center gap-2">
-                  <span>🌍</span>Carbono
-                  <svg
-                    className={`w-4 h-4 transition-transform ${isCarbonOpen ? "rotate-180" : ""}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-                <div
-                  className={`absolute top-full left-0 bg-white dark:bg-gray-800 shadow-lg rounded-b-lg border border-gray-200 dark:border-gray-700 py-2 min-w-[180px] z-50 ${isCarbonOpen ? "block" : "hidden"
-                    }`}
-                >
-                  <Link
-                    href="/carbono-brasil"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>🇧🇷</span> Brasil
-                  </Link>
-                  <Link
-                    href="/carbono-mundo"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>🌎</span> Mundo
-                  </Link>
-                  <Link
-                    href="/carbono-projetos"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>📊</span> Projetos
-                  </Link>
-                  <Link
-                    href="/carbono-precos"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>💰</span> Preços
-                  </Link>
-                </div>
-              </div>
-
-              <div
-                className="relative group h-full flex items-end"
-                onMouseEnter={() => setIsComunidadeOpen(true)}
-                onMouseLeave={() => setIsComunidadeOpen(false)}
-              >
-                <button
-                  className={`px-4 py-5 text-sm font-semibold flex items-center gap-2 transition-all ${isActive("/feed") || isActive("/profile") || isActive("/leaderboard")
-                    ? "text-[#1e40af] border-b-2 border-[#1e40af] bg-blue-50 dark:bg-blue-900/30"
-                    : "text-gray-500 dark:text-gray-400 hover:text-[#1e40af] dark:hover:text-blue-300"
-                    }`}
-                >
-                  <span>💬</span>Comunidade
-                  <svg
-                    className={`w-4 h-4 transition-transform ${isComunidadeOpen ? "rotate-180" : ""}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </button>
-                <div
-                  className={`absolute top-full left-0 bg-white dark:bg-gray-800 shadow-lg rounded-b-lg border border-gray-200 dark:border-gray-700 py-2 min-w-[160px] z-50 ${isComunidadeOpen ? "block" : "hidden"
-                    }`}
-                >
-                  <Link
-                    href="/feed"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>📝</span> Posts
-                  </Link>
-                  <Link
-                    href="/profiles"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>👥</span> Perfis
-                  </Link>
-                  <Link
-                    href="/leaderboard"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>🏆</span> Ranking
-                  </Link>
-                  <div className="border-t border-gray-100 dark:border-gray-700 my-1"></div>
-                  <Link
-                    href="/profile"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>👤</span> Meu Perfil
-                  </Link>
-                  <Link
-                    href="/conquistas"
-                    className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <span>🎖️</span> Conquistas
-                  </Link>
-                </div>
-              </div>
-
-            </nav>
-
-            <div className="flex items-center gap-2">
-              {/* Streak Display */}
-              {user && streak > 0 && (
-                <div className="flex items-center">
-                  <StreakDisplay currentStreak={streak} />
+                  <div className="space-y-1">
+                    {item.subItems.map((sub) => (
+                      <Link
+                        key={sub.href}
+                        href={sub.href}
+                        role="menuitem"
+                        className="flex flex-col gap-0.5 p-3 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors group/sub"
+                      >
+                        <span className="text-[13px] font-bold text-slate-900 group-hover/sub:text-forest-green group-focus/sub:text-forest-green transition-colors">{sub.label}</span>
+                        {sub.desc && <span className="text-[11px] text-slate-400 font-medium leading-tight">{sub.desc}</span>}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
+            </div>
+          ))}
+        </nav>
 
-              {/* Create Post Button */}
-              <div
-                className="relative flex items-center"
-                onMouseEnter={() => setShowCreateTooltip(true)}
-                onMouseLeave={() => setShowCreateTooltip(false)}
-              >
-                <button
-                  onClick={handleCreatePostClick}
-                  className="flex items-center gap-2 h-10 px-4 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-[#1e40af] dark:text-blue-300 text-[13px] font-bold transition-all hover:bg-blue-100 dark:hover:bg-blue-900/50 cursor-pointer active:scale-95"
-                  aria-label="Criar novo Post"
+        {/* Search & Actions */}
+        <div className="flex items-center gap-4">
+
+          {/* Streak */}
+          {user && streak > 0 && <StreakDisplay currentStreak={streak} />}
+
+          {/* Post Button */}
+          <Tooltip content="Compartilhe insights ou notícias com a comunidade">
+            <button
+              onClick={() => router.push(user ? "/feed?create=true" : "/login")}
+              className="flex items-center gap-2 border border-slate-300 rounded-lg px-4 py-2 hover:bg-slate-50 transition-all active:scale-95 group"
+            >
+              <div className="w-4 h-4 text-slate-900 group-hover:text-forest-green">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                  <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+              </div>
+              <span className="text-[13px] font-bold text-slate-900">Novo Post</span>
+            </button>
+          </Tooltip>
+
+          {/* Auth / Account */}
+          {!loading && (
+            user ? (
+              <div className="relative" onMouseEnter={() => { setShowProfileMenu(true); setActiveMenu(null); }} onFocus={() => { setShowProfileMenu(true); setActiveMenu(null); }}>
+                <Link
+                  href="/dashboard"
+                  aria-expanded={showProfileMenu}
+                  aria-haspopup="true"
+                  className="bg-forest-green hover:bg-emerald-900 text-white rounded-lg px-6 py-2 text-[13px] font-bold shadow-premium transition-all active:scale-95 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-2"
                 >
-                  <div className="w-5 h-5 rounded-full bg-[#1e40af] text-white flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14" />
-                      <path d="M12 5v14" />
-                    </svg>
-                  </div>
-                  <span className="hidden sm:inline">Novo Post</span>
-                </button>
+                  Painel
+                  <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${showProfileMenu ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </Link>
 
-                {/* Tooltip */}
-                {showCreateTooltip && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1.5 bg-gray-800 text-white text-xs font-medium rounded-lg whitespace-nowrap z-50">
-                    Criar novo Post
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-800 rotate-45"></div>
+                {/* Profile Dropdown */}
+                {showProfileMenu && (
+                  <div className="absolute top-[calc(100%+5px)] right-0 w-64 bg-white rounded-2xl shadow-premium-lg border border-slate-100 p-2 animate-in fade-in slide-in-from-top-2 duration-200" role="menu">
+                    <div className="p-3 mb-2 border-b border-slate-50">
+                      <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-0.5">Logado como</p>
+                      <p className="text-sm font-bold text-slate-900 truncate">{profile?.display_name || user.email}</p>
+                    </div>
+                    <div className="space-y-1">
+                      <Link
+                        href="/dashboard"
+                        role="menuitem"
+                        className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                        Meu Painel
+                      </Link>
+                      <Link
+                        href={`/u/${profile?.username}`}
+                        role="menuitem"
+                        className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                        Meu Perfil
+                      </Link>
+                      <Link
+                        href="/conquistas"
+                        role="menuitem"
+                        className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>
+                        Conquistas
+                      </Link>
+                      <div className="h-px bg-slate-50 my-1" />
+                      <button
+                        onClick={handleLogout}
+                        role="menuitem"
+                        className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-red-50 focus:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors text-[13px] font-bold text-red-500 hover:text-red-600"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                        Sair da Conta
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
-
-              {!loading && (
-                <>
-                  {user ? (
-                    <div
-                      className="relative group"
-                      onMouseEnter={handleContaMouseEnter}
-                      onMouseLeave={handleContaMouseLeave}
-                    >
-                      <button className="flex items-center gap-2 h-10 px-4 rounded-full bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 text-[#1e40af] dark:text-blue-300 text-[13px] font-bold transition-all active:scale-95">
-                        <div className="w-5 h-5 rounded-full bg-[#1e40af] text-white flex items-center justify-center text-[9px] font-black">
-                          {user.email?.substring(0, 2).toUpperCase()}
-                        </div>
-                        <span className="hidden sm:inline">Minha Conta</span>
-                      </button>
-                      <div
-                        className={`absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1 z-50 ${isContaOpen ? 'block' : 'hidden'} transition-all transform origin-top-right`}
-                        onMouseEnter={handleContaMouseEnter}
-                        onMouseLeave={handleContaMouseLeave}
-                      >
-                        <div className="px-4 py-2 border-b border-gray-50 dark:border-gray-700">
-                          <p className="text-[10px] text-gray-400 uppercase font-bold text-center">Logado como</p>
-                          <p className="text-xs font-semibold truncate dark:text-gray-200 text-center">{user.email}</p>
-                        </div>
-                        <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors border-b border-gray-50 dark:border-gray-700">
-                          📊 Minha Página
-                        </Link>
-                        {(profile?.role === "moderator" || profile?.role === "admin") && (
-                          <Link href="/mod" className="block px-4 py-2 text-sm text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors border-b border-gray-50 dark:border-gray-700">
-                            🛡️ Moderação
-                          </Link>
-                        )}
-                        <Link href="/profile/edit" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                          👤 Editar Perfil
-                        </Link>
-                        <button
-                          onClick={handleLogout}
-                          className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors border-t border-gray-50 dark:border-gray-700"
-                        >
-                          🚪 Sair
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <Link
-                      href="/login"
-                      className="h-10 px-6 rounded-lg bg-[#1e40af] hover:bg-blue-700 text-white text-sm font-bold transition-all shadow-lg shadow-blue-500/20 active:scale-95 flex items-center"
-                    >
-                      Entrar
-                    </Link>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
+            ) : (
+              <Link
+                href="/login"
+                className="bg-forest-green hover:bg-emerald-900 text-white rounded-lg px-6 py-2 text-[13px] font-bold shadow-premium transition-all active:scale-95"
+              >
+                Entrar
+              </Link>
+            )
+          )}
         </div>
-      </header>
-    </>
+      </div>
+    </header>
   );
 }

@@ -59,28 +59,28 @@ export default async function RegisterPage(props: {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">
+              <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1" id="user-type-label">
                 Tipo de Conta
               </label>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                <label className="relative flex flex-col items-center gap-1 p-2 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-200 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                  <input type="radio" name="user_type" value="individual" defaultChecked className="hidden" />
-                  <span className="text-lg">👤</span>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2" role="radiogroup" aria-labelledby="user-type-label">
+                <label className="relative flex flex-col items-center gap-1 p-2 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-200 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20 focus-within:has-[:checked]:border-[#1e40af] focus-within:has-[:checked]:bg-blue-50">
+                  <input type="radio" name="user_type" value="individual" defaultChecked className="sr-only peer" />
+                  <span className="text-lg" aria-hidden="true">👤</span>
                   <span className="text-[9px] font-bold uppercase">Indivíduo</span>
                 </label>
-                <label className="relative flex flex-col items-center gap-1 p-2 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-200 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                  <input type="radio" name="user_type" value="company" className="hidden" />
-                  <span className="text-lg">🏢</span>
+                <label className="relative flex flex-col items-center gap-1 p-2 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-200 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20 focus-within:has-[:checked]:border-[#1e40af] focus-within:has-[:checked]:bg-blue-50">
+                  <input type="radio" name="user_type" value="company" className="sr-only peer" />
+                  <span className="text-lg" aria-hidden="true">🏢</span>
                   <span className="text-[9px] font-bold uppercase">Empresa</span>
                 </label>
-                <label className="relative flex flex-col items-center gap-1 p-2 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-200 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                  <input type="radio" name="user_type" value="ong" className="hidden" />
-                  <span className="text-lg">🤝</span>
+                <label className="relative flex flex-col items-center gap-1 p-2 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-200 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20 focus-within:has-[:checked]:border-[#1e40af] focus-within:has-[:checked]:bg-blue-50">
+                  <input type="radio" name="user_type" value="ong" className="sr-only peer" />
+                  <span className="text-lg" aria-hidden="true">🤝</span>
                   <span className="text-[9px] font-bold uppercase">ONG</span>
                 </label>
-                <label className="relative flex flex-col items-center gap-1 p-2 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-200 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                  <input type="radio" name="user_type" value="government" className="hidden" />
-                  <span className="text-lg">🏛️</span>
+                <label className="relative flex flex-col items-center gap-1 p-2 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-200 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20 focus-within:has-[:checked]:border-[#1e40af] focus-within:has-[:checked]:bg-blue-50">
+                  <input type="radio" name="user_type" value="government" className="sr-only peer" />
+                  <span className="text-lg" aria-hidden="true">🏛️</span>
                   <span className="text-[9px] font-bold uppercase">Governo</span>
                 </label>
               </div>

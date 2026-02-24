@@ -1,279 +1,247 @@
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { Breadcrumb } from "@/components/layout/Breadcrumb";
+import { CommunityFeed } from "@/components/home/CommunityFeed";
+import { createClient } from "@/lib/supabase/server";
+import { getUserMissions, getMissionDefinition } from "@/lib/missions";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+
+  // Fetch top 3 contributors
+  const { data: topContributors } = await supabase
+    .from("profiles")
+    .select("display_name, username, karma, avatar_url")
+    .order("karma", { ascending: false })
+    .limit(3);
+
+  // Fetch current user if logged in
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile } = user
+    ? await supabase.from("profiles").select("*").eq("id", user.id).single()
+    : { data: null };
+
+  // Fetch missions if logged in
+  const missions = user ? await getUserMissions(user.id) : [];
+  const activeMissions = missions.filter(m => !m.claimed).slice(0, 3);
+
   return (
     <>
       <Header />
-      <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
-        <Breadcrumb />
-
+      <main id="main-content" className="w-full" tabIndex={-1}>
         {/* Hero Section */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h1 className="text-5xl font-bold text-[#1e40af] mb-6 tracking-tight">
-            Sintropia
-          </h1>
-          <p className="text-2xl text-gray-700 dark:text-gray-300 mb-8 font-medium">
-            Inteligência gratuita sobre o mercado de carbono e energias renováveis no Brasil e no mundo. Rankings, preços e comunidade. Colaborativo e Open Source.
-          </p>
-        </div>
-
-        {/* Diferenciais */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border-2 border-blue-200 dark:border-blue-800 text-center">
-            <div className="text-4xl mb-3">🇧🇷</div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-              Dados Brasileiros
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Rankings de 50+ empresas brasileiras que você não encontra em nenhum lugar
+        <section className="max-w-7xl mx-auto px-8 lg:px-16 pt-24 pb-32 flex flex-col lg:flex-row items-center gap-20">
+          <div className="flex-1 space-y-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full border border-slate-200">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" aria-hidden="true"></div>
+              <span className="text-[10px] uppercase font-bold tracking-widest text-slate-600">Inteligência de mercado ao vivo</span>
+            </div>
+            <h1 className="text-6xl lg:text-7xl font-bold tracking-tight text-forest-green leading-[1.1]">
+              Democratizando dados de <span className="text-emerald-500 underline decoration-emerald-200 underline-offset-8">ativos ambientais</span> no Brasil.
+            </h1>
+            <p className="text-xl text-slate-500 leading-relaxed max-w-xl">
+              Plataformas globais cobram <span className="text-slate-900 font-semibold strike-through">$249/mês</span> por esses dados. Nós fornecemos rankings, preços e tendências em tempo real para o mercado brasileiro — completamente <span className="italic font-bold text-forest-green">grátis</span>.
             </p>
+            <div className="flex items-center gap-6 pt-4">
+              <Link
+                href="/register"
+                className="bg-forest-green hover:bg-emerald-900 text-white px-8 py-4 rounded-lg font-bold shadow-premium transition-all active:scale-95 flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+              >
+                Comece Grátis
+                <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+              </Link>
+            </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border-2 border-green-200 dark:border-green-800 text-center">
-            <div className="text-4xl mb-3">💰</div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-              Preços I-REC
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Preços por tecnologia (hidro, eólica, solar) no Brasil e no mundo
-            </p>
+
+          <div className="flex-1 relative">
+            <div className="bg-white rounded-2xl shadow-premium-lg border border-slate-100 p-8 transform rotate-1 hover:rotate-0 transition-all duration-700">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h4 className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-1">Índice S-REC (Semanal)</h4>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-3xl font-bold text-forest-green">+12.4%</span>
+                    <span className="text-xs text-emerald-500 font-medium">vs mês passado</span>
+                  </div>
+                </div>
+                <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
+                  <span className="text-emerald-600 font-bold">📊</span>
+                </div>
+              </div>
+              <div className="h-48 w-full bg-slate-50 rounded-xl relative overflow-hidden flex items-end gap-1 px-4">
+                {[45, 60, 48, 75, 55, 90, 65, 80, 70, 95, 85].map((h, i) => (
+                  <div key={i} className="flex-1 bg-emerald-400/20 rounded-t-[2px] border-t border-emerald-400/40" style={{ height: `${h}%` }}></div>
+                ))}
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-emerald-500/10 to-transparent"></div>
+              </div>
+            </div>
+            {/* Floating decoration */}
+            <div className="absolute -top-6 -right-6 w-32 h-32 bg-emerald-400/10 rounded-full blur-3xl"></div>
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-blue-400/10 rounded-full blur-3xl"></div>
           </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border-2 border-purple-200 dark:border-purple-800 text-center">
-            <div className="text-4xl mb-3">📊</div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-              Comparativos
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Atualizados mensalmente com dados de carbono e energia renovável
-            </p>
+        </section>
+
+        {/* Features Section */}
+        <section className="bg-white py-24">
+          <div className="max-w-7xl mx-auto px-8 lg:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: "Dados Brasileiros", desc: "Acesse o banco de dados mais completo de ativos ambientais do Brasil.", icon: "📂" },
+              { title: "Inteligência de Mercado", desc: "Preços, volume e tendências em tempo real para I-RECs e créditos de carbono.", icon: "📈" },
+              { title: "Comunidade Ativa", desc: "Conecte-se com especialistas, analistas e traders do mercado ambiental.", icon: "🤝" },
+              { title: "API Aberta (Em Breve)", desc: "Integre nossos dados diretamente em suas aplicações com nossa API robusta.", icon: "💻" }
+            ].map((f, i) => (
+              <div key={i} className="group p-8 rounded-2xl border border-slate-100 hover:border-emerald-100 hover:shadow-premium transition-all">
+                <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-xl mb-6 group-hover:bg-emerald-50 group-hover:scale-110 transition-all">
+                  {f.icon}
+                </div>
+                <h3 className="text-lg font-bold text-forest-green mb-3">{f.title}</h3>
+                <p className="text-sm text-slate-500 leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
           </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border-2 border-gray-200 dark:border-gray-700 text-center">
-            <div className="text-4xl mb-3">🔓</div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-              Código Aberto
-            </h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Tudo no GitHub. Qualquer um pode auditar e contribuir
-            </p>
-          </div>
-        </div>
+        </section>
 
-        {/* Links Principais */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-            O que você pode explorar
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link
-              href="/carbono-brasil"
-              className="bg-gradient-to-br from-green-50 to-white dark:from-green-900/20 dark:to-gray-800 p-6 rounded-xl border border-green-200 dark:border-green-800 block hover:shadow-lg transition-all hover:-translate-y-1"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">🌴</span>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Carbono Brasil
-                </h3>
-              </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Ranking das empresas brasileiras por setor. Quem está compensando mais carbono?
-              </p>
-              <div className="text-green-600 font-semibold">
-                Ver ranking →
-              </div>
-            </Link>
-
-            <Link
-              href="/irec-brasil"
-              className="bg-gradient-to-br from-blue-50 to-white dark:from-blue-900/20 dark:to-gray-800 p-6 rounded-xl border border-blue-200 dark:border-blue-800 block hover:shadow-lg transition-all hover:-translate-y-1"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">⚡</span>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Energia Brasil
-                </h3>
-              </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Empresas que usam energia renovável no Brasil. топ 25 por I-REC.
-              </p>
-              <div className="text-blue-600 font-semibold">
-                Ver ranking →
-              </div>
-            </Link>
-
-            <Link
-              href="/carbono-precos"
-              className="bg-gradient-to-br from-orange-50 to-white dark:from-orange-900/20 dark:to-gray-800 p-6 rounded-xl border border-orange-200 dark:border-orange-800 block hover:shadow-lg transition-all hover:-translate-y-1"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">💵</span>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Preços Carbono
-                </h3>
-              </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Preços do mercado regulado (EU ETS) e voluntário. Compare qualidade e preços.
-              </p>
-              <div className="text-orange-600 font-semibold">
-                Ver preços →
-              </div>
-            </Link>
-
-            <Link
-              href="/irec-precos"
-              className="bg-gradient-to-br from-yellow-50 to-white dark:from-yellow-900/20 dark:to-gray-800 p-6 rounded-xl border border-yellow-200 dark:border-yellow-800 block hover:shadow-lg transition-all hover:-translate-y-1"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">☀️</span>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Preços Energia
-                </h3>
-              </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Por que o Brasil tem os menores preços do mundo? Compare por país e tecnologia.
-              </p>
-              <div className="text-yellow-600 font-semibold">
-                Ver preços →
-              </div>
-            </Link>
-
-            <Link
-              href="/carbono-mundo"
-              className="bg-gradient-to-br from-indigo-50 to-white dark:from-indigo-900/20 dark:to-gray-800 p-6 rounded-xl border border-indigo-200 dark:border-indigo-800 block hover:shadow-lg transition-all hover:-translate-y-1"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">🌎</span>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Carbono Mundo
-                </h3>
-              </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Quem são os maiores compradores de carbono no mundo? Big Techs lideram.
-              </p>
-              <div className="text-indigo-600 font-semibold">
-                Ver ranking →
-              </div>
-            </Link>
-
-            <Link
-              href="/certificadoras"
-              className="bg-gradient-to-br from-teal-50 to-white dark:from-teal-900/20 dark:to-gray-800 p-6 rounded-xl border border-teal-200 dark:border-teal-800 block hover:shadow-lg transition-all hover:-translate-y-1"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">🏛️</span>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Certificadoras
-                </h3>
-              </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Verra, Gold Standard, GS4GG. Qual certificationa emite mais créditos?
-              </p>
-              <div className="text-teal-600 font-semibold">
-                Ver comparativo →
-              </div>
-            </Link>
-
-            <Link
-              href="/carbono-projetos"
-              className="bg-gradient-to-br from-amber-50 to-white dark:from-amber-900/20 dark:to-gray-800 p-6 rounded-xl border border-amber-200 dark:border-amber-800 block hover:shadow-lg transition-all hover:-translate-y-1"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">🌳</span>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Projetos Carbono
-                </h3>
-              </div>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Explore projetos de carbono registrados no mercado voluntário. Dados do CarbonPlan.
-              </p>
-              <div className="text-amber-600 font-semibold">
-                Ver projetos →
-              </div>
+        {/* Explore Categories */}
+        <section className="max-w-7xl mx-auto px-8 lg:px-16 py-24">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <h2 className="text-3xl font-bold text-forest-green mb-3">Explore a Inteligência de Mercado</h2>
+              <p className="text-slate-500 text-sm">Filtre pelos pilares centrais da economia ambiental brasileira.</p>
+            </div>
+            <Link href="/categorias" className="text-slate-900 font-bold text-sm flex items-center gap-2 border-b border-slate-900 pb-1 hover:text-forest-green hover:border-forest-green transition-colors">
+              Ver Todas as Categorias
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
             </Link>
           </div>
-        </div>
 
-        {/* Comunidade */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-            Comunidade
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Link
-              href="/feed"
-              className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/20 p-6 rounded-xl border border-blue-200 dark:border-blue-800 block hover:shadow-lg transition-all hover:-translate-y-1 text-center"
-            >
-              <span className="text-4xl mb-3 block">📝</span>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                Posts
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Compartilhe e discuta sobre o mercado
-              </p>
-            </Link>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {[
+              { title: "Carbono Brasil", bgImg: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=600&auto=format&fit=crop", active: true },
+              { title: "Energia Brasil", bgImg: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=600&auto=format&fit=crop" },
+              { title: "Carbono Mundo", bgImg: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop" },
+              { title: "Preços Energia", bgImg: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=600&auto=format&fit=crop" },
+              { title: "Projetos Carbono", bgImg: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=600&auto=format&fit=crop" }
+            ].map((c, i) => (
+              <div key={i} className="relative aspect-[4/5] rounded-2xl overflow-hidden group cursor-pointer">
+                {/* Background Image */}
+                <div
+                  className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700"
+                  style={{ backgroundImage: `url('${c.bgImg}')` }}
+                ></div>
+                {/* Dark Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
 
-            <Link
-              href="/profiles"
-              className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/20 p-6 rounded-xl border border-indigo-200 dark:border-indigo-800 block hover:shadow-lg transition-all hover:-translate-y-1 text-center"
-            >
-              <span className="text-4xl mb-3 block">👥</span>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                Membros
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Explore a comunidade
-              </p>
-            </Link>
-
-            <Link
-              href="/leaderboard"
-              className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/30 dark:to-orange-900/20 p-6 rounded-xl border border-yellow-200 dark:border-yellow-800 block hover:shadow-lg transition-all hover:-translate-y-1 text-center"
-            >
-              <span className="text-4xl mb-3 block">🏆</span>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                Ranking
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Os mais ativos
-              </p>
-            </Link>
-
-            <Link
-              href="/dashboard"
-              className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/20 p-6 rounded-xl border border-green-200 dark:border-green-800 block hover:shadow-lg transition-all hover:-translate-y-1 text-center"
-            >
-              <span className="text-4xl mb-3 block">📊</span>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                Minha Página
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-sm">
-                Acompanhe sua atividade
-              </p>
-            </Link>
+                {/* Content */}
+                <div className="absolute inset-x-0 bottom-0 p-5 flex flex-col gap-3">
+                  {c.active && (
+                    <span className="w-fit bg-emerald-600 text-[10px] uppercase font-black text-white px-2.5 py-1 rounded tracking-widest shadow-md">Trending</span>
+                  )}
+                  <h4 className="text-white text-lg font-bold leading-tight drop-shadow-md">{c.title}</h4>
+                  <button className="w-full py-2.5 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg text-white text-xs font-bold hover:bg-white/20 transition-all">Explorar</button>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
+        </section>
 
-        {/* Nosso Objetivo */}
-        <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-2xl p-8 border border-gray-200 dark:border-gray-700 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Nosso Objetivo
-          </h2>
-          <p className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            <strong>Tornar o mercado de carbono transparente e acessível para todos.</strong>
-          </p>
-          <p className="text-gray-600 dark:text-gray-400 mt-4 max-w-2xl mx-auto">
-            Se você trabalha com carbono ou energia renovável, a Sintropia é para você.
-          </p>
-          <div className="mt-6">
-            <Link
-              href="/register"
-              className="inline-block px-6 py-3 bg-[#1e40af] text-white font-semibold rounded-xl hover:bg-[#1e3a8a] transition-colors"
-            >
-              Criar conta grátis →
-            </Link>
-          </div>
-        </div>
+        {/* Community Feed */}
+        <section className="max-w-7xl mx-auto px-8 lg:px-16 py-24 flex flex-col lg:flex-row gap-12">
+          <CommunityFeed />
+
+          <aside className="flex-1 space-y-8">
+            {/* Top Contributors */}
+            <div className="bg-slate-900 rounded-2xl p-8 text-white shadow-premium">
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="font-bold text-lg tracking-tight uppercase">Principais Contribuidores</h3>
+                <svg className="w-5 h-5 text-emerald-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+              </div>
+              <div className="space-y-6">
+                {topContributors?.map((c, i) => (
+                  <div key={i} className="flex items-center gap-4">
+                    <span className="text-[10px] font-black font-mono text-slate-700 w-4">0{i + 1}</span>
+                    <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center overflow-hidden">
+                      {c.avatar_url ? (
+                        <img src={c.avatar_url} alt={c.username} className="w-full h-full object-cover" />
+                      ) : (
+                        <span className="text-[10px] text-slate-500 font-bold uppercase">{c.username?.substring(0, 2)}</span>
+                      )}
+                    </div>
+                    <span className="text-sm font-bold flex-1 truncate">{c.display_name || c.username}</span>
+                    <span className="text-[11px] font-black text-emerald-500 font-mono">{c.karma > 1000 ? `${(c.karma / 1000).toFixed(1)}k` : c.karma} pts</span>
+                  </div>
+                ))}
+              </div>
+              <Link href="/leaderboard" className="block w-full text-center mt-10 py-3 border border-slate-800 rounded-xl text-xs font-bold text-slate-400 hover:text-white hover:bg-slate-800 transition-all uppercase tracking-widest">Ver Ranking Completo</Link>
+            </div>
+
+            {/* Profile Widget */}
+            <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-premium">
+              <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-400">Meu Painel</h4>
+              <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100 mb-6">
+                <div className="w-10 h-10 rounded-full bg-slate-200 border border-slate-100 flex items-center justify-center overflow-hidden">
+                  {profile?.avatar_url ? (
+                    <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-slate-400">👤</span>
+                  )}
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-0.5">Status</p>
+                  <p className="text-xs font-bold text-slate-900 leading-none">
+                    {profile ? (profile.display_name || profile.username) : "Não Logado"}
+                  </p>
+                </div>
+              </div>
+
+              {profile ? (
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center text-xs border-b border-slate-50 pb-3">
+                    <span className="text-slate-500 font-medium">Karma acumulado</span>
+                    <span className="font-bold text-emerald-600 font-mono">{profile.karma?.toLocaleString() || 0} pts</span>
+                  </div>
+
+                  {/* Next Missions */}
+                  <div className="py-2">
+                    <p className="text-[10px] uppercase font-black tracking-widest text-slate-400 mb-4">Próximas Missões</p>
+                    <div className="space-y-3">
+                      {activeMissions.length > 0 ? (
+                        activeMissions.map((mission) => {
+                          const def = getMissionDefinition(mission.mission_type);
+                          const progress = (mission.progress / mission.target) * 100;
+                          return (
+                            <div key={mission.id} className="group cursor-default">
+                              <div className="flex items-center justify-between mb-1.5">
+                                <span className="text-[11px] font-bold text-slate-700 flex items-center gap-2">
+                                  <span className="text-sm">{def.icon}</span>
+                                  {def.label}
+                                </span>
+                                <span className="text-[10px] font-bold text-emerald-600">+{mission.karma_reward} karma</span>
+                              </div>
+                              <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                                <div
+                                  className={`h-full transition-all duration-500 ${mission.completed ? 'bg-emerald-500' : 'bg-blue-500'}`}
+                                  style={{ width: `${progress}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <p className="text-[11px] text-slate-400 italic">Nenhuma missão no momento.</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <Link href="/conquistas" className="block w-full py-4 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-center rounded-xl text-xs font-bold transition-all uppercase tracking-widest mt-4">Ver Todas as Conquistas</Link>
+                </div>
+              ) : (
+                <>
+                  <p className="text-xs text-slate-500 text-center leading-relaxed mb-8">Faça login para acompanhar seus ativos favoritos, postar na comunidade e ganhar pontos.</p>
+                  <Link href="/login" className="block w-full py-4 bg-forest-green text-white text-center rounded-xl text-xs font-bold shadow-premium hover:bg-emerald-900 transition-all active:scale-95 uppercase tracking-widest">Entrar / Registrar</Link>
+                </>
+              )}
+            </div>
+          </aside>
+        </section>
       </main>
       <Footer />
     </>

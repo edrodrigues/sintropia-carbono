@@ -83,10 +83,11 @@ export function VoteButtons({
     };
 
     return (
-        <div className="flex flex-col items-center gap-1">
+        <div className="flex flex-col items-center gap-1" role="group" aria-label="Votações">
             <button
                 onClick={() => handleVote(1)}
-                className={`p-1 rounded-lg transition-colors ${userVote === 1
+                aria-label={userVote === 1 ? "Remover upvote" : "Votar positivo"}
+                className={`p-1 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 ${userVote === 1
                         ? "text-blue-600 bg-blue-50 dark:bg-blue-900/20"
                         : "text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
@@ -101,16 +102,18 @@ export function VoteButtons({
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    aria-hidden="true"
                 >
                     <path d="m18 15-6-6-6 6" />
                 </svg>
             </button>
-            <span className="text-sm font-bold text-gray-700 dark:text-gray-300">
+            <span className="text-sm font-bold text-gray-700 dark:text-gray-300" aria-live="polite">
                 {karma}
             </span>
             <button
                 onClick={() => handleVote(-1)}
-                className={`p-1 rounded-lg transition-colors ${userVote === -1
+                aria-label={userVote === -1 ? "Remover downvote" : "Votar negativo"}
+                className={`p-1 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 ${userVote === -1
                         ? "text-red-600 bg-red-50 dark:bg-red-900/20"
                         : "text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                     }`}
@@ -125,6 +128,7 @@ export function VoteButtons({
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    aria-hidden="true"
                 >
                     <path d="m6 9 6 6 6-6" />
                 </svg>

@@ -19,9 +19,9 @@ export function Tooltip({ children, content, className }: TooltipProps) {
     >
       {children}
       {show && (
-        <span className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-xs rounded-lg z-50 shadow-xl ${className || "whitespace-nowrap"}`}>
+        <span className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-2 bg-gray-900 text-white text-[10px] font-bold rounded-lg z-[60] shadow-xl whitespace-nowrap animate-in fade-in zoom-in-95 duration-200 ${className || ""}`}>
           {content}
-          <span className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900 dark:border-t-gray-700" />
+          <span className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-b-gray-900" />
         </span>
       )}
     </span>
