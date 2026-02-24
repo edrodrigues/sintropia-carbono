@@ -107,7 +107,7 @@ export async function generateWeeklyMissions(userId: string): Promise<boolean> {
       user_id: userId,
       mission_type: 'karma_level' as MissionType,
       target: Math.max(1, karmaNeeded),
-      karma_reward: 30 + (karmaNeeded * 0.5),
+      karma_reward: Math.round(30 + (karmaNeeded * 0.5)),
       week_start: weekStart,
     });
   }

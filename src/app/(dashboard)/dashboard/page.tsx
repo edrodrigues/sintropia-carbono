@@ -135,7 +135,7 @@ export default async function DashboardPage() {
                 user_id: user.id,
                 mission_type: 'karma_level',
                 target: karmaNeeded,
-                karma_reward: 30 + (karmaNeeded * 0.5),
+                karma_reward: Math.round(30 + (karmaNeeded * 0.5)),
                 week_start: weekStart,
             });
         }
