@@ -28,7 +28,7 @@ const DRIP_SCHEDULE = [
   { day: 2, name: 'carbon_credits', fn: sendDripEmail2_CarbonCredits },
   { day: 4, name: 'irec', fn: sendDripEmail3_IREC },
   { day: 6, name: 'community', fn: sendDripEmail4_Community },
-  { day: 9, name: 'action', fn: sendDripEmail5_Action },
+  { day: 8, name: 'action', fn: sendDripEmail5_Action },
 ];
 
 interface SentEmailRecord {
@@ -152,6 +152,8 @@ Options:
   --dry-run         Run without actually sending emails
   --email=<type>   Send only a specific email type
   --days=<n>       Simulate n days since signup (for testing)
+  --emails=<list>  Send to specific emails (comma-separated)
+  --delay=<ms>     Delay between emails in milliseconds (default: 1000)
   --help, -h       Show this help message
 
 Email types:
@@ -166,6 +168,7 @@ Examples:
   npx tsx scripts/send-drip-emails.ts --dry-run         # Test without sending
   npx tsx scripts/send-drip-emails.ts --email=welcome   # Send only welcome email
   npx tsx scripts/send-drip-emails.ts --days=5          # Simulate 5 days since signup
+  npx tsx scripts/send-drip-emails.ts --emails="email1@teste.com,email2@teste.com" --delay=500
 `);
     return;
   }
@@ -175,9 +178,27 @@ Examples:
   const specificEmail = emailIndex >= 0 ? args[emailIndex].replace('--email=', '') : null;
   const daysIndex = args.findIndex(arg => arg.startsWith('--days='));
   const simulatedDays = daysIndex >= 0 ? parseInt(args[daysIndex].replace('--days=', ''), 10) : null;
+  
+  const emailsArgIndex = args.findIndex(arg => arg.startsWith('--emails='));
+  const targetEmails = emailsArgIndex >= 0 
+    ? args[emailsArgIndex].replace('--emails=', '').split(',').map(e => e.trim().toLowerCase())
+    : null;
+  
+  const delayArgIndex = args.findIndex(arg => arg.startsWith('--delay='));
+  const delayMs = delayArgIndex >= 0 
+    ? parseInt(args[delayArgIndex].replace('--delay=', ''), 10)
+    : 1000;
 
   if (dryRun) {
     console.log('=== DRY RUN MODE ===\n');
+  }
+
+  if (delayMs > 0) {
+    console.log(`Delay between emails: ${delayMs}ms\n`);
+  }
+
+  if (targetEmails) {
+    console.log(`Targeting specific emails: ${targetEmails.join(', ')}\n`);
   }
 
   console.log('Loading drip email tracking...');
@@ -208,6 +229,11 @@ Examples:
 
   console.log(`\nTotal contacts found: ${contacts.length}`);
 
+  if (targetEmails && targetEmails.length > 0) {
+    contacts = contacts.filter(c => targetEmails.includes(c.email.toLowerCase()));
+    console.log(`Filtered to target emails: ${contacts.length} contacts`);
+  }
+
   if (contacts.length === 0) {
     console.log('No contacts found in any audience.');
     return;
@@ -230,7 +256,7 @@ Examples:
 
       console.log(`Sending ${specificEmail} to ${contact.email}...`);
       if (!dryRun) {
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, delayMs));
         const result = await emailConfig.fn(contact.email, contact.first_name || 'Amigo');
         
         if (result.success) {
@@ -281,7 +307,7 @@ Examples:
 
       console.log(`Sending to ${contact.email} (Day ${daysSinceSignup})...`);
       if (!dryRun) {
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, delayMs));
         const result = await dripConfig.fn(contact.email, contact.first_name || 'Amigo');
         
         if (result.success) {
