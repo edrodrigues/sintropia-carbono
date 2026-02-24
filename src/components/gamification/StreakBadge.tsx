@@ -105,15 +105,18 @@ export function StreakDisplay({ currentStreak }: StreakDisplayProps) {
   if (currentStreak === 0) return null;
   
   const emoji = getStreakEmoji(currentStreak);
+  const nextBonus = getStreakBonus(currentStreak + 1);
   
   return (
-    <div className="flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-full border border-orange-200 dark:border-orange-700">
-      <span className={`text-sm ${currentStreak >= 7 ? 'animate-bounce' : ''}`}>
-        {emoji}
-      </span>
-      <span className="text-sm font-bold text-orange-600 dark:text-orange-400">
-        {currentStreak}
-      </span>
-    </div>
+    <Tooltip content={`Você garantiu seu bônus de hoje! Volte amanhã para ganhar +${nextBonus} de karma.`}>
+      <div className="flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 rounded-full border border-orange-200 dark:border-orange-700 cursor-help">
+        <span className={`text-sm ${currentStreak >= 7 ? 'animate-bounce' : ''}`}>
+          {emoji}
+        </span>
+        <span className="text-sm font-bold text-orange-600 dark:text-orange-400">
+          {currentStreak}
+        </span>
+      </div>
+    </Tooltip>
   );
 }
