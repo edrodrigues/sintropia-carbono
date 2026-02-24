@@ -53,9 +53,14 @@ export async function updateProfile(formData: FormData) {
     // Check if profile exists
     const { data: existingProfile } = await supabase
         .from('profiles')
-        .select('id')
+        .select('id, username')
         .eq('id', user.id)
         .single();
+
+    // Ensure username is provided if it doesn't exist yet
+    if (!username && !existingProfile?.username) {
+        return { error: 'O nome de usuário é obrigatório.' };
+    }
 
     // Sanitize inputs
     const updates = {

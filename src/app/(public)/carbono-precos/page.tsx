@@ -10,19 +10,19 @@ import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
 export const metadata: Metadata = {
-  title: "Preços Carbono 2025 | Mercado Regulado e Voluntário",
-  description: "Preços do carbono no mercado regulado (EU ETS, UK ETS) e voluntário. Comparativo de preços por qualidade e projeções para o Brasil.",
-  keywords: ["preços carbono", "EU ETS preço", "mercado carbono", "tonelada CO2 preço", "crédito carbono valor", "VCM carbono"],
-  alternates: {
-    canonical: "https://sintropia.space/carbono-precos",
-  },
+    title: "Preços Carbono 2025 | Mercado Regulado e Voluntário",
+    description: "Preços do carbono no mercado regulado (EU ETS, UK ETS) e voluntário. Comparativo de preços por qualidade e projeções para o Brasil.",
+    keywords: ["preços carbono", "EU ETS preço", "mercado carbono", "tonelada CO2 preço", "crédito carbono valor", "VCM carbono"],
+    alternates: {
+        canonical: "https://sintropia.space/carbono-precos",
+    },
 };
 
 const dataSources = [
-  { name: "BloombergNEF", url: "https://about.bnef.com" },
-  { name: "World Bank Carbon Pricing", url: "https://carbonpricingdashboard.worldbank.org" },
-  { name: "ICAP", url: "https://icapcarbonaction.com" },
-  { name: "B3", url: "https://www.b3.com.br" },
+    { name: "BloombergNEF", url: "https://about.bnef.com" },
+    { name: "World Bank Carbon Pricing", url: "https://carbonpricingdashboard.worldbank.org" },
+    { name: "ICAP", url: "https://icapcarbonaction.com" },
+    { name: "B3", url: "https://www.b3.com.br" },
 ];
 
 export default function CarbonoPrecos() {
@@ -40,7 +40,7 @@ export default function CarbonoPrecos() {
                 <CarbonoPrecosChart />
 
                 {/* Resumo */}
-                <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 mb-8 border border-gray-200 dark:border-gray-700">
+                <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 mt-12 mb-8 border border-gray-200 dark:border-gray-700">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">📊 RESUMO</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {[{

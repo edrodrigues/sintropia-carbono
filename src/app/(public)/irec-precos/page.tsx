@@ -10,12 +10,12 @@ import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
 export const metadata: Metadata = {
-  title: "Preços I-REC 2025 | Brasil e Mundo",
-  description: "Preços de certificados I-REC por país e tecnologia. Brasil tem os menores preços do mundo. Comparativo global com Singapura, Índia e outros.",
-  keywords: ["preços I-REC", "I-REC Brasil", "certificado energia preço", "MWh energia renovável", "I-REC global"],
-  alternates: {
-    canonical: "https://sintropia.space/irec-precos",
-  },
+    title: "Preços I-REC 2025 | Brasil e Mundo",
+    description: "Preços de certificados I-REC por país e tecnologia. Brasil tem os menores preços do mundo. Comparativo global com Singapura, Índia e outros.",
+    keywords: ["preços I-REC", "I-REC Brasil", "certificado energia preço", "MWh energia renovável", "I-REC global"],
+    alternates: {
+        canonical: "https://sintropia.space/irec-precos",
+    },
 };
 
 export default function IRECPrecos() {
@@ -40,10 +40,10 @@ export default function IRECPrecos() {
     ];
 
     const dataSources = [
-      { name: "I-TRACK Foundation", url: "https://trackingstandard.org" },
-      { name: "I-REC Brasil", url: "https://irec-brazil.org" },
-      { name: "CCEE", url: "https://cce.org.br" },
-      { name: "BloombergNEF", url: "https://about.bnef.com" },
+        { name: "I-TRACK Foundation", url: "https://trackingstandard.org" },
+        { name: "I-REC Brasil", url: "https://irec-brazil.org" },
+        { name: "CCEE", url: "https://cce.org.br" },
+        { name: "BloombergNEF", url: "https://about.bnef.com" },
     ];
 
     return (
@@ -60,7 +60,7 @@ export default function IRECPrecos() {
                 <IrecPrecosChart />
 
                 {/* Resumo Executivo */}
-                <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-xl p-6 mb-8 border border-gray-200 dark:border-gray-700 shadow-sm">
+                <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-xl p-6 mt-12 mb-8 border border-gray-200 dark:border-gray-700 shadow-sm">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">📊 RESUMO EXECUTIVO</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {[

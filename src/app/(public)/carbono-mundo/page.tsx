@@ -11,12 +11,12 @@ import { MobileTableWrapper } from "@/components/ui/MobileTable";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
 export const metadata: Metadata = {
-  title: "Ranking Carbono Mundo 2025 | Maiores Compradores Globais",
-  description: "Top 10 maiores compradores de créditos de carbono no mundo. Microsoft, Shell e Big Techs lideram. Veja o volume em milhões de tCO2e.",
-  keywords: ["carbono mundo", "maiores compradores carbono", "Microsoft carbono", "Big Tech carbono", "créditos carbono globais"],
-  alternates: {
-    canonical: "https://sintropia.space/carbono-mundo",
-  },
+    title: "Ranking Carbono Mundo 2025 | Maiores Compradores Globais",
+    description: "Top 10 maiores compradores de créditos de carbono no mundo. Microsoft, Shell e Big Techs lideram. Veja o volume em milhões de tCO2e.",
+    keywords: ["carbono mundo", "maiores compradores carbono", "Microsoft carbono", "Big Tech carbono", "créditos carbono globais"],
+    alternates: {
+        canonical: "https://sintropia.space/carbono-mundo",
+    },
 };
 
 const carbonoData = [
@@ -33,10 +33,10 @@ const carbonoData = [
 ];
 
 const dataSources = [
-  { name: "Verra Registry", url: "https://verra.org" },
-  { name: "Gold Standard", url: "https://goldstandard.org" },
-  { name: "ACR", url: "https://americancarbonregistry.org" },
-  { name: "CAR", url: "https://climateactionreserve.org" },
+    { name: "Verra Registry", url: "https://verra.org" },
+    { name: "Gold Standard", url: "https://goldstandard.org" },
+    { name: "ACR", url: "https://americancarbonregistry.org" },
+    { name: "CAR", url: "https://climateactionreserve.org" },
 ];
 
 export default function CarbonoMundo() {
@@ -52,7 +52,7 @@ export default function CarbonoMundo() {
 
                 <CarbonoMundoChart />
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-12 mb-8">
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                         <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Volume Total 2025</p>
                         <h3 className="text-3xl font-bold text-[#1e40af] dark:text-blue-400">73.2M</h3>

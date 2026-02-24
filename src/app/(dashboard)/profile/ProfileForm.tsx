@@ -101,6 +101,24 @@ export default function ProfileForm({
                             </label>
                         </div>
                     </div>
+                    <div className="space-y-2">
+                        <label htmlFor="username" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                            Nome de Usuário
+                            <span className="text-red-500 ml-1">*</span>
+                        </label>
+                        <input
+                            id="username"
+                            name="username"
+                            type="text"
+                            required
+                            value={formData.username}
+                            onChange={(e) => setFormData({ ...formData, username: e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, '') })}
+                            placeholder="ex: saulo_h"
+                            maxLength={30}
+                            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                        />
+                        <p className="text-[10px] text-gray-400 px-1">Seu @identificador na plataforma (letras, números, _ e -)</p>
+                    </div>
 
                     <div className="space-y-2">
                         <label htmlFor="display_name" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">

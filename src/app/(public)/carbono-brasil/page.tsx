@@ -103,7 +103,7 @@ export default function CarbonoBrasil() {
 
         <CarbonoBrasilChart />
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-12 mb-8">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
               Volume Total 2025

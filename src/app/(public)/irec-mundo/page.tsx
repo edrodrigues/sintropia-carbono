@@ -11,12 +11,12 @@ import { MobileTableWrapper } from "@/components/ui/MobileTable";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 
 export const metadata: Metadata = {
-  title: "Maiores Compradores Energia Renovável Mundo 2025",
-  description: "Top 15 corporações globais por volume de energia renovável. Amazon, Microsoft, Meta e Google lideram. Dados em TWh.",
-  keywords: ["energia renovável mundo", "maiores compradores energia", "Amazon energia renovável", "RE100 empresas", "TWh energia"],
-  alternates: {
-    canonical: "https://sintropia.space/irec-mundo",
-  },
+    title: "Maiores Compradores Energia Renovável Mundo 2025",
+    description: "Top 15 corporações globais por volume de energia renovável. Amazon, Microsoft, Meta e Google lideram. Dados em TWh.",
+    keywords: ["energia renovável mundo", "maiores compradores energia", "Amazon energia renovável", "RE100 empresas", "TWh energia"],
+    alternates: {
+        canonical: "https://sintropia.space/irec-mundo",
+    },
 };
 
 const energiaData = [
@@ -38,10 +38,10 @@ const energiaData = [
 ];
 
 const dataSources = [
-  { name: "I-TRACK Foundation", url: "https://trackingstandard.org" },
-  { name: "RE100", url: "https://www.there100.org" },
-  { name: "BloombergNEF", url: "https://about.bnef.com" },
-  { name: "IRENA", url: "https://irena.org" },
+    { name: "I-TRACK Foundation", url: "https://trackingstandard.org" },
+    { name: "RE100", url: "https://www.there100.org" },
+    { name: "BloombergNEF", url: "https://about.bnef.com" },
+    { name: "IRENA", url: "https://irena.org" },
 ];
 
 export default function IrecMundo() {
@@ -57,7 +57,7 @@ export default function IrecMundo() {
 
                 <IrecMundoChart />
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-12 mb-8">
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                         <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">Volume Top 15 2025</p>
                         <h3 className="text-3xl font-bold text-[#1e40af] dark:text-blue-400">380.3</h3>
