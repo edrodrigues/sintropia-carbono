@@ -16,7 +16,7 @@ export function CommunityFeed() {
             setLoading(true);
             let query = supabase
                 .from("posts")
-                .select(`*, author:profiles(username, avatar_url, karma, linkedin_url)`)
+                .select(`*, author:profiles(username, avatar_url, karma, linkedin_url, user_type)`)
                 .eq("is_deleted", false);
 
             if (sortBy === "new") {

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CommentWithRelations } from "@/types";
 import { sanitizeInput } from "@/lib/utils/sanitize";
+import { getUserTypeIcon } from "@/lib/utils/user";
 
 interface CommentSectionProps {
     postId: string;
@@ -22,7 +23,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
         const fetchComments = async () => {
             const { data } = await supabase
                 .from("comments")
-                .select("*, author:profiles(username, avatar_url, linkedin_url)")
+                .select("*, author:profiles(username, avatar_url, linkedin_url, user_type)")
                 .eq("post_id", postId)
                 .eq("is_deleted", false)
                 .order("created_at", { ascending: true });
@@ -47,7 +48,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
                     // Fetch author info for the new comment
                     const { data: authorData } = await supabase
                         .from("profiles")
-                        .select("username, avatar_url, linkedin_url")
+                        .select("username, avatar_url, linkedin_url, user_type")
                         .eq("id", payload.new.author_id)
                         .single();
 
@@ -163,8 +164,10 @@ export function CommentSection({ postId }: CommentSectionProps) {
                         >
                             <div className="flex items-center gap-2 mb-2">
                                 <Link href={`/u/${comment.author?.username}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                                    <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-xs font-bold text-blue-600">
-                                        {comment.author?.username?.[0].toUpperCase()}
+                                    <div className="size-6 rounded-md bg-gradient-to-br from-blue-500 to-indigo-600 p-[1px] shadow-sm flex-shrink-0">
+                                        <div className="w-full h-full rounded-[0.3rem] bg-white dark:bg-gray-900 flex items-center justify-center text-[10px] overflow-hidden">
+                                            {getUserTypeIcon(comment.author?.user_type)}
+                                        </div>
                                     </div>
                                     <span className="text-sm font-bold text-gray-900 dark:text-gray-100">
                                         {comment.author?.username}
@@ -179,7 +182,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
                                         title="LinkedIn"
                                     >
                                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                                         </svg>
                                     </a>
                                 )}

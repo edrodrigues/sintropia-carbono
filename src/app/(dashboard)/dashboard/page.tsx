@@ -7,6 +7,7 @@ import { AchievementList } from '@/components/profile/AchievementBadges';
 import { getStreakBonus, getStreakEmoji } from '@/types/gamification';
 import { StreakBadge } from '@/components/gamification/StreakBadge';
 import { StreakUpdater } from '@/components/gamification/StreakUpdater';
+import { getUserTypeIcon } from '@/lib/utils/user';
 
 export const metadata: Metadata = {
     robots: {
@@ -99,8 +100,10 @@ export default async function DashboardPage() {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
                     <div className="md:col-span-2 bg-gradient-to-br from-[#1e40af] to-blue-700 p-6 rounded-2xl text-white shadow-lg">
                         <Link href={`/u/${profile?.username}`} className="flex items-center gap-4 hover:opacity-90 transition-opacity">
-                            <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-2xl font-bold">
-                                {profile?.display_name?.substring(0, 2).toUpperCase() || user.email?.substring(0, 2).toUpperCase()}
+                            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-white/60 p-[2px] shadow-lg flex-shrink-0">
+                                <div className="w-full h-full rounded-[0.9rem] bg-white/20 backdrop-blur-sm flex items-center justify-center text-3xl font-bold overflow-hidden">
+                                    {getUserTypeIcon(profile?.user_type)}
+                                </div>
                             </div>
                             <div className="flex-1 min-w-0">
                                 <h3 className="text-xl font-bold truncate">{profile?.display_name || profile?.username || 'Usuário'}</h3>
@@ -164,7 +167,7 @@ export default async function DashboardPage() {
                             </div>
                         </div>
                         <div className="text-right">
-                            <p className="text-xs text-orange-600 dark:text-orange-400">Bônus de hoje</p>
+                            <p className="text-xs text-orange-600 dark:text-orange-400">Próximo Bônus</p>
                             <p className="text-3xl font-black text-green-600 dark:text-green-400">+{getStreakBonus(currentStreak + 1)}</p>
                         </div>
                     </div>

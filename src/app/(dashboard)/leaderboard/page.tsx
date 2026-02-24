@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+import { getUserTypeIcon } from "@/lib/utils/user";
 
 export const metadata: Metadata = {
   robots: {
@@ -17,7 +18,7 @@ export default async function LeaderboardPage() {
 
   const { data: users } = await supabase
     .from("profiles")
-    .select("username, display_name, karma, avatar_url")
+    .select("username, display_name, karma, avatar_url, user_type")
     .order("karma", { ascending: false })
     .limit(50);
 
@@ -87,12 +88,12 @@ export default async function LeaderboardPage() {
                   </TableCell>
                   <TableCell>
                     <Link href={`/u/${user.username}`} className="flex items-center gap-4 hover:opacity-80 transition-opacity">
-                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 p-0.5 shadow-lg shadow-blue-500/20 group-hover:scale-110 transition-transform">
-                        <div className="w-full h-full rounded-[0.9rem] bg-white dark:bg-gray-900 flex items-center justify-center text-blue-600 font-black text-lg">
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[2px] shadow-lg shadow-blue-500/10 group-hover:scale-110 transition-transform">
+                        <div className="w-full h-full rounded-[0.9rem] bg-white dark:bg-gray-900 flex items-center justify-center text-blue-600 font-black text-lg overflow-hidden">
                           {user.avatar_url ? (
                             <Image src={user.avatar_url} alt={user.username} fill className="rounded-[0.9rem] object-cover" />
                           ) : (
-                            (user.display_name || user.username).substring(0, 2).toUpperCase()
+                            <span className="text-2xl">{getUserTypeIcon(user.user_type)}</span>
                           )}
                         </div>
                       </div>

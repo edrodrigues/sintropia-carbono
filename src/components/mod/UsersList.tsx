@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Profile } from "@/types";
+import { getUserTypeIcon } from "@/lib/utils/user";
 
 export function UsersList() {
   const [users, setUsers] = useState<Profile[]>([]);
@@ -80,17 +81,19 @@ export function UsersList() {
       {users.map((user) => (
         <div key={user.id} className="p-4 flex items-center justify-between">
           <Link href={`/u/${user.username}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-bold text-sm overflow-hidden">
-              {user.avatar_url ? (
-                <Image
-                  src={user.avatar_url}
-                  alt={user.username}
-                  fill
-                  className="rounded-full object-cover"
-                />
-              ) : (
-                user.username.substring(0, 2).toUpperCase()
-              )}
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[1.5px] shadow-sm flex-shrink-0">
+              <div className="w-full h-full rounded-[0.55rem] bg-white dark:bg-gray-900 flex items-center justify-center text-xl overflow-hidden relative">
+                {user.avatar_url ? (
+                  <Image
+                    src={user.avatar_url}
+                    alt={user.username}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  getUserTypeIcon(user.user_type)
+                )}
+              </div>
             </div>
             <div>
               <p className="font-medium text-gray-900 dark:text-gray-100">

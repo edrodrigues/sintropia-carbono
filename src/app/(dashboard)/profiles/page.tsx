@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
+import { getUserTypeIcon } from '@/lib/utils/user';
 
 export default async function ProfilesPage() {
     const supabase = await createClient();
@@ -48,6 +49,7 @@ export default async function ProfilesPage() {
             case 'company': return '🏢 Empresa';
             case 'ong': return '🤝 ONG';
             case 'government': return '🏛️ Governo';
+            case 'professor': return '🧑‍🏫 Professor';
             default: return '👤 Indivíduo';
         }
     };
@@ -77,8 +79,10 @@ export default async function ProfilesPage() {
                             >
                                 <Link href={`/u/${profile.username}`} className="block p-6 flex-1 flex flex-col">
                                     <div className="flex items-start gap-4 mb-4">
-                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
-                                            {profile.display_name?.substring(0, 2).toUpperCase() || profile.username?.substring(0, 2).toUpperCase() || '??'}
+                                        <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[2px] shadow-lg shadow-blue-500/10 flex-shrink-0">
+                                            <div className="w-full h-full rounded-[0.9rem] bg-white dark:bg-gray-900 flex items-center justify-center text-3xl overflow-hidden">
+                                                {getUserTypeIcon(profile.user_type)}
+                                            </div>
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <h3 className="font-bold text-gray-900 dark:text-white truncate">

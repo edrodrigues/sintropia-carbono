@@ -78,7 +78,7 @@ export default function ProfileForm({
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="space-y-2">
                         <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">Tipo de Conta</label>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
                             <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
                                 <input type="radio" name="user_type" value="individual" defaultChecked={!profile?.user_type || profile?.user_type === 'individual'} className="hidden" />
                                 <span className="text-xl">👤</span>
@@ -98,6 +98,11 @@ export default function ProfileForm({
                                 <input type="radio" name="user_type" value="government" defaultChecked={profile?.user_type === 'government'} className="hidden" />
                                 <span className="text-xl">🏛️</span>
                                 <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Governo</span>
+                            </label>
+                            <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                                <input type="radio" name="user_type" value="professor" defaultChecked={profile?.user_type === 'professor'} className="hidden" />
+                                <span className="text-xl">🧑‍🏫</span>
+                                <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Professor</span>
                             </label>
                         </div>
                     </div>
@@ -172,7 +177,7 @@ export default function ProfileForm({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2 space-y-2">
                     <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">Tipo de Conta</label>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
                         <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
                             <input type="radio" name="user_type" value="individual" defaultChecked={!profile?.user_type || profile?.user_type === 'individual'} className="hidden" />
                             <span className="text-xl">👤</span>
@@ -192,6 +197,11 @@ export default function ProfileForm({
                             <input type="radio" name="user_type" value="government" defaultChecked={profile?.user_type === 'government'} className="hidden" />
                             <span className="text-xl">🏛️</span>
                             <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Governo</span>
+                        </label>
+                        <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                            <input type="radio" name="user_type" value="professor" defaultChecked={profile?.user_type === 'professor'} className="hidden" />
+                            <span className="text-xl">🧑‍🏫</span>
+                            <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Professor</span>
                         </label>
                     </div>
                 </div>

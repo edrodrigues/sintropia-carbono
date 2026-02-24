@@ -54,13 +54,13 @@ async function getResendContacts(audienceId: string): Promise<string[]> {
   do {
     try {
       await new Promise(resolve => setTimeout(resolve, 600));
-      
+
       const listOptions: { audienceId: string; limit: number; cursor?: string } = {
         audienceId,
         limit: 100,
       };
       if (cursor) listOptions.cursor = cursor;
-      
+
       const { data, error } = await resend.contacts.list(listOptions);
 
       if (error) {
@@ -99,7 +99,7 @@ async function addContactToResend(audienceId: string, email: string, firstName?:
   });
 
   if (error) {
-    if (error.name === 'already_exists') {
+    if ((error.name as string) === 'already_exists') {
       return { success: true, alreadyExists: true };
     }
     console.error(`Error adding ${email}:`, error);
@@ -136,7 +136,7 @@ async function main() {
 
   console.log('\nFetching audiences from Resend...');
   const audiences = await listAudiences();
-  
+
   console.log('Available audiences:');
   audiences.forEach(a => {
     const aud = a as unknown as { subscribers_count?: number };
@@ -171,7 +171,7 @@ async function main() {
   }
 
   console.log('\n=== Adding contacts ===');
-  
+
   if (dryRun) {
     for (const user of emailsToAdd) {
       console.log(`[DRY RUN] Would add: ${user.email}`);
@@ -185,9 +185,9 @@ async function main() {
   for (const user of emailsToAdd) {
     console.log(`Adding ${user.email}...`);
     await new Promise(resolve => setTimeout(resolve, 800));
-    
+
     const result = await addContactToResend(targetAudienceId, user.email);
-    
+
     if (result.success) {
       if (result.alreadyExists) {
         console.log(`  ↩ Already exists`);

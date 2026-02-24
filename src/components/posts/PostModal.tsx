@@ -7,6 +7,8 @@ import { VoteButtons } from "./VoteButtons";
 import { sanitizeInput, sanitizeUrl, decodeHtml } from "@/lib/utils/sanitize";
 import { User } from "@supabase/supabase-js";
 import Link from "next/link";
+import Image from "next/image";
+import { getUserTypeIcon } from "@/lib/utils/user";
 
 interface PostModalProps {
     post: PostWithRelations;
@@ -24,14 +26,14 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
     const [showLoginPrompt, setShowLoginPrompt] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-    
+
     const [editTitle, setEditTitle] = useState(post.title);
     const [editContent, setEditContent] = useState(post.content || "");
     const [editUrl, setEditUrl] = useState(post.url || "");
     const [editCategory, setEditCategory] = useState(post.category);
     const [editKeywords, setEditKeywords] = useState<string[]>(post.keywords || []);
     const [editKeywordInput, setEditKeywordInput] = useState("");
-    
+
     const supabase = createClient();
 
     const isAuthor = currentUser && post.author_id === currentUser.id;
@@ -39,7 +41,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
     const fetchComments = useCallback(async () => {
         const { data } = await supabase
             .from("comments")
-            .select("*, author:profiles(username, avatar_url, karma, display_name, linkedin_url)")
+            .select("*, author:profiles(username, avatar_url, karma, display_name, linkedin_url, user_type)")
             .eq("post_id", post.id)
             .eq("is_deleted", false)
             .order("created_at", { ascending: true });
@@ -63,7 +65,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                 async (payload) => {
                     const { data: authorData } = await supabase
                         .from("profiles")
-                        .select("username, avatar_url, karma, display_name, linkedin_url")
+                        .select("username, avatar_url, karma, display_name, linkedin_url, user_type")
                         .eq("id", payload.new.author_id)
                         .single();
 
@@ -129,7 +131,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
 
     const handleSaveEdit = async () => {
         setError(null);
-        
+
         const trimmedTitle = editTitle.trim();
         if (!trimmedTitle) {
             setError("O título é obrigatório");
@@ -187,13 +189,13 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                 .select("is_deleted")
                 .eq("id", post.id)
                 .single();
-            
+
             if (checkPost?.is_deleted) {
                 onPostDeleted(post.id);
                 setLoading(false);
                 return;
             }
-            
+
             setError("Erro ao excluir post: " + deleteError.message);
             setLoading(false);
             return;
@@ -229,8 +231,14 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center gap-3">
                         <Link href={`/u/${post.author?.username}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg">
-                                {post.author?.username?.[0].toUpperCase() || "?"}
+                            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[2px] shadow-lg flex-shrink-0">
+                                <div className="w-full h-full rounded-[0.9rem] bg-white dark:bg-gray-900 flex items-center justify-center text-2xl overflow-hidden relative">
+                                    {post.author?.avatar_url ? (
+                                        <Image src={post.author.avatar_url} alt="" fill className="object-cover" />
+                                    ) : (
+                                        getUserTypeIcon(post.author?.user_type)
+                                    )}
+                                </div>
                             </div>
                             <div>
                                 <p className="font-bold text-gray-900 dark:text-white">
@@ -253,7 +261,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                 aria-label="Perfil LinkedIn"
                             >
                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                                 </svg>
                             </a>
                         )}
@@ -547,8 +555,14 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                                     <div className="flex items-center justify-between mb-2">
                                                         <div className="flex items-center gap-2">
                                                             <Link href={`/u/${comment.author?.username}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                                                                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
-                                                                    {comment.author?.username?.[0].toUpperCase()}
+                                                                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 p-[1px] shadow-sm flex-shrink-0">
+                                                                    <div className="w-full h-full rounded-[calc(0.5rem-1px)] bg-white dark:bg-gray-900 flex items-center justify-center text-sm overflow-hidden relative">
+                                                                        {comment.author?.avatar_url ? (
+                                                                            <Image src={comment.author.avatar_url} alt="" fill className="object-cover" />
+                                                                        ) : (
+                                                                            getUserTypeIcon(comment.author?.user_type)
+                                                                        )}
+                                                                    </div>
                                                                 </div>
                                                                 <span className="font-bold text-gray-900 dark:text-gray-100 text-sm">
                                                                     @{comment.author?.username}
@@ -567,7 +581,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                                                     aria-label="Perfil LinkedIn"
                                                                 >
                                                                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                                                                     </svg>
                                                                 </a>
                                                             )}

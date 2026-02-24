@@ -68,7 +68,7 @@ export async function updateProfile(formData: FormData) {
         username: username || null,
         display_name: displayName || null,
         bio: bio || null,
-        user_type: ['company', 'ong', 'government'].includes(userType) ? userType : 'individual',
+        user_type: ['company', 'ong', 'government', 'professor'].includes(userType) ? userType : 'individual',
         organization: organization || null,
         cargo: cargo || null,
         linkedin_url: linkedinUrl || null,

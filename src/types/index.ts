@@ -10,7 +10,7 @@ export interface Profile {
     karma: number;
     organization: string | null;
     cargo: string | null;
-    user_type: 'individual' | 'company' | 'ong' | 'government' | null;
+    user_type: 'individual' | 'company' | 'ong' | 'government' | 'professor' | null;
     linkedin_url: string | null;
     twitter_url: string | null;
     created_at: string;
@@ -39,6 +39,7 @@ export interface PostWithRelations extends Post {
         avatar_url: string | null;
         karma: number;
         linkedin_url?: string | null;
+        user_type?: string | null;
     } | null;
     votes?: Vote[];
 }
@@ -62,6 +63,7 @@ export interface CommentWithRelations extends Comment {
         karma?: number;
         display_name?: string | null;
         linkedin_url?: string | null;
+        user_type?: string | null;
     } | null;
 }
 

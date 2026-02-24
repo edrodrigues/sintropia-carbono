@@ -1,13 +1,15 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import ProfileForm from '@/app/(dashboard)/profile/ProfileForm';
+import { getUserTypeIcon } from "@/lib/utils/user";
+import Image from "next/image";
 
 export default async function EditProfilePage(props: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const searchParams = await props.searchParams;
   const onboarding = searchParams.onboarding === 'true';
-  
+
   const supabase = await createClient();
 
   const {
@@ -44,8 +46,14 @@ export default async function EditProfilePage(props: {
       <div className="bg-white dark:bg-gray-900 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-800">
         <div className="relative h-32 bg-gradient-to-r from-blue-600 to-indigo-700">
           <div className="absolute -bottom-12 left-8">
-            <div className="w-24 h-24 rounded-2xl bg-[#1e40af] border-4 border-white dark:border-gray-900 shadow-xl flex items-center justify-center text-4xl text-white font-bold">
-              {profile?.display_name?.substring(0, 1).toUpperCase() || user.email?.substring(0, 1).toUpperCase()}
+            <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[3px] shadow-2xl flex-shrink-0">
+              <div className="w-full h-full rounded-[1.3rem] bg-white dark:bg-gray-900 flex items-center justify-center text-5xl font-bold overflow-hidden relative">
+                {profile?.avatar_url ? (
+                  <Image src={profile.avatar_url} alt="" fill className="object-cover" />
+                ) : (
+                  getUserTypeIcon(profile?.user_type)
+                )}
+              </div>
             </div>
           </div>
         </div>

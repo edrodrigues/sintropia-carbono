@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { TopicTags, commonTopicTags } from "@/components/posts/TopicTags";
 import { decodeHtml } from "@/lib/utils/sanitize";
+import { getUserTypeIcon } from "@/lib/utils/user";
 import type { PostWithRelations } from "@/types";
 
 interface FeedPostCardProps {
@@ -66,41 +67,42 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
   ].filter(Boolean) as { label: string; color: "gray" | "blue" | "green" | "yellow" | "red" | "purple" }[];
 
   return (
-    <div 
+    <div
       className={`${isAlternateBg ? "bg-gray-50 dark:bg-gray-800/50" : "bg-white dark:bg-gray-900"} border-b border-gray-200 dark:border-gray-700 cursor-pointer`}
       onClick={handleCardClick}
     >
       <div className="flex max-w-5xl mx-auto">
         <div className="w-16 flex-shrink-0 flex flex-col items-center pt-4 pb-4">
-          <div className={`w-12 h-12 rounded-lg flex flex-col items-center justify-center ${
-            post.karma > 0 ? "bg-green-100 dark:bg-green-900/30" : "bg-gray-100 dark:bg-gray-800"
-          }`}>
+          <div className={`w-12 h-12 rounded-lg flex flex-col items-center justify-center ${post.karma > 0 ? "bg-green-100 dark:bg-green-900/30" : "bg-gray-100 dark:bg-gray-800"
+            }`}>
             <span className={`text-lg font-bold ${post.karma > 0 ? "text-green-600 dark:text-green-400" : "text-gray-500 dark:text-gray-400"}`}>
               {post.karma}
             </span>
           </div>
         </div>
-        
+
         <div className="flex-1 p-4 pb-6">
           <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
             {decodeHtml(post.title)}
           </h3>
-          
+
           {post.url && (
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
               🔗 {new URL(post.url).hostname}
             </p>
           )}
-          
+
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0 overflow-hidden">
-              {post.author?.avatar_url ? (
-                <Image src={post.author.avatar_url} alt="" fill className="object-cover rounded-full" />
-              ) : (
-                (post.author?.username?.[0] || "?").toUpperCase()
-              )}
+            <div className="size-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 p-[1px] shadow-sm flex-shrink-0">
+              <div className="w-full h-full rounded-[calc(0.5rem-1px)] bg-white dark:bg-gray-900 flex items-center justify-center overflow-hidden relative">
+                {post.author?.avatar_url ? (
+                  <Image src={post.author.avatar_url} alt="" fill className="object-cover" />
+                ) : (
+                  <span className="text-xs">{getUserTypeIcon(post.author?.user_type)}</span>
+                )}
+              </div>
             </div>
-            <Link 
+            <Link
               href={`/u/${post.author?.username}`}
               className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600"
               onClick={(e) => e.stopPropagation()}
@@ -116,13 +118,13 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
               • {new Date(post.created_at).toLocaleDateString("pt-BR")}
             </span>
           </div>
-          
+
           {post.content && (
             <p className="text-gray-700 dark:text-gray-300 mb-3 whitespace-pre-wrap line-clamp-2">
               {decodeHtml(post.content)}
             </p>
           )}
-          
+
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
@@ -144,7 +146,7 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
                 {copied ? "Copiado!" : "Compartilhar"}
               </button>
             </div>
-            
+
             <TopicTags tags={topicTags} maxVisible={2} />
           </div>
         </div>

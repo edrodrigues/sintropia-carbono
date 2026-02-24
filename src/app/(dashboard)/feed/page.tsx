@@ -13,17 +13,17 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function FeedPage() {
-    const supabase = await createClient();
+  const supabase = await createClient();
 
-    const { data: posts } = await supabase
-        .from("posts")
-        .select(`
+  const { data: posts } = await supabase
+    .from("posts")
+    .select(`
       *,
-      author:profiles(username, avatar_url, karma, linkedin_url)
+      author:profiles(username, avatar_url, karma, linkedin_url, user_type)
     `)
-        .eq("is_deleted", false)
-        .order("created_at", { ascending: false })
-        .limit(20);
+    .eq("is_deleted", false)
+    .order("created_at", { ascending: false })
+    .limit(20);
 
-    return <FeedClient initialPosts={(posts || []) as PostWithRelations[]} />;
+  return <FeedClient initialPosts={(posts || []) as PostWithRelations[]} />;
 }

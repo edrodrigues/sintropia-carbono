@@ -3,6 +3,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CommunityFeed } from "@/components/home/CommunityFeed";
 import { createClient } from "@/lib/supabase/server";
+import { getUserTypeIcon } from "@/lib/utils/user";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -10,7 +11,7 @@ export default async function Home() {
   // Fetch top 3 contributors
   const { data: topContributors } = await supabase
     .from("profiles")
-    .select("display_name, username, karma, avatar_url")
+    .select("display_name, username, karma, avatar_url, user_type")
     .order("karma", { ascending: false })
     .limit(3);
 
@@ -153,12 +154,14 @@ export default async function Home() {
                 {topContributors?.map((c, i) => (
                   <div key={i} className="flex items-center gap-4">
                     <span className="text-[10px] font-black font-mono text-slate-700 w-4">0{i + 1}</span>
-                    <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center overflow-hidden">
-                      {c.avatar_url ? (
-                        <img src={c.avatar_url} alt={c.username} className="w-full h-full object-cover" />
-                      ) : (
-                        <span className="text-[10px] text-slate-500 font-bold uppercase">{c.username?.substring(0, 2)}</span>
-                      )}
+                    <div className="size-8 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[1px] shadow-sm flex-shrink-0">
+                      <div className="w-full h-full rounded-[0.65rem] bg-white dark:bg-slate-900 flex items-center justify-center overflow-hidden">
+                        {c.avatar_url ? (
+                          <img src={c.avatar_url} alt={c.username} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="text-xl">{getUserTypeIcon(c.user_type)}</span>
+                        )}
+                      </div>
                     </div>
                     <span className="text-sm font-bold flex-1 truncate">{c.display_name || c.username}</span>
                     <span className="text-[11px] font-black text-emerald-500 font-mono">{c.karma > 1000 ? `${(c.karma / 1000).toFixed(1)}k` : c.karma} pts</span>
@@ -172,12 +175,14 @@ export default async function Home() {
             <div className="bg-white rounded-2xl p-8 border border-slate-100 shadow-premium">
               <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-400">Meu Painel</h4>
               <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100 mb-6">
-                <div className="w-10 h-10 rounded-full bg-slate-200 border border-slate-100 flex items-center justify-center overflow-hidden">
-                  {profile?.avatar_url ? (
-                    <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
-                  ) : (
-                    <span className="text-slate-400">👤</span>
-                  )}
+                <div className="size-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[2px] shadow-sm flex-shrink-0">
+                  <div className="w-full h-full rounded-[0.6rem] bg-white dark:bg-slate-900 flex items-center justify-center overflow-hidden">
+                    {profile?.avatar_url ? (
+                      <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-2xl">{getUserTypeIcon(profile?.user_type)}</span>
+                    )}
+                  </div>
                 </div>
                 <div>
                   <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-0.5">Status</p>
