@@ -50,6 +50,9 @@
     "tailwind-merge": "^3.5.0",
     "tailwind-variants": "^3.2.2"
   },
+  "overrides": {
+    "node-domexception": "^2.0.2"
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.4",
     "@playwright/test": "^1.58.2",
