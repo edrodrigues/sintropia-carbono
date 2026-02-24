@@ -86,6 +86,7 @@ export function Header() {
       href: "/feed",
       subItems: [
         { label: "Feed de Notícias", href: "/feed", desc: "Insights e posts da nossa rede de especialistas." },
+        { label: "Perfis da Comunidade", href: "/profiles", desc: "Veja todos os perfis da comunidade." },
         { label: "Ranking de Membros", href: "/leaderboard", desc: "Veja quem são os maiores contribuidores." },
         { label: "Minhas Missões", href: "/conquistas", desc: "Ganhe karma e suba de nível na plataforma." },
       ]
@@ -238,6 +239,14 @@ export function Header() {
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>
                         Conquistas
+                      </Link>
+                      <Link
+                        href="/profile/edit"
+                        role="menuitem"
+                        className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                        Editar Perfil
                       </Link>
                       <div className="h-px bg-slate-50 my-1" />
                       <button

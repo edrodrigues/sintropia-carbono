@@ -3,7 +3,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CommunityFeed } from "@/components/home/CommunityFeed";
 import { createClient } from "@/lib/supabase/server";
-import { getUserMissions, getMissionDefinition } from "@/lib/missions";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -20,10 +19,6 @@ export default async function Home() {
   const { data: profile } = user
     ? await supabase.from("profiles").select("*").eq("id", user.id).single()
     : { data: null };
-
-  // Fetch missions if logged in
-  const missions = user ? await getUserMissions(user.id) : [];
-  const activeMissions = missions.filter(m => !m.claimed).slice(0, 3);
 
   return (
     <>
@@ -197,38 +192,6 @@ export default async function Home() {
                   <div className="flex justify-between items-center text-xs border-b border-slate-50 pb-3">
                     <span className="text-slate-500 font-medium">Karma acumulado</span>
                     <span className="font-bold text-emerald-600 font-mono">{profile.karma?.toLocaleString() || 0} pts</span>
-                  </div>
-
-                  {/* Next Missions */}
-                  <div className="py-2">
-                    <p className="text-[10px] uppercase font-black tracking-widest text-slate-400 mb-4">Próximas Missões</p>
-                    <div className="space-y-3">
-                      {activeMissions.length > 0 ? (
-                        activeMissions.map((mission) => {
-                          const def = getMissionDefinition(mission.mission_type);
-                          const progress = (mission.progress / mission.target) * 100;
-                          return (
-                            <div key={mission.id} className="group cursor-default">
-                              <div className="flex items-center justify-between mb-1.5">
-                                <span className="text-[11px] font-bold text-slate-700 flex items-center gap-2">
-                                  <span className="text-sm">{def.icon}</span>
-                                  {def.label}
-                                </span>
-                                <span className="text-[10px] font-bold text-emerald-600">+{mission.karma_reward} karma</span>
-                              </div>
-                              <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                                <div
-                                  className={`h-full transition-all duration-500 ${mission.completed ? 'bg-emerald-500' : 'bg-blue-500'}`}
-                                  style={{ width: `${progress}%` }}
-                                ></div>
-                              </div>
-                            </div>
-                          );
-                        })
-                      ) : (
-                        <p className="text-[11px] text-slate-400 italic">Nenhuma missão no momento.</p>
-                      )}
-                    </div>
                   </div>
 
                   <Link href="/conquistas" className="block w-full py-4 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-center rounded-xl text-xs font-bold transition-all uppercase tracking-widest mt-4">Ver Todas as Conquistas</Link>

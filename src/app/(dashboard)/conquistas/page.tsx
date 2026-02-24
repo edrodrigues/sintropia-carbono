@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { calculateAchievements } from '@/lib/achievements';
 import { AchievementList } from '@/components/profile/AchievementBadges';
 import { getStreakBonus, getStreakEmoji } from '@/types/gamification';
-import { getWeekStart } from '@/lib/missions';
 
 export default async function ConquistasPage() {
     const supabase = await createClient();

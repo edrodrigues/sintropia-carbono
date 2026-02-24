@@ -4,12 +4,9 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { calculateAchievements } from '@/lib/achievements';
 import { AchievementList } from '@/components/profile/AchievementBadges';
-import { getWeekStart } from '@/lib/missions';
 import { getStreakBonus, getStreakEmoji } from '@/types/gamification';
 import { StreakBadge } from '@/components/gamification/StreakBadge';
 import { StreakUpdater } from '@/components/gamification/StreakUpdater';
-import { WeeklyMissionsCard } from '@/components/gamification/WeeklyMissionsCard';
-import type { WeeklyMission } from '@/types/gamification';
 
 export const metadata: Metadata = {
     robots: {
@@ -64,116 +61,6 @@ export default async function DashboardPage() {
 
     const currentStreak = streakData?.current_streak || 0;
     const longestStreak = streakData?.longest_streak || 0;
-
-    // Fetch weekly missions
-    const weekStart = getWeekStart();
-    const { data: missionsData } = await supabase
-        .from('weekly_missions')
-        .select('*')
-        .eq('user_id', user.id)
-        .eq('week_start', weekStart);
-
-    let missions: WeeklyMission[] = missionsData || [];
-
-    // Generate dynamic missions if none exist for this week
-    if (missions.length === 0) {
-        // Get user stats for personalized missions
-        const { count: userPostCount } = await supabase
-            .from('posts')
-            .select('id', { count: 'exact', head: true })
-            .eq('author_id', user.id)
-            .eq('is_deleted', false);
-
-        const { count: userCommentCount } = await supabase
-            .from('comments')
-            .select('id', { count: 'exact', head: true })
-            .eq('author_id', user.id)
-            .eq('is_deleted', false);
-
-        const karma = profile?.karma || 0;
-        const postCount = userPostCount || 0;
-        const commentCount = userCommentCount || 0;
-
-        // Build dynamic missions
-        const newMissions: Array<{
-            user_id: string;
-            mission_type: string;
-            target: number;
-            karma_reward: number;
-            week_start: string;
-            progress?: number;
-            completed?: boolean;
-        }> = [];
-
-        // +1 Post mission
-        if (postCount < 50) {
-            newMissions.push({
-                user_id: user.id,
-                mission_type: 'post_1',
-                target: 1,
-                karma_reward: 15,
-                week_start: weekStart,
-            });
-        }
-
-        // +1 Comment mission
-        if (commentCount < 100) {
-            newMissions.push({
-                user_id: user.id,
-                mission_type: 'comment_1',
-                target: 1,
-                karma_reward: 10,
-                week_start: weekStart,
-            });
-        }
-
-        // Karma level mission
-        const nextKarmaLevel = [10, 50, 100, 500, 1000].find(l => karma < l);
-        if (nextKarmaLevel) {
-            const karmaNeeded = Math.max(1, nextKarmaLevel - karma);
-            newMissions.push({
-                user_id: user.id,
-                mission_type: 'karma_level',
-                target: karmaNeeded,
-                karma_reward: Math.round(30 + (karmaNeeded * 0.5)),
-                week_start: weekStart,
-            });
-        }
-
-        // +3 Posts mission
-        if (postCount >= 1 && postCount < 100) {
-            newMissions.push({
-                user_id: user.id,
-                mission_type: 'post_3',
-                target: 3,
-                karma_reward: 40,
-                week_start: weekStart,
-            });
-        }
-
-        // +5 Comments mission
-        if (commentCount >= 1 && commentCount < 150) {
-            newMissions.push({
-                user_id: user.id,
-                mission_type: 'comment_5',
-                target: 5,
-                karma_reward: 30,
-                week_start: weekStart,
-            });
-        }
-
-        if (newMissions.length > 0) {
-            await supabase.from('weekly_missions').insert(newMissions);
-        }
-
-        const { data: newMissionsData } = await supabase
-            .from('weekly_missions')
-            .select('*')
-            .eq('user_id', user.id)
-            .eq('week_start', weekStart);
-
-        missions = newMissionsData || [];
-    }
 
     const getBadge = (karma: number) => {
         if (karma >= 1000) return { emoji: '👑', label: 'Master', nextLevel: 2000, color: 'yellow' };
@@ -370,9 +257,6 @@ export default async function DashboardPage() {
                         </div>
                     </div>
                 </div>
-
-                {/* Weekly Missions Card */}
-                <WeeklyMissionsCard initialMissions={missions} />
 
                 {/* Gamification Card */}
                 <div className="bg-gradient-to-br from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-2xl border border-yellow-100 dark:border-yellow-800/50 p-6 mb-8">
