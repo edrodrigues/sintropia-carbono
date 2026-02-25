@@ -42,3 +42,5 @@ next-env.d.ts
 nul
 data/drip-tracking.json
 curl_out.txt
+model_info.tsv
+formatted_models.json
