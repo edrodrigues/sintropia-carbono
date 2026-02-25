@@ -83,7 +83,7 @@ export default function IrecBrasil() {
   return (
     <>
       <Header />
-      <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
+      <main className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 py-8 lg:py-12">
         <Breadcrumb />
         <div className="mb-8">
           <h2 className="text-4xl font-bold text-[#1e40af] mb-2">

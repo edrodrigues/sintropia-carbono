@@ -1,0 +1,32 @@
+﻿
+[UX AUDIT] 83 files checked
+--------------------------------------------------
+[!] ISSUES (54):
+  - [Cognitive Load] layout.tsx: Form inputs without labels. Use <label> for accessibility and clarity.
+  - [Color] page.tsx: PURPLE DETECTED ('purple'). Banned by Maestro rules. Use Teal/Cyan/Emerald instead.
+  - [Cognitive Load] page.tsx: Form inputs without labels. Use <label> for accessibility and clarity.
+  - [Color] page.tsx: PURPLE DETECTED ('purple'). Banned by Maestro rules. Use Teal/Cyan/Emerald instead.
+  - [Cognitive Load] FeedClient.tsx: Form inputs without labels. Use <label> for accessibility and clarity.
+  - [Cognitive Load] page.tsx: Form inputs without labels. Use <label> for accessibility and clarity.
+  - [Color] page.tsx: PURPLE DETECTED ('purple'). Banned by Maestro rules. Use Teal/Cyan/Emerald instead.
+  - [Cognitive Load] page.tsx: Form inputs without labels. Use <label> for accessibility and clarity.
+  - [Color] page.tsx: PURPLE DETECTED ('purple'). Banned by Maestro rules. Use Teal/Cyan/Emerald instead.
+  - [Cognitive Load] page.tsx: Form inputs without labels. Use <label> for accessibility and clarity.
+[*] WARNINGS (634):
+  - [Performance] globals.css: Animating expensive properties (height, left, right). Use transform/opacity where possible.
+  - [Accessibility] globals.css: Animations found without prefers-reduced-motion check
+  - [Color] globals.css: 7 distinct colors. Consider 60-30-10 rule: dominant (60%), secondary (30%), accent (10%).
+  - [Color] globals.css: Color variables without HSL. Consider HSL for easier palette adjustment (Hue, Saturation, Lightness).
+  - [Motion] globals.css: Many animations (22). Ensure majority serve functional purpose (feedback, guidance), not decoration.
+  - [Color] layout.tsx: Possible low-contrast combination detected. Verify WCAG AA (4.5:1 for text).
+  - [Fitts' Law] page.tsx: Small targets (< 44px)
+  - [Von Restorff] page.tsx: No primary CTA
+  - [Serial Position] page.tsx: Last nav item may not be important. Place key actions at start/end.
+  - [Reflective] page.tsx: Long-form content without brand story/values. Add 'About' or 'Why We Exist' section.
+  - [Trust] page.tsx: Footer lacks authority signals. Add certifications, awards, or media mentions.
+  - [Persuasion] page.tsx: Prices without anchoring. Show original price to frame discount value.
+  - [Typography] page.tsx: No line length constraint (45-75ch). Use max-w-prose or max-w-[65ch].
+  - [Typography] page.tsx: Fixed font sizes without clamp(). Consider fluid typography: clamp(MIN, PREFERRED, MAX)
+  - [Typography] page.tsx: Skipped heading level (h1 -> h4). Maintain sequential hierarchy.
+[+] PASSED CHECKS: 21
+STATUS: FAIL

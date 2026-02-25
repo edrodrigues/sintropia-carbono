@@ -10,8 +10,8 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       <Header />
-      <main id="main-content" className="flex-1 pt-24 pb-12" tabIndex={-1}>
-        <div className="container mx-auto max-w-6xl px-4">
+      <main id="main-content" className="flex-1 pt-16 lg:pt-24 pb-8 lg:pb-12" tabIndex={-1}>
+        <div className="container mx-auto max-w-6xl px-4 lg:px-8">
           <Breadcrumb />
           {children}
         </div>

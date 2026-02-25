@@ -72,7 +72,8 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
       onClick={handleCardClick}
     >
       <div className="flex max-w-5xl mx-auto">
-        <div className="w-16 flex-shrink-0 flex flex-col items-center pt-4 pb-4">
+        {/* Karma Column - Hidden on mobile, shown on md+ */}
+        <div className="hidden md:flex w-16 flex-shrink-0 flex flex-col items-center pt-4 pb-4">
           <div className={`w-12 h-12 rounded-lg flex flex-col items-center justify-center ${post.karma > 0 ? "bg-green-100 dark:bg-green-900/30" : "bg-gray-100 dark:bg-gray-800"
             }`}>
             <span className={`text-lg font-bold ${post.karma > 0 ? "text-green-600 dark:text-green-400" : "text-gray-500 dark:text-gray-400"}`}>
@@ -81,41 +82,47 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
           </div>
         </div>
 
-        <div className="flex-1 p-4 pb-6">
-          <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
-            {decodeHtml(post.title)}
-          </h3>
+        <div className="flex-1 p-3 sm:p-4 pb-6 min-w-0">
+          <div className="flex items-start justify-between gap-3 mb-2">
+            <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight line-clamp-2 flex-1">
+              {decodeHtml(post.title)}
+            </h3>
+            {/* Karma Badge for Mobile */}
+            <div className={`md:hidden shrink-0 px-2 py-1 rounded-md text-xs font-bold ${post.karma > 0 ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"}`}>
+              {post.karma}
+            </div>
+          </div>
 
           {post.url && (
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+            <p className="text-[11px] sm:text-sm text-gray-500 dark:text-gray-400 mb-2 truncate">
               🔗 {new URL(post.url).hostname}
             </p>
           )}
 
-          <div className="flex items-center gap-2 mb-3">
-            <div className="size-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 p-[1px] shadow-sm flex-shrink-0">
+          <div className="flex items-center gap-2 mb-3 flex-wrap">
+            <div className="size-6 sm:size-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 p-[1px] shadow-sm flex-shrink-0">
               <div className="w-full h-full rounded-[calc(0.5rem-1px)] bg-white dark:bg-gray-900 flex items-center justify-center overflow-hidden relative">
                 {post.author?.avatar_url ? (
                   <Image src={post.author.avatar_url} alt="" fill className="object-cover" />
                 ) : (
-                  <span className="text-xs">{getUserTypeIcon(post.author?.user_type)}</span>
+                  <span className="text-[10px] sm:text-xs">{getUserTypeIcon(post.author?.user_type)}</span>
                 )}
               </div>
             </div>
             <Link
               href={`/u/${post.author?.username}`}
-              className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600"
+              className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 truncate max-w-[100px] sm:max-w-none"
               onClick={(e) => e.stopPropagation()}
             >
               @{post.author?.username}
             </Link>
             {authorBadge && (
-              <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-400">
-                {authorBadge.emoji} {authorBadge.label}
+              <span className="text-[10px] sm:text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                {authorBadge.emoji} <span className="hidden sm:inline">{authorBadge.label}</span>
               </span>
             )}
-            <span className="text-xs text-gray-500 dark:text-gray-400">
-              • {new Date(post.created_at).toLocaleDateString("pt-BR")}
+            <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
+              • {new Date(post.created_at).toLocaleDateString("pt-BR", { day: '2-digit', month: 'short' })}
             </span>
           </div>
 

@@ -26,22 +26,22 @@ export default async function Home() {
       <Header />
       <main id="main-content" className="w-full" tabIndex={-1}>
         {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-8 lg:px-16 pt-24 pb-32 flex flex-col lg:flex-row items-center gap-20">
-          <div className="flex-1 space-y-8">
+        <section className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 pt-16 lg:pt-24 pb-16 lg:pb-32 flex flex-col lg:flex-row items-center gap-10 lg:gap-20">
+          <div className="flex-1 space-y-6 lg:space-y-8">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full border border-slate-200">
               <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" aria-hidden="true"></div>
               <span className="text-[10px] uppercase font-bold tracking-widest text-slate-600">Inteligência de mercado ao vivo</span>
             </div>
-            <h1 className="text-6xl lg:text-7xl font-bold tracking-tight text-forest-green leading-[1.1]">
-              Democratizando dados de <span className="text-emerald-500 underline decoration-emerald-200 underline-offset-8">ativos ambientais</span> no Brasil.
+            <h1 className="text-3xl sm:text-4xl lg:text-6xl lg:text-7xl font-bold tracking-tight text-forest-green leading-[1.2] sm:leading-[1.15] lg:leading-[1.1]">
+              Democratizando dados de <span className="text-emerald-500 underline decoration-emerald-200 underline-offset-4 lg:underline-offset-8">ativos ambientais</span> no Brasil.
             </h1>
-            <p className="text-xl text-slate-500 leading-relaxed max-w-xl">
-              Plataformas globais cobram <span className="text-slate-900 font-semibold strike-through">$249/mês</span> por esses dados. Nós fornecemos rankings, preços e tendências em tempo real para o mercado brasileiro — completamente <span className="italic font-bold text-forest-green">grátis</span>.
+            <p className="text-base lg:text-xl text-slate-500 leading-relaxed max-w-xl">
+              Plataformas globais cobram <span className="text-slate-900 font-semibold line-through">$249/mês</span> por esses dados. Nós fornecemos rankings, preços e tendências em tempo real para o mercado brasileiro — completamente <span className="italic font-bold text-forest-green">grátis</span>.
             </p>
-            <div className="flex items-center gap-6 pt-4">
+            <div className="flex items-center gap-4 lg:gap-6 pt-2 lg:pt-4">
               <Link
                 href="/register"
-                className="bg-forest-green hover:bg-emerald-900 text-white px-8 py-4 rounded-lg font-bold shadow-premium transition-all active:scale-95 flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                className="bg-forest-green hover:bg-emerald-900 text-white px-6 lg:px-8 py-3 lg:py-4 rounded-lg font-bold shadow-premium transition-all active:scale-95 flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 text-sm lg:text-base"
               >
                 Comece Grátis
                 <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
@@ -77,8 +77,8 @@ export default async function Home() {
         </section>
 
         {/* Features Section */}
-        <section className="bg-white py-24">
-          <div className="max-w-7xl mx-auto px-8 lg:px-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <section className="bg-white py-12 lg:py-24">
+          <div className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {[
               { title: "Dados Brasileiros", desc: "Acesse o banco de dados mais completo de ativos ambientais do Brasil.", icon: "📂" },
               { title: "Inteligência de Mercado", desc: "Preços, volume e tendências em tempo real para I-RECs e créditos de carbono.", icon: "📈" },
@@ -97,10 +97,10 @@ export default async function Home() {
         </section>
 
         {/* Explore Categories */}
-        <section className="max-w-7xl mx-auto px-8 lg:px-16 py-24">
-          <div className="flex justify-between items-end mb-12">
+        <section className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 py-12 lg:py-24">
+          <div className="flex flex-col sm:flex-row justify-between items-end gap-4 mb-8 lg:mb-12">
             <div>
-              <h2 className="text-3xl font-bold text-forest-green mb-3">Explore a Inteligência de Mercado</h2>
+              <h2 className="text-2xl lg:text-3xl font-bold text-forest-green mb-2 lg:mb-3">Explore a Inteligência de Mercado</h2>
               <p className="text-slate-500 text-sm">Filtre pelos pilares centrais da economia ambiental brasileira.</p>
             </div>
             <Link href="/categorias" className="text-slate-900 font-bold text-sm flex items-center gap-2 border-b border-slate-900 pb-1 hover:text-forest-green hover:border-forest-green transition-colors">
@@ -109,7 +109,7 @@ export default async function Home() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4">
             {[
               { title: "Carbono Brasil", bgImg: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=600&auto=format&fit=crop", active: true },
               { title: "Energia Brasil", bgImg: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=600&auto=format&fit=crop" },
@@ -140,7 +140,7 @@ export default async function Home() {
         </section>
 
         {/* Community Feed */}
-        <section className="max-w-7xl mx-auto px-8 lg:px-16 py-24 flex flex-col lg:flex-row gap-12">
+        <section className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 py-12 lg:py-24 flex flex-col lg:flex-row gap-8 lg:gap-12">
           <CommunityFeed />
 
           <aside className="flex-1 space-y-8">

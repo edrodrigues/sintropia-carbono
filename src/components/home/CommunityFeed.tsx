@@ -35,19 +35,19 @@ export function CommunityFeed() {
 
     return (
         <div className="flex-[2]">
-            <div className="flex items-center justify-between mb-10">
-                <h2 className="text-3xl font-bold text-forest-green">Feed da Comunidade</h2>
-                <div className="flex bg-slate-100 p-1 rounded-lg">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 sm:mb-10">
+                <h2 className="text-2xl sm:text-3xl font-bold text-forest-green">Feed da Comunidade</h2>
+                <div className="flex bg-slate-100 p-1 rounded-xl w-fit">
                     <button
                         onClick={() => setSortBy("new")}
-                        className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${sortBy === "new" ? "bg-forest-green text-white shadow-sm" : "text-slate-500 hover:text-slate-900"
+                        className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${sortBy === "new" ? "bg-forest-green text-white shadow-sm" : "text-slate-500 hover:text-slate-900"
                             }`}
                     >
                         Recentes
                     </button>
                     <button
                         onClick={() => setSortBy("top")}
-                        className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${sortBy === "top" ? "bg-forest-green text-white shadow-sm" : "text-slate-500 hover:text-slate-900"
+                        className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${sortBy === "top" ? "bg-forest-green text-white shadow-sm" : "text-slate-500 hover:text-slate-900"
                             }`}
                     >
                         Populares

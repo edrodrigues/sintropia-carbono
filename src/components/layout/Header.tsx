@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Profile } from "@/types";
@@ -17,6 +17,8 @@ export function Header() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [streak, setStreak] = useState<number>(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSubmenu, setActiveSubmenu] = useState<number | null>(null);
 
   const supabase = createClient();
 
@@ -109,13 +111,13 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 w-full" onMouseLeave={() => { setActiveMenu(null); setShowProfileMenu(false); }}>
-      <div className="max-w-7xl mx-auto px-8 lg:px-16 flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 flex items-center justify-between h-16 lg:h-20">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-lg bg-forest-green flex items-center justify-center shadow-premium group-hover:bg-emerald-700 transition-colors">
-            <span className="text-white text-xl">🌱</span>
+        <Link href="/" className="flex items-center gap-2 group">
+          <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-lg bg-forest-green flex items-center justify-center shadow-premium group-hover:bg-emerald-700 transition-colors">
+            <span className="text-white text-lg lg:text-xl">🌱</span>
           </div>
-          <span className="font-bold text-2xl tracking-tight text-forest-green">SINTROPIA</span>
+          <span className="font-bold text-xl lg:text-2xl tracking-tight text-forest-green">SINTROPIA</span>
         </Link>
 
         {/* Navigation */}
@@ -147,7 +149,7 @@ export function Header() {
 
               {/* Dropdown Menu */}
               {item.subItems && activeMenu === idx && (
-                <div 
+                <div
                   className="absolute top-[calc(100%-10px)] left-0 w-72 bg-white rounded-2xl shadow-premium-lg border border-slate-100 p-3 pt-4 animate-in fade-in slide-in-from-top-2 duration-200"
                   role="menu"
                 >
@@ -171,7 +173,19 @@ export function Header() {
         </nav>
 
         {/* Search & Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 lg:gap-4">
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(true)}
+            className="lg:hidden p-2 text-slate-600 hover:text-forest-green hover:bg-slate-50 rounded-lg transition-colors"
+            aria-label="Abrir menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
 
           {/* Streak */}
           {user && streak > 0 && <StreakDisplay currentStreak={streak} />}
@@ -180,7 +194,7 @@ export function Header() {
           <Tooltip content="Compartilhe insights ou notícias com a comunidade">
             <button
               onClick={() => router.push(user ? "/feed?create=true" : "/login")}
-              className="flex items-center gap-2 border border-slate-300 rounded-lg px-4 py-2 hover:bg-slate-50 transition-all active:scale-95 group"
+              className="flex items-center gap-2 border border-slate-300 rounded-lg px-3 lg:px-4 py-2 hover:bg-slate-50 transition-all active:scale-95 group"
             >
               <div className="w-4 h-4 text-slate-900 group-hover:text-forest-green">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -188,7 +202,7 @@ export function Header() {
                   <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
                 </svg>
               </div>
-              <span className="text-[13px] font-bold text-slate-900">Novo Post</span>
+              <span className="hidden sm:inline text-[13px] font-bold text-slate-900">Novo Post</span>
             </button>
           </Tooltip>
 
@@ -272,6 +286,138 @@ export function Header() {
           )}
         </div>
       </div>
+
+      {/* Mobile Menu Drawer */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-50">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => { setMobileMenuOpen(false); setActiveSubmenu(null); }}
+          />
+
+          {/* Drawer */}
+          <div className="absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-xl overflow-y-auto animate-in slide-in-from-right duration-200">
+            <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+              <Link
+                href="/"
+                className="flex items-center gap-2"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <div className="w-8 h-8 rounded-lg bg-forest-green flex items-center justify-center">
+                  <span className="text-white text-lg">🌱</span>
+                </div>
+                <span className="font-bold text-lg tracking-tight text-forest-green">SINTROPIA</span>
+              </Link>
+              <button
+                onClick={() => { setMobileMenuOpen(false); setActiveSubmenu(null); }}
+                className="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors"
+                aria-label="Fechar menu"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <nav className="p-4" role="navigation" aria-label="Menu mobile">
+              <div className="space-y-1">
+                {menuItems.map((item, idx) => (
+                  <div key={item.href}>
+                    {item.subItems ? (
+                      <div>
+                        <button
+                          onClick={() => setActiveSubmenu(activeSubmenu === idx ? null : idx)}
+                          className="w-full flex items-center justify-between p-3 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors"
+                        >
+                          <span className="font-bold text-sm">{item.label}</span>
+                          <svg
+                            className={`w-4 h-4 transition-transform ${activeSubmenu === idx ? "rotate-180" : ""}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+
+                        {activeSubmenu === idx && (
+                          <div className="ml-4 mt-1 space-y-1 border-l-2 border-slate-100 pl-4">
+                            {item.subItems.map((sub) => (
+                              <Link
+                                key={sub.href}
+                                href={sub.href}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="block p-3 rounded-lg text-slate-600 hover:text-forest-green hover:bg-emerald-50 transition-colors text-sm"
+                              >
+                                {sub.label}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`block p-3 rounded-xl transition-colors ${pathname === item.href
+                            ? "text-forest-green bg-emerald-50 font-bold text-sm"
+                            : "text-slate-700 hover:bg-slate-50 text-sm font-medium"
+                          }`}
+                      >
+                        {item.label}
+                      </Link>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Mobile Auth Section */}
+              <div className="mt-6 pt-6 border-t border-slate-100">
+                {!loading && (
+                  user ? (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                        <div className="w-10 h-10 rounded-full bg-forest-green flex items-center justify-center text-white font-bold">
+                          {(profile?.display_name || user.email || "U")[0].toUpperCase()}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-bold text-slate-900 truncate">{profile?.display_name || user.email}</p>
+                          <p className="text-xs text-slate-500 truncate">{user.email}</p>
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Meu Painel</Link>
+                        <Link href={`/u/${profile?.username}`} onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Meu Perfil</Link>
+                        <Link href="/profile/edit" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Editar Perfil</Link>
+                        <Link href="/conquistas" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Conquistas</Link>
+                        <button onClick={handleLogout} className="w-full text-left p-3 rounded-xl text-red-500 hover:bg-red-50 text-sm font-medium">Sair da Conta</button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <Link
+                        href="/login"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block w-full p-3 text-center border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-bold transition-colors"
+                      >
+                        Entrar
+                      </Link>
+                      <Link
+                        href="/register"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block w-full p-3 text-center bg-forest-green text-white rounded-xl text-sm font-bold hover:bg-emerald-900 transition-colors"
+                      >
+                        Criar Conta Grátis
+                      </Link>
+                    </div>
+                  )
+                )}
+              </div>
+            </nav>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

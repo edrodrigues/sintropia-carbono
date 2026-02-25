@@ -4,9 +4,9 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-950 text-white pt-20 pb-10">
-      <div className="max-w-7xl mx-auto px-8 lg:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-20">
+    <footer className="bg-slate-950 text-white pt-12 lg:pt-20 pb-8 lg:pb-10">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-12 lg:mb-20">
           {/* Brand Info */}
           <div className="flex flex-col gap-6 lg:col-span-2">
             <Link href="/" className="flex items-center gap-2.5">
@@ -68,7 +68,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-10 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-6 text-slate-500 text-[13px]">
+        <div className="pt-8 lg:pt-10 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 lg:gap-6 text-slate-500 text-[13px]">
           <p>© {currentYear} Sintropia. Todos os direitos reservados.</p>
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2">
