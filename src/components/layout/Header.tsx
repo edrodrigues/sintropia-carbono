@@ -57,6 +57,18 @@ export function Header() {
     return () => subscription.unsubscribe();
   }, [supabase]);
 
+  // Handle body scroll locking
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileMenuOpen]);
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.refresh();
@@ -297,12 +309,12 @@ export function Header() {
           />
 
           {/* Drawer */}
-          <div className="absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-xl overflow-y-auto animate-in slide-in-from-right duration-200">
-            <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+          <div className="absolute top-0 right-0 h-[100dvh] w-80 max-w-[85vw] bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+            <div className="p-4 border-b border-slate-100 flex items-center justify-between shrink-0">
               <Link
                 href="/"
                 className="flex items-center gap-2"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => { setMobileMenuOpen(false); setActiveSubmenu(null); }}
               >
                 <div className="w-8 h-8 rounded-lg bg-forest-green flex items-center justify-center">
                   <span className="text-white text-lg">🌱</span>
@@ -320,7 +332,7 @@ export function Header() {
               </button>
             </div>
 
-            <nav className="p-4" role="navigation" aria-label="Menu mobile">
+            <nav className="flex-1 overflow-y-auto p-4" role="navigation" aria-label="Menu mobile">
               <div className="space-y-1">
                 {menuItems.map((item, idx) => (
                   <div key={item.href}>
@@ -361,8 +373,8 @@ export function Header() {
                         href={item.href}
                         onClick={() => setMobileMenuOpen(false)}
                         className={`block p-3 rounded-xl transition-colors ${pathname === item.href
-                            ? "text-forest-green bg-emerald-50 font-bold text-sm"
-                            : "text-slate-700 hover:bg-slate-50 text-sm font-medium"
+                          ? "text-forest-green bg-emerald-50 font-bold text-sm"
+                          : "text-slate-700 hover:bg-slate-50 text-sm font-medium"
                           }`}
                       >
                         {item.label}
