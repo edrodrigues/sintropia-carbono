@@ -287,7 +287,7 @@ export default function ProfileForm({
                 <div className="space-y-2 md:col-span-2">
                     <label htmlFor="bio" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
                         Bio / Sobre
-                        <span className="text-gray-300 font-normal ml-1">(máx. 500)</span>
+                        <span className="text-gray-300 font-normal ml-1">(máx. 1000)</span>
                     </label>
                     <textarea
                         id="bio"
@@ -296,7 +296,7 @@ export default function ProfileForm({
                         value={formData.bio}
                         onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                         placeholder="Conte-nos um pouco sobre você ou sua empresa..."
-                        maxLength={500}
+                        maxLength={1000}
                         className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white resize-none"
                     />
                 </div>

@@ -30,8 +30,8 @@ export async function updateProfile(formData: FormData) {
         return { error: 'Nome de exibição deve ter no máximo 50 caracteres' };
     }
 
-    if (bio && bio.length > 500) {
-        return { error: 'Bio deve ter no máximo 500 caracteres' };
+    if (bio && bio.length > 1000) {
+        return { error: 'Bio deve ter no máximo 1000 caracteres' };
     }
 
     if (organization && organization.length > 100) {
