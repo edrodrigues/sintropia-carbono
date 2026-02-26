@@ -18,6 +18,7 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
     const [sortBy, setSortBy] = useState<SortOption>("new");
     const searchParams = useSearchParams();
     const shouldOpenCreateModal = searchParams.get("create") === "true";
+    const postIdParam = searchParams.get("post");
     const supabase = createClient();
 
     useEffect(() => {
@@ -27,6 +28,15 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
         };
         getUser();
     }, [supabase]);
+
+    useEffect(() => {
+        if (postIdParam && posts.length > 0) {
+            const post = posts.find(p => p.id === postIdParam);
+            if (post) {
+                setSelectedPost(post);
+            }
+        }
+    }, [postIdParam, posts]);
 
     const handleOpenModal = (post: PostWithRelations) => {
         setSelectedPost(post);

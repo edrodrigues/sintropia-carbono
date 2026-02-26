@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { FeedPostCard } from "@/components/posts/FeedPostCard";
 import { PostWithRelations } from "@/types";
@@ -65,9 +66,9 @@ export function CommunityFeed() {
                 ) : posts.length > 0 ? (
                     <div className="grid grid-cols-1 gap-6">
                         {posts.map((post) => (
-                            <div key={post.id} className="bg-white rounded-2xl border border-slate-100 hover:shadow-premium transition-all overflow-hidden group">
+                            <Link key={post.id} href={`/feed?post=${post.id}`} className="block bg-white rounded-2xl border border-slate-100 hover:shadow-premium transition-all overflow-hidden group">
                                 <FeedPostCard post={post} />
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 ) : (
