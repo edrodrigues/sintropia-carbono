@@ -6,6 +6,9 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { Profile } from "@/types";
 import { getUserTypeIcon } from "@/lib/utils/user";
+import { PromoteButton } from "./PromoteButton";
+import { WarnUserButton } from "./WarnUserButton";
+import { BanUserButton } from "./BanUserButton";
 
 export function UsersList() {
   const [users, setUsers] = useState<Profile[]>([]);
@@ -18,7 +21,7 @@ export function UsersList() {
         .from("profiles")
         .select("*")
         .order("created_at", { ascending: false })
-        .limit(10);
+        .limit(20);
 
       if (data) setUsers(data);
       setLoading(false);
@@ -100,10 +103,23 @@ export function UsersList() {
                 @{user.username}
               </p>
               <p className="text-xs text-gray-400">
-                {user.karma} karma • {getRoleBadge(user.role)}
+                {user.karma} karma • {getRoleBadge(user.role || "user")}
               </p>
             </div>
           </Link>
+          <div className="flex items-center gap-2">
+            <PromoteButton
+              userId={user.id}
+              username={user.username}
+              currentRole={user.role || "user"}
+            />
+            {user.role !== "banned" && user.role !== "admin" && (
+              <WarnUserButton userId={user.id} username={user.username} />
+            )}
+            {user.role !== "banned" && user.role !== "admin" && (
+              <BanUserButton userId={user.id} username={user.username} />
+            )}
+          </div>
         </div>
       ))}
     </div>

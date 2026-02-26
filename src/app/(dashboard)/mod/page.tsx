@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { ReportsList } from "@/components/mod/ReportsList";
 import { UsersList } from "@/components/mod/UsersList";
+import { PostsList } from "@/components/mod/PostsList";
+import { ModSearch } from "@/components/mod/ModSearch";
 
 export default async function ModDashboard() {
   const supabase = await createClient();
@@ -61,10 +63,25 @@ export default async function ModDashboard() {
     .order("created_at", { ascending: false })
     .limit(10);
 
+  const { data: allPosts } = await supabase
+    .from("posts")
+    .select(`
+      *,
+      author:profiles(username, avatar_url)
+    `)
+    .eq("is_deleted", false)
+    .order("created_at", { ascending: false })
+    .limit(50);
+
   const { count: pendingCount } = await supabase
     .from("reports")
     .select("*", { count: "exact", head: true })
     .eq("status", "pending");
+
+  const { count: totalPosts } = await supabase
+    .from("posts")
+    .select("*", { count: "exact", head: true })
+    .eq("is_deleted", false);
 
   return (
     <div className="container mx-auto px-4 max-w-6xl">
@@ -73,12 +90,12 @@ export default async function ModDashboard() {
           Dashboard de Moderação
         </h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">
-          Gerencie denúncias e mantenha a comunidade segura
+          Gerencie denúncias, usuários e mantenha a comunidade segura
         </p>
       </div>
 
       <div className="grid gap-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
@@ -165,7 +182,38 @@ export default async function ModDashboard() {
               </div>
             </div>
           </div>
+
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-6 h-6 text-blue-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                  {totalPosts || 0}
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Posts ativos
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <ModSearch />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -183,11 +231,20 @@ export default async function ModDashboard() {
           <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
             <div className="p-4 border-b border-gray-200 dark:border-gray-700">
               <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                Usários Recentes
+                Usuários Recentes
               </h2>
             </div>
             <UsersList />
           </div>
+        </div>
+
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+              Posts Recentes
+            </h2>
+          </div>
+          <PostsList posts={allPosts || []} />
         </div>
 
         {recentBans && recentBans.length > 0 && (
