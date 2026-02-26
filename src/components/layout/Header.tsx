@@ -243,6 +243,19 @@ export function Header() {
                         <p className="text-sm font-bold text-slate-900 truncate">{profile?.display_name || user.email}</p>
                       </div>
                       <div className="space-y-1">
+                        {profile?.role === 'moderator' || profile?.role === 'admin' ? (
+                          <>
+                            <Link
+                              href="/mod"
+                              role="menuitem"
+                              className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                              Moderação
+                            </Link>
+                            <div className="h-px bg-slate-50 my-1" />
+                          </>
+                        ) : null}
                         <Link
                           href="/dashboard"
                           role="menuitem"
@@ -401,6 +414,9 @@ export function Header() {
                         </div>
                       </div>
                       <div className="space-y-1">
+                        {profile?.role === 'moderator' || profile?.role === 'admin' ? (
+                          <Link href="/mod" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Moderação</Link>
+                        ) : null}
                         <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Meu Painel</Link>
                         <Link href={`/u/${profile?.username}`} onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Meu Perfil</Link>
                         <Link href="/profile/edit" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Editar Perfil</Link>
