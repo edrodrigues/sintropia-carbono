@@ -16,9 +16,9 @@ async function main() {
     const { data: dbUsers, error } = await supabase.rpc('get_users_for_drip');
     const tracking = existsSync(TRACKING_FILE) ? JSON.parse(readFileSync(TRACKING_FILE, 'utf-8')) : { contacts: {} };
 
-    const results = dbUsers?.map(user => {
+    const results = dbUsers?.map((user: { email: string; created_at: string }) => {
         const email = user.email.toLowerCase();
-        const sent = tracking.contacts[email]?.map(r => r.emailType).join(', ') || 'NONE';
+        const sent = tracking.contacts[email]?.map((r: { emailType: string }) => r.emailType).join(', ') || 'NONE';
         return { email, sent, created_at: user.created_at };
     });
 

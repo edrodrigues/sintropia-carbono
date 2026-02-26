@@ -44,3 +44,10 @@ data/drip-tracking.json
 curl_out.txt
 model_info.tsv
 formatted_models.json
+
+# Temporary logs and data output
+*_out.txt
+output_*.json
+output_*.txt
+data/
+curl_out.txt

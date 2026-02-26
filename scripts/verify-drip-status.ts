@@ -20,7 +20,7 @@ const TRACKING_FILE = resolve(__dirname, '../data/drip-tracking.json');
 
 async function main() {
     console.log('--- DB USERS (from get_users_for_drip) ---');
-    const { data: dbUsers, error: dbError } = await supabase.rpc('get_users_for_drip');
+    let { data: dbUsers, error: dbError } = await supabase.rpc('get_users_for_drip');
 
     if (dbError) {
         console.error('Error calling get_users_for_drip:', dbError);
@@ -28,7 +28,7 @@ async function main() {
         console.log('Falling back to profiles table...');
         const { data: profiles, error: pError } = await supabase.from('profiles').select('email, created_at').order('created_at', { ascending: false });
         if (pError) console.error('Error fetching profiles:', pError);
-        else dbUsers = profiles;
+        else dbUsers = profiles as typeof dbUsers;
     }
 
     console.log(`Found ${dbUsers?.length || 0} users in DB`);
@@ -39,13 +39,13 @@ async function main() {
         const tracking = JSON.parse(readFileSync(TRACKING_FILE, 'utf-8'));
         console.log(`Tracking found ${Object.keys(tracking.contacts).length} contacts`);
 
-        dbUsers?.forEach(user => {
+        dbUsers?.forEach((user: { email: string; created_at: string }) => {
             const email = user.email.toLowerCase();
             const records = tracking.contacts[email];
             if (!records) {
                 console.log(`[MISSING] ${email} (Created: ${user.created_at}) - No emails sent yet.`);
             } else {
-                const types = records.map(r => r.emailType).join(', ');
+                const types = records.map((r: { emailType: string }) => r.emailType).join(', ');
                 console.log(`[OK] ${email} - Sent: ${types}`);
             }
         });
