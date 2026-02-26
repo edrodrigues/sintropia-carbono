@@ -35,9 +35,8 @@ export function MobileTableWrapper({
     });
   };
 
-  const getVisibleColumns = () => {
-    return columns.filter((col) => !col.mobileHidden);
-  };
+  const desktopColumns = columns;
+  const mobileColumns = columns.filter((col) => !col.mobileHidden);
 
   const defaultCols = columns.filter((col) =>
     defaultMobileColumns.includes(col.key)
@@ -62,7 +61,7 @@ export function MobileTableWrapper({
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-200 dark:border-gray-700">
-              {getVisibleColumns().map((col) => (
+              {desktopColumns.map((col) => (
                 <th
                   key={col.key}
                   className={`py-3 px-3 font-semibold text-gray-600 dark:text-gray-400 text-sm ${
@@ -84,7 +83,7 @@ export function MobileTableWrapper({
                 key={index}
                 className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50"
               >
-                {getVisibleColumns().map((col) => (
+                {desktopColumns.map((col) => (
                   <td
                     key={col.key}
                     className={`py-3 px-3 ${

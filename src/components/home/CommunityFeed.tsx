@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { FeedPostCard } from "@/components/posts/FeedPostCard";
 import { PostWithRelations } from "@/types";
@@ -10,7 +10,12 @@ export function CommunityFeed() {
     const [posts, setPosts] = useState<PostWithRelations[]>([]);
     const [loading, setLoading] = useState(true);
     const [sortBy, setSortBy] = useState<"new" | "top">("new");
+    const router = useRouter();
     const supabase = createClient();
+
+    const handleOpenPost = (post: PostWithRelations) => {
+        router.push(`/feed?post=${post.id}`);
+    };
 
     useEffect(() => {
         async function fetchPosts() {
@@ -66,9 +71,13 @@ export function CommunityFeed() {
                 ) : posts.length > 0 ? (
                     <div className="grid grid-cols-1 gap-6">
                         {posts.map((post) => (
-                            <Link key={post.id} href={`/feed?post=${post.id}`} className="block bg-white rounded-2xl border border-slate-100 hover:shadow-premium transition-all overflow-hidden group">
+                            <div 
+                                key={post.id} 
+                                onClick={() => handleOpenPost(post)}
+                                className="bg-white rounded-2xl border border-slate-100 hover:shadow-premium transition-all overflow-hidden group cursor-pointer"
+                            >
                                 <FeedPostCard post={post} />
-                            </Link>
+                            </div>
                         ))}
                     </div>
                 ) : (

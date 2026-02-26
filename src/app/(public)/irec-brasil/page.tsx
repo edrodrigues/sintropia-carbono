@@ -137,13 +137,13 @@ export default function IrecBrasil() {
         <Card>
           <MobileTableWrapper
             data={irecData as unknown as Record<string, unknown>[]}
-            defaultMobileColumns={["rank", "empresa", "delta"]}
+            defaultMobileColumns={["rank", "empresa", "papel", "delta"]}
             columns={[
               { key: "rank", header: "Rank", align: "center" },
               { key: "empresa", header: "Empresa" },
-              { key: "papel", header: "Papel", mobileHidden: true },
-              { key: "vol2024", header: "Vol 2024 (mil)", align: "right", mobileHidden: true },
-              { key: "vol2025", header: "Vol 2025 (mil)", align: "right", mobileHidden: true },
+              { key: "papel", header: "Papel no Mercado" },
+              { key: "vol2024", header: "Vol 2024 (mil)", align: "right" },
+              { key: "vol2025", header: "Vol 2025 (mil)", align: "right" },
               { key: "delta", header: "Delta %", align: "right" },
             ]}
           />
