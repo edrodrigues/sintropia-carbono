@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ReportsList } from "@/components/mod/ReportsList";
 import { UsersList } from "@/components/mod/UsersList";
 import { PostsList } from "@/components/mod/PostsList";
+import { ModSearch } from "@/components/mod/ModSearch";
 
 export default async function ModDashboard() {
   const supabase = await createClient();
@@ -211,6 +212,8 @@ export default async function ModDashboard() {
             </div>
           </div>
         </div>
+
+        <ModSearch />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
