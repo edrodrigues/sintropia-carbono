@@ -1,13 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/routing";
 import { useEffect, useState, useRef } from "react";
+import { useTranslations } from 'next-intl';
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Profile } from "@/types";
 import { StreakDisplay } from "@/components/gamification/StreakBadge";
 import { Tooltip } from "@/components/ui/Tooltip";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export function Header() {
   const pathname = usePathname();
@@ -19,6 +20,9 @@ export function Header() {
   const [streak, setStreak] = useState<number>(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<number | null>(null);
+
+  const tNav = useTranslations('Navigation');
+  const tHeader = useTranslations('Header');
 
   const supabase = createClient();
 
@@ -75,34 +79,34 @@ export function Header() {
   };
 
   const menuItems = [
-    { label: "Certificadoras", href: "/certificadoras" },
+    { label: tNav('certificadoras'), href: "/certificadoras" },
     {
-      label: "Energia",
+      label: tNav('energy'),
       href: "/irec-brasil",
       subItems: [
-        { label: "Mercado Brasil", href: "/irec-brasil", desc: "Veja quem são os maiores compradores de certificados I-REC no Brasil." },
-        { label: "Mercado Global", href: "/irec-mundo", desc: "Veja quem são os maiores compradores de certificados I-REC no Mundo." },
-        { label: "Preços", href: "/irec-precos", desc: "Confirme os preços dos certificados I-REC de forma comparada entre os mercados." },
+        { label: tNav('marketBrazil'), href: "/irec-brasil", desc: tNav('energyDesc.marketBrazil') },
+        { label: tNav('marketWorld'), href: "/irec-mundo", desc: tNav('energyDesc.marketWorld') },
+        { label: tNav('prices'), href: "/irec-precos", desc: tNav('energyDesc.prices') },
       ]
     },
     {
-      label: "Carbono",
+      label: tNav('carbon'),
       href: "/carbono-brasil",
       subItems: [
-        { label: "Mercado Brasil", href: "/carbono-brasil", desc: "Veja quem são os maiores compradores de créditos de carbono no Brasil." },
-        { label: "Mercado Mundo", href: "/carbono-mundo", desc: "Veja quem são os maiores compradores de créditos de carbono no mundo." },
-        { label: "Preços", href: "/carbono-precos", desc: "Análise comparada e evolução dos preços" },
-        { label: "Dados dos Projetos", href: "/carbono-projetos", desc: "Dados sobre 7700+ Projetos de carbono." },
+        { label: tNav('marketBrazilCarbon'), href: "/carbono-brasil", desc: tNav('carbonDesc.marketBrazil') },
+        { label: tNav('marketWorldCarbon'), href: "/carbono-mundo", desc: tNav('carbonDesc.marketWorld') },
+        { label: tNav('carbonPrices'), href: "/carbono-precos", desc: tNav('carbonDesc.prices') },
+        { label: tNav('carbonData'), href: "/carbono-projetos", desc: tNav('carbonDesc.data') },
       ]
     },
     {
-      label: "Comunidade",
+      label: tNav('community'),
       href: "/feed",
       subItems: [
-        { label: "Feed de Notícias", href: "/feed", desc: "Insights e posts da nossa rede de especialistas." },
-        { label: "Perfis da Comunidade", href: "/profiles", desc: "Veja todos os perfis da comunidade." },
-        { label: "Ranking de Membros", href: "/leaderboard", desc: "Veja quem são os maiores contribuidores." },
-        { label: "Minhas Missões", href: "/conquistas", desc: "Ganhe karma e suba de nível na plataforma." },
+        { label: tNav('newsFeed'), href: "/feed", desc: tNav('communityDesc.newsFeed') },
+        { label: tNav('communityProfiles'), href: "/profiles", desc: tNav('communityDesc.profiles') },
+        { label: tNav('ranking'), href: "/leaderboard", desc: tNav('communityDesc.ranking') },
+        { label: tNav('missions'), href: "/conquistas", desc: tNav('communityDesc.missions') },
       ]
     },
   ];
@@ -186,7 +190,12 @@ export function Header() {
           </nav>
 
           {/* Search & Actions */}
-          <div className="flex items-center gap-2 lg:gap-4">
+          <div className="flex items-center gap-2 lg:gap-4 ml-auto">
+
+            {/* Language Switcher */}
+            <div className="hidden md:block">
+              <LanguageSwitcher />
+            </div>
 
             {/* Mobile Menu Button */}
             <button
@@ -204,7 +213,7 @@ export function Header() {
             {user && streak > 0 && <StreakDisplay currentStreak={streak} />}
 
             {/* Post Button */}
-            <Tooltip content="Compartilhe insights ou notícias com a comunidade">
+            <Tooltip content={tHeader('newPostTooltip')}>
               <button
                 onClick={() => router.push(user ? "/feed?create=true" : "/login")}
                 className="flex items-center gap-2 border border-slate-300 rounded-lg px-3 lg:px-4 py-2 hover:bg-slate-50 transition-all active:scale-95 group"
@@ -215,7 +224,7 @@ export function Header() {
                     <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
                   </svg>
                 </div>
-                <span className="hidden sm:inline text-[13px] font-bold text-slate-900">Novo Post</span>
+                <span className="hidden sm:inline text-[13px] font-bold text-slate-900">{tHeader('newPost')}</span>
               </button>
             </Tooltip>
 
@@ -229,7 +238,7 @@ export function Header() {
                     aria-haspopup="true"
                     className="bg-forest-green hover:bg-emerald-900 text-white rounded-lg px-6 py-2 text-[13px] font-bold shadow-premium transition-all active:scale-95 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-2"
                   >
-                    Painel
+                    {tHeader('dashboard')}
                     <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${showProfileMenu ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
                     </svg>
@@ -239,7 +248,7 @@ export function Header() {
                   {showProfileMenu && (
                     <div className="absolute top-[calc(100%+5px)] right-0 w-64 bg-white rounded-2xl shadow-premium-lg border border-slate-100 p-2 animate-in fade-in slide-in-from-top-2 duration-200" role="menu">
                       <div className="p-3 mb-2 border-b border-slate-50">
-                        <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-0.5">Logado como</p>
+                        <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-0.5">{tHeader('loggedAs')}</p>
                         <p className="text-sm font-bold text-slate-900 truncate">{profile?.display_name || user.email}</p>
                       </div>
                       <div className="space-y-1">
@@ -251,7 +260,7 @@ export function Header() {
                               className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
                             >
                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                              Moderação
+                              {tHeader('moderation')}
                             </Link>
                             <div className="h-px bg-slate-50 my-1" />
                           </>
@@ -262,7 +271,7 @@ export function Header() {
                           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-                          Meu Painel
+                          {tHeader('myPanel')}
                         </Link>
                         <Link
                           href={`/u/${profile?.username}`}
@@ -270,7 +279,7 @@ export function Header() {
                           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-                          Meu Perfil
+                          {tHeader('myProfile')}
                         </Link>
                         <Link
                           href="/profile/edit"
@@ -278,7 +287,7 @@ export function Header() {
                           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-                          Editar Perfil
+                          {tHeader('editProfile')}
                         </Link>
                         <Link
                           href="/conquistas"
@@ -286,7 +295,7 @@ export function Header() {
                           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>
-                          Conquistas
+                          {tHeader('achievements')}
                         </Link>
                         <div className="h-px bg-slate-50 my-1" />
                         <button
@@ -295,7 +304,7 @@ export function Header() {
                           className="w-full flex items-center gap-3 p-2.5 rounded-xl hover:bg-red-50 focus:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 transition-colors text-[13px] font-bold text-red-500 hover:text-red-600"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-                          Sair da Conta
+                          {tHeader('logout')}
                         </button>
                       </div>
                     </div>
@@ -306,7 +315,7 @@ export function Header() {
                   href="/login"
                   className="bg-forest-green hover:bg-emerald-900 text-white rounded-lg px-6 py-2 text-[13px] font-bold shadow-premium transition-all active:scale-95"
                 >
-                  Entrar
+                  {tHeader('login')}
                 </Link>
               )
             )}
@@ -349,6 +358,12 @@ export function Header() {
 
             <nav className="flex-1 overflow-y-auto p-4" role="navigation" aria-label="Menu mobile">
               <div className="space-y-1">
+                {/* Mobile Language Switcher */}
+                <div className="mb-4 px-3">
+                  <p className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-2">Idioma</p>
+                  <LanguageSwitcher />
+                </div>
+
                 {menuItems.map((item, idx) => (
                   <div key={item.href}>
                     {item.subItems ? (
@@ -415,13 +430,13 @@ export function Header() {
                       </div>
                       <div className="space-y-1">
                         {profile?.role === 'moderator' || profile?.role === 'admin' ? (
-                          <Link href="/mod" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Moderação</Link>
+                          <Link href="/mod" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">{tHeader('moderation')}</Link>
                         ) : null}
-                        <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Meu Painel</Link>
-                        <Link href={`/u/${profile?.username}`} onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Meu Perfil</Link>
-                        <Link href="/profile/edit" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Editar Perfil</Link>
-                        <Link href="/conquistas" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">Conquistas</Link>
-                        <button onClick={handleLogout} className="w-full text-left p-3 rounded-xl text-red-500 hover:bg-red-50 text-sm font-medium">Sair da Conta</button>
+                        <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">{tHeader('myPanel')}</Link>
+                        <Link href={`/u/${profile?.username}`} onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">{tHeader('myProfile')}</Link>
+                        <Link href="/profile/edit" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">{tHeader('editProfile')}</Link>
+                        <Link href="/conquistas" onClick={() => setMobileMenuOpen(false)} className="block p-3 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-medium">{tHeader('achievements')}</Link>
+                        <button onClick={handleLogout} className="w-full text-left p-3 rounded-xl text-red-500 hover:bg-red-50 text-sm font-medium">{tHeader('logout')}</button>
                       </div>
                     </div>
                   ) : (
@@ -431,14 +446,14 @@ export function Header() {
                         onClick={() => setMobileMenuOpen(false)}
                         className="block w-full p-3 text-center border border-slate-300 rounded-xl text-slate-700 hover:bg-slate-50 text-sm font-bold transition-colors"
                       >
-                        Entrar
+                        {tHeader('login')}
                       </Link>
                       <Link
                         href="/register"
                         onClick={() => setMobileMenuOpen(false)}
                         className="block w-full p-3 text-center bg-forest-green text-white rounded-xl text-sm font-bold hover:bg-emerald-900 transition-colors"
                       >
-                        Criar Conta Grátis
+                        {tHeader('register')}
                       </Link>
                     </div>
                   )
