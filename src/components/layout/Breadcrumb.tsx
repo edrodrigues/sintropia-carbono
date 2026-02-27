@@ -65,25 +65,44 @@ export function Breadcrumb() {
     return null;
   }
 
+  const siteUrl = "https://sintropia.space";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((item, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.label,
+      ...(item.href && { "item": `${siteUrl}${item.href}` })
+    }))
+  };
+
   return (
-    <nav className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 mb-4">
-      {breadcrumbs.map((item, index) => (
-        <div key={index} className="flex items-center gap-1">
-          {index > 0 && <span className="mx-1">/</span>}
-          {item.href ? (
-            <Link
-              href={item.href}
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              {item.label}
-            </Link>
-          ) : (
-            <span className="text-gray-900 dark:text-gray-100 font-medium">
-              {item.label}
-            </span>
-          )}
-        </div>
-      ))}
-    </nav>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <nav className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 mb-4" aria-label="Breadcrumb">
+        {breadcrumbs.map((item, index) => (
+          <div key={index} className="flex items-center gap-1">
+            {index > 0 && <span className="mx-1" aria-hidden="true">/</span>}
+            {item.href ? (
+              <Link
+                href={item.href}
+                className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <span className="text-gray-900 dark:text-gray-100 font-medium" aria-current="page">
+                {item.label}
+              </span>
+            )}
+          </div>
+        ))}
+      </nav>
+    </>
   );
 }

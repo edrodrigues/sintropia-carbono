@@ -53,11 +53,22 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       siteName: "Sintropia",
       locale: locale === "pt" ? "pt_BR" : locale === "en" ? "en_US" : "es_ES",
       type: "website",
+      images: [
+        {
+          url: "https://i.ibb.co/bjL1KkKF/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: "Sintropia - Inteligência sobre mercado de carbono e energia renovável"
+        }
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: currentTitle,
       description: currentDescription,
+      site: "@sintropyspace",
+      creator: "@sintropyspace",
+      images: ["https://i.ibb.co/bjL1KkKF/og-image.jpg"],
     },
     robots: {
       index: true,

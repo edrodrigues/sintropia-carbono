@@ -36,6 +36,7 @@ export default function LanguageSwitcher() {
                 className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-forest-green hover:bg-slate-50 transition-all duration-200 focus:outline-none"
                 aria-haspopup="true"
                 aria-expanded={isOpen}
+                aria-label="Selecionar idioma"
             >
                 <span className="text-lg leading-none">{currentLanguage.flag}</span>
                 <span className="text-[12px] font-bold text-slate-700 uppercase">{currentLanguage.code}</span>

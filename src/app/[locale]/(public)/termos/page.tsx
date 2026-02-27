@@ -4,10 +4,18 @@ import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
-    const t = await getTranslations({ locale, namespace: 'Termos' });
     
     return {
         title: locale === 'pt' ? 'Termos de Uso | Sintropia' : 'Terms of Use | Sintropia',
+        description: locale === 'pt' 
+            ? "Termos de uso da plataforma Sintropia. Leia nossos termos e condições antes de utilizar o site."
+            : "Terms of use for the Sintropia platform. Read our terms and conditions before using the site.",
+        keywords: locale === 'pt'
+            ? ["termos de uso", "condições de uso", "Sintropia", "políticas plataforma"]
+            : ["terms of use", "terms and conditions", "Sintropia", "platform policies"],
+        alternates: {
+            canonical: `https://sintropia.space/${locale === 'pt' ? '' : locale + '/' }termos`,
+        },
     };
 }
 

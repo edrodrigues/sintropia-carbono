@@ -35,7 +35,7 @@ export function CarbonoPrecosChart() {
                 <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4 md:mb-0">
                     Tendências de Mercado
                 </h3>
-                <div className="flex gap-2">
+                <div className="flex gap-2" role="group" aria-label="Selecionar linha do gráfico">
                     <button
                         onClick={() => setSelectedLine("euEts")}
                         className={`px-4 py-2 rounded-lg font-semibold transition-colors text-sm ${selectedLine === "euEts"
@@ -66,7 +66,7 @@ export function CarbonoPrecosChart() {
                 </div>
             </div>
             <Title className="text-center mb-4">Evolução de Preços (2024-2025)</Title>
-            <div className="relative h-[300px]">
+            <div className="relative h-[300px]" role="img" aria-label={`Gráfico de tendências de preços mostrando ${getLabel()} de ${priceHistory.labels[0]} a ${priceHistory.labels[priceHistory.labels.length - 1]}`}>
                 <LineChart data={chartData} className="h-[250px]" showArea={true} />
             </div>
             <p className="text-center text-sm text-gray-500 mt-2">

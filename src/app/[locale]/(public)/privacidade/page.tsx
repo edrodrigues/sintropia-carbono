@@ -7,6 +7,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     
     return {
         title: locale === 'pt' ? 'Privacidade | Sintropia' : 'Privacy | Sintropia',
+        description: locale === 'pt'
+            ? "Política de privacidade da plataforma Sintropia. Veja como protegemos seus dados pessoais."
+            : "Privacy policy for the Sintropia platform. See how we protect your personal data.",
+        keywords: locale === 'pt'
+            ? ["privacidade", "proteção dados", "LGPD", "dados pessoais", "Sintropia"]
+            : ["privacy", "data protection", "GDPR", "personal data", "Sintropia"],
+        alternates: {
+            canonical: `https://sintropia.space/${locale === 'pt' ? '' : locale + '/' }privacidade`,
+        },
     };
 }
 

@@ -11,6 +11,12 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     return {
         title: t('title'),
         description: t('subtitle'),
+        keywords: locale === "pt"
+            ? ["categorias carbono", "energia renovável", "I-REC", "créditos carbono", "inteligência mercado"]
+            : ["carbon categories", "renewable energy", "I-REC", "carbon credits", "market intelligence"],
+        alternates: {
+            canonical: `https://sintropia.space/${locale === 'pt' ? '' : locale + '/' }categorias`,
+        },
     };
 }
 

@@ -131,6 +131,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 <div
                   className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700"
                   style={{ backgroundImage: `url('${c.bgImg}')` }}
+                  role="img"
+                  aria-label={`Imagem de fundo para ${c.title}`}
                 ></div>
                 {/* Dark Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
