@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function ConquistasPage() {
     const supabase = await createClient();
+    const t = await getTranslations('Community.conquistas');
 
     const {
         data: { user },
@@ -77,113 +78,113 @@ export default async function ConquistasPage() {
         <div className="max-w-4xl mx-auto py-12 px-4">
             <div className="mb-8">
                 <Link href="/dashboard" className="text-blue-600 dark:text-blue-400 hover:underline mb-4 inline-block">
-                    ← Voltar ao Dashboard
+                    {t('backToDashboard')}
                 </Link>
                 <h1 className="text-4xl font-bold text-[#1e40af] mb-2 dark:text-blue-400">
-                    Conquistas e Gamificação
+                    {t('pageTitle')}
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400">
-                    Entenda como funciona o sistema de recompensas do Sintropia
+                    {t('pageSubtitle')}
                 </p>
             </div>
 
             {/* Your Progress */}
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl border border-blue-100 dark:border-blue-800 p-6 mb-8">
-                <h2 className="text-xl font-bold text-blue-900 dark:text-blue-200 mb-4">Seu Progresso</h2>
+                <h2 className="text-xl font-bold text-blue-900 dark:text-blue-200 mb-4">{t('progress')}</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl">
                         <span className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{userKarma}</span>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Karma Total</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('karmaTotal')}</p>
                     </div>
                     <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl">
                         <span className="text-3xl font-bold text-orange-600 dark:text-orange-400">{currentStreak}</span>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Dias Seguidos</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('streakDays')}</p>
                     </div>
                     <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl">
                         <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">#{ranking}</span>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Ranking</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('ranking')}</p>
                     </div>
                     <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl">
                         <span className="text-3xl font-bold text-purple-600 dark:text-purple-400">{earnedCount}</span>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Conquistas</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('achievementsCount')}</p>
                     </div>
                 </div>
             </div>
 
             {/* How to Earn Karma */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 mb-8">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Como Ganhar Karma</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t('howToEarn')}</h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
-                    Karma é sua reputação na comunidade. Quanto mais contribuições de qualidade, mais pontos você ganha!
+                    {t('karmaDescription')}
                 </p>
                 <div className="space-y-3">
                     <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
                         <span className="w-16 text-center py-1 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-700 dark:text-green-400 font-bold text-sm">+10</span>
-                        <span className="text-gray-700 dark:text-gray-300">Criar um post</span>
+                        <span className="text-gray-700 dark:text-gray-300">{t('earnActions.createPost')}</span>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
                         <span className="w-16 text-center py-1 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-700 dark:text-green-400 font-bold text-sm">+5</span>
-                        <span className="text-gray-700 dark:text-gray-300">Comentar no post de outra pessoa</span>
+                        <span className="text-gray-700 dark:text-gray-300">{t('earnActions.comment')}</span>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
                         <span className="w-16 text-center py-1 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-700 dark:text-green-400 font-bold text-sm">+3</span>
-                        <span className="text-gray-700 dark:text-gray-300">Quando alguém curte seu post</span>
+                        <span className="text-gray-700 dark:text-gray-300">{t('earnActions.likePost')}</span>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
                         <span className="w-16 text-center py-1 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-700 dark:text-green-400 font-bold text-sm">+2</span>
-                        <span className="text-gray-700 dark:text-gray-300">Quando alguém curte seu comentário</span>
+                        <span className="text-gray-700 dark:text-gray-300">{t('earnActions.likeComment')}</span>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
                         <span className="text-xl mr-2">🔥</span>
-                        <span className="text-gray-700 dark:text-gray-300">Bônus de streak diário (até +10)</span>
+                        <span className="text-gray-700 dark:text-gray-300">{t('earnActions.streakBonus')}</span>
                     </div>
                 </div>
             </div>
 
             {/* Badges */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 mb-8">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Badges por Nível de Karma</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t('badgesByLevel')}</h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                         <span className="text-2xl">🥚</span>
                         <div>
-                            <p className="font-bold">Novato</p>
-                            <p className="text-xs text-gray-500">0+ Karma</p>
+                            <p className="font-bold">{t('badgeLevels.newbie.name')}</p>
+                            <p className="text-xs text-gray-500">{t('badgeLevels.newbie.threshold')}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg">
                         <span className="text-2xl">🌱</span>
                         <div>
-                            <p className="font-bold">Iniciante</p>
-                            <p className="text-xs text-gray-500">10+ Karma</p>
+                            <p className="font-bold">{t('badgeLevels.beginner.name')}</p>
+                            <p className="text-xs text-gray-500">{t('badgeLevels.beginner.threshold')}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-teal-50 dark:bg-teal-900/30 rounded-lg">
                         <span className="text-2xl">🌿</span>
                         <div>
-                            <p className="font-bold">Aprendiz</p>
-                            <p className="text-xs text-gray-500">50+ Karma</p>
+                            <p className="font-bold">{t('badgeLevels.learner.name')}</p>
+                            <p className="text-xs text-gray-500">{t('badgeLevels.learner.threshold')}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
                         <span className="text-2xl">🌟</span>
                         <div>
-                            <p className="font-bold">Contribuidor</p>
-                            <p className="text-xs text-gray-500">100+ Karma</p>
+                            <p className="font-bold">{t('badgeLevels.contributor.name')}</p>
+                            <p className="text-xs text-gray-500">{t('badgeLevels.contributor.threshold')}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
                         <span className="text-2xl">💎</span>
                         <div>
-                            <p className="font-bold">Especialista</p>
-                            <p className="text-xs text-gray-500">500+ Karma</p>
+                            <p className="font-bold">{t('badgeLevels.specialist.name')}</p>
+                            <p className="text-xs text-gray-500">{t('badgeLevels.specialist.threshold')}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3 p-3 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg">
                         <span className="text-2xl">👑</span>
                         <div>
-                            <p className="font-bold">Master</p>
-                            <p className="text-xs text-gray-500">1000+ Karma</p>
+                            <p className="font-bold">{t('badgeLevels.master.name')}</p>
+                            <p className="text-xs text-gray-500">{t('badgeLevels.master.threshold')}</p>
                         </div>
                     </div>
                 </div>
@@ -191,9 +192,9 @@ export default async function ConquistasPage() {
 
             {/* Streak Bonus */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 mb-8">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">🔥 Bônus de Streak</h2>
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">🔥 {t('streakBonus')}</h2>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
-                    Acesse diariamente para ganhar bônus de karma progressivos:
+                    {t('streakDescription')}
                 </p>
                 <div className="grid grid-cols-7 gap-2">
                     {[
@@ -213,7 +214,7 @@ export default async function ConquistasPage() {
                                     : 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400'
                             }`}
                         >
-                            <span className="text-lg font-bold">{day} dia</span>
+                            <span className="text-lg font-bold">{day} {t('day')}</span>
                             <span className="text-sm">+{bonus}</span>
                         </div>
                     ))}
@@ -223,7 +224,7 @@ export default async function ConquistasPage() {
             {/* All Achievements */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6">
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-                    🏆 Todas as Conquistas ({earnedCount}/{achievements.length})
+                    🏆 {t('allAchievements')} ({earnedCount}/{achievements.length})
                 </h2>
                 <AchievementList achievements={achievements} />
             </div>

@@ -8,10 +8,12 @@ import { CreatePostButton } from "@/components/posts/CreatePostButton";
 import { PostModal } from "@/components/posts/PostModal";
 import { PostWithRelations } from "@/types";
 import { User } from "@supabase/supabase-js";
+import { useTranslations } from "next-intl";
 
 type SortOption = "top" | "new" | "best";
 
 export default function FeedClient({ initialPosts }: { initialPosts: PostWithRelations[] }) {
+    const t = useTranslations('Community.feed');
     const [posts, setPosts] = useState(initialPosts);
     const [selectedPost, setSelectedPost] = useState<PostWithRelations | null>(null);
     const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -84,9 +86,9 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
     };
 
     const sortOptions: { value: SortOption; label: string }[] = [
-        { value: "top", label: "Top" },
-        { value: "new", label: "Novos" },
-        { value: "best", label: "Melhores" },
+        { value: "top", label: t('sortTop') },
+        { value: "new", label: t('sortNew') },
+        { value: "best", label: t('sortBest') },
     ];
 
     return (
@@ -95,7 +97,7 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
                 <div className="mb-6">
                     <div className="flex items-center justify-between mb-2">
                         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-                            Feed de Hoje
+                            {t('todayFeed')}
                         </h1>
                         <div className="flex gap-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
                             {sortOptions.map((option) => (
@@ -113,7 +115,7 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
                         </div>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400">
-                        Compartilhe insights e discuta as tendências do mercado de carbono.
+                        {t('shareInsight')}
                     </p>
                 </div>
 
@@ -133,8 +135,8 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
                         ) : (
                             <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700">
                                 <div className="text-5xl mb-4">🌱</div>
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Ainda não há posts</h3>
-                                <p className="text-gray-500">Seja o primeiro a compartilhar algo com a comunidade!</p>
+                                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t('noPosts')}</h3>
+                                <p className="text-gray-500">{t('beFirst')}</p>
                             </div>
                         )}
                     </div>

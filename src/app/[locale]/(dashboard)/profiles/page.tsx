@@ -14,6 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function ProfilesPage() {
     const supabase = await createClient();
+    const t = await getTranslations('Community.profiles');
 
     // Fetch all profiles with their stats
     const { data: profiles } = await supabase
@@ -46,21 +47,21 @@ export default async function ProfilesPage() {
     }, {} as Record<string, number>) || {};
 
     const getBadge = (karma: number) => {
-        if (karma >= 1000) return { emoji: '👑', label: 'Master' };
-        if (karma >= 500) return { emoji: '💎', label: 'Especialista' };
-        if (karma >= 100) return { emoji: '🌟', label: 'Contribuidor' };
-        if (karma >= 50) return { emoji: '🌿', label: 'Aprendiz' };
-        if (karma >= 10) return { emoji: '🌱', label: 'Iniciante' };
-        return { emoji: '🥚', label: 'Novato' };
+        if (karma >= 1000) return { emoji: '👑', label: t('badges.master') };
+        if (karma >= 500) return { emoji: '💎', label: t('badges.specialist') };
+        if (karma >= 100) return { emoji: '🌟', label: t('badges.contributor') };
+        if (karma >= 50) return { emoji: '🌿', label: t('badges.learner') };
+        if (karma >= 10) return { emoji: '🌱', label: t('badges.beginner') };
+        return { emoji: '🥚', label: t('badges.newbie') };
     };
 
     const getUserTypeLabel = (type: string) => {
         switch (type) {
-            case 'company': return '🏢 Empresa';
-            case 'ong': return '🤝 ONG';
-            case 'government': return '🏛️ Governo';
-            case 'professor': return '🧑‍🏫 Professor';
-            default: return '👤 Indivíduo';
+            case 'company': return `🏢 ${t('userTypes.company')}`;
+            case 'ong': return `🤝 ${t('userTypes.ong')}`;
+            case 'government': return `🏛️ ${t('userTypes.government')}`;
+            case 'professor': return `🧑‍🏫 ${t('userTypes.professor')}`;
+            default: return `👤 ${t('userTypes.individual')}`;
         }
     };
 
@@ -68,10 +69,10 @@ export default async function ProfilesPage() {
         <div className="max-w-7xl mx-auto px-4 py-12">
             <div className="mb-8">
                 <h2 className="text-4xl font-bold text-[#1e40af] mb-2 dark:text-blue-400">
-                    Perfis da Comunidade
+                    {t('title')}
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400">
-                    Explore os membros da comunidade Sintropia e suas contribuições
+                    {t('explore')}
                 </p>
             </div>
 
@@ -98,7 +99,7 @@ export default async function ProfilesPage() {
                                             <h3 className="font-bold text-gray-900 dark:text-white truncate">
                                                 {profile.display_name || profile.username || 'Usuário'}
                                             </h3>
-                                            <p className="text-sm text-gray-500">@{profile.username || 'sem usuario'}</p>
+                                            <p className="text-sm text-gray-500">@{profile.username || t('noUsername')}</p>
                                             <div className="flex items-center gap-2 mt-1">
                                                 <span className="text-xs">{badge.emoji}</span>
                                                 <span className="text-xs text-gray-500">{badge.label}</span>
@@ -128,11 +129,11 @@ export default async function ProfilesPage() {
                                     <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100 dark:border-gray-700 mt-auto">
                                         <div className="text-center">
                                             <div className="text-lg font-bold text-gray-900 dark:text-white">{posts}</div>
-                                            <div className="text-xs text-gray-500">Posts</div>
+                                            <div className="text-xs text-gray-500">{t('posts')}</div>
                                         </div>
                                         <div className="text-center">
                                             <div className="text-lg font-bold text-gray-900 dark:text-white">{comments}</div>
-                                            <div className="text-xs text-gray-500">Comentários</div>
+                                            <div className="text-xs text-gray-500">{t('comments')}</div>
                                         </div>
                                     </div>
                                 </Link>
@@ -142,7 +143,7 @@ export default async function ProfilesPage() {
                                         href={`/feed?author=${profile.username}`}
                                         className="block w-full text-center py-2 px-4 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl text-sm font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors"
                                     >
-                                        Ver Atividades →
+                                        {t('viewActivities')}
                                     </Link>
                                 </div>
                             </div>
@@ -151,15 +152,15 @@ export default async function ProfilesPage() {
                 ) : (
                     <div className="col-span-full text-center py-12">
                         <div className="text-6xl mb-4 opacity-30">👥</div>
-                        <h3 className="text-xl font-bold text-gray-400 mb-2">Nenhum perfil encontrado</h3>
-                        <p className="text-gray-500">Seja o primeiro a participar da comunidade!</p>
+                        <h3 className="text-xl font-bold text-gray-400 mb-2">{t('noProfiles')}</h3>
+                        <p className="text-gray-500">{t('beFirstProfile')}</p>
                     </div>
                 )}
             </div>
 
             {profiles && profiles.length >= 50 && (
                 <div className="text-center mt-8">
-                    <p className="text-gray-500 text-sm">Mostrando os top 50 membros por pontos</p>
+                    <p className="text-gray-500 text-sm">{t('showTop')}</p>
                 </div>
             )}
         </div>

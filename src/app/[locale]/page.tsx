@@ -52,9 +52,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" aria-hidden="true"></div>
               <span className="text-[10px] uppercase font-bold tracking-widest text-slate-600">{tIndex('hero.badge')}</span>
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-6xl lg:text-7xl font-bold tracking-tight text-forest-green leading-[1.2] sm:leading-[1.15] lg:leading-[1.1]">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-forest-green leading-[1.2] sm:leading-[1.15]">
               <HeroTitle title={tIndex('title')} locale={locale} />
             </h1>
+            <p className="text-sm sm:text-base text-slate-600 max-w-xl">
+              {tIndex('hero.promo')}
+            </p>
             <div className="flex items-center gap-4 lg:gap-6 pt-2 lg:pt-4">
               <Link
                 href="/register"

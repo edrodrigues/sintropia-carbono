@@ -4,6 +4,7 @@
         "hero": {
             "badge": "Inteligência de mercado ao vivo",
             "subtitle": "Plataformas globais cobram $15/mês por esses dados. Nós fornecemos rankings, preços e tendências em tempo real para o mercado global — completamente grátis.",
+            "promo": "Plataformas globais cobram $249/mês por esses dados. Nós fornecemos rankings, preços e tendências em tempo real para o mercado — completamente grátis.",
             "cta": "Comece Grátis"
         },
         "features": {
@@ -662,23 +663,98 @@
     "Community": {
         "feed": {
             "title": "Feed de Notícias",
-            "subtitle": "Insights e posts da nossa rede de especialistas."
+            "subtitle": "Insights e posts da nossa rede de especialistas.",
+            "todayFeed": "Feed de Hoje",
+            "shareInsight": "Compartilhe insights e discuta as tendências do mercado de carbono.",
+            "sortTop": "Top",
+            "sortNew": "Novos",
+            "sortBest": "Melhores",
+            "noPosts": "Ainda não há posts",
+            "beFirst": "Seja o primeiro a compartilhar algo com a comunidade!"
         },
         "profiles": {
             "title": "Perfis da Comunidade",
-            "subtitle": "Veja todos os perfis da comunidade."
+            "subtitle": "Veja todos os perfis da comunidade.",
+            "explore": "Explore os membros da comunidade Sintropia e suas contribuições",
+            "posts": "Posts",
+            "comments": "Comentários",
+            "viewActivities": "Ver Atividades →",
+            "noProfiles": "Nenhum perfil encontrado",
+            "beFirstProfile": "Seja o primeiro a participar da comunidade!",
+            "showTop": "Mostrando os top 50 membros por pontos",
+            "noUsername": "sem usuario",
+            "noAchievement": "Sem conquista ainda",
+            "badges": {
+                "master": "Master",
+                "specialist": "Especialista",
+                "contributor": "Contribuidor",
+                "learner": "Aprendiz",
+                "beginner": "Iniciante",
+                "newbie": "Novato"
+            },
+            "userTypes": {
+                "company": "Empresa",
+                "ong": "ONG",
+                "government": "Governo",
+                "professor": "Professor",
+                "individual": "Indivíduo"
+            }
         },
         "leaderboard": {
             "title": "Ranking de Membros",
             "subtitle": "Veja quem são os maiores contribuidores.",
+            "pageTitle": "Ranking dos Mais Ativos",
+            "pageSubtitle": "Os membros mais ativos que contribuem para a comunidade.",
             "rank": "Rank",
             "user": "Usuário",
             "achievements": "Conquistas",
-            "karma": "Karma"
+            "karma": "Karma",
+            "points": "Pontos",
+            "pointsTooltip": "Pontos ganhos com contribuições na comunidade",
+            "noData": "Nenhum dado disponível",
+            "joinNow": "Comece a participar para aparecer no ranking!",
+            "noAchievement": "Sem conquista ainda",
+            "badges": {
+                "master": "Master",
+                "specialist": "Especialista",
+                "contributor": "Contribuidor",
+                "learner": "Aprendiz",
+                "beginner": "Iniciante"
+            }
         },
         "conquistas": {
             "title": "Missões e Conquistas",
-            "subtitle": "Ganhe karma e suba de nível na plataforma."
+            "subtitle": "Ganhe karma e suba de nível na plataforma.",
+            "pageTitle": "Conquistas e Gamificação",
+            "pageSubtitle": "Entenda como funciona o sistema de recompensas do Sintropia",
+            "backToDashboard": "← Voltar ao Dashboard",
+            "progress": "Seu Progresso",
+            "karmaTotal": "Karma Total",
+            "streakDays": "Dias Seguidos",
+            "ranking": "Ranking",
+            "achievementsCount": "Conquistas",
+            "howToEarn": "Como Ganhar Karma",
+            "karmaDescription": "Karma é sua reputação na comunidade. Quanto mais contribuições de qualidade, mais pontos você ganha!",
+            "earnActions": {
+                "createPost": "Criar um post",
+                "comment": "Comentar no post de outra pessoa",
+                "likePost": "Quando alguém curte seu post",
+                "likeComment": "Quando alguém curte seu comentário",
+                "streakBonus": "Bônus de streak diário (até +10)"
+            },
+            "badgesByLevel": "Badges por Nível de Karma",
+            "badgeLevels": {
+                "newbie": { "name": "Novato", "threshold": "0+ Karma" },
+                "beginner": { "name": "Iniciante", "threshold": "10+ Karma" },
+                "learner": { "name": "Aprendiz", "threshold": "50+ Karma" },
+                "contributor": { "name": "Contribuidor", "threshold": "100+ Karma" },
+                "specialist": { "name": "Especialista", "threshold": "500+ Karma" },
+                "master": { "name": "Master", "threshold": "1000+ Karma" }
+            },
+            "streakBonus": "Bônus de Streak",
+            "streakDescription": "Acesse diariamente para ganhar bônus de karma progressivos:",
+            "day": "dia",
+            "allAchievements": "Todas as Conquistas"
         }
     },
     "Perfil": {

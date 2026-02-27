@@ -21,6 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function LeaderboardPage() {
   const supabase = await createClient();
+  const t = await getTranslations('Community.leaderboard');
 
   const { data: users } = await supabase
     .from("profiles")
@@ -44,11 +45,11 @@ export default async function LeaderboardPage() {
 
   const getBadges = (karma: number) => {
     const badges = [];
-    if (karma >= 1000) badges.push("👑 Master");
-    else if (karma >= 500) badges.push("💎 Especialista");
-    else if (karma >= 100) badges.push("🌟 Contribuidor");
-    else if (karma >= 50) badges.push("🌿 Aprendiz");
-    else if (karma >= 10) badges.push("🌱 Iniciante");
+    if (karma >= 1000) badges.push(`👑 ${t('badges.master')}`);
+    else if (karma >= 500) badges.push(`💎 ${t('badges.specialist')}`);
+    else if (karma >= 100) badges.push(`🌟 ${t('badges.contributor')}`);
+    else if (karma >= 50) badges.push(`🌿 ${t('badges.learner')}`);
+    else if (karma >= 10) badges.push(`🌱 ${t('badges.beginner')}`);
     return badges;
   };
 
@@ -56,10 +57,10 @@ export default async function LeaderboardPage() {
     <div className="max-w-7xl mx-auto px-8 lg:px-16">
       <div className="mb-12">
         <h1 className="text-5xl font-black text-gray-900 dark:text-gray-100 mb-4 tracking-tight">
-          Ranking dos Mais Ativos
+          {t('pageTitle')}
         </h1>
         <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
-          Os membros mais ativos que contribuem para a comunidade.
+          {t('pageSubtitle')}
         </p>
       </div>
 
@@ -67,12 +68,12 @@ export default async function LeaderboardPage() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableHeader>Rank</TableHeader>
-              <TableHeader>Usuário</TableHeader>
-              <TableHeader>Conquistas</TableHeader>
+              <TableHeader>{t('rank')}</TableHeader>
+              <TableHeader>{t('user')}</TableHeader>
+              <TableHeader>{t('achievements')}</TableHeader>
               <TableHeader className="text-right">
-                <Tooltip content="Pontos ganhos com contribuições na comunidade">
-                  Pontos
+                <Tooltip content={t('pointsTooltip')}>
+                  {t('points')}
                 </Tooltip>
               </TableHeader>
             </TableRow>
@@ -123,7 +124,7 @@ export default async function LeaderboardPage() {
                           </span>
                         ))
                       ) : (
-                        <span className="text-gray-400 text-xs italic">Sem conquista ainda</span>
+                        <span className="text-gray-400 text-xs italic">{t('noAchievement')}</span>
                       )}
                     </div>
                   </TableCell>
@@ -141,8 +142,8 @@ export default async function LeaderboardPage() {
         {(!users || users.length === 0) && (
           <div className="text-center py-24">
             <div className="text-6xl mb-6 opacity-20">🌫️</div>
-            <h3 className="text-xl font-bold text-gray-400">Nenhum dado disponível</h3>
-            <p className="text-gray-500">Comece a participar para aparecer no ranking!</p>
+            <h3 className="text-xl font-bold text-gray-400">{t('noData')}</h3>
+            <p className="text-gray-500">{t('joinNow')}</p>
           </div>
         )}
       </Card>
