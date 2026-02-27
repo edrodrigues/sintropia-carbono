@@ -1,4 +1,8 @@
-export default function Posts() {
+import { getTranslations } from 'next-intl/server';
+
+export default async function Posts() {
+  const t = await getTranslations('Posts');
+  
   const posts = [
     {
       id: 1,
@@ -33,13 +37,13 @@ export default function Posts() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Posts</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{t('pageTitle')}</h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
-            Comunidade e discussões sobre mercado de carbono
+            {t('pageSubtitle')}
           </p>
         </div>
         <button className="bg-[#1e40af] hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
-          + Novo Post
+          {t('newPost')}
         </button>
       </div>
 

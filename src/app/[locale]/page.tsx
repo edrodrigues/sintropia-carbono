@@ -173,7 +173,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                       </div>
                     </div>
                     <span className="text-sm font-bold flex-1 truncate">{c.display_name || c.username}</span>
-                    <span className="text-[11px] font-black text-emerald-500 font-mono">{c.karma > 1000 ? `${(c.karma / 1000).toFixed(1)}k` : c.karma} pts</span>
+                    <span className="text-[11px] font-black text-emerald-500 font-mono">{c.karma > 1000 ? `${(c.karma / 1000).toFixed(1)}k` : c.karma} {tIndex('stats.pts')}</span>
                   </div>
                 ))}
               </div>
@@ -205,7 +205,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 <div className="space-y-4">
                   <div className="flex justify-between items-center text-xs border-b border-slate-50 pb-3">
                     <span className="text-slate-500 font-medium">{tIndex('sidebar.karma')}</span>
-                    <span className="font-bold text-emerald-600 font-mono">{profile.karma?.toLocaleString() || 0} pts</span>
+                    <span className="font-bold text-emerald-600 font-mono">{profile.karma?.toLocaleString() || 0} {tIndex('stats.pts')}</span>
                   </div>
 
                   <Link href="/conquistas" className="block w-full py-4 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-center rounded-xl text-xs font-bold transition-all uppercase tracking-widest mt-4">{tIndex('sidebar.viewAchievements')}</Link>

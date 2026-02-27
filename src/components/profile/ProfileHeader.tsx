@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ProgressBar } from "./ProgressBar";
 import { AchievementBadges, type Achievement } from "./AchievementBadges";
 import { getUserTypeIcon } from "@/lib/utils/user";
+import { useTranslations } from "next-intl";
 
 interface ProfileHeaderProps {
   profile: {
@@ -35,6 +36,8 @@ const getBadge = (karma: number) => {
 };
 
 export function ProfileHeader({ profile, achievements, isOwnProfile = false }: ProfileHeaderProps) {
+  const t = useTranslations('ProfileHeader');
+  const tPerfil = useTranslations('Perfil');
   const karma = profile.karma || 0;
   const badge = getBadge(karma);
 
@@ -77,7 +80,7 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
               <ProgressBar
                 current={karma}
                 max={badge.nextLevel}
-                label={`Progresso para próximo nível`}
+                label={t('progressLabel')}
               />
             </div>
           </div>
@@ -85,9 +88,12 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
           {isOwnProfile && (
             <Link
               href="/profile/edit"
-              className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-medium rounded-xl transition-colors"
+              className="px-6 py-3 bg-white hover:bg-gray-100 text-blue-700 font-bold rounded-xl transition-colors flex items-center gap-2 shadow-lg"
             >
-              Editar Perfil
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+              {tPerfil('editProfile')}
             </Link>
           )}
         </div>
@@ -131,7 +137,7 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
 
       <div className="mb-6">
         <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-          Conquistas
+          {tPerfil('achievements')}
         </h3>
         <AchievementBadges achievements={achievements || []} />
       </div>

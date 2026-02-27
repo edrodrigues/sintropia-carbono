@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 interface StatsDashboardProps {
   stats: {
     posts: number;
@@ -10,6 +12,8 @@ interface StatsDashboardProps {
 }
 
 export function StatsDashboard({ stats }: StatsDashboardProps) {
+  const t = useTranslations('StatsDashboard');
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4">
@@ -21,7 +25,7 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
           </div>
           <div>
             <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.posts}</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Posts</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t('posts')}</p>
           </div>
         </div>
       </div>
@@ -35,7 +39,7 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
           </div>
           <div>
             <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.comments}</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Comentários</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t('comments')}</p>
           </div>
         </div>
       </div>
@@ -49,7 +53,7 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
           </div>
           <div>
             <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.upvotes}</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Upvotes</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t('upvotes')}</p>
           </div>
         </div>
       </div>
@@ -65,7 +69,7 @@ export function StatsDashboard({ stats }: StatsDashboardProps) {
             <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
               {stats.ranking ? `#${stats.ranking}` : "-"}
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Ranking</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t('ranking')}</p>
           </div>
         </div>
       </div>

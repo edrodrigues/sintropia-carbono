@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function MyProfilePage() {
   const supabase = await createClient();
+  const t = await getTranslations('Perfil');
 
   const {
     data: { user },
@@ -100,13 +101,13 @@ export default async function MyProfilePage() {
 
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-          Meus Posts
+          {t('myPosts')}
         </h2>
         <Link
           href="/feed"
           className="text-sm text-[#1e40af] dark:text-blue-400 hover:underline"
         >
-          Criar novo post →
+          {t('createNew')}
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -141,9 +142,9 @@ export default async function MyProfilePage() {
           ))
         ) : (
           <div className="col-span-full text-center py-8 text-gray-500">
-            Nenhum post ainda.{" "}
+            {t('noPosts')}{" "}
             <Link href="/feed" className="text-[#1e40af] hover:underline">
-              Criar primeiro post
+              {t('createFirst')}
             </Link>
           </div>
         )}

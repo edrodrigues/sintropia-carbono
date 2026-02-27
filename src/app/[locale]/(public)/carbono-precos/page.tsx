@@ -43,6 +43,7 @@ export default async function CarbonoPrecos({ params }: { params: Promise<{ loca
   const tQuality = await getTranslations({ locale, namespace: 'CarbonoPrecos.qualityLevels' });
   const tBrazil = await getTranslations({ locale, namespace: 'CarbonoPrecos.brazil' });
   const tGlossary = await getTranslations({ locale, namespace: 'CarbonoPrecos.glossaryTerms' });
+  const tRegulated = await getTranslations({ locale, namespace: 'CarbonoPrecos.regulatedMarkets' });
   
     return (
         <>
@@ -83,9 +84,9 @@ export default async function CarbonoPrecos({ params }: { params: Promise<{ loca
                     </div>
                     <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
                         {[
-                            { title: "🇪🇺 EU ETS", price: "€60-80", detail: "Média 2024: €65", bg: "bg-blue-50 dark:bg-blue-900/20", border: "border-blue-200 dark:border-blue-800" },
-                            { title: "🇬🇧 UK ETS", price: "£35-45", detail: "Média 2024: £40", bg: "bg-purple-50 dark:bg-purple-900/20", border: "border-purple-200 dark:border-purple-800" },
-                            { title: "🇺🇸 California", price: "$28-32", detail: "Mínimo: $20.82", bg: "bg-green-50 dark:bg-green-900/20", border: "border-green-200 dark:border-green-800" }
+                            { title: "🇪🇺 " + tRegulated('euEts'), price: "€60-80", detail: `${tRegulated('avg2024')}: €65`, bg: "bg-blue-50 dark:bg-blue-900/20", border: "border-blue-200 dark:border-blue-800" },
+                            { title: "🇬🇧 " + tRegulated('ukEts'), price: "£35-45", detail: `${tRegulated('avg2024')}: £40`, bg: "bg-purple-50 dark:bg-purple-900/20", border: "border-purple-200 dark:border-purple-800" },
+                            { title: "🇺🇸 " + tRegulated('california'), price: "$28-32", detail: `${tRegulated('minimum')}: $20.82`, bg: "bg-green-50 dark:bg-green-900/20", border: "border-green-200 dark:border-green-800" }
                         ].map((market, i) => (
                             <div key={i} className={`${market.bg} rounded-lg p-4 border ${market.border}`}>
                                 <h4 className="font-bold text-gray-800 dark:text-gray-100 mb-1">{market.title}</h4>
@@ -148,17 +149,17 @@ export default async function CarbonoPrecos({ params }: { params: Promise<{ loca
                             <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-4">
                                 <h5 className="font-bold text-gray-800 dark:text-gray-100 mb-3 border-b border-gray-100 dark:border-gray-700 pb-2">{tBrazil('nbs')}</h5>
                                 <ul className="space-y-2 text-sm">
-                                    <li className="flex justify-between"><span>REDD+ (Alta Qualidade)</span><span className="font-mono font-bold">$12-18</span></li>
-                                    <li className="flex justify-between"><span>Restauração Nativa (ARR)</span><span className="font-mono font-bold">$15-25</span></li>
-                                    <li className="flex justify-between"><span>Mangues (Blue Carbon)</span><span className="font-mono font-bold">$20-30</span></li>
+                                    <li className="flex justify-between"><span>{tBrazil('nbsTypes.redd')}</span><span className="font-mono font-bold">$12-18</span></li>
+                                    <li className="flex justify-between"><span>{tBrazil('nbsTypes.restoration')}</span><span className="font-mono font-bold">$15-25</span></li>
+                                    <li className="flex justify-between"><span>{tBrazil('nbsTypes.mangroves')}</span><span className="font-mono font-bold">$20-30</span></li>
                                 </ul>
                             </div>
                             <div className="border border-gray-200 dark:border-gray-700 rounded-xl p-4">
                                 <h5 className="font-bold text-gray-800 dark:text-gray-100 mb-3 border-b border-gray-100 dark:border-gray-700 pb-2">{tBrazil('tech')}</h5>
                                 <ul className="space-y-2 text-sm">
-                                    <li className="flex justify-between"><span>Fogões Eficientes</span><span className="font-mono font-bold">$4-8</span></li>
-                                    <li className="flex justify-between"><span>Captura de Metano</span><span className="font-mono font-bold">$6-12</span></li>
-                                    <li className="flex justify-between"><span>Biochar</span><span className="font-mono font-bold">$100-200</span></li>
+                                    <li className="flex justify-between"><span>{tBrazil('techTypes.stoves')}</span><span className="font-mono font-bold">$4-8</span></li>
+                                    <li className="flex justify-between"><span>{tBrazil('techTypes.methane')}</span><span className="font-mono font-bold">$6-12</span></li>
+                                    <li className="flex justify-between"><span>{tBrazil('techTypes.biochar')}</span><span className="font-mono font-bold">$100-200</span></li>
                                 </ul>
                             </div>
                         </div>

@@ -19,6 +19,8 @@ export default async function PublicProfilePage(props: PageProps) {
     const t = await getTranslations({ locale, namespace: 'Perfil' });
     const supabase = await createClient();
 
+    const { data: { user: currentUser } } = await supabase.auth.getUser();
+
     const { data: profile } = await supabase
         .from("profiles")
         .select("*")
@@ -28,6 +30,8 @@ export default async function PublicProfilePage(props: PageProps) {
     if (!profile) {
         notFound();
     }
+
+    const isOwnProfile = currentUser?.id === profile.id;
 
     const { data: posts } = await supabase
         .from("posts")
@@ -82,7 +86,7 @@ export default async function PublicProfilePage(props: PageProps) {
             <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
                 <Breadcrumb />
 
-                <ProfileHeader profile={profile} achievements={achievements} />
+                <ProfileHeader profile={profile} achievements={achievements} isOwnProfile={isOwnProfile} />
 
                 <StatsDashboard stats={stats} />
 

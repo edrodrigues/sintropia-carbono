@@ -101,6 +101,8 @@ const dataSources = [
 export default async function CarbonoBrasil({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'Carbon' });
+  const tCards = await getTranslations({ locale, namespace: 'Carbon.cards' });
+  const tTable = await getTranslations({ locale, namespace: 'Carbon.table' });
   
   const totalVolume = carbonoData.reduce((acc, row) => acc + row.vol2025, 0);
   const crescimento = ((totalVolume - carbonoData.reduce((acc, row) => acc + row.vol2024, 0)) / carbonoData.reduce((acc, row) => acc + row.vol2024, 0)) * 100;
@@ -125,7 +127,7 @@ export default async function CarbonoBrasil({ params }: { params: Promise<{ loca
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-12 mb-8">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
-              Volume Total 2025
+              {tCards('totalVolume')}
             </p>
             <h3 className="text-3xl font-bold text-[#1e40af]">
               {totalVolume.toFixed(1)}M
@@ -134,23 +136,23 @@ export default async function CarbonoBrasil({ params }: { params: Promise<{ loca
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
-              Crescimento Médio
+              {tCards('growth')}
             </p>
             <h3 className="text-3xl font-bold text-green-600">+{crescimento.toFixed(1)}%</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">vs 2024</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{tCards('vsLastYear')}</p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
-              Setores
+              {tCards('sectors')}
             </p>
             <h3 className="text-3xl font-bold text-[#1e40af]">{setores.length}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              setores representados
+              {tCards('sectorsRepresented')}
             </p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
-              Líder
+              {tCards('leader')}
             </p>
             <h3 className="text-2xl font-bold text-[#1e40af]">Banco Votorantim</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">5.2M tCO2e</p>
@@ -162,19 +164,19 @@ export default async function CarbonoBrasil({ params }: { params: Promise<{ loca
             data={carbonoData as unknown as Record<string, unknown>[]}
             defaultMobileColumns={["rank", "empresa", "delta"]}
             columns={[
-              { key: "rank", header: "Rank", align: "center" },
-              { key: "empresa", header: "Empresa" },
-              { key: "setor", header: "Setor", mobileHidden: true },
-              { key: "vol2024", header: "Vol 2024", align: "right", mobileHidden: true },
-              { key: "vol2025", header: "Vol 2025", align: "right", mobileHidden: true },
-              { key: "delta", header: "Delta %", align: "right" },
+              { key: "rank", header: tTable('rank'), align: "center" },
+              { key: "empresa", header: tTable('company') },
+              { key: "setor", header: tTable('sector'), mobileHidden: true },
+              { key: "vol2024", header: tTable('vol2024'), align: "right", mobileHidden: true },
+              { key: "vol2025", header: tTable('vol2025'), align: "right", mobileHidden: true },
+              { key: "delta", header: tTable('delta'), align: "right" },
             ]}
           />
         </Card>
 
         <div className="mt-8 bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4">
-            Setores Representados
+            {t('sectorsRepresented')}
           </h3>
           <div className="flex flex-wrap gap-2">
             {setores.map((setor) => (

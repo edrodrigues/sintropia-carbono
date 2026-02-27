@@ -96,6 +96,10 @@ const dataSources = [
 export default async function IrecBrasil({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'IREC' });
+  const tCards = await getTranslations({ locale, namespace: 'IREC.cards' });
+  const tTable = await getTranslations({ locale, namespace: 'IREC.table' });
+  const tLegend = await getTranslations({ locale, namespace: 'IREC.legend' });
+  const tInsights = await getTranslations({ locale, namespace: 'IREC.insights' });
   
   const totalVolume = irecData.reduce((acc, row) => acc + row.vol2025, 0);
   const crescimento = ((totalVolume - irecData.reduce((acc, row) => acc + row.vol2024, 0)) / irecData.reduce((acc, row) => acc + row.vol2024, 0)) * 100;
@@ -107,12 +111,10 @@ export default async function IrecBrasil({ params }: { params: Promise<{ locale:
         <Breadcrumb />
         <div className="mb-8">
           <h2 className="text-4xl font-bold text-[#1e40af] mb-2">
-            {t('title')}
+            {t('pageTitle')}
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
-            {t('subtitle')}
-            Top 25 empresas brasileiras por volume de certificados I-REC
-            transacionados.
+            {t('pageSubtitle')}
           </p>
         </div>
 
@@ -121,7 +123,7 @@ export default async function IrecBrasil({ params }: { params: Promise<{ locale:
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-12 mb-8">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
-              Volume Total 2025
+              {tCards('totalVolume')}
             </p>
             <h3 className="text-3xl font-bold text-[#1e40af]">
               {(totalVolume / 1000).toFixed(1)}M
@@ -130,23 +132,23 @@ export default async function IrecBrasil({ params }: { params: Promise<{ locale:
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
-              Crescimento Médio
+              {tCards('growth')}
             </p>
             <h3 className="text-3xl font-bold text-green-600">+{crescimento.toFixed(1)}%</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">vs 2024</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{tCards('vsLastYear')}</p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
-              Vendedores
+              {tCards('sellers')}
             </p>
             <h3 className="text-3xl font-bold text-green-600">3</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              principais geradores
+              {tCards('topGenerators')}
             </p>
           </div>
           <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
-              Líder
+              {tCards('leader')}
             </p>
             <h3 className="text-2xl font-bold text-[#1e40af]">Eletrobras</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -160,43 +162,43 @@ export default async function IrecBrasil({ params }: { params: Promise<{ locale:
             data={irecData as unknown as Record<string, unknown>[]}
             defaultMobileColumns={["rank", "empresa", "papel", "delta"]}
             columns={[
-              { key: "rank", header: "Rank", align: "center" },
-              { key: "empresa", header: "Empresa" },
-              { key: "papel", header: "Papel no Mercado" },
-              { key: "vol2024", header: "Vol 2024 (mil)", align: "right" },
-              { key: "vol2025", header: "Vol 2025 (mil)", align: "right" },
-              { key: "delta", header: "Delta %", align: "right" },
+              { key: "rank", header: tTable('rank'), align: "center" },
+              { key: "empresa", header: tTable('company') },
+              { key: "papel", header: tTable('role') },
+              { key: "vol2024", header: tTable('vol2024'), align: "right" },
+              { key: "vol2025", header: tTable('vol2025'), align: "right" },
+              { key: "delta", header: tTable('delta'), align: "right" },
             ]}
           />
         </Card>
 
         <div className="mt-8 bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
           <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4">
-            Legenda - Papel no Mercado
+            {tLegend('title')}
           </h3>
           <div className="flex flex-wrap gap-4">
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white bg-green-600">
-                Vendedor
+                {tLegend('seller')}
               </span>
               <span className="text-sm text-gray-600 dark:text-gray-400">
-                Gera e vende I-RECs
+                {tLegend('sellerDesc')}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white bg-blue-600">
-                Comprador
+                {tLegend('buyer')}
               </span>
               <span className="text-sm text-gray-600 dark:text-gray-400">
-                Adquire I-RECs para compensação
+                {tLegend('buyerDesc')}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white bg-purple-600">
-                Ambos
+                {tLegend('both')}
               </span>
               <span className="text-sm text-gray-600 dark:text-gray-400">
-                Atua em ambos os lados do mercado
+                {tLegend('bothDesc')}
               </span>
             </div>
           </div>
@@ -205,29 +207,26 @@ export default async function IrecBrasil({ params }: { params: Promise<{ locale:
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-green-900 dark:text-green-200 mb-2">
-              ⚡ Eletrobras Líder
+              ⚡ {tInsights('leaderTitle')}
             </h4>
             <p className="text-sm text-green-800 dark:text-green-300">
-              A Eletrobras é a maior vendedora de I-RECs do Brasil, com 14.5
-              milhões de certificados em 2025, crescimento de 57.6%.
+              {tInsights('leaderDesc')}
             </p>
           </div>
           <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
-              📈 Maior Crescimento
+              📈 {tInsights('growthTitle')}
             </h4>
             <p className="text-sm text-blue-800 dark:text-blue-300">
-              A Voltalia Brasil apresentou o maior crescimento do mercado com 127%
-              de aumento no volume de I-RECs.
+              {tInsights('growthDesc')}
             </p>
           </div>
           <div className="bg-purple-50 dark:bg-purple-900/20 border-l-4 border-purple-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-purple-900 dark:text-purple-200 mb-2">
-              🏢 Setor Financeiro
+              🏢 {tInsights('financeTitle')}
             </h4>
             <p className="text-sm text-purple-800 dark:text-purple-300">
-              Bancos como Itaú, Bradesco e Banco do Brasil são grandes compradores
-              de I-RECs para compensação de operações.
+              {tInsights('financeDesc')}
             </p>
           </div>
         </div>

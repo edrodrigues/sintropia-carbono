@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function CarbonoProjetos({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'CarbonoProjetos' });
+  const tIds = await getTranslations({ locale, namespace: 'CarbonoProjetos.projectIdDetails' });
   
   const dataSources = [
     { name: "CarbonPlan", url: "https://carbonplan.org" },
@@ -58,12 +59,12 @@ export default async function CarbonoProjetos({ params }: { params: Promise<{ lo
               {t('projectIdsDesc')}
             </p>
             <ul className="list-disc pl-5 space-y-2 text-sm">
-              <li><strong className="text-blue-600 dark:text-blue-400">VCS</strong> - Verra Carbon Standard (ex: VCS2547) - O maior sistema de registry de créditos de carbono do mundo</li>
-              <li><strong className="text-green-600 dark:text-green-400">CAR</strong> - Climate Action Reserve (ex: CAR1019) - Registry americano</li>
-              <li><strong className="text-purple-600 dark:text-purple-400">ACR</strong> - American Carbon Registry (ex: ACR1000) - Registro americano de carbono</li>
-              <li><strong className="text-orange-600 dark:text-orange-400">GLD</strong> - Gold Standard (ex: GLD7737) - Standard suíço para projetos de carbono e desenvolvimento sustentável</li>
-              <li><strong className="text-yellow-600 dark:text-yellow-400">CDM</strong> - Clean Development Mechanism (ex: CDM1234) - Mecanismo de Desenvolvimento Limpo da ONU</li>
-              <li><strong className="text-pink-600 dark:text-pink-400">GS</strong> - Gold Standard (ex: GS1234) - Versão moderna do Gold Standard</li>
+              <li><strong className="text-blue-600 dark:text-blue-400">VCS</strong> - {tIds('vcs')}</li>
+              <li><strong className="text-green-600 dark:text-green-400">CAR</strong> - {tIds('car')}</li>
+              <li><strong className="text-purple-600 dark:text-purple-400">ACR</strong> - {tIds('acr')}</li>
+              <li><strong className="text-orange-600 dark:text-orange-400">GLD</strong> - {tIds('gld')}</li>
+              <li><strong className="text-yellow-600 dark:text-yellow-400">CDM</strong> - {tIds('cdm')}</li>
+              <li><strong className="text-pink-600 dark:text-pink-400">GS</strong> - {tIds('gs')}</li>
             </ul>
           </Callout>
         </div>

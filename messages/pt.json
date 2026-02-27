@@ -53,7 +53,8 @@
         },
         "stats": {
             "indexSREC": "Índice S-REC (Semanal)",
-            "vsLastMonth": "vs mês passado"
+            "vsLastMonth": "vs mês passado",
+            "pts": "pts"
         }
     },
     "Navigation": {
@@ -234,7 +235,42 @@
     },
     "IREC": {
         "title": "Mercado I-REC Mundial",
-        "subtitle": "Dashboard de inteligência sobre certificados I-REC no mundo."
+        "subtitle": "Dashboard de inteligência sobre certificados I-REC no mundo.",
+        "pageTitle": "I-REC Brasil 2025",
+        "pageSubtitle": "Top 25 empresas brasileiras por volume de certificados I-REC transacionados.",
+        "cards": {
+            "totalVolume": "Volume Total 2025",
+            "growth": "Crescimento Médio",
+            "sellers": "Vendedores",
+            "leader": "Líder",
+            "vsLastYear": "vs 2024",
+            "topGenerators": "principais geradores"
+        },
+        "table": {
+            "rank": "Rank",
+            "company": "Empresa",
+            "role": "Papel no Mercado",
+            "vol2024": "Vol 2024 (mil)",
+            "vol2025": "Vol 2025 (mil)",
+            "delta": "Delta %"
+        },
+        "legend": {
+            "title": "Legenda - Papel no Mercado",
+            "seller": "Vendedor",
+            "sellerDesc": "Gera e vende I-RECs",
+            "buyer": "Comprador",
+            "buyerDesc": "Adquire I-RECs para compensação",
+            "both": "Ambos",
+            "bothDesc": "Atua em ambos os lados do mercado"
+        },
+        "insights": {
+            "leaderTitle": "Eletrobras Líder",
+            "leaderDesc": "A Eletrobras é a maior vendedora de I-RECs do Brasil, com 14.5 milhões de certificados em 2025, crescimento de 57.6%.",
+            "growthTitle": "Maior Crescimento",
+            "growthDesc": "A Voltalia Brasil apresentou o maior crescimento do mercado com 127% de aumento no volume de I-RECs.",
+            "financeTitle": "Setor Financeiro",
+            "financeDesc": "Bancos como Itaú, Bradesco e Banco do Brasil são grandes compradores de I-RECs para compensação de operações."
+        }
     },
     "IRECMundo": {
         "title": "Maiores Compradores Energia Renovável Mundo 2025",
@@ -314,6 +350,13 @@
             "colombiaSub": "Crise de preços"
         },
         "regulated": "Mercados Regulados",
+        "regulatedMarkets": {
+            "euEts": "EU ETS",
+            "ukEts": "UK ETS",
+            "california": "California",
+            "avg2024": "Média 2024",
+            "minimum": "Mínimo"
+        },
         "voluntary": "Mercado Voluntário (VCM)",
         "brazilian": "Mercado Brasileiro",
         "glossary": "Glossário Rápido",
@@ -334,7 +377,17 @@
             "law": "Lei 14.590/2023 (SBCE)",
             "lawDesc": "Aprovada em Nov 2024. Regulação pela CVM/B3 em andamento para 2025.",
             "nbs": "NBS Premiadas",
-            "tech": "Tecnologias"
+            "nbsTypes": {
+                "redd": "REDD+ (Alta Qualidade)",
+                "restoration": "Restauração Nativa (ARR)",
+                "mangroves": "Mangues (Blue Carbon)"
+            },
+            "tech": "Tecnologias",
+            "techTypes": {
+                "stoves": "Fogões Eficientes",
+                "methane": "Captura de Metano",
+                "biochar": "Biochar"
+            }
         },
         "glossaryTerms": {
             "sbce": "Sist. Bras. de Comércio de Emissões",
@@ -350,6 +403,14 @@
         "subtitle": "Visualização interativa dos projetos de carbono registrados no mercado voluntário.",
         "projectIds": "Entendendo os IDs dos Projetos",
         "projectIdsDesc": "Cada projeto de carbono possui um identificador único (ID) que indica o registry onde está registrado:",
+        "projectIdDetails": {
+            "vcs": "Verra Carbon Standard (ex: VCS2547) - O maior sistema de registry de créditos de carbono do mundo",
+            "car": "Climate Action Reserve (ex: CAR1019) - Registry americano",
+            "acr": "American Carbon Registry (ex: ACR1000) - Registro americano de carbono",
+            "gld": "Gold Standard (ex: GLD7737) - Standard suíço para projetos de carbono e desenvolvimento sustentável",
+            "cdm": "Clean Development Mechanism (ex: CDM1234) - Mecanismo de Desenvolvimento Limpo da ONU",
+            "gs": "Gold Standard (ex: GS1234) - Versão moderna do Gold Standard"
+        },
         "aboutData": "Sobre os Dados",
         "aboutDataDesc": "Estes dados são fornecidos pelo carbonplan.org, uma organização de pesquisa independente que analisa e disponibiliza gratuitamente informações sobre projetos de carbono.",
         "aboutDataNote": "Nota: Esta página mostra projetos listados mas ainda não emitidos. Os créditos emitidos serão adicionados conforme os dados forem atualizados.",
@@ -658,7 +719,24 @@
     },
     "Carbon": {
         "title": "Mercado de Carbono Mundial",
-        "subtitle": "Dashboard de inteligência sobre créditos de carbono no mundo."
+        "subtitle": "Dashboard de inteligência sobre créditos de carbono no mundo.",
+        "cards": {
+            "totalVolume": "Volume Total 2025",
+            "growth": "Crescimento Médio",
+            "sectors": "Setores",
+            "leader": "Líder",
+            "vsLastYear": "vs 2024",
+            "sectorsRepresented": "setores representados"
+        },
+        "table": {
+            "rank": "Rank",
+            "company": "Empresa",
+            "sector": "Setor",
+            "vol2024": "Vol 2024",
+            "vol2025": "Vol 2025",
+            "delta": "Delta %"
+        },
+        "sectorsRepresented": "Setores Representados"
     },
     "Community": {
         "feed": {
@@ -757,8 +835,104 @@
             "allAchievements": "Todas as Conquistas"
         }
     },
+    "Dashboard": {
+        "pageTitle": "Minha Página",
+        "pageSubtitle": "Sua jornada na comunidade Sintropia",
+        "profile": {
+            "username": "Usuário",
+            "noUsername": "sem usuário",
+            "karma": "Karma",
+            "nextLevel": "para próximo nível"
+        },
+        "stats": {
+            "posts": "Posts",
+            "published": "publicados",
+            "comments": "Comentários",
+            "made": "realizados"
+        },
+        "streak": {
+            "daysStreak": "dias seguidos",
+            "record": "Recorde",
+            "nextBonus": "Próximo Bônus",
+            "weekProgress": "Progresso da semana",
+            "daysOfWeek": "dias",
+            "weeklyComplete": "streak Semanal Completo! Continue para manter o bônus!"
+        },
+        "summary": {
+            "title": "Resumo",
+            "ranking": "Ranking",
+            "karma": "Karma",
+            "badge": "Badge",
+            "posts": "Posts",
+            "comments": "Comentários",
+            "streakDays": "Dias Seguidos",
+            "longestStreak": "Recorde",
+            "toNext": "Para próximo"
+        },
+        "gamification": {
+            "title": "Como Funciona a Gamificação",
+            "description": "Karma é sua reputação na comunidade. Quanto mais contribuições de qualidade, mais pontos você ganha!",
+            "actions": {
+                "createPost": "Criar um post",
+                "comment": "Comentar no post de outra pessoa",
+                "likePost": "Quando alguém curte seu post",
+                "likeComment": "Quando alguém curte seu comentário",
+                "dislikePost": "Quando alguém descurte seu post",
+                "dislikeComment": "Quando alguém descurte seu comentário"
+            },
+            "badgesTitle": "Badges por nível de Karma:",
+            "yourRanking": "Seu ranking atual:",
+            "viewRanking": "Ver ranking completo →"
+        },
+        "achievements": {
+            "title": "Conquistas",
+            "earned": "conquistadas",
+            "viewAll": "Ver todas →"
+        },
+        "contribute": {
+            "title": "Como Contribuir",
+            "description": "O Sintropia é um projeto colaborativo de código aberto. Sua contribuição ajuda a tornar o mercado de carbono mais transparente e acessível.",
+            "actions": {
+                "shareKnowledge": {
+                    "title": "Compartilhe conhecimento",
+                    "desc": "Publique posts e comente na comunidade"
+                },
+                "helpNewbies": {
+                    "title": "Ajude novatos",
+                    "desc": "Responda dúvidas e colabore"
+                },
+                "reportData": {
+                    "title": "Reportar dados",
+                    "desc": "Informe dados incorretos do mercado"
+                },
+                "contributeCode": {
+                    "title": "Contribua com código",
+                    "desc": "Fork no GitHub e envie PRs"
+                }
+            },
+            "cta": "Ver como contribuir"
+        }
+    },
+    "Posts": {
+        "pageTitle": "Posts",
+        "pageSubtitle": "Comunidade e discussões sobre mercado de carbono",
+        "newPost": "+ Novo Post"
+    },
     "Perfil": {
         "myPosts": "Meus Posts",
-        "noPosts": "Nenhum post ainda."
+        "noPosts": "Nenhum post ainda.",
+        "createFirst": "Criar primeiro post",
+        "createNew": "Criar novo post →",
+        "editProfile": "Editar Perfil",
+        "achievements": "Conquistas"
+    },
+    "StatsDashboard": {
+        "posts": "Posts",
+        "comments": "Comentários",
+        "upvotes": "Upvotes",
+        "ranking": "Ranking"
+    },
+    "ProfileHeader": {
+        "progressLabel": "Progresso para próximo nível"
     }
 }
