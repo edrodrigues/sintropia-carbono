@@ -1,0 +1,688 @@
+{
+    "Index": {
+        "title": "Democratizando dados de créditos de carbono e energia renovável.",
+        "hero": {
+            "badge": "Inteligência de mercado ao vivo",
+            "subtitle": "Plataformas globais cobram $15/mês por esses dados. Nós fornecemos rankings, preços e tendências em tempo real para o mercado global — completamente grátis.",
+            "cta": "Comece Grátis"
+        },
+        "features": {
+            "title": "Por que escolher a Sintropia?",
+            "brazilianData": {
+                "title": "Dados Globais",
+                "desc": "Acesse o banco de dados mais completo de ativos ambientais do mundo."
+            },
+            "marketIntelligence": {
+                "title": "Inteligência de Mercado",
+                "desc": "Preços, volume e tendências em tempo real para I-RECs e créditos de carbono."
+            },
+            "activeCommunity": {
+                "title": "Comunidade Ativa",
+                "desc": "Conecte-se com especialistas, analistas e traders do mercado ambiental."
+            },
+            "openApi": {
+                "title": "API Aberta (Em Breve)",
+                "desc": "Integre nossos dados diretamente em suas aplicações com nossa API robusta."
+            }
+        },
+        "categories": {
+            "title": "Explore a Inteligência de Mercado",
+            "subtitle": "Filtre pelos pilares centrais da economia ambiental global.",
+            "viewAll": "Ver Todas as Categorias",
+            "explore": "Explorar",
+            "trending": "Em alta",
+            "items": {
+                "carbonBrazil": "Carbono Brasil",
+                "energyBrazil": "Energia Brasil",
+                "carbonWorld": "Carbono Mundo",
+                "energyPrices": "Preços Energia",
+                "carbonProjects": "Projetos Carbono"
+            }
+        },
+        "sidebar": {
+            "topContributors": "Principais Contribuidores",
+            "viewRanking": "Ver Ranking Completo",
+            "myPanel": "Meu Painel",
+            "status": "Status",
+            "notLoggedIn": "Não Logado",
+            "karma": "Karma acumulado",
+            "viewAchievements": "Ver Todas as Conquistas",
+            "loginToFollow": "Faça login para acompanhar seus ativos favoritos, postar na comunidade e ganhar pontos.",
+            "loginRegister": "Entrar / Registrar"
+        },
+        "stats": {
+            "indexSREC": "Índice S-REC (Semanal)",
+            "vsLastMonth": "vs mês passado"
+        }
+    },
+    "Navigation": {
+        "certificadoras": "Certificadoras",
+        "energy": "Energia",
+        "carbon": "Carbono",
+        "community": "Comunidade",
+        "marketBrazil": "Mercado Brasil",
+        "marketWorld": "Mercado Global",
+        "prices": "Preços",
+        "marketBrazilCarbon": "Mercado Brasil",
+        "marketWorldCarbon": "Mercado Mundo",
+        "carbonPrices": "Preços",
+        "carbonData": "Dados dos Projetos",
+        "newsFeed": "Feed de Notícias",
+        "communityProfiles": "Perfis da Comunidade",
+        "ranking": "Ranking de Membros",
+        "missions": "Minhas Missões",
+        "missionsAndAchievements": "Missões e Conquistas",
+        "energyDesc": {
+            "marketBrazil": "Veja quem são os maiores compradores de certificados I-REC no mundo.",
+            "marketWorld": "Veja quem são os maiores compradores de certificados I-REC no Mundo.",
+            "prices": "Confirme os preços dos certificados I-REC de forma comparada entre os mercados."
+        },
+        "carbonDesc": {
+            "marketBrazil": "Veja quem são os maiores compradores de créditos de carbono no mundo.",
+            "marketWorld": "Veja quem são os maiores compradores de créditos de carbono no mundo.",
+            "prices": "Análise comparada e evolução dos preços",
+            "data": "Dados sobre 7700+ Projetos de carbono."
+        },
+        "communityDesc": {
+            "newsFeed": "Insights e posts da nossa rede de especialistas.",
+            "profiles": "Veja todos os perfis da comunidade.",
+            "ranking": "Veja quem são os maiores contribuidores.",
+            "missions": "Ganhe karma e suba de nível na plataforma."
+        }
+    },
+    "Header": {
+        "newPost": "Novo Post",
+        "dashboard": "Painel",
+        "myPanel": "Meu Painel",
+        "myProfile": "Meu Perfil",
+        "editProfile": "Editar Perfil",
+        "achievements": "Conquistas",
+        "logout": "Sair da Conta",
+        "login": "Entrar",
+        "register": "Criar Conta Grátis",
+        "loggedAs": "Logado como",
+        "moderation": "Moderação",
+        "skipToContent": "Pular para o conteúdo principal",
+        "openMenu": "Abrir menu",
+        "closeMenu": "Fechar menu",
+        "newPostTooltip": "Criar uma nova publicação"
+    },
+    "Auth": {
+        "loginTitle": "Sintropia",
+        "loginSubtitle": "Acesse sua conta",
+        "registerTitle": "Junte-se ao Sintropia",
+        "registerSubtitle": "Dados de carbono e energia, completamente grátis.",
+        "emailLabel": "E-mail",
+        "passwordLabel": "Senha",
+        "confirmPasswordLabel": "Confirmar Senha",
+        "fullNameLabel": "Nome Completo",
+        "usernameLabel": "Nome de Usuário",
+        "forgotPassword": "Esqueceu a senha?",
+        "loginButton": "Entrar",
+        "registerButton": "Criar Conta",
+        "orContinueWith": "Ou continue com",
+        "noAccount": "Não tem uma conta?",
+        "alreadyHaveAccount": "Já tem uma conta?",
+        "createAccount": "Criar conta",
+        "loginNow": "Fazer login",
+        "backToHome": "← Voltar para a página inicial",
+        "continueWithGoogle": "Continuar com Google",
+        "orWithEmail": "ou com email",
+        "noCreditCard": "Sem cartão de crédito necessário",
+        "wait": "Aguarde...",
+        "creatingAccount": "Criando conta...",
+        "createAccountFree": "Criar Conta Grátis (~30 segundos)",
+        "signUpSuccessMessage": "Cadastro realizado! Verifique seu e-mail para confirmar a conta.",
+        "errors": {
+            "invalidEmail": "E-mail inválido",
+            "required": "Campo obrigatório"
+        }
+    },
+    "PasswordRequirements": {
+        "length": "Mínimo 8 caracteres",
+        "uppercase": "1 letra maiúscula",
+        "lowercase": "1 letra minúscula",
+        "number": "1 número",
+        "special": "1 caractere especial"
+    },
+    "Footer": {
+        "tagline": "Democratizando o acesso a dados dos mercados ambientais com transparência, tecnologia e foco no ecossistema brasileiro de baixo carbono.",
+        "energy": "Energia",
+        "carbon": "Carbono",
+        "community": "Comunidade",
+        "marketBrazil": "Mercado Brasil",
+        "marketWorld": "Mercado Global",
+        "prices": "Preços",
+        "certificadoras": "Certificadoras",
+        "carbonMarketBrazil": "Mercado Brasil",
+        "carbonMarketWorld": "Mercado Mundo",
+        "carbonPrices": "Preços",
+        "carbonData": "Dados dos Projetos",
+        "newsFeed": "Feed de Notícias",
+        "ranking": "Ranking de Membros",
+        "missions": "Missões e Conquistas",
+        "allRights": "Todos os direitos reservados.",
+        "rightsReserved": "Todos os direitos reservados.",
+        "status": "Status",
+        "stable": "Estável",
+        "location": "Recife/Pernambuco 🇧🇷",
+        "privacy": "Privacidade",
+        "terms": "Termos de Uso",
+        "contact": "Contato",
+        "github": "GitHub"
+    },
+    "LanguageSwitcher": {
+        "label": "Idioma"
+    },
+    "Common": {
+        "loading": "Carregando...",
+        "error": "Erro",
+        "retry": "Tentar novamente",
+        "save": "Salvar",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "delete": "Excluir",
+        "edit": "Editar",
+        "view": "Ver",
+        "search": "Buscar",
+        "noResults": "Nenhum resultado encontrado",
+        "seeAll": "Ver todos",
+        "lastUpdated": "Última atualização",
+        "dataSources": "Fontes de dados"
+    },
+    "Certificadoras": {
+        "title": "Certificadoras Carbono e Energia",
+        "subtitle": "Principais certificadoras e padrões de carbono e energia renovável.",
+        "table": {
+            "certificadora": "Certificadora",
+            "sede": "Sede / Região",
+            "foco": "Foco Principal",
+            "unidade": "Unidade",
+            "volume": "Volume Total"
+        },
+        "padroes": {
+            "title": "Padrões de Energia",
+            "padrao": "Padrão",
+            "origem": "Origem",
+            "metodologia": "Metodologia",
+            "volume2024": "Volume 2024",
+            "volume2025": "Volume 2025"
+        }
+    },
+    "Categorias": {
+        "title": "Categorias",
+        "subtitle": "Explore todas as categorias de inteligência de mercado disponíveis na plataforma Sintropia.",
+        "items": {
+            "carbonBrazil": "Carbono Global",
+            "carbonBrazilDesc": "Insights e análise do mercado de carbono no mundo",
+            "energyBrazil": "Energia Global",
+            "energyBrazilDesc": "Mercado de energia renovável e certificados I-REC",
+            "carbonWorld": "Carbono Mundo",
+            "carbonWorldDesc": "Mercado global de créditos de carbono",
+            "energyPrices": "Preços Energia",
+            "energyPricesDesc": "Análise comparativa de preços de certificados de energia",
+            "carbonProjects": "Projetos Carbono",
+            "carbonProjectsDesc": "Dados sobre 7700+ projetos de carbono",
+            "certificadoras": "Certificadoras",
+            "certificadorasDesc": "Principais certificadoras de carbono e energia",
+            "irecWorld": "I-REC Mundo",
+            "irecWorldDesc": "Mercado global de certificados I-REC",
+            "carbonPrices": "Preços Carbono",
+            "carbonPricesDesc": "Evolução e análise de preços de carbono"
+        }
+    },
+    "IREC": {
+        "title": "Mercado I-REC Mundial",
+        "subtitle": "Dashboard de inteligência sobre certificados I-REC no mundo."
+    },
+    "IRECMundo": {
+        "title": "Maiores Compradores Energia Renovável Mundo 2025",
+        "subtitle": "Top 15 corporações globais por volume de energia renovável. Amazon, Microsoft, Meta e Google lideram. Dados em TWh.",
+        "pageTitle": "Maiores Compradores de Energia Renovável (Mundo)",
+        "pageSubtitle": "Top 15 corporações globais por volume de energia renovável negociada (TWh).",
+        "cards": {
+            "volumeTitle": "Volume Top 15 2025",
+            "volumeUnit": "TWh",
+            "topBuyer": "Maior Comprador",
+            "topGrowth": "Maior Crescimento",
+            "dominantSector": "Setor Dominante",
+            "companies": "empresas"
+        },
+        "table": {
+            "rank": "Rank",
+            "company": "Corporação",
+            "sector": "Setor",
+            "vol2024": "Vol 2024",
+            "vol2025": "Vol 2025",
+            "delta": "Delta %"
+        },
+        "insights": {
+            "bigTechTitle": "Big Tech Lidera",
+            "bigTechDesc": "Amazon, Microsoft, Meta e Google são os 4 maiores compradores globais de energia renovável.",
+            "growthTitle": "Crescimento",
+            "growthDesc": "O setor industrial (Rio Tinto) mostra aceleração na transição energética em 2025.",
+            "diversityTitle": "Diversidade",
+            "diversityDesc": "Empresas de semicondutores e varejo também figuram no topo do ranking global."
+        }
+    },
+    "CarbonoMundo": {
+        "title": "Compradores de Carbono (Mundo)",
+        "subtitle": "Top corporações globais por volume de créditos de carbono (Milhões tCO2e).",
+        "cards": {
+            "totalVolume": "Volume Total 2025",
+            "volumeUnit": "tCO2e (Top 10)",
+            "topBuyer": "Maior Comprador",
+            "topGrowth": "Maior Crescimento",
+            "dominantSector": "Setor Dominante",
+            "percentOfTop": "do Top 10"
+        },
+        "table": {
+            "rank": "Rank",
+            "company": "Empresa",
+            "sector": "Setor",
+            "vol2024": "Vol 2024",
+            "vol2025": "Vol 2025",
+            "delta": "Delta %"
+        },
+        "insights": {
+            "microsoftTitle": "Microsoft Líder",
+            "microsoftDesc": "A Microsoft consolidou sua posição como maior compradora global de créditos de carbono de alta integridade.",
+            "cdrTitle": "CDR em Ascensão",
+            "cdrDesc": "Tecnologias de Remoção de Carbono (CDR) atraem investimentos massivos de empresas de tecnologia e logística.",
+            "portfolioTitle": "Ajuste de Portfólio",
+            "portfolioDesc": "Algumas gigantes da energia estão reduzindo volumes de créditos baseados em natureza para focar em tecnologia."
+        }
+    },
+    "CarbonoPrecos": {
+        "title": "Preços de Carbono",
+        "subtitle": "Mercados Globais e Brasil - Análise Completa 2024-2025",
+        "lastUpdate": "Última atualização: Fevereiro 2026",
+        "summary": "RESUMO",
+        "summaryItems": {
+            "latam": "América Latina",
+            "latamValue": "USD $63.05B",
+            "latamSub": "2025 → $824B (2034)",
+            "euEts": "EU ETS",
+            "euEtsValue": "€60-80",
+            "euEtsSub": "/tonelada CO2",
+            "freeMarket": "Mercado Livre",
+            "freeMarketValue": "$3.50-14.80",
+            "freeMarketSub": "/tonelada por qualidade",
+            "colombia": "Colombia",
+            "colombiaValue": "Queda 70%+",
+            "colombiaSub": "Crise de preços"
+        },
+        "regulated": "Mercados Regulados",
+        "voluntary": "Mercado Voluntário (VCM)",
+        "brazilian": "Mercado Brasileiro",
+        "glossary": "Glossário Rápido",
+        "table": {
+            "quality": "Qualidade",
+            "price": "Preço (USD/tCO2e)",
+            "status": "Status"
+        },
+        "qualityLevels": {
+            "highIntegrity": "Alta Integridade",
+            "highIntegrityDesc": "Prêmio por qualidade e co-benefícios",
+            "standard": "Padrão Mercado",
+            "standardDesc": "VCS/Gold Standard padrão",
+            "legacy": "Legado / Baixa",
+            "legacyDesc": "Projetos antigos com dúvidas de adicionalidade"
+        },
+        "brazil": {
+            "law": "Lei 14.590/2023 (SBCE)",
+            "lawDesc": "Aprovada em Nov 2024. Regulação pela CVM/B3 em andamento para 2025.",
+            "nbs": "NBS Premiadas",
+            "tech": "Tecnologias"
+        },
+        "glossaryTerms": {
+            "sbce": "Sist. Bras. de Comércio de Emissões",
+            "tco2e": "Tonelada de CO2 equivalente",
+            "afolu": "Agro, Silvicultura e outros Usos da Terra",
+            "ets": "Emission Trading System",
+            "arr": "Reflorestamento e Revegetação",
+            "vcm": "Mercado Voluntário de Carbono"
+        }
+    },
+    "CarbonoProjetos": {
+        "title": "Projetos de Carbono",
+        "subtitle": "Visualização interativa dos projetos de carbono registrados no mercado voluntário.",
+        "projectIds": "Entendendo os IDs dos Projetos",
+        "projectIdsDesc": "Cada projeto de carbono possui um identificador único (ID) que indica o registry onde está registrado:",
+        "aboutData": "Sobre os Dados",
+        "aboutDataDesc": "Estes dados são fornecidos pelo carbonplan.org, uma organização de pesquisa independente que analisa e disponibiliza gratuitamente informações sobre projetos de carbono.",
+        "aboutDataNote": "Nota: Esta página mostra projetos listados mas ainda não emitidos. Os créditos emitidos serão adicionados conforme os dados forem atualizados.",
+        "download": "Download de Dados",
+        "downloadDesc": "Faça download dos dados completos em formato CSV para análise offline.",
+        "downloadProjects": "Projetos CSV",
+        "downloadCredits": "Créditos CSV"
+    },
+    "IrecPrecos": {
+        "title": "Preços de Certificados I-REC",
+        "subtitle": "Brasil e Mercado Global - Análise Completa 2024-2025",
+        "lastUpdate": "Última atualização: Fevereiro 2026",
+        "summary": "RESUMO EXECUTIVO",
+        "summaryItems": {
+            "globalVolume": "Volume Global",
+            "globalVolumeValue": "45.1 TWh",
+            "globalVolumeSub": "+40% YoY",
+            "brazilPrice": "Brasil - Preço Hidro",
+            "brazilPriceValue": "$0.18/MWh",
+            "brazilPriceSub": "Mais barato do mundo",
+            "singaporePrice": "Singapura - Preço Solar",
+            "singaporePriceValue": "$75/MWh",
+            "singaporePriceSub": "Mais caro do mundo",
+            "difference": "Diferença",
+            "differenceValue": "416x",
+            "differenceSub": "Entre mercados extremos"
+        },
+        "brazil": "Mercado Brasileiro - Líder Global",
+        "table": {
+            "technology": "Tecnologia",
+            "price": "Preço (USD/MWh)",
+            "vintage": "Vintage",
+            "date": "Data",
+            "country": "País",
+            "tech": "Tech",
+            "trend": "Tendência",
+            "observation": "Observação"
+        },
+        "lowPriceTitle": "Por que tão baixo?",
+        "lowPriceItems": {
+            "oversupply": "Oversupply massivo (hidrelétrica)",
+            "renewable": "89% da energia brasileira já é renovável"
+        },
+        "trendsTitle": "Tendências",
+        "trendsItems": {
+            "ccee": "Plataforma CCEE atrai novos compradores",
+            "esg": "Crescimento da demanda ESG"
+        },
+        "asiaPacific": "Ásia-Pacífico - Destaques",
+        "latam": "América Latina - Mercado Regional",
+        "projection": "Projeção 2030",
+        "projectionDesc": "O mercado global de I-RECs deve atingir entre 800 e 1,000 TWh até 2030, impulsionado pela meta RE100 das multinacionais.",
+        "projectionValues": {
+            "estimatedValue": "Valor Estimado",
+            "cagr": "CAGR",
+            "value": "$66B",
+            "cagrValue": "28%"
+        },
+        "drivers": "Principais Drivers",
+        "driversList": {
+            "re100": "Políticas RE100",
+            "scarcity": "Escassez de Solar/Eólica",
+            "quality": "Padrões de Qualidade"
+        }
+    },
+    "Contribuir": {
+        "back": "Voltar",
+        "heroBadge": "Projeto Open Source",
+        "heroTitle": "Contribua com o Projeto",
+        "heroDesc": "O Sintropia é um projeto colaborativo de código aberto. Sua contribuição ajuda a tornar o mercado de carbono mais transparente e acessível.",
+        "github": {
+            "title": "Código no GitHub",
+            "desc": "Acesse o repositório completo, faça forks, abra issues e envie pull requests.",
+            "button": "Ver Repositório"
+        },
+        "docs": {
+            "title": "Documentação",
+            "desc": "Leia nossa documentação técnica, guias de contribuição e metodologia de dados.",
+            "button": "Ler Documentação"
+        },
+        "howToTitle": "Como Contribuir",
+        "howTo": {
+            "report": {
+                "title": "Reporte Erros",
+                "desc": "Encontrou dados incorretos ou desatualizados? Abra uma issue no GitHub."
+            },
+            "suggest": {
+                "title": "Sugira Melhorias",
+                "desc": "Tem ideias para novas funcionalidades ou visualizações? Compartilhe conosco."
+            },
+            "code": {
+                "title": "Envie Código",
+                "desc": "Desenvolvedores podem enviar pull requests com correções e novas features."
+            }
+        },
+        "techStackTitle": "Stack Tecnológica",
+        "techStack": {
+            "nextjs": "Framework React",
+            "typescript": "Tipagem estática",
+            "tailwind": "Estilização",
+            "supabase": "Banco de dados",
+            "chartjs": "Visualização",
+            "prisma": "ORM",
+            "vercel": "Deploy",
+            "github": "Versionamento"
+        },
+        "contact": "Tem dúvidas ou sugestões? Entre em contato através do GitHub.",
+        "openIssue": "Abrir Issue no GitHub",
+        "footer": "Projeto open source colaborativo.",
+        "footerLinks": {
+            "github": "GitHub",
+            "home": "Home"
+        }
+    },
+    "Termos": {
+        "back": "Voltar",
+        "heroBadge": "Termos de Uso",
+        "heroTitle": "Termos e Condições",
+        "heroDesc": "Ao usar o Sintropia, você concorda com estes termos. Leia-os com atenção.",
+        "lastUpdate": "Última atualização: Fevereiro 2026",
+        "sections": {
+            "1": {
+                "title": "Aceitação dos Termos",
+                "content": "Ao acessar e usar o Sintropia, você aceita e concorda em cumprir estes Termos de Uso. Se você não concordar com qualquer parte destes termos, não deverá usar nossa plataforma."
+            },
+            "2": {
+                "title": "Descrição do Serviço",
+                "content": "O Sintropia é uma plataforma de dados abertos que oferece:",
+                "list": [
+                    "Dados sobre o mercado de carbono e energia renovável",
+                    "Uma comunidade para discussão e compartilhamento de informações",
+                    "Perfis de usuário públicos",
+                    "Funcionalidades de postagem e interação social"
+                ],
+                "footer": "O serviço é fornecido como projeto open source colaborativo."
+            },
+            "3": {
+                "title": "Cadastro de Conta",
+                "content": "Para usar certaines funcionalidades, você pode criar uma conta:",
+                "list": [
+                    "Você deve fornecer informações verdadeiras e atualizadas",
+                    "Você é responsável por manter a segurança da sua conta",
+                    "Você deve notificar imediatamente sobre qualquer uso não autorizado",
+                    "Você deve ter pelo menos 18 anos de idade para criar uma conta"
+                ]
+            },
+            "4": {
+                "title": "Conteúdo do Usuário",
+                "content": "O Sintropia é uma plataforma de dados abertos. Por design:",
+                "list": [
+                    "Posts, comentários e perfis são públicos por padrão",
+                    "Você mantém a propriedade do conteúdo que publica",
+                    "Ao publicar, você nos concede licença para exibir seu conteúdo",
+                    "Você é responsável pelo conteúdo que publica"
+                ]
+            },
+            "5": {
+                "title": "Condições de Uso",
+                "content": "Você concorda em NÃO:",
+                "list": [
+                    "Publicar conteúdo ilegal, difamatório ou abusivo",
+                    "Usar a plataforma para atividades ilegais",
+                    "Tentar acessar contas de outros usuários",
+                    "Publicar spam ou conteúdo comercial não solicitado",
+                    "Infringir direitos de propriedade intelectual de terceiros",
+                    "Criar múltiplas contas para evadir restrições"
+                ]
+            },
+            "6": {
+                "title": "Moderação e Suspensão",
+                "content": "Reservamos o direito de:",
+                "list": [
+                    "Remover conteúdo que viole estes termos",
+                    "Suspender ou encerrar contas infratoras",
+                    "Modificar ou descontinuar o serviço a qualquer momento"
+                ]
+            },
+            "7": {
+                "title": "Isenção de Garantias",
+                "content": "O serviço é fornecido \"como está\" e \"conforme disponível\". Não garantimos que o serviço será ininterrupto, seguro ou livre de erros. Os dados são fornecidos para fins informativos e não constituem advice financeiro ou profissional."
+            },
+            "8": {
+                "title": "Limitação de Responsabilidade",
+                "content": "Em nenhuma circunstância seremos responsáveis por quaisquer danos indiretos, incidentais, especiais ou consequenciais resultantes do uso ou da impossibilidade de usar o serviço."
+            },
+            "9": {
+                "title": "Dados de Mercado",
+                "content": "Os dados de mercado de carbono e energia disponíveis na plataforma:",
+                "list": [
+                    "São fornecidos apenas para fins informativos",
+                    "Não constituem advice financeiro ou de investimento",
+                    "Podem conter imprecisões e atrasos",
+                    "Não nos responsabilizamos por decisões baseadas nestes dados"
+                ]
+            },
+            "10": {
+                "title": "Propriedade Intelectual",
+                "content": "O Sintropia é um projeto open source. O código-fonte está disponível no GitHub sob licença MIT. Os dados públicos podem ser utilizados, desde que citada a fonte."
+            },
+            "11": {
+                "title": "Alterações nos Termos",
+                "content": "Podemos revisar estes termos periodicamente. A versão mais atual estará sempre nesta página. O uso contínuo da plataforma após alterações indica sua aceitação dos novos termos."
+            },
+            "12": {
+                "title": "Contato",
+                "content": "Se você tiver dúvidas sobre estes termos, entre em contato:",
+                "button": "Abrir Issue no GitHub"
+            }
+        },
+        "footer": "Projeto open source colaborativo.",
+        "footerLinks": {
+            "privacidade": "Privacidade",
+            "termos": "Termos",
+            "home": "Home"
+        }
+    },
+    "Privacidade": {
+        "back": "Voltar",
+        "heroBadge": "Política de Privacidade",
+        "heroTitle": "Sua Privacidade é Importante",
+        "heroDesc": "Esta política descreve como coletamos, usamos e protegemos suas informações.",
+        "lastUpdate": "Última atualização: Fevereiro 2026",
+        "sections": {
+            "1": {
+                "title": "Informações que Coletamos",
+                "content": "O Sintropia é uma plataforma de dados abertos. Coletamos as seguintes informações:",
+                "list": [
+                    "Dados públicos: username, bio, avatar e posts que você escolhe compartilhar publicamente",
+                    "Dados de autenticação: email e senha (criptografados) para conta no site",
+                    "Dados de uso: informações anônimas sobre como você interage com a plataforma"
+                ]
+            },
+            "2": {
+                "title": "Como Usamos suas Informações",
+                "list": [
+                    "Fornecer e manter nossos serviços",
+                    "Autenticar sua conta e permitir login",
+                    "Publicar seu conteúdo (posts, comentários) de forma pública",
+                    "Melhorar e personalizar sua experiência na plataforma",
+                    "Enviar comunicados importantes sobre a plataforma"
+                ]
+            },
+            "3": {
+                "title": "Compartilhamento de Dados",
+                "content": "O Sintropia é uma plataforma de dados abertos. Por padrão:",
+                "list": [
+                    "Seus posts, perfil e atividades são públicos por design",
+                    "Não vendemos seus dados pessoais a terceiros",
+                    "Podemos compartilhar dados agregados e anonimizados para fins estatísticos",
+                    "Apenas compartilhamos dados pessoais quando exigido por lei"
+                ]
+            },
+            "4": {
+                "title": "Segurança",
+                "content": "Implementamos medidas de segurança apropriadas para proteger suas informações:",
+                "list": [
+                    "Senhas armazenadas com hash e criptografia",
+                    "Conexões criptografadas via HTTPS",
+                    "Acesso restrito a dados pessoais",
+                    "Monitoramento contínuo de segurança"
+                ]
+            },
+            "5": {
+                "title": "Seus Direitos",
+                "content": "Você tem os seguintes direitos sobre seus dados:",
+                "list": [
+                    "Acesso: Solicitar cópia dos seus dados pessoais",
+                    "Correção: Solicitar correção de dados incorretos",
+                    "Exclusão: Solicitar exclusão da sua conta e dados",
+                    "Portabilidade: Solicitar seus dados em formato legível"
+                ],
+                "footer": "Para exercer esses direitos, entre em contato através do GitHub."
+            },
+            "6": {
+                "title": "Cookies",
+                "content": "Utilizamos cookies essenciais para autenticação e preferências. Você pode desativar cookies no seu navegador, mas isso pode afetar algumas funcionalidades do site."
+            },
+            "7": {
+                "title": "Crianças",
+                "content": "Nosso serviço não é destinado a menores de 13 anos. Não coletamos intencionalmente informações de crianças."
+            },
+            "8": {
+                "title": "Alterações",
+                "content": "Podemos atualizar esta política periodicamente. Notificaremos sobre alterações significativas através do site. A versão mais atualizada estará sempre disponível nesta página."
+            },
+            "9": {
+                "title": "Contato",
+                "content": "Se você tiver dúvidas sobre esta política, entre em contato:",
+                "button": "Abrir Issue no GitHub"
+            }
+        },
+        "footer": "Projeto open source colaborativo.",
+        "footerLinks": {
+            "privacidade": "Privacidade",
+            "termos": "Termos",
+            "home": "Home"
+        }
+    },
+    "Metadata": {
+        "dashboard": "Painel",
+        "feed": "Feed",
+        "profiles": "Perfis",
+        "leaderboard": "Ranking",
+        "achievements": "Conquistas",
+        "profile": "Perfil"
+    },
+    "Carbon": {
+        "title": "Mercado de Carbono Mundial",
+        "subtitle": "Dashboard de inteligência sobre créditos de carbono no mundo."
+    },
+    "Community": {
+        "feed": {
+            "title": "Feed de Notícias",
+            "subtitle": "Insights e posts da nossa rede de especialistas."
+        },
+        "profiles": {
+            "title": "Perfis da Comunidade",
+            "subtitle": "Veja todos os perfis da comunidade."
+        },
+        "leaderboard": {
+            "title": "Ranking de Membros",
+            "subtitle": "Veja quem são os maiores contribuidores.",
+            "rank": "Rank",
+            "user": "Usuário",
+            "achievements": "Conquistas",
+            "karma": "Karma"
+        },
+        "conquistas": {
+            "title": "Missões e Conquistas",
+            "subtitle": "Ganhe karma e suba de nível na plataforma."
+        }
+    },
+    "Perfil": {
+        "myPosts": "Meus Posts",
+        "noPosts": "Nenhum post ainda."
+    }
+}

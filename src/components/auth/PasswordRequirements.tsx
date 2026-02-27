@@ -1,21 +1,23 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface PasswordRequirementsProps {
     password: string;
 }
 
-const requirements = [
-    { key: 'length', label: 'Mínimo 8 caracteres', test: (p: string) => p.length >= 8 },
-    { key: 'uppercase', label: '1 letra maiúscula', test: (p: string) => /[A-Z]/.test(p) },
-    { key: 'lowercase', label: '1 letra minúscula', test: (p: string) => /[a-z]/.test(p) },
-    { key: 'number', label: '1 número', test: (p: string) => /\d/.test(p) },
-    { key: 'special', label: '1 caractere especial', test: (p: string) => /[!@#$%^&*(),.?":{}|<>]/.test(p) },
-];
-
 export function PasswordRequirements({ password }: PasswordRequirementsProps) {
+    const t = useTranslations('PasswordRequirements');
     const [metRequirements, setMetRequirements] = useState<Record<string, boolean>>({});
+
+    const requirements = [
+        { key: 'length', label: t('length'), test: (p: string) => p.length >= 8 },
+        { key: 'uppercase', label: t('uppercase'), test: (p: string) => /[A-Z]/.test(p) },
+        { key: 'lowercase', label: t('lowercase'), test: (p: string) => /[a-z]/.test(p) },
+        { key: 'number', label: t('number'), test: (p: string) => /\d/.test(p) },
+        { key: 'special', label: t('special'), test: (p: string) => /[!@#$%^&*(),.?":{}|<>]/.test(p) },
+    ];
 
     useEffect(() => {
         const met: Record<string, boolean> = {};
@@ -25,22 +27,19 @@ export function PasswordRequirements({ password }: PasswordRequirementsProps) {
         setMetRequirements(met);
     }, [password]);
 
-    const allMet = Object.values(metRequirements).every(Boolean);
-
     return (
         <div className="mt-2 space-y-1.5">
             {requirements.map((req) => (
-                <div 
-                    key={req.key} 
-                    className={`flex items-center gap-2 text-xs transition-colors ${
-                        metRequirements[req.key] 
-                            ? 'text-green-600 dark:text-green-400' 
+                <div
+                    key={req.key}
+                    className={`flex items-center gap-2 text-xs transition-colors ${metRequirements[req.key]
+                            ? 'text-green-600 dark:text-green-400'
                             : 'text-gray-400 dark:text-gray-500'
-                    }`}
+                        }`}
                 >
-                    <svg 
-                        className={`w-3.5 h-3.5 flex-shrink-0 ${metRequirements[req.key] ? 'opacity-100' : 'opacity-40'}`} 
-                        fill="currentColor" 
+                    <svg
+                        className={`w-3.5 h-3.5 flex-shrink-0 ${metRequirements[req.key] ? 'opacity-100' : 'opacity-40'}`}
+                        fill="currentColor"
                         viewBox="0 0 20 20"
                     >
                         {metRequirements[req.key] ? (

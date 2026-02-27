@@ -1,0 +1,5 @@
+﻿src/app/[locale]/(auth)/forgot-password/page.tsx(2,31): error TS2307: Cannot find module '@/app/(auth)/login/actions' or its corresponding type declarations.
+src/app/[locale]/(auth)/login/page.tsx(3,23): error TS2307: Cannot find module '@/app/(auth)/login/actions' or its corresponding type declarations.
+src/app/[locale]/(auth)/reset-password/page.tsx(1,32): error TS2307: Cannot find module '@/app/(auth)/login/actions' or its corresponding type declarations.
+src/app/[locale]/(dashboard)/profile/edit/page.tsx(3,25): error TS2307: Cannot find module '@/app/(dashboard)/profile/ProfileForm' or its corresponding type declarations.
+src/app/[locale]/(dashboard)/profile/ProfileForm.tsx(5,31): error TS2307: Cannot find module '@/app/(dashboard)/profile/actions' or its corresponding type declarations.

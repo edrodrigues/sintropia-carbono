@@ -1,7 +1,12 @@
-import Link from "next/link";
+"use client";
+
+import { Link } from "@/i18n/routing";
+import { useTranslations } from 'next-intl';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const tFooter = useTranslations('Footer');
+  const tNav = useTranslations('Navigation');
 
   return (
     <footer className="bg-slate-950 text-white pt-12 lg:pt-20 pb-8 lg:pb-10">
@@ -16,7 +21,7 @@ export function Footer() {
               <span className="font-bold text-2xl tracking-tight">SINTROPIA</span>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
-              Democratizando o acesso a dados dos mercados ambientais com transparência, tecnologia e foco no ecossistema brasileiro de baixo carbono.
+              {tFooter('tagline')}
             </p>
             <div className="flex gap-4">
               {/* LinkedIn */}
@@ -36,46 +41,46 @@ export function Footer() {
 
           {/* Energia */}
           <div>
-            <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-300">Energia</h4>
+            <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-300">{tNav('energy')}</h4>
             <ul className="flex flex-col gap-4">
-              <li><Link href="/irec-brasil" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">Mercado Brasil</Link></li>
-              <li><Link href="/irec-mundo" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">Mercado Global</Link></li>
-              <li><Link href="/irec-precos" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">Preços</Link></li>
-              <li><Link href="/certificadoras" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">Certificadoras</Link></li>
+              <li><Link href="/irec-brasil" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketBrazil')}</Link></li>
+              <li><Link href="/irec-mundo" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketWorld')}</Link></li>
+              <li><Link href="/irec-precos" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('prices')}</Link></li>
+              <li><Link href="/certificadoras" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('certificadoras')}</Link></li>
             </ul>
           </div>
 
           {/* Carbono */}
           <div>
-            <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-300">Carbono</h4>
+            <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-300">{tNav('carbon')}</h4>
             <ul className="flex flex-col gap-4">
-              <li><Link href="/carbono-brasil" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">Mercado Brasil</Link></li>
-              <li><Link href="/carbono-mundo" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">Mercado Mundo</Link></li>
-              <li><Link href="/carbono-precos" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">Preços</Link></li>
-              <li><Link href="/carbono-projetos" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">Dados dos Projetos</Link></li>
+              <li><Link href="/carbono-brasil" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketBrazilCarbon')}</Link></li>
+              <li><Link href="/carbono-mundo" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketWorldCarbon')}</Link></li>
+              <li><Link href="/carbono-precos" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('carbonPrices')}</Link></li>
+              <li><Link href="/carbono-projetos" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('carbonData')}</Link></li>
             </ul>
           </div>
 
           {/* Comunidade & Empresa */}
           <div>
-            <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-300">Comunidade</h4>
+            <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-300">{tNav('community')}</h4>
             <ul className="flex flex-col gap-4 mb-8">
-              <li><Link href="/feed" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">Feed de Notícias</Link></li>
-              <li><Link href="/leaderboard" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">Ranking de Membros</Link></li>
-              <li><Link href="/conquistas" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">Missões e Conquistas</Link></li>
+              <li><Link href="/feed" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('newsFeed')}</Link></li>
+              <li><Link href="/leaderboard" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('ranking')}</Link></li>
+              <li><Link href="/conquistas" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('missionsAndAchievements')}</Link></li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="pt-8 lg:pt-10 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 lg:gap-6 text-slate-500 text-[13px]">
-          <p>© {currentYear} Sintropia. Todos os direitos reservados.</p>
+          <p>© {currentYear} Sintropia. {tFooter('rightsReserved')}</p>
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2">
-              Status: <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span> Estável
+              Status: <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span> {tFooter('stable')}
             </span>
             <span className="flex items-center gap-2 grayscale hover:grayscale-0 transition-all cursor-pointer">
-              Recife/Pernambuco 🇧🇷
+              {tFooter('location')}
             </span>
           </div>
         </div>
