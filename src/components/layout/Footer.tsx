@@ -68,6 +68,7 @@ export function Footer() {
               <li><Link href="/feed" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('newsFeed')}</Link></li>
               <li><Link href="/leaderboard" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('ranking')}</Link></li>
               <li><Link href="/conquistas" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('missionsAndAchievements')}</Link></li>
+              <li><Link href="/contribuir" className="text-emerald-400 text-[13px] hover:text-emerald-300 transition-colors font-medium">{tNav('contribute')}</Link></li>
             </ul>
           </div>
         </div>
