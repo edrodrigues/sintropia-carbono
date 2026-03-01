@@ -41,9 +41,10 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
     const fetchComments = useCallback(async () => {
         const { data } = await supabase
             .from("comments")
-            .select("*, author:profiles(username, avatar_url, karma, display_name, linkedin_url, user_type)")
+            .select("*, author:profiles!inner(username, avatar_url, karma, display_name, linkedin_url, user_type, role)")
             .eq("post_id", post.id)
             .eq("is_deleted", false)
+            .neq("author.role", "banned")
             .order("created_at", { ascending: true });
 
         if (data) setComments(data as CommentWithRelations[]);
@@ -65,9 +66,11 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                 async (payload) => {
                     const { data: authorData } = await supabase
                         .from("profiles")
-                        .select("username, avatar_url, karma, display_name, linkedin_url, user_type")
+                        .select("username, avatar_url, karma, display_name, linkedin_url, user_type, role")
                         .eq("id", payload.new.author_id)
                         .single();
+
+                    if (!authorData || authorData.role === 'banned') return;
 
                     const newCommentWithAuthor = {
                         ...payload.new,
@@ -108,6 +111,18 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) {
             setShowLoginPrompt(true);
+            return;
+        }
+
+        // Check if user is banned
+        const { data: profile } = await supabase
+            .from("profiles")
+            .select("role")
+            .eq("id", user.id)
+            .single();
+
+        if (profile?.role === 'banned') {
+            setError("Sua conta foi banida e você não pode postar comentários.");
             return;
         }
 

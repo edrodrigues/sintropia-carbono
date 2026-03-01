@@ -27,7 +27,7 @@ export default async function PublicProfilePage(props: PageProps) {
         .eq("username", username)
         .single();
 
-    if (!profile) {
+    if (!profile || profile.role === 'banned') {
         notFound();
     }
 
@@ -63,6 +63,7 @@ export default async function PublicProfilePage(props: PageProps) {
     const { count: higherKarmaCount } = await supabase
         .from("profiles")
         .select("id", { count: "exact", head: true })
+        .neq("role", "banned")
         .gt("karma", profile.karma || 0);
 
     const stats = {

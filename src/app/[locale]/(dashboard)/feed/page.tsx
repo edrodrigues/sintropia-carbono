@@ -25,9 +25,10 @@ export default async function FeedPage() {
     .from("posts")
     .select(`
       *,
-      author:profiles(username, avatar_url, karma, linkedin_url, user_type)
+      author:profiles!inner(username, avatar_url, karma, linkedin_url, user_type, role)
     `)
     .eq("is_deleted", false)
+    .neq("author.role", "banned")
     .order("created_at", { ascending: false })
     .limit(20);
 

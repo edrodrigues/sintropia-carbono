@@ -20,6 +20,7 @@ export default async function ProfilesPage() {
     const { data: profiles } = await supabase
         .from('profiles')
         .select('id, username, display_name, bio, user_type, karma, created_at')
+        .neq('role', 'banned')
         .order('karma', { ascending: false })
         .limit(50);
 

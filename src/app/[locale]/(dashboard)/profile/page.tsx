@@ -72,7 +72,9 @@ export default async function MyProfilePage() {
   const { count: higherKarmaCount } = await supabase
     .from("profiles")
     .select("id", { count: "exact", head: true })
+    .neq("role", "banned")
     .gt("karma", profile.karma || 0);
+
 
   const stats = {
     posts: postCount || 0,

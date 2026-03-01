@@ -51,8 +51,9 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
     const refreshPosts = useCallback(async () => {
         let query = supabase
             .from("posts")
-            .select(`*, author:profiles(username, avatar_url, karma, linkedin_url, user_type)`)
-            .eq("is_deleted", false);
+            .select(`*, author:profiles!inner(username, avatar_url, karma, linkedin_url, user_type, role)`)
+            .eq("is_deleted", false)
+            .neq("author.role", "banned");
 
         switch (sortBy) {
             case "top":

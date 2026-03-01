@@ -61,9 +61,10 @@ export default async function DashboardPage() {
         .eq('is_deleted', false);
 
     const { count: higherKarmaCount } = await supabase
-        .from('profiles')
-        .select('id', { count: 'exact', head: true })
-        .gt('karma', profile?.karma || 0);
+        .from("profiles")
+        .select("id", { count: "exact", head: true })
+        .neq("role", "banned")
+        .gt("karma", profile.karma || 0);
 
     const userKarma = profile?.karma || 0;
     const ranking = higherKarmaCount !== null ? higherKarmaCount + 1 : 1;

@@ -41,6 +41,19 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
             return;
         }
 
+        // Check if user is banned
+        const { data: profile } = await supabase
+            .from("profiles")
+            .select("role")
+            .eq("id", user.id)
+            .single();
+
+        if (profile?.role === 'banned') {
+            setError("Sua conta foi banida e você não pode criar posts.");
+            setLoading(false);
+            return;
+        }
+
         // Sanitize inputs
         const sanitizedTitle = sanitizeInput(trimmedTitle);
         const sanitizedContent = content.trim() ? sanitizeInput(content.trim()) : null;

@@ -26,6 +26,7 @@ export default async function LeaderboardPage() {
   const { data: users } = await supabase
     .from("profiles")
     .select("username, display_name, karma, avatar_url, user_type")
+    .neq("role", "banned")
     .order("karma", { ascending: false })
     .limit(50);
 
