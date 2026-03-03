@@ -22,8 +22,9 @@ export function CommunityFeed() {
             setLoading(true);
             let query = supabase
                 .from("posts")
-                .select(`*, author:profiles(username, avatar_url, karma, linkedin_url, user_type)`)
-                .eq("is_deleted", false);
+                .select(`*, author:profiles!inner(username, avatar_url, karma, linkedin_url, user_type, role)`)
+                .eq("is_deleted", false)
+                .neq("author.role", "banned");
 
             if (sortBy === "new") {
                 query = query.order("created_at", { ascending: false });

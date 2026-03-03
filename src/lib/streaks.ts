@@ -46,11 +46,13 @@ export async function getStreakLeaderboard(limit: number = 10): Promise<(UserStr
     .from('user_streaks')
     .select(`
       *,
-      profiles!user_streaks_user_id_fkey (
+      profiles!user_streaks_user_id_fkey!inner (
         username,
-        display_name
+        display_name,
+        role
       )
     `)
+    .neq('profiles.role', 'banned')
     .order('longest_streak', { ascending: false })
     .limit(limit);
   

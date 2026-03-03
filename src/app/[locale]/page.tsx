@@ -17,6 +17,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const { data: topContributors } = await supabase
     .from("profiles")
     .select("display_name, username, karma, avatar_url, user_type")
+    .neq("role", "banned")
     .order("karma", { ascending: false })
     .limit(3);
 
