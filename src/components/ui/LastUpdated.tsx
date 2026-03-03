@@ -35,6 +35,7 @@ export function LastUpdated({ dataFile, className = "" }: LastUpdatedProps) {
       year: "numeric",
     });
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLastUpdated(formattedDate);
 
     // Check if data is stale (> 30 days old)

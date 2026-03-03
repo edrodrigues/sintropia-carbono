@@ -170,7 +170,12 @@ export async function GET(request: NextRequest) {
     // --- DATA AGGREGATION VIA DATABASE ---
     // Fetch ALL projects for stats using pagination (batches of 1000)
     // Supabase seems to limit to 1000 rows regardless of range/limit
-    let allProjectsData: any[] = [];
+    interface ProjectStat {
+      project_id: string;
+      country: string;
+      category: string;
+    }
+    let allProjectsData: ProjectStat[] = [];
     let page = 0;
     const pageSize = 1000;
     
@@ -181,7 +186,7 @@ export async function GET(request: NextRequest) {
         .range(page * pageSize, (page + 1) * pageSize - 1);
       
       if (!batch || batch.length === 0) break;
-      allProjectsData = [...allProjectsData, ...batch];
+      allProjectsData = [...allProjectsData, ...batch as ProjectStat[]];
       page++;
       if (batch.length < pageSize) break;
     }
@@ -218,7 +223,12 @@ export async function GET(request: NextRequest) {
     });
 
     // Get credits data - fetch ALL credits using pagination
-    let allCredits: any[] = [];
+    interface CreditStat {
+      vintage: number;
+      quantity: number;
+      project_id: string;
+    }
+    let allCredits: CreditStat[] = [];
     let creditPage = 0;
     const creditPageSize = 1000;
     
@@ -229,7 +239,7 @@ export async function GET(request: NextRequest) {
         .range(creditPage * creditPageSize, (creditPage + 1) * creditPageSize - 1);
       
       if (!creditBatch || creditBatch.length === 0) break;
-      allCredits = [...allCredits, ...creditBatch];
+      allCredits = [...allCredits, ...creditBatch as CreditStat[]];
       creditPage++;
       if (creditBatch.length < creditPageSize) break;
     }

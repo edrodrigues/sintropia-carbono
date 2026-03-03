@@ -20,7 +20,8 @@ const TRACKING_FILE = resolve(__dirname, '../data/drip-tracking.json');
 
 async function main() {
     console.log('--- DB USERS (from get_users_for_drip) ---');
-    let { data: dbUsers, error: dbError } = await supabase.rpc('get_users_for_drip');
+    const { data, error: dbError } = await supabase.rpc('get_users_for_drip');
+    let dbUsers = data;
 
     if (dbError) {
         console.error('Error calling get_users_for_drip:', dbError);

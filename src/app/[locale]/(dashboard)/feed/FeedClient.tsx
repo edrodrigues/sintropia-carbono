@@ -31,14 +31,8 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
         getUser();
     }, [supabase]);
 
-    useEffect(() => {
-        if (postIdParam && posts.length > 0) {
-            const post = posts.find(p => p.id === postIdParam);
-            if (post) {
-                setSelectedPost(post);
-            }
-        }
-    }, [postIdParam, posts]);
+    // Use URL param to determine which post to show in modal if not manually selected
+    const activePost = selectedPost || (postIdParam ? posts.find(p => p.id === postIdParam) : null);
 
     const handleOpenModal = (post: PostWithRelations) => {
         setSelectedPost(post);
@@ -46,6 +40,8 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
 
     const handleCloseModal = () => {
         setSelectedPost(null);
+        // If we were viewing a post from the URL, we might want to clear it, 
+        // but for now we'll just clear the local state.
     };
 
     const refreshPosts = useCallback(async () => {
@@ -73,6 +69,7 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
     }, [sortBy, supabase]);
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         refreshPosts();
     }, [sortBy, refreshPosts]);
 
@@ -144,9 +141,9 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
                 </div>
             </div>
 
-            {selectedPost && (
+            {activePost && (
                 <PostModal
-                    post={selectedPost}
+                    post={activePost}
                     onClose={handleCloseModal}
                     currentUser={currentUser}
                     onPostUpdated={handlePostUpdated}

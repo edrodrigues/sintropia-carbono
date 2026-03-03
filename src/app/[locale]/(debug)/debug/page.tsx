@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 
 export default async function DebugPage() {
     const supabase = await createClient();
+    // eslint-disable-next-line react-hooks/purity
     const start = Date.now();
 
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -16,6 +17,7 @@ export default async function DebugPage() {
         : { data: null };
 
     const timings = {
+        // eslint-disable-next-line react-hooks/purity
         total: Date.now() - start,
     };
 

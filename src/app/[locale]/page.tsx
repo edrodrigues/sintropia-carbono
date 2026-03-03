@@ -6,6 +6,7 @@ import { getUserTypeIcon } from "@/lib/utils/user";
 import { getTranslations } from 'next-intl/server';
 import { Link } from "@/i18n/routing";
 import { HeroTitle } from "@/components/home/HeroTitle";
+import Image from "next/image";
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -167,9 +168,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                   <div key={i} className="flex items-center gap-4">
                     <span className="text-[10px] font-black font-mono text-slate-700 w-4">0{i + 1}</span>
                     <div className="size-8 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[1px] shadow-sm flex-shrink-0">
-                      <div className="w-full h-full rounded-[0.65rem] bg-white dark:bg-slate-900 flex items-center justify-center overflow-hidden">
+                      <div className="w-full h-full rounded-[0.65rem] bg-white dark:bg-slate-900 flex items-center justify-center overflow-hidden relative">
                         {c.avatar_url ? (
-                          <img src={c.avatar_url} alt={c.username} className="w-full h-full object-cover" />
+                          <Image src={c.avatar_url} alt={c.username} width={32} height={32} className="w-full h-full object-cover" />
                         ) : (
                           <span className="text-xl">{getUserTypeIcon(c.user_type)}</span>
                         )}
@@ -188,9 +189,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-400">{tIndex('sidebar.myPanel')}</h4>
               <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100 mb-6">
                 <div className="size-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[2px] shadow-sm flex-shrink-0">
-                  <div className="w-full h-full rounded-[0.6rem] bg-white dark:bg-slate-900 flex items-center justify-center overflow-hidden">
+                  <div className="w-full h-full rounded-[0.6rem] bg-white dark:bg-slate-900 flex items-center justify-center overflow-hidden relative">
                     {profile?.avatar_url ? (
-                      <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                      <Image src={profile.avatar_url} alt="" width={40} height={40} className="w-full h-full object-cover" />
                     ) : (
                       <span className="text-2xl">{getUserTypeIcon(profile?.user_type)}</span>
                     )}

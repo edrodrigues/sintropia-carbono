@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+import { Link } from "@/i18n/routing";
 import { createClient } from '@/lib/supabase/client';
 import { PasswordRequirements } from './PasswordRequirements';
 
@@ -175,9 +176,9 @@ export function RegisterForm({ error: initialError }: RegisterFormProps) {
             <div className="text-center pt-4 border-t border-gray-50 dark:border-gray-800">
                 <p className="text-xs text-gray-500 font-medium">
                     {t('alreadyHaveAccount')}{' '}
-                    <a href="/login" className="text-[#1e40af] dark:text-blue-400 hover:underline font-bold transition-all">
+                    <Link href="/login" className="text-[#1e40af] dark:text-blue-400 hover:underline font-bold transition-all">
                         {t('loginNow')}
-                    </a>
+                    </Link>
                 </p>
             </div>
         </div>

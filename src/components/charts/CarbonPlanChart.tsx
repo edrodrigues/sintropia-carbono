@@ -17,6 +17,32 @@ const continentColors: Record<string, string> = {
 
 const chartColors = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316", "#6366f1", "#84cc16"];
 
+const categoryColors: Record<string, string> = {
+  "forest": "#22c55e",
+  "agriculture": "#f59e0b",
+  "renewable-energy": "#3b82f6",
+  "fuel-switching": "#ef4444",
+  "biochar": "#8b5cf6",
+  "energy-efficiency": "#ec4899",
+  "land-use": "#14b8a6",
+  "carbon-capture": "#6366f1",
+  "ghg-management": "#84cc16",
+  "unknown": "#6b7280",
+};
+
+const PortugueseCategoryNames: Record<string, string> = {
+  "forest": "Florestal",
+  "agriculture": "Agricultura",
+  "renewable-energy": "Energia Renovável",
+  "fuel-switching": "Subst. Combustível",
+  "biochar": "Biochar",
+  "energy-efficiency": "Eficiência Energética",
+  "land-use": "Uso da Terra",
+  "carbon-capture": "Captura de Carbono",
+  "ghg-management": "Gestão de GEE",
+  "unknown": "Pendente",
+};
+
 interface ApiResponse {
   projects: CarbonProject[];
   stats: {
@@ -217,32 +243,6 @@ export function CarbonPlanChart() {
     ];
   }, [stats]);
 
-  const categoryColors: Record<string, string> = {
-    "forest": "#22c55e",
-    "agriculture": "#f59e0b",
-    "renewable-energy": "#3b82f6",
-    "fuel-switching": "#ef4444",
-    "biochar": "#8b5cf6",
-    "energy-efficiency": "#ec4899",
-    "land-use": "#14b8a6",
-    "carbon-capture": "#6366f1",
-    "ghg-management": "#84cc16",
-    "unknown": "#6b7280",
-  };
-
-  const PortugueseCategoryNames: Record<string, string> = {
-    "forest": "Florestal",
-    "agriculture": "Agricultura",
-    "renewable-energy": "Energia Renovável",
-    "fuel-switching": "Subst. Combustível",
-    "biochar": "Biochar",
-    "energy-efficiency": "Eficiência Energética",
-    "land-use": "Uso da Terra",
-    "carbon-capture": "Captura de Carbono",
-    "ghg-management": "Gestão de GEE",
-    "unknown": "Pendente",
-  };
-
   const categoryChartData = useMemo(() => {
     if (!stats || !stats.categoryStats) return [];
 
@@ -299,7 +299,7 @@ export function CarbonPlanChart() {
   }, [stats]);
 
   const getBadgeColor = (category: string) => {
-    const colors: Record<string, string> = {
+    const colors: Record<string, "green" | "amber" | "blue" | "red" | "violet" | "pink" | "emerald" | "indigo" | "lime" | "gray"> = {
       "forest": "green",
       "agriculture": "amber",
       "renewable-energy": "blue",
@@ -311,7 +311,7 @@ export function CarbonPlanChart() {
       "ghg-management": "lime",
       "unknown": "gray",
     };
-    return (colors[category] || "gray") as any;
+    return colors[category] || "gray";
   };
 
   const getTypeBadgeColor = (projectType: string): "green" | "emerald" | "gray" => {

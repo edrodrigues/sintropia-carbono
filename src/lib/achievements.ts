@@ -392,7 +392,7 @@ export function calculateAchievements(profile: {
 }, stats: UserStats): Achievement[] {
   const achievements: Achievement[] = ACHIEVEMENT_DEFINITIONS.map(def => {
     let earned = false;
-    let progress = def.progress ? { ...def.progress } : undefined;
+    const progress = def.progress ? { ...def.progress } : undefined;
     
     switch (def.id) {
       case "first_post":

@@ -134,7 +134,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
             {showLoginPrompt && (
                 <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 rounded-lg text-sm border border-yellow-100 dark:border-yellow-800">
                     Você precisa estar logado para comentar.{' '}
-                    <a href="/login" className="underline font-semibold">Faça login</a>
+                    <Link href="/login" className="underline font-semibold text-[#1e40af] dark:text-blue-400">Faça login</Link>
                 </div>
             )}
 

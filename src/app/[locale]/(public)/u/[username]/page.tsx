@@ -8,6 +8,7 @@ import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { StatsDashboard } from "@/components/profile/StatsDashboard";
 import { calculateAchievements } from "@/lib/achievements";
 import { decodeHtmlServer } from "@/lib/utils/sanitize";
+import Link from "next/link";
 
 interface PageProps {
     params: Promise<{ locale: string; username: string }>;
@@ -98,9 +99,9 @@ export default async function PublicProfilePage(props: PageProps) {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {posts && posts.length > 0 ? (
                             posts.map((post) => (
-                                <a
+                                <Link
                                     key={post.id}
-                                    href="/feed"
+                                    href={`/feed?post=${post.id}`}
                                     className="block bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow"
                                 >
                                     <div className="flex items-center gap-2 mb-2">
@@ -123,7 +124,7 @@ export default async function PublicProfilePage(props: PageProps) {
                                         <span>⬆ {post.karma}</span>
                                         <span>💬 {post.comment_count}</span>
                                     </div>
-                                </a>
+                                </Link>
                             ))
                         ) : (
                             <div className="col-span-full text-center py-8 text-gray-500">

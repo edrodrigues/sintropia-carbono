@@ -19,7 +19,7 @@ async function main() {
       console.log(`\nFetching contacts from ${audience.name} (${audience.id})...`);
       await sleep(1000);
       
-      let contacts: any[] = [];
+      let contacts: { email: string; id: string }[] = [];
       let cursor: string | undefined;
       let hasMore = true;
       

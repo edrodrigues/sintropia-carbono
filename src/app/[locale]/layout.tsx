@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { Inter } from "next/font/google";
 import Script from "next/script";
@@ -99,14 +98,14 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
 
-  if (!routing.locales.includes(locale as any)) {
+  if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     notFound();
   }
 
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${GeistSans.className} ${inter.variable} light antialiased dark:bg-gray-950`}>
+    <html lang={locale as (typeof routing.locales)[number]} className={`${GeistSans.className} ${inter.variable} light antialiased dark:bg-gray-950`}>
       <body className="antialiased font-sans bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
         <NextIntlClientProvider messages={messages}>
           <StrictModeFix />

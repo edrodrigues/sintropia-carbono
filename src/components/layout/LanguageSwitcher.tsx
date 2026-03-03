@@ -57,7 +57,7 @@ export default function LanguageSwitcher() {
                             <button
                                 key={lang.code}
                                 onClick={() => {
-                                    router.push(pathname, { locale: lang.code as any });
+                                    router.push(pathname, { locale: lang.code as "pt" | "en" | "es" });
                                     setIsOpen(false);
                                 }}
                                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-[13px] font-medium transition-colors ${locale === lang.code ? "bg-forest-green/10 text-forest-green font-bold" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"

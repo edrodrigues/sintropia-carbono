@@ -87,7 +87,7 @@ async function getDbUsers(): Promise<ContactRecord[]> {
     console.error('Error fetching users from DB:', error);
     throw error;
   }
-  return data?.map((user: any) => ({
+  return (data as ContactRecord[])?.map((user) => ({
     email: user.email,
     created_at: user.created_at,
     first_name: user.first_name || undefined
@@ -106,10 +106,10 @@ async function getResendContacts(audienceId: string) {
       contacts.push(...data.data.map(c => ({
         email: c.email,
         first_name: c.first_name ?? undefined,
-        created_at: (c as any).created_at,
+        created_at: (c as { created_at: string }).created_at,
       })));
     }
-    cursor = (data as any)?.next_cursor;
+    cursor = (data as { next_cursor?: string })?.next_cursor;
   } while (cursor);
   return contacts;
 }
