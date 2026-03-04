@@ -28,7 +28,7 @@ export default async function LeaderboardPage() {
     .select("username, display_name, karma, avatar_url, user_type")
     .neq("role", "banned")
     .order("karma", { ascending: false })
-    .limit(50);
+    .limit(25);
 
   const getRankStyle = (rank: number) => {
     if (rank === 1) return "bg-yellow-50/50 dark:bg-yellow-900/10 border-l-4 border-l-yellow-400";

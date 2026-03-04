@@ -6,7 +6,6 @@ import { calculateAchievements } from '@/lib/achievements';
 import { AchievementList } from '@/components/profile/AchievementBadges';
 import { getStreakBonus, getStreakEmoji } from '@/types/gamification';
 import { StreakBadge } from '@/components/gamification/StreakBadge';
-import { StreakUpdater } from '@/components/gamification/StreakUpdater';
 import { getUserTypeIcon } from '@/lib/utils/user';
 import { getTranslations } from 'next-intl/server';
 
@@ -101,8 +100,7 @@ export default async function DashboardPage() {
     });
 
     return (
-        <StreakUpdater>
-            <div className="max-w-5xl mx-auto py-12 px-4">
+        <div className="max-w-5xl mx-auto py-12 px-4">
                 <div className="mb-8">
                     <h2 className="text-4xl font-bold text-[#1e40af] mb-2 dark:text-blue-400">
                         {t('pageTitle')}
@@ -421,6 +419,5 @@ export default async function DashboardPage() {
                     </div>
                 </div>
             </div>
-        </StreakUpdater>
     );
 }
