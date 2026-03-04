@@ -1,10 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import FeedClient from "./FeedClient";
 import { PostWithRelations } from "@/types";
-import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     
     return {

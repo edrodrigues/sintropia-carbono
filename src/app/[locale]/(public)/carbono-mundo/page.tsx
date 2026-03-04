@@ -9,7 +9,7 @@ import { CarbonoMundoChart } from "@/components/charts/CarbonoMundoChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { MobileTableWrapper } from "@/components/ui/MobileTable";
-import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+import { Card } from "@/components/ui/tremor";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;

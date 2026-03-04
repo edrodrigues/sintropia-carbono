@@ -9,7 +9,7 @@ import { CarbonoBrasilChart } from "@/components/charts/CarbonoBrasilChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { MobileTableWrapper } from "@/components/ui/MobileTable";
-import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+import { Card } from "@/components/ui/tremor";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -75,20 +75,6 @@ const getSetorBadge = (setor: string) => {
     Logística: "bg-teal-700",
   };
   return badges[setor] || "bg-gray-600";
-};
-
-const getGrowthClass = (delta: number) => {
-  if (delta >= 35) return "text-green-600 dark:text-green-400 font-bold";
-  if (delta >= 25) return "text-green-500 dark:text-green-300 font-semibold";
-  if (delta >= 15) return "text-yellow-600 dark:text-yellow-400 font-semibold";
-  return "text-gray-600 dark:text-gray-400";
-};
-
-const getTopClass = (rank: number) => {
-  if (rank === 1) return "bg-yellow-50 dark:bg-yellow-900/20";
-  if (rank === 2) return "bg-blue-50 dark:bg-blue-900/20";
-  if (rank === 3) return "bg-purple-50 dark:bg-purple-900/20";
-  return "";
 };
 
 const dataSources = [

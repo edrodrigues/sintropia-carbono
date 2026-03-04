@@ -11,7 +11,6 @@ import Image from "next/image";
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const tIndex = await getTranslations({ locale, namespace: 'Index' });
-  const tNav = await getTranslations({ locale, namespace: 'Navigation' });
   const supabase = await createClient();
 
   // Fetch top 3 contributors

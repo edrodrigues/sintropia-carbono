@@ -76,7 +76,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                     const newCommentWithAuthor = {
                         ...payload.new,
                         author: authorData,
-                    } as CommentWithRelations;
+                    } as unknown as CommentWithRelations;
 
                     setComments((prev) => [...prev, newCommentWithAuthor]);
                 }

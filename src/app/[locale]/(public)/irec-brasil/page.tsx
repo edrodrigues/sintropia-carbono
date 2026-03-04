@@ -9,7 +9,7 @@ import { IrecBrasilChart } from "@/components/charts/IrecBrasilChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { MobileTableWrapper } from "@/components/ui/MobileTable";
-import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+import { Card } from "@/components/ui/tremor";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -58,33 +58,6 @@ const irecData = [
   { rank: 19, empresa: "Embraer", papel: "Comprador", vol2024: 260, vol2025: 340, delta: 30.77 },
   { rank: 20, empresa: "Lojas Renner", papel: "Comprador", vol2024: 195, vol2025: 255, delta: 30.77 },
 ];
-
-const getPapelBadge = (papel: string) => {
-  switch (papel) {
-    case "Vendedor":
-      return "bg-green-600";
-    case "Comprador":
-      return "bg-blue-600";
-    case "Ambos":
-      return "bg-purple-600";
-    default:
-      return "bg-gray-600";
-  }
-};
-
-const getGrowthClass = (delta: number) => {
-  if (delta >= 50) return "text-green-600 dark:text-green-400 font-bold";
-  if (delta >= 30) return "text-green-500 dark:text-green-300 font-semibold";
-  if (delta >= 20) return "text-yellow-600 dark:text-yellow-400 font-semibold";
-  return "text-gray-600 dark:text-gray-400";
-};
-
-const getTopClass = (rank: number) => {
-  if (rank === 1) return "bg-yellow-50 dark:bg-yellow-900/20";
-  if (rank === 2) return "bg-blue-50 dark:bg-blue-900/20";
-  if (rank === 3) return "bg-purple-50 dark:bg-purple-900/20";
-  return "";
-};
 
 const dataSources = [
   { name: "I-REC Brasil", url: "https://irec-brazil.org" },

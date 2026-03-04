@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { login } from '@/app/[locale]/(auth)/login/actions';
@@ -6,10 +5,6 @@ import { GoogleButton } from '@/components/GoogleButton';
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }) {
   const params = await props.params;
-  const t = await getTranslations({
-    locale: params.locale,
-    namespace: 'Auth'
-  });
   const title = params.locale === 'pt' ? 'Entrar | Sintropia' : 'Log In | Sintropia';
   
   return {

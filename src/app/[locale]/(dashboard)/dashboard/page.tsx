@@ -1,17 +1,14 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { Metadata } from 'next';
 import { calculateAchievements } from '@/lib/achievements';
 import { AchievementList } from '@/components/profile/AchievementBadges';
 import { getStreakBonus, getStreakEmoji } from '@/types/gamification';
-import { StreakBadge } from '@/components/gamification/StreakBadge';
 import { getUserTypeIcon } from '@/lib/utils/user';
 import { getTranslations } from 'next-intl/server';
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
-    const t = await getTranslations({ locale, namespace: 'Metadata' });
     
     return {
         title: locale === 'pt' ? 'Painel | Sintropia' : 'Dashboard | Sintropia',

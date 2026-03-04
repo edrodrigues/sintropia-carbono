@@ -80,7 +80,6 @@ const dataSources = [
 export default async function Certificadoras({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'Certificadoras' });
-  const tCommon = await getTranslations({ locale, namespace: 'Common' });
 
   return (
     <>

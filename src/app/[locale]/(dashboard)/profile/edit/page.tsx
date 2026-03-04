@@ -3,10 +3,8 @@ import { redirect } from 'next/navigation';
 import ProfileForm from '@/app/[locale]/(dashboard)/profile/ProfileForm';
 import { getUserTypeIcon } from "@/lib/utils/user";
 import Image from "next/image";
-import { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     
     return {

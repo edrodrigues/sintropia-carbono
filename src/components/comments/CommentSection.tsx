@@ -58,7 +58,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
                     const newComment = {
                         ...payload.new,
                         author: authorData,
-                    } as CommentWithRelations;
+                    } as unknown as CommentWithRelations;
 
                     setComments((prev) => [...prev, newComment]);
                 }

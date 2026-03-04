@@ -3,11 +3,9 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { calculateAchievements } from '@/lib/achievements';
 import { AchievementList } from '@/components/profile/AchievementBadges';
-import { getStreakBonus, getStreakEmoji } from '@/types/gamification';
-import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     
     return {
@@ -62,7 +60,6 @@ export default async function ConquistasPage() {
         .single();
 
     const currentStreak = streakData?.current_streak || 0;
-    const longestStreak = streakData?.longest_streak || 0;
 
     const achievements = calculateAchievements(profile || {}, {
         postCount: totalPosts || 0,

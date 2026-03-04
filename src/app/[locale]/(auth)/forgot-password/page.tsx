@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
 import { resetPassword } from '@/app/[locale]/(auth)/login/actions';
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }) {

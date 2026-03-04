@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { RegisterForm } from '@/components/auth/RegisterForm';
