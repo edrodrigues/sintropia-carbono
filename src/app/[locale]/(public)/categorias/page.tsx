@@ -30,6 +30,7 @@ export default async function Categorias({ params }: { params: Promise<{ locale:
         title: t('items.carbonBrazil'),
         description: t('items.carbonBrazilDesc'),
         image: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=600&auto=format&fit=crop",
+        alt: t('alt.carbonBrazil'),
         href: "/carbono-brasil",
         active: true,
       },
@@ -37,42 +38,49 @@ export default async function Categorias({ params }: { params: Promise<{ locale:
         title: t('items.energyBrazil'),
         description: t('items.energyBrazilDesc'),
         image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=600&auto=format&fit=crop",
+        alt: t('alt.energyBrazil'),
         href: "/irec-brasil",
       },
       {
         title: t('items.carbonWorld'),
         description: t('items.carbonWorldDesc'),
-        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=600&auto=format&fit=crop",
+        alt: t('alt.carbonWorld'),
         href: "/carbono-mundo",
       },
       {
         title: t('items.energyPrices'),
         description: t('items.energyPricesDesc'),
         image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=600&auto=format&fit=crop",
+        alt: t('alt.energyPrices'),
         href: "/irec-precos",
       },
       {
         title: t('items.carbonProjects'),
         description: t('items.carbonProjectsDesc'),
         image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=600&auto=format&fit=crop",
+        alt: t('alt.carbonProjects'),
         href: "/carbono-projetos",
       },
       {
         title: t('items.certificadoras'),
         description: t('items.certificadorasDesc'),
-        image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=600&auto=format&fit=crop",
+        alt: t('alt.certificadoras'),
         href: "/certificadoras",
       },
       {
         title: t('items.irecWorld'),
         description: t('items.irecWorldDesc'),
         image: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?q=80&w=600&auto=format&fit=crop",
+        alt: t('alt.irecWorld'),
         href: "/irec-mundo",
       },
       {
         title: t('items.carbonPrices'),
         description: t('items.carbonPricesDesc'),
-        image: "https://images.unsplash.com/photo-1569163139599-0f4517e36f51?q=80&w=600&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1611974714014-419b4578b8bc?q=80&w=600&auto=format&fit=crop",
+        alt: t('alt.carbonPrices'),
         href: "/carbono-precos",
       },
     ];
@@ -100,7 +108,7 @@ export default async function Categorias({ params }: { params: Promise<{ locale:
               >
                 <Image
                   src={category.image}
-                  alt={category.title}
+                  alt={category.alt}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-110"

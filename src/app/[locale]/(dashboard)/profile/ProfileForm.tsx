@@ -79,28 +79,28 @@ export default function ProfileForm({
                     <div className="space-y-2">
                         <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">Tipo de Conta</label>
                         <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-                            <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                                <input type="radio" name="user_type" value="individual" defaultChecked={!profile?.user_type || profile?.user_type === 'individual'} className="hidden" />
+                            <label htmlFor="user_type_individual" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                                <input id="user_type_individual" type="radio" name="user_type" value="individual" defaultChecked={!profile?.user_type || profile?.user_type === 'individual'} className="hidden" />
                                 <span className="text-xl">👤</span>
                                 <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Indivíduo</span>
                             </label>
-                            <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                                <input type="radio" name="user_type" value="company" defaultChecked={profile?.user_type === 'company'} className="hidden" />
+                            <label htmlFor="user_type_company" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                                <input id="user_type_company" type="radio" name="user_type" value="company" defaultChecked={profile?.user_type === 'company'} className="hidden" />
                                 <span className="text-xl">🏢</span>
                                 <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Empresa</span>
                             </label>
-                            <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                                <input type="radio" name="user_type" value="ong" defaultChecked={profile?.user_type === 'ong'} className="hidden" />
+                            <label htmlFor="user_type_ong" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                                <input id="user_type_ong" type="radio" name="user_type" value="ong" defaultChecked={profile?.user_type === 'ong'} className="hidden" />
                                 <span className="text-xl">🤝</span>
                                 <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">ONG</span>
                             </label>
-                            <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                                <input type="radio" name="user_type" value="government" defaultChecked={profile?.user_type === 'government'} className="hidden" />
+                            <label htmlFor="user_type_government" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                                <input id="user_type_government" type="radio" name="user_type" value="government" defaultChecked={profile?.user_type === 'government'} className="hidden" />
                                 <span className="text-xl">🏛️</span>
                                 <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Governo</span>
                             </label>
-                            <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                                <input type="radio" name="user_type" value="professor" defaultChecked={profile?.user_type === 'professor'} className="hidden" />
+                            <label htmlFor="user_type_professor" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                                <input id="user_type_professor" type="radio" name="user_type" value="professor" defaultChecked={profile?.user_type === 'professor'} className="hidden" />
                                 <span className="text-xl">🧑‍🏫</span>
                                 <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Professor</span>
                             </label>
@@ -178,28 +178,28 @@ export default function ProfileForm({
                 <div className="md:col-span-2 space-y-2">
                     <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">Tipo de Conta</label>
                     <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-                        <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                            <input type="radio" name="user_type" value="individual" defaultChecked={!profile?.user_type || profile?.user_type === 'individual'} className="hidden" />
+                        <label htmlFor="user_type_individual_2" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                            <input id="user_type_individual_2" type="radio" name="user_type" value="individual" defaultChecked={!profile?.user_type || profile?.user_type === 'individual'} className="hidden" />
                             <span className="text-xl">👤</span>
                             <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Indivíduo</span>
                         </label>
-                        <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                            <input type="radio" name="user_type" value="company" defaultChecked={profile?.user_type === 'company'} className="hidden" />
+                        <label htmlFor="user_type_company_2" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                            <input id="user_type_company_2" type="radio" name="user_type" value="company" defaultChecked={profile?.user_type === 'company'} className="hidden" />
                             <span className="text-xl">🏢</span>
                             <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Empresa</span>
                         </label>
-                        <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                            <input type="radio" name="user_type" value="ong" defaultChecked={profile?.user_type === 'ong'} className="hidden" />
+                        <label htmlFor="user_type_ong_2" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                            <input id="user_type_ong_2" type="radio" name="user_type" value="ong" defaultChecked={profile?.user_type === 'ong'} className="hidden" />
                             <span className="text-xl">🤝</span>
                             <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">ONG</span>
                         </label>
-                        <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                            <input type="radio" name="user_type" value="government" defaultChecked={profile?.user_type === 'government'} className="hidden" />
+                        <label htmlFor="user_type_government_2" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                            <input id="user_type_government_2" type="radio" name="user_type" value="government" defaultChecked={profile?.user_type === 'government'} className="hidden" />
                             <span className="text-xl">🏛️</span>
                             <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Governo</span>
                         </label>
-                        <label className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                            <input type="radio" name="user_type" value="professor" defaultChecked={profile?.user_type === 'professor'} className="hidden" />
+                        <label htmlFor="user_type_professor_2" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-[#1e40af] has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                            <input id="user_type_professor_2" type="radio" name="user_type" value="professor" defaultChecked={profile?.user_type === 'professor'} className="hidden" />
                             <span className="text-xl">🧑‍🏫</span>
                             <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Professor</span>
                         </label>

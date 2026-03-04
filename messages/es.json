@@ -175,6 +175,16 @@
             "irecWorldDesc": "Mercado global de certificados I-REC",
             "carbonPrices": "Precios Carbono",
             "carbonPricesDesc": "Evolución y análisis de precios de carbono"
+        },
+        "alt": {
+            "carbonBrazil": "Bosque tropical denso que representa créditos de carbono basados en la naturaleza",
+            "energyBrazil": "Turbinas eólicas en un campo bajo cielo despejado que representan energía renovable",
+            "carbonWorld": "Globo digital con conexiones de datos que representa el mercado global de carbono",
+            "energyPrices": "Torres de alta tensión que representan la infraestructura y los precios de la energía",
+            "carbonProjects": "Vegetación exuberante que representa proyectos de conservación ambiental",
+            "certificadoras": "Documento oficial con sello de verificación que representa estándares de calidad",
+            "irecWorld": "Paneles solares fotovoltaicos que representan certificados de energía limpia",
+            "carbonPrices": "Gráfico financiero de mercado que representa la evolución de los precios del carbono"
         }
     },
     "IREC": {
