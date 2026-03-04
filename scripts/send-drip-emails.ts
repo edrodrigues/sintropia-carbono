@@ -100,7 +100,7 @@ async function getResendContacts(audienceId: string) {
   
   do {
     await new Promise(resolve => setTimeout(resolve, 600));
-    const { data, error } = await resend.contacts.list({ audienceId, limit: 100, cursor });
+    const { data, error } = await resend.contacts.list({ audienceId, limit: 100 } as any);
     if (error) throw error;
     if (data?.data) {
       contacts.push(...data.data.map(c => ({
