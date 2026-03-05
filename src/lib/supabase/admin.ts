@@ -1,9 +1,9 @@
-import { createClient } from '@supabase/supabase-js';
-import { cookies } from 'next/headers';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import type { Database } from '@/types/supabase';
 
-let supabaseAdmin: ReturnType<typeof createClient> | null = null;
+let supabaseAdmin: SupabaseClient<Database> | null = null;
 
-export function getSupabaseAdmin() {
+export function getSupabaseAdmin(): SupabaseClient<Database> {
   if (supabaseAdmin) {
     return supabaseAdmin;
   }

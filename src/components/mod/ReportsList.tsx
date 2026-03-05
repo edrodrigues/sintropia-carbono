@@ -94,7 +94,7 @@ export function ReportsList({ reports }: ReportsListProps) {
                 Denunciado por <Link href={`/u/${report.reporter?.username}`} className="text-blue-600 dark:text-blue-400 hover:underline">
                   @{report.reporter?.username || "Anônimo"}
                 </Link> •{" "}
-                {new Date(report.created_at).toLocaleDateString("pt-BR")}
+                {report.created_at ? new Date(report.created_at).toLocaleDateString("pt-BR") : ''}
               </p>
             </div>
             <div className="flex flex-col gap-2">

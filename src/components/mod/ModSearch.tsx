@@ -15,22 +15,22 @@ interface User {
   display_name: string | null;
   avatar_url: string | null;
   role: string | null;
-  karma: number;
+  karma: number | null;
   user_type: string | null;
-  created_at: string;
+  created_at: string | null;
 }
 
 interface Post {
   id: string;
   title: string;
-  content: string;
+  content: string | null;
   url: string | null;
   category: string;
-  karma: number;
-  comment_count: number;
-  is_locked: boolean;
-  is_deleted: boolean;
-  created_at: string;
+  karma: number | null;
+  comment_count: number | null;
+  is_locked: boolean | null;
+  is_deleted: boolean | null;
+  created_at: string | null;
   author: {
     username: string;
     avatar_url: string | null;
@@ -212,8 +212,8 @@ export function ModSearch() {
                   <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
                     <span className="px-2 py-0.5 bg-gray-100 rounded">{post.category}</span>
                     <span>por @{post.author?.username || "desconhecido"}</span>
-                    <span>{post.karma} karma</span>
-                    <span>{new Date(post.created_at).toLocaleDateString("pt-BR")}</span>
+                    <span>{post.karma ?? 0} karma</span>
+                    <span>{post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR") : ''}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 ml-4">

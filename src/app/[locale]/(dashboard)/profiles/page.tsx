@@ -78,9 +78,9 @@ export default async function ProfilesPage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {profiles && profiles.length > 0 ? (
+                    {profiles && profiles.length > 0 ? (
                     profiles.map((profile) => {
-                        const badge = getBadge(profile.karma || 0);
+                        const badge = getBadge(profile.karma ?? 0);
                         const posts = postCountByUser[profile.id] || 0;
                         const comments = commentCountByUser[profile.id] || 0;
 

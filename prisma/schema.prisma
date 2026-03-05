@@ -1,0 +1,218 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  user
+  moderator
+  admin
+  banned
+}
+
+model profiles {
+  id              String    @id
+  username        String    @unique
+  display_name    String?
+  bio             String?
+  avatar_url      String?
+  role            UserRole? @default(user)
+  karma           Int       @default(0)
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @default(now())
+  user_type       String?
+  cargo           String?
+  organization    String?
+  linkedin_url    String?
+  twitter_url     String?
+  
+  posts           posts[]
+  comments        comments[]
+  votes           votes[]
+  bans            bans[]               @relation("bans_user")
+  bans_moderator  bans[]               @relation("bans_moderator")
+  reports         reports[]
+  warnings        warnings[]           @relation("warnings_user")
+  warnings_mod    warnings[]           @relation("warnings_moderator")
+  karma_transactions karma_transactions[]
+  user_streaks    user_streaks?
+  user_achievements user_achievements[]
+}
+
+model posts {
+  id            String    @id @default(uuid())
+  author_id     String
+  title         String
+  content       String?
+  url           String?
+  category      String
+  keywords      String[]
+  karma         Int       @default(0)
+  comment_count Int      @default(0)
+  is_locked     Boolean   @default(false)
+  is_deleted    Boolean   @default(false)
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @default(now())
+  
+  author        profiles  @relation(fields: [author_id], references: [id])
+  comments      comments[]
+  votes         votes[]
+  karma_transactions karma_transactions[]
+}
+
+model comments {
+  id          String    @id @default(uuid())
+  post_id     String
+  author_id   String
+  content     String
+  karma       Int       @default(0)
+  parent_id   String?
+  is_deleted  Boolean   @default(false)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now())
+  
+  post        posts     @relation(fields: [post_id], references: [id])
+  author      profiles  @relation(fields: [author_id], references: [id])
+  parent      comments? @relation("comments_replies", fields: [parent_id], references: [id])
+  replies     comments[] @relation("comments_replies")
+  votes       votes[]
+}
+
+model votes {
+  id          String    @id @default(uuid())
+  user_id     String
+  target_id   String
+  target_type String
+  vote_type   Int
+  created_at  DateTime  @default(now())
+  
+  user        profiles  @relation(fields: [user_id], references: [id])
+  post        posts?    @relation(fields: [target_id], references: [id], map: "votes_post_fk")
+  comment     comments? @relation(fields: [target_id], references: [id], map: "votes_comment_fk")
+
+  @@unique([user_id, target_id, target_type])
+}
+
+model bans {
+  id            String    @id @default(uuid())
+  user_id       String
+  moderator_id  String
+  reason        String?
+  expires_at    DateTime?
+  created_at    DateTime  @default(now())
+  
+  user          profiles  @relation("bans_user", fields: [user_id], references: [id])
+  moderator     profiles  @relation("bans_moderator", fields: [moderator_id], references: [id])
+}
+
+model reports {
+  id            String    @id @default(uuid())
+  reporter_id   String
+  target_id     String
+  target_type   String
+  reason        String
+  status        String    @default("pending")
+  created_at    DateTime  @default(now())
+  
+  reporter      profiles  @relation(fields: [reporter_id], references: [id])
+}
+
+model warnings {
+  id            String    @id @default(uuid())
+  user_id       String
+  moderator_id   String
+  reason        String
+  created_at    DateTime  @default(now())
+  
+  user          profiles  @relation("warnings_user", fields: [user_id], references: [id])
+  moderator     profiles  @relation("warnings_moderator", fields: [moderator_id], references: [id])
+}
+
+model karma_transactions {
+  id        String   @id @default(uuid())
+  user_id   String
+  amount    Int
+  reason    String
+  post_id   String?
+  created_at DateTime @default(now())
+  
+  user      profiles @relation(fields: [user_id], references: [id])
+  post      posts?   @relation(fields: [post_id], references: [id])
+}
+
+model user_streaks {
+  user_id           String   @id
+  current_streak    Int      @default(0)
+  longest_streak    Int      @default(0)
+  last_activity_date Date?
+  total_days_active Int      @default(0)
+  updated_at        DateTime @default(now())
+  
+  user              profiles @relation(fields: [user_id], references: [id])
+}
+
+model user_achievements {
+  id            String   @id @default(uuid())
+  user_id       String
+  achievement_id String
+  earned_at     DateTime @default(now())
+  metadata      Json?
+  
+  user          profiles @relation(fields: [user_id], references: [id])
+}
+
+model carbon_projects {
+  id                        Int      @id @default(autoincrement())
+  project_id                String   @unique
+  name                      String
+  category                  String?
+  country                   String
+  project_type              String?
+  project_type_source       String?
+  project_url               String?
+  proponent                 String?
+  protocol                  String?
+  registry                  String?
+  status                    String?
+  is_compliance             Boolean  @default(false)
+  issued                    Int?
+  retired                   Int?
+  first_issuance_at         DateTime?
+  first_retirement_at       DateTime?
+  listed_at                 DateTime?
+  created_at                DateTime @default(now())
+  
+  carbon_credits            carbon_credits[]
+}
+
+model carbon_credits {
+  id                              Int      @id @default(autoincrement())
+  project_id                      String?
+  quantity                        Int
+  vintage                         Int?
+  transaction_date                DateTime?
+  transaction_type                String?
+  retirement_account             String?
+  retirement_beneficiary         String?
+  retirement_beneficiary_harmonized String?
+  retirement_note                String?
+  retirement_reason              String?
+  created_at                      DateTime @default(now())
+  
+  project                         carbon_projects? @relation(fields: [project_id], references: [project_id])
+}
+
+model post_deletions {
+  id            String    @id @default(uuid())
+  post_id       String
+  moderator_id  String
+  reason        String?
+  created_at    DateTime  @default(now())
+  
+  post          posts     @relation(fields: [post_id], references: [id])
+  moderator     profiles  @relation(fields: [moderator_id], references: [id])
+}

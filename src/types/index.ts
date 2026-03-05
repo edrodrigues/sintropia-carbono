@@ -6,15 +6,15 @@ export interface Profile {
     display_name: string | null;
     bio: string | null;
     avatar_url: string | null;
-    role: UserRole;
-    karma: number;
+    role: UserRole | null;
+    karma: number | null;
     organization: string | null;
     cargo: string | null;
-    user_type: 'individual' | 'company' | 'ong' | 'government' | 'professor' | null;
+    user_type: string | null;
     linkedin_url: string | null;
     twitter_url: string | null;
-    created_at: string;
-    updated_at: string;
+    created_at: string | null;
+    updated_at: string | null;
 }
 
 export interface Post {
@@ -25,12 +25,12 @@ export interface Post {
     url: string | null;
     category: string;
     keywords: string[] | null;
-    karma: number;
-    comment_count: number;
-    is_locked: boolean;
-    is_deleted: boolean;
-    created_at: string;
-    updated_at: string;
+    karma: number | null;
+    comment_count: number | null;
+    is_locked: boolean | null;
+    is_deleted: boolean | null;
+    created_at: string | null;
+    updated_at: string | null;
 }
 
 export interface PostWithRelations extends Post {
@@ -49,11 +49,11 @@ export interface Comment {
     post_id: string;
     author_id: string;
     content: string;
-    karma: number;
+    karma: number | null;
     parent_id: string | null;
-    is_deleted: boolean;
-    created_at: string;
-    updated_at: string;
+    is_deleted: boolean | null;
+    created_at: string | null;
+    updated_at: string | null;
 }
 
 export interface CommentWithRelations extends Comment {
@@ -72,8 +72,8 @@ export interface Vote {
     user_id: string;
     target_id: string;
     target_type: 'post' | 'comment';
-    vote_type: number; // 1 or -1
-    created_at: string;
+    vote_type: number;
+    created_at: string | null;
 }
 
 export interface Report {
@@ -83,7 +83,7 @@ export interface Report {
     target_type: 'post' | 'comment' | 'profile';
     reason: string;
     status: 'pending' | 'resolved' | 'dismissed';
-    created_at: string;
+    created_at: string | null;
     reporter?: {
         username: string;
     } | null;
@@ -95,5 +95,5 @@ export interface Ban {
     moderator_id: string;
     reason: string | null;
     expires_at: string | null;
-    created_at: string;
+    created_at: string | null;
 }

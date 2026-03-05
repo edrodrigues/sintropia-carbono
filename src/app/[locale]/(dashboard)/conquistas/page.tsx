@@ -47,7 +47,7 @@ export default async function ConquistasPage() {
         .from("profiles")
         .select("id", { count: "exact", head: true })
         .neq("role", "banned")
-        .gt("karma", profile.karma || 0);
+        .gt("karma", profile?.karma ?? 0);
 
     const userKarma = profile?.karma || 0;
     const ranking = higherKarmaCount !== null ? higherKarmaCount + 1 : 1;
@@ -61,7 +61,11 @@ export default async function ConquistasPage() {
 
     const currentStreak = streakData?.current_streak || 0;
 
-    const achievements = calculateAchievements(profile || {}, {
+    const achievements = calculateAchievements({
+        karma: profile?.karma ?? undefined,
+        linkedin_url: profile?.linkedin_url ?? undefined,
+        created_at: profile?.created_at ?? undefined,
+    }, {
         postCount: totalPosts || 0,
         commentCount: totalComments || 0,
         upvotesReceived: 0,

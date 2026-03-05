@@ -11,16 +11,16 @@ interface ProfileHeaderProps {
   profile: {
     id: string;
     username: string;
-    display_name?: string;
-    bio?: string;
-    karma?: number;
-    organization?: string;
-    cargo?: string;
-    linkedin_url?: string;
-    twitter_url?: string;
-    avatar_url?: string;
+    display_name?: string | null;
+    bio?: string | null;
+    karma?: number | null;
+    organization?: string | null;
+    cargo?: string | null;
+    linkedin_url?: string | null;
+    twitter_url?: string | null;
+    avatar_url?: string | null;
     user_type?: string | null;
-    created_at?: string;
+    created_at?: string | null;
   };
   achievements?: Achievement[];
   isOwnProfile?: boolean;
@@ -38,7 +38,7 @@ const getBadge = (karma: number) => {
 export function ProfileHeader({ profile, achievements, isOwnProfile = false }: ProfileHeaderProps) {
   const t = useTranslations('ProfileHeader');
   const tPerfil = useTranslations('Perfil');
-  const karma = profile.karma || 0;
+  const karma = profile.karma ?? 0;
   const badge = getBadge(karma);
 
   return (

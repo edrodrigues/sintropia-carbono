@@ -27,7 +27,8 @@ export async function updateStreak(userId: string): Promise<{
 } | null> {
   const supabase = createClient();
   
-  const { data, error } = await supabase.rpc('update_user_streak', {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (supabase.rpc as any)('update_user_streak', {
     p_user_id: userId,
   });
   

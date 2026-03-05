@@ -82,7 +82,7 @@ export default async function EditProfilePage(props: {
               <div className="px-6 py-3 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/30">
                 <p className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Membro desde</p>
                 <p className="text-2xl font-black text-blue-700 dark:text-blue-500">
-                  {new Date(profile?.created_at).getFullYear()}
+                  {profile?.created_at ? new Date(profile.created_at).getFullYear() : ''}
                 </p>
               </div>
             </div>

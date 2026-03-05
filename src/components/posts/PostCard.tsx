@@ -74,7 +74,7 @@ export function PostCard({ post, onOpenModal }: PostCardProps) {
                     <VoteButtons
                         targetId={post.id}
                         targetType="post"
-                        initialKarma={post.karma}
+                        initialKarma={post.karma ?? 0}
                     />
                 </div>
 
@@ -103,7 +103,7 @@ export function PostCard({ post, onOpenModal }: PostCardProps) {
                             </a>
                         )}
                         <span className="text-xs text-gray-500">
-                            • {new Date(post.created_at).toLocaleDateString()}
+                            • {post.created_at ? new Date(post.created_at).toLocaleDateString() : ''}
                         </span>
                     </div>
 

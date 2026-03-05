@@ -22,7 +22,7 @@ export async function banUser(
     .eq('id', currentUser.id)
     .single();
   
-  if (!profile || !['moderator', 'admin'].includes(profile.role)) {
+  if (!profile || !['moderator', 'admin'].includes(profile.role ?? '')) {
     return { success: false, error: 'Sem permissão para banir usuários' };
   }
   
@@ -79,7 +79,7 @@ export async function promoteToModerator(
     .eq('id', currentUser.id)
     .single();
   
-  if (!profile || !['moderator', 'admin'].includes(profile.role)) {
+  if (!profile || !['moderator', 'admin'].includes(profile.role ?? '')) {
     return { success: false, error: 'Sem permissão para promover usuários' };
   }
   
@@ -131,7 +131,7 @@ export async function warnUser(
     .eq('id', currentUser.id)
     .single();
   
-  if (!profile || !['moderator', 'admin'].includes(profile.role)) {
+  if (!profile || !['moderator', 'admin'].includes(profile.role ?? '')) {
     return { success: false, error: 'Sem permissão para adverti usuários' };
   }
   
@@ -174,7 +174,7 @@ export async function deletePost(
     .eq('id', currentUser.id)
     .single();
   
-  if (!profile || !['moderator', 'admin'].includes(profile.role)) {
+  if (!profile || !['moderator', 'admin'].includes(profile.role ?? '')) {
     return { success: false, error: 'Sem permissão para deletar posts' };
   }
   

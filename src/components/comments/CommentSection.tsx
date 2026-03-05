@@ -202,7 +202,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
                                     </a>
                                 )}
                                 <span className="text-xs text-gray-500">
-                                    • {new Date(comment.created_at).toLocaleDateString()}
+                                    • {comment.created_at ? new Date(comment.created_at).toLocaleDateString() : ''}
                                 </span>
                             </div>
                             <p className="text-gray-700 dark:text-gray-300 text-sm whitespace-pre-wrap">

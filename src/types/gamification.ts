@@ -1,10 +1,10 @@
 export interface UserStreak {
   user_id: string;
-  current_streak: number;
-  longest_streak: number;
+  current_streak: number | null;
+  longest_streak: number | null;
   last_activity_date: string | null;
-  total_days_active: number;
-  updated_at: string;
+  total_days_active: number | null;
+  updated_at: string | null;
 }
 
 export interface UserAchievement {

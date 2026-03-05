@@ -65,7 +65,7 @@ export async function updateProfile(formData: FormData) {
     // Sanitize inputs
     const updates = {
         id: user.id,
-        username: username || null,
+        username: username || existingProfile?.username || '',
         display_name: displayName || null,
         bio: bio || null,
         user_type: ['company', 'ong', 'government', 'professor'].includes(userType) ? userType : 'individual',

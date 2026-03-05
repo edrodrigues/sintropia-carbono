@@ -74,10 +74,10 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
       <div className="flex max-w-5xl mx-auto">
         {/* Karma Column - Hidden on mobile, shown on md+ */}
         <div className="hidden md:flex w-16 flex-shrink-0 flex flex-col items-center pt-4 pb-4">
-          <div className={`w-12 h-12 rounded-lg flex flex-col items-center justify-center ${post.karma > 0 ? "bg-green-100 dark:bg-green-900/30" : "bg-gray-100 dark:bg-gray-800"
+          <div className={`w-12 h-12 rounded-lg flex flex-col items-center justify-center ${(post.karma ?? 0) > 0 ? "bg-green-100 dark:bg-green-900/30" : "bg-gray-100 dark:bg-gray-800"
             }`}>
-            <span className={`text-lg font-bold ${post.karma > 0 ? "text-green-600 dark:text-green-400" : "text-gray-500 dark:text-gray-400"}`}>
-              {post.karma}
+            <span className={`text-lg font-bold ${(post.karma ?? 0) > 0 ? "text-green-600 dark:text-green-400" : "text-gray-500 dark:text-gray-400"}`}>
+              {post.karma ?? 0}
             </span>
           </div>
         </div>
@@ -88,8 +88,8 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
               {decodeHtml(post.title)}
             </h3>
             {/* Karma Badge for Mobile */}
-            <div className={`md:hidden shrink-0 px-2 py-1 rounded-md text-xs font-bold ${post.karma > 0 ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"}`}>
-              {post.karma}
+            <div className={`md:hidden shrink-0 px-2 py-1 rounded-md text-xs font-bold ${(post.karma ?? 0) > 0 ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"}`}>
+              {post.karma ?? 0}
             </div>
           </div>
 
@@ -122,7 +122,7 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
               </span>
             )}
             <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
-              • {new Date(post.created_at).toLocaleDateString("pt-BR", { day: '2-digit', month: 'short' })}
+              • {post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR", { day: '2-digit', month: 'short' }) : ''}
             </span>
           </div>
 

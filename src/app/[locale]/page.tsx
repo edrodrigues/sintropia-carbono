@@ -176,7 +176,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                       </div>
                     </div>
                     <span className="text-sm font-bold flex-1 truncate">{c.display_name || c.username}</span>
-                    <span className="text-[11px] font-black text-emerald-500 font-mono">{c.karma > 1000 ? `${(c.karma / 1000).toFixed(1)}k` : c.karma} {tIndex('stats.pts')}</span>
+                    <span className="text-[11px] font-black text-emerald-500 font-mono">{(c.karma ?? 0) > 1000 ? `${((c.karma ?? 0) / 1000).toFixed(1)}k` : c.karma ?? 0} {tIndex('stats.pts')}</span>
                   </div>
                 ))}
               </div>

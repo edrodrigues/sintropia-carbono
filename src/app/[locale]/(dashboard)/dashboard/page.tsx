@@ -60,9 +60,9 @@ export default async function DashboardPage() {
         .from("profiles")
         .select("id", { count: "exact", head: true })
         .neq("role", "banned")
-        .gt("karma", profile.karma || 0);
+        .gt("karma", profile?.karma ?? 0);
 
-    const userKarma = profile?.karma || 0;
+    const userKarma = profile?.karma ?? 0;
     const ranking = higherKarmaCount !== null ? higherKarmaCount + 1 : 1;
 
     // Fetch streak data
@@ -87,7 +87,11 @@ export default async function DashboardPage() {
     const badge = getBadge(userKarma);
     const progressToNext = Math.min((userKarma / badge.nextLevel) * 100, 100);
 
-    const achievements = calculateAchievements(profile || {}, {
+    const achievements = calculateAchievements({
+        karma: profile?.karma ?? undefined,
+        linkedin_url: profile?.linkedin_url ?? undefined,
+        created_at: profile?.created_at ?? undefined,
+    }, {
         postCount: totalPosts || 0,
         commentCount: totalComments || 0,
         upvotesReceived: 0,

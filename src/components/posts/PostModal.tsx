@@ -196,7 +196,8 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
     const handleDelete = async () => {
         setLoading(true);
 
-        const { error: deleteError } = await supabase.rpc("delete_post", { post_id: post.id });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { error: deleteError } = await (supabase.rpc as any)("delete_post", { post_id: post.id });
 
         if (deleteError) {
             // Check if post was actually deleted despite error
@@ -461,11 +462,11 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                     {post.category}
                                 </span>
                                 <span className="text-xs text-gray-500">
-                                    {new Date(post.created_at).toLocaleDateString("pt-BR", {
+                                    {post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR", {
                                         day: "numeric",
                                         month: "long",
                                         year: "numeric",
-                                    })}
+                                    }) : ''}
                                 </span>
                             </div>
 
@@ -514,7 +515,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                 <VoteButtons
                                     targetId={post.id}
                                     targetType="post"
-                                    initialKarma={post.karma}
+                                    initialKarma={post.karma ?? 0}
                                 />
                             </div>
 
@@ -603,10 +604,10 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                                             )}
                                                         </div>
                                                         <span className="text-xs text-gray-500">
-                                                            {new Date(comment.created_at).toLocaleDateString("pt-BR", {
+                                                            {comment.created_at ? new Date(comment.created_at).toLocaleDateString("pt-BR", {
                                                                 day: "numeric",
                                                                 month: "short",
-                                                            })}
+                                                            }) : ''}
                                                         </span>
                                                     </div>
                                                     <p className="text-gray-700 dark:text-gray-300 text-sm whitespace-pre-wrap">

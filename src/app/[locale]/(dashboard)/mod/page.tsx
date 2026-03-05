@@ -5,6 +5,7 @@ import { ReportsList } from "@/components/mod/ReportsList";
 import { UsersList } from "@/components/mod/UsersList";
 import { PostsList } from "@/components/mod/PostsList";
 import { ModSearch } from "@/components/mod/ModSearch";
+import type { Report, Post } from "@/types";
 
 export default async function ModDashboard() {
   const supabase = await createClient();
@@ -23,7 +24,7 @@ export default async function ModDashboard() {
     .eq("id", user.id)
     .single();
 
-  if (!profile || !["moderator", "admin"].includes(profile.role)) {
+  if (!profile || !["moderator", "admin"].includes(profile.role ?? '')) {
     redirect("/");
   }
 
@@ -225,7 +226,7 @@ export default async function ModDashboard() {
                 {pendingCount || 0} novas
               </span>
             </div>
-            <ReportsList reports={pendingReports || []} />
+            <ReportsList reports={(pendingReports || []) as Report[]} />
           </div>
 
           <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">

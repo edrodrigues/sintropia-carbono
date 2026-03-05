@@ -6,14 +6,14 @@ import { updateProfile } from '@/app/[locale]/(dashboard)/profile/actions';
 
 interface ProfileFormProps {
     profile: {
-        username?: string;
-        display_name?: string;
-        bio?: string;
-        user_type?: string;
-        organization?: string;
-        cargo?: string;
-        linkedin_url?: string;
-        twitter_url?: string;
+        username?: string | null;
+        display_name?: string | null;
+        bio?: string | null;
+        user_type?: string | null;
+        organization?: string | null;
+        cargo?: string | null;
+        linkedin_url?: string | null;
+        twitter_url?: string | null;
     } | null;
     email: string;
     onboarding?: boolean;

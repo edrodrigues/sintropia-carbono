@@ -65,7 +65,7 @@ export default async function PublicProfilePage(props: PageProps) {
         .from("profiles")
         .select("id", { count: "exact", head: true })
         .neq("role", "banned")
-        .gt("karma", profile.karma || 0);
+        .gt("karma", profile?.karma ?? 0);
 
     const stats = {
         posts: postCount || 0,
@@ -74,12 +74,16 @@ export default async function PublicProfilePage(props: PageProps) {
         ranking: higherKarmaCount !== null ? higherKarmaCount + 1 : 1,
     };
 
-    const achievements = calculateAchievements(profile, {
+    const achievements = calculateAchievements({
+        karma: profile?.karma ?? undefined,
+        linkedin_url: profile?.linkedin_url ?? undefined,
+        created_at: profile?.created_at ?? undefined,
+    }, {
         postCount: postCount || 0,
         commentCount: commentCount || 0,
         upvotesReceived: upvotesReceived || 0,
-        hasLinkedIn: !!profile.linkedin_url,
-        createdAt: profile.created_at,
+        hasLinkedIn: !!profile?.linkedin_url,
+        createdAt: profile?.created_at ?? new Date().toISOString(),
     });
 
     return (
@@ -88,7 +92,7 @@ export default async function PublicProfilePage(props: PageProps) {
             <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
                 <Breadcrumb />
 
-                <ProfileHeader profile={profile} achievements={achievements} isOwnProfile={isOwnProfile} />
+                <ProfileHeader profile={profile!} achievements={achievements} isOwnProfile={isOwnProfile} />
 
                 <StatsDashboard stats={stats} />
 
@@ -109,7 +113,7 @@ export default async function PublicProfilePage(props: PageProps) {
                                             {post.category}
                                         </span>
                                         <span className="text-xs text-gray-500">
-                                            {new Date(post.created_at).toLocaleDateString(locale === 'pt' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en-US')}
+                                            {post.created_at ? new Date(post.created_at).toLocaleDateString(locale === 'pt' ? 'pt-BR' : locale === 'es' ? 'es-ES' : 'en-US') : ''}
                                         </span>
                                     </div>
                                     <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-1">
