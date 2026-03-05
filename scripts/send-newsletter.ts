@@ -170,7 +170,7 @@ async function sendNewsletter() {
 
   const { data, error } = await resend.batch.send(
     emails.map(email => ({
-      from: 'Sintropia <contato@sintropia.space>',
+      from: 'Sintropia <contato@contato.sintropia.space>',
       to: [email],
       subject: 'Links e Notícias Mais Interessantes de Fevereiro de 2026',
       html,
