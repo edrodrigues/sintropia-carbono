@@ -63,7 +63,7 @@ async function insertProjects(projects: CSVRow[], batchSize = 100) {
       retired: parseInt(p.retired) || 0,
     }));
     
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('carbon_projects')
       .upsert(records, { onConflict: 'project_id' });
     

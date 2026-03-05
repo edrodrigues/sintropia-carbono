@@ -85,7 +85,7 @@ async function insertCredits(credits: CSVRow[], projectIds: Set<string>, batchSi
       };
     });
     
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('carbon_credits')
       .insert(records);
     

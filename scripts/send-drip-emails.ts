@@ -100,7 +100,7 @@ async function getResendContacts(audienceId: string) {
   
   do {
     await new Promise(resolve => setTimeout(resolve, 600));
-    const { data, error } = await resend.contacts.list({ audienceId, limit: 100 } as any);
+    const { data, error } = await resend.contacts.list({ audienceId, limit: 100 });
     if (error) throw error;
     if (data?.data) {
       contacts.push(...data.data.map(c => ({
@@ -174,13 +174,7 @@ async function main() {
         continue;
       }
     } else {
-      // First email (welcome) - check if we should wait since signup or just send it
-      const createdAt = new Date(contact.created_at);
-      const diffMs = now.getTime() - createdAt.getTime();
-      const diffDays = diffMs / (1000 * 60 * 60 * 24);
-      
-      // If they just signed up 5 minutes ago, we can send welcome immediately (Day 0)
-      // No extra check needed for welcome.
+      // First email (welcome) - can be sent immediately after signup
     }
 
     console.log(`Sending ${nextEmail.name} to ${email}...`);

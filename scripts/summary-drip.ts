@@ -13,7 +13,7 @@ const supabase = createClient(SUPABASE_URL!, SUPABASE_SERVICE_KEY!);
 const TRACKING_FILE = resolve(__dirname, '../data/drip-tracking.json');
 
 async function main() {
-    const { data: dbUsers, error } = await supabase.rpc('get_users_for_drip');
+    const { data: dbUsers } = await supabase.rpc('get_users_for_drip');
     const tracking = existsSync(TRACKING_FILE) ? JSON.parse(readFileSync(TRACKING_FILE, 'utf-8')) : { contacts: {} };
 
     const results = dbUsers?.map((user: { email: string; created_at: string }) => {

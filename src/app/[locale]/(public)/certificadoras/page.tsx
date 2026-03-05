@@ -13,7 +13,6 @@ import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } f
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'Certificadoras' });
   
   const titles: Record<string, string> = {
     pt: "Certificadoras Carbono e Energia | Verra, Gold Standard, I-REC",

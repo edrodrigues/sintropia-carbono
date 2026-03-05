@@ -122,7 +122,7 @@ export async function GET(request: NextRequest) {
     let supabase;
     try {
       supabase = getSupabaseAdmin();
-    } catch (error) {
+    } catch {
       // Fallback to anon client if admin not available
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
       const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
