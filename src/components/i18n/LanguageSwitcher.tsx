@@ -1,11 +1,10 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { ChangeEvent, useTransition } from "react";
 
 export function LanguageSwitcher() {
-  const t = useTranslations("LanguageSwitcher");
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();

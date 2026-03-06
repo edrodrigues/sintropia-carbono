@@ -5,7 +5,7 @@ import { ReportsList } from "@/components/mod/ReportsList";
 import { UsersList } from "@/components/mod/UsersList";
 import { PostsList } from "@/components/mod/PostsList";
 import { ModSearch } from "@/components/mod/ModSearch";
-import type { Report, Post } from "@/types";
+import type { Report } from "@/types";
 
 export default async function ModDashboard() {
   const supabase = await createClient();

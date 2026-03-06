@@ -9,7 +9,7 @@ interface PromoteButtonProps {
   currentRole: string;
 }
 
-export function PromoteButton({ userId, username, currentRole }: PromoteButtonProps) {
+export function PromoteButton({ userId, currentRole }: PromoteButtonProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);

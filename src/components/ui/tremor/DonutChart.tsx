@@ -62,8 +62,6 @@ function CustomLegend({ payload }: { payload?: Array<{ value?: string; color?: s
 }
 
 export function DonutChart({ data, className, showLegend = true, colors = defaultColors }: DonutChartProps) {
-  const chartColors = data.map((d, i) => d.color || colors[i % colors.length]);
-
   return (
     <div className={cx("h-[250px]", className)}>
       <ResponsiveContainer width="100%" height="100%">

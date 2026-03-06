@@ -1,7 +1,7 @@
 "use client";
 
 import { Link, usePathname, useRouter } from "@/i18n/routing";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from 'next-intl';
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
@@ -113,7 +113,6 @@ export function Header() {
 
   const [activeMenu, setActiveMenu] = useState<number | null>(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const [keyboardFocusedIndex, setKeyboardFocusedIndex] = useState<number | null>(null);
 
   const handleKeyDown = (e: React.KeyboardEvent, idx: number) => {
     if (e.key === 'Enter' || e.key === ' ') {

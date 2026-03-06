@@ -36,7 +36,6 @@ export function MobileTableWrapper({
   };
 
   const desktopColumns = columns;
-  const mobileColumns = columns.filter((col) => !col.mobileHidden);
 
   const defaultCols = columns.filter((col) =>
     defaultMobileColumns.includes(col.key)

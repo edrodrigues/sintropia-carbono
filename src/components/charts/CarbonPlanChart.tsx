@@ -74,7 +74,6 @@ export function CarbonPlanChart() {
   const itemsPerPage = 50;
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [projects, setProjects] = useState<CarbonProject[]>([]);
   const [stats, setStats] = useState<{
     totalProjects: number;
@@ -230,17 +229,6 @@ export function CarbonPlanChart() {
       }));
   }, [stats]);
 
-  const typeChartData = useMemo(() => {
-    if (!stats) return [
-      { name: "Florestal", value: 0, color: "#22c55e" },
-      { name: "Outros", value: 0, color: "#6b7280" },
-    ];
-    return [
-      { name: "Florestal", value: stats.forestProjects, color: "#22c55e" },
-      { name: "Outros", value: stats.totalProjects - stats.forestProjects, color: "#6b7280" },
-    ];
-  }, [stats]);
-
   const categoryChartData = useMemo(() => {
     if (!stats || !stats.categoryStats) return [];
 
@@ -258,7 +246,7 @@ export function CarbonPlanChart() {
     }));
 
     if (otherEntries.length > 0) {
-      const othersValue = otherEntries.reduce((sum, [_, val]) => sum + val, 0);
+      const othersValue = otherEntries.reduce((sum, [, val]) => sum + val, 0);
       result.push({
         name: "Outros",
         value: othersValue,
