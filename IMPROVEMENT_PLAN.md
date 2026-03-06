@@ -42,8 +42,8 @@ Este documento descreve um plano passo a passo para implementar as melhorias sug
 2.  **Automação de Auditorias (GitHub Actions):**
     *   Configurar um workflow para rodar `playwright test` em cada Pull Request.
     *   Integrar o script `wcag_audit.py` e o Lighthouse CI no pipeline para monitorar acessibilidade e performance.
-3.  **Resolução de Erros de Linting:**
-    *   Limpar o arquivo `ts_errors.txt` e configurar o ESLint para bloquear commits com erros graves.
+3.  **Resolução de Erros de Linting:** ✅ COMPLETO
+    *   ✅ Limpar o arquivo `ts_errors.txt` e configurar o ESLint para bloquear commits com erros graves.
 
 ---
 
