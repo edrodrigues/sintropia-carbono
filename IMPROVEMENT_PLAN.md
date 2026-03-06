@@ -25,8 +25,8 @@ Este documento descreve um plano passo a passo para implementar as melhorias sug
 1.  **Migração de Dados Estáticos (CSV para DB):**
     *   Criar uma migração para mover os dados de `dados/*.csv` para tabelas no Supabase.
     *   Atualizar os gráficos para consumirem APIs dinâmicas em vez de lerem arquivos locais.
-2.  **Painel Administrativo para Scripts:**
-    *   Criar uma rota protegida (role: 'admin') para disparar manualmente os scripts de `/scripts` (ex: `send-newsletter.ts`) via UI.
+2.  **Painel Administrativo para Scripts:** ✅ COMPLETO
+    *   ✅ Criar uma rota protegida (role: 'admin') para disparar manualmente os scripts de `/scripts` (ex: `send-newsletter.ts`) via UI.
 3.  **Automação via Edge Functions/Cron:** ✅ COMPLETO
     *   ✅ Configurar **Supabase Edge Functions** para rodar os scripts de limpeza e sincronização de contatos automaticamente.
     *   ✅ Utilizar `pg_cron` no Supabase para tarefas agendadas (ex: reset de missões semanais).
