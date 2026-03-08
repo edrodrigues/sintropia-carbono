@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { TopicTags, commonTopicTags } from "@/components/posts/TopicTags";
 import { decodeHtml } from "@/lib/utils/sanitize";
 import { getUserTypeIcon } from "@/lib/utils/user";
+import { getCategoryDetails } from "@/lib/utils/post";
 import type { PostWithRelations } from "@/types";
 
 interface FeedPostCardProps {
@@ -62,9 +62,7 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
   };
 
   const authorBadge = post.author?.karma ? getBadge(post.author.karma) : null;
-  const topicTags = [
-    commonTopicTags.find(t => post.category.toLowerCase().includes(t.label.toLowerCase())) || { label: post.category, color: "gray" as const }
-  ].filter(Boolean) as { label: string; color: "gray" | "blue" | "green" | "yellow" | "red" | "purple" }[];
+  const categoryDetails = getCategoryDetails(post.category);
 
   return (
     <div
@@ -154,7 +152,11 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
               </button>
             </div>
 
-            <TopicTags tags={topicTags} maxVisible={2} />
+            <div className="flex flex-wrap gap-2">
+              <span className={`px-2 py-1 text-[10px] sm:text-xs font-bold rounded-full uppercase tracking-wider ${categoryDetails.classes}`}>
+                {categoryDetails.label}
+              </span>
+            </div>
           </div>
         </div>
       </div>

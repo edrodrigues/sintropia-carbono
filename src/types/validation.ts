@@ -15,7 +15,7 @@ export const postSchema = z.object({
   title: z.string().min(5).max(300),
   content: z.string().max(10000).optional(),
   url: z.string().url().optional().or(z.literal('')),
-  category: z.string().min(1).max(50),
+  category: z.enum(['news', 'discussion', 'question', 'help', 'link']),
   keywords: z.array(z.string()).max(10).optional(),
 })
 

@@ -1,4 +1,5 @@
 export type UserRole = 'user' | 'moderator' | 'admin' | 'banned';
+export type PostCategory = 'news' | 'discussion' | 'question' | 'help' | 'link';
 
 export interface Profile {
     id: string;
@@ -23,7 +24,7 @@ export interface Post {
     title: string;
     content: string | null;
     url: string | null;
-    category: string;
+    category: PostCategory | string;
     keywords: string[] | null;
     karma: number | null;
     comment_count: number | null;

@@ -6,6 +6,7 @@ import { CommentSection } from "@/components/comments/CommentSection";
 import { PostWithRelations } from "@/types";
 import Link from "next/link";
 import { sanitizeUrl, decodeHtmlServer } from "@/lib/utils/sanitize";
+import { getCategoryDetails } from "@/lib/utils/post";
 
 interface PostCardProps {
     post: PostWithRelations;
@@ -81,8 +82,8 @@ export function PostCard({ post, onOpenModal }: PostCardProps) {
                 {/* Conteúdo */}
                 <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 uppercase tracking-wider">
-                            {post.category}
+                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${getCategoryDetails(post.category).classes}`}>
+                            {getCategoryDetails(post.category).label}
                         </span>
                         <span className="text-xs text-gray-500">
                             Postado por <Link href={`/u/${post.author?.username}`} className="font-semibold text-gray-700 dark:text-gray-300 hover:text-blue-600">@{post.author?.username}</Link>

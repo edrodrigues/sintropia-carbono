@@ -9,6 +9,7 @@ import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import Image from "next/image";
 import { getUserTypeIcon } from "@/lib/utils/user";
+import { getCategoryDetails } from "@/lib/utils/post";
 
 interface PostModalProps {
     post: PostWithRelations;
@@ -367,6 +368,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                     <option value="news">Notícias</option>
                                     <option value="discussion">Discussão</option>
                                     <option value="question">Dúvida</option>
+                                    <option value="help">Pedir Ajuda</option>
                                     <option value="link">Link</option>
                                 </select>
                             </div>
@@ -458,8 +460,8 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                     ) : (
                         <>
                             <div className="flex items-center gap-2 mb-3">
-                                <span className="text-xs font-bold px-2 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 uppercase tracking-wider">
-                                    {post.category}
+                                <span className={`text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider ${getCategoryDetails(post.category).classes}`}>
+                                    {getCategoryDetails(post.category).label}
                                 </span>
                                 <span className="text-xs text-gray-500">
                                     {post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR", {

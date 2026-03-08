@@ -169,6 +169,7 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                                     <option value="news">Notícias</option>
                                     <option value="discussion">Discussão</option>
                                     <option value="question">Dúvida</option>
+                                    <option value="help">Pedir Ajuda</option>
                                     <option value="link">Link</option>
                                 </select>
                             </div>

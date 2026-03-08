@@ -15,7 +15,8 @@ Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono 
 - **Preços** - Dados de mercados de carbono (EU ETS, VCM) e energia
 
 ### 💬 Comunidade
-- **Feed** - Compartilhe notícias, tire dúvidas e discuta sobre o mercado
+- **Feed** - Compartilhe notícias, tire dúvidas, peça ajuda e discuta sobre o mercado
+- **Post de Ajuda** - Novo tipo de postagem com destaque visual para pedidos de socorro
 - **Perfis** - Explore membros e suas contribuições
 - **Ranking (Leaderboard)** - Veja os membros mais ativos por Karma
 - **Dashboard Pessoal** - Acompanhe sua atividade e reputação
@@ -24,6 +25,7 @@ Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono 
 ### 🏆 Sistema de Karma e Gamificação
 - **Pontos de Karma** - Ganhe pontos ao contribuir com a comunidade
 - **Badges**: Novato, Iniciante, Contribuidor, Especialista, Master
+- **Achievements**: Buscador de Ajuda, Mentor, Early Adopter, e outros
 - **Sistema de Streaks** - Mantenha sua sequência diária de atividades
 - **Missões Semanais** - Complete objetivos para ganhar recompensas de karma
 - **Sistema de Likes** - Likes e dislikes em posts e comentários
@@ -50,6 +52,12 @@ O projeto passou por uma migração completa para a biblioteca Tremor:
 - Lazy loading implementado na página carbono-projetos
 - Code splitting automático com Next.js dynamic imports
 - Skeleton loading para melhor experiência de usuário
+
+### Comunidade e Interação
+- **Posts de Ajuda**: Implementação de novo tipo de postagem para solicitação de suporte.
+- **Destaque Visual**: Sistema de cores (âmbar/amarelo) para fácil identificação de pedidos de ajuda.
+- **Gamificação Estendida**: Novo achievement "Buscador de Ajuda" para incentivar a interação.
+- **Utilitários de Post**: Centralização de estilos e labels de categorias para consistência visual.
 
 ## 🛠️ Como Executar
 

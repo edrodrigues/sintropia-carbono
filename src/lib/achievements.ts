@@ -372,6 +372,16 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     category: "specialization",
     progress: { current: 0, target: 5 }
   },
+  {
+    id: "help_seeker",
+    icon: "🆘",
+    label: "Buscador de Ajuda",
+    description: "Poste 10 pedidos de ajuda",
+    earned: false,
+    rarity: "common",
+    category: "specialization",
+    progress: { current: 0, target: 10 }
+  },
   
   // === ESPECIAL ===
   {
@@ -521,6 +531,11 @@ export function calculateAchievements(profile: {
         const categoryCount = stats.categoryPosts ? Object.keys(stats.categoryPosts).length : 0;
         earned = categoryCount >= 5;
         if (progress) progress.current = categoryCount;
+        break;
+      case "help_seeker":
+        const helpCount = stats.categoryPosts?.['help'] || stats.categoryPosts?.['Pedir Ajuda'] || 0;
+        earned = helpCount >= 10;
+        if (progress) progress.current = helpCount;
         break;
     }
     
