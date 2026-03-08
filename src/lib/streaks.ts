@@ -16,6 +16,14 @@ export async function getUserStreak(userId: string): Promise<UserStreak | null> 
     return null;
   }
   
+  // Se o streak expirou (mais de 1 dia de inatividade), retornamos com current_streak 0
+  if (data && !isStreakActive(data.last_activity_date)) {
+    return {
+      ...data,
+      current_streak: 0
+    };
+  }
+  
   return data;
 }
 
@@ -72,14 +80,22 @@ export async function getStreakLeaderboard(limit: number = 10): Promise<(UserStr
 export function isStreakActive(lastActivityDate: string | null): boolean {
   if (!lastActivityDate) return false;
   
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  
-  const lastDate = new Date(lastActivityDate);
-  lastDate.setHours(0, 0, 0, 0);
-  
-  const diffTime = today.getTime() - lastDate.getTime();
-  const diffDays = diffTime / (1000 * 60 * 60 * 24);
-  
-  return diffDays <= 1;
+  try {
+    const today = new Date();
+    const lastDate = new Date(lastActivityDate);
+    
+    // Normalizar para o início do dia local para comparação justa
+    const t = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const l = new Date(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate());
+    
+    const diffTime = t.getTime() - l.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Ativo se a última atividade foi hoje (0) ou ontem (1)
+    // Se for > 1, o streak expirou
+    return diffDays <= 1;
+  } catch (e) {
+    console.error("Error parsing date in isStreakActive:", e);
+    return false;
+  }
 }
