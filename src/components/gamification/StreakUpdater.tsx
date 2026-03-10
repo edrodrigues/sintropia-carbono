@@ -17,6 +17,19 @@ export function StreakUpdater({ children }: { children: React.ReactNode }) {
 
     const updateStreak = async () => {
       try {
+        // First check if already updated today to be efficient
+        const checkRes = await fetch("/api/gamification/streak");
+        if (checkRes.ok) {
+          const { streak } = await checkRes.json();
+          const today = new Date().toISOString().split("T")[0];
+          
+          if (streak?.last_activity_date === today) {
+            console.log("Streak already updated today");
+            setHasUpdated(true);
+            return;
+          }
+        }
+
         const res = await fetch("/api/gamification/streak", {
           method: "POST",
         });

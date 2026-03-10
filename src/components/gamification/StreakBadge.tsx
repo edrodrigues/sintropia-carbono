@@ -17,7 +17,7 @@ export function StreakBadge({
   showBonus = false 
 }: StreakBadgeProps) {
   const emoji = getStreakEmoji(currentStreak);
-  const bonus = getStreakBonus(currentStreak + 1);
+  const bonus = getStreakBonus(currentStreak);
   
   if (compact) {
     return (

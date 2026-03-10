@@ -18,6 +18,12 @@ export async function getUserStreak(userId: string): Promise<UserStreak | null> 
   
   // Se o streak expirou (mais de 1 dia de inatividade), retornamos com current_streak 0
   if (data && !isStreakActive(data.last_activity_date)) {
+    // Reset streak in database if expired
+    await supabase
+      .from('user_streaks')
+      .update({ current_streak: 0 })
+      .eq('user_id', userId);
+
     return {
       ...data,
       current_streak: 0
@@ -44,8 +50,26 @@ export async function updateStreak(userId: string): Promise<{
     console.error('Error updating streak:', error);
     return null;
   }
+
+  // After updating streak, check for achievements
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase.rpc as any)('check_and_award_achievements', {
+      p_user_id: userId,
+    });
+  } catch (err) {
+    console.error('Error awarding achievements:', err);
+  }
   
   return data;
+}
+
+interface StreakLeaderboardData extends UserStreak {
+  profiles: {
+    username: string;
+    display_name: string | null;
+    role: string | null;
+  } | null;
 }
 
 export async function getStreakLeaderboard(limit: number = 10): Promise<(UserStreak & { username: string; display_name: string | null })[]> {
@@ -61,20 +85,22 @@ export async function getStreakLeaderboard(limit: number = 10): Promise<(UserStr
         role
       )
     `)
-    .neq('profiles.role', 'banned')
     .order('longest_streak', { ascending: false })
-    .limit(limit);
+    .limit(limit * 2); // Get more than needed to account for filtering
   
   if (error) {
     console.error('Error fetching streak leaderboard:', error);
     return [];
   }
   
-  return data.map(item => ({
-    ...item,
-    username: item.profiles?.username || 'Unknown',
-    display_name: item.profiles?.display_name,
-  }));
+  return (data as unknown as StreakLeaderboardData[])
+    .filter(item => item.profiles?.role !== 'banned')
+    .slice(0, limit)
+    .map(item => ({
+      ...item,
+      username: item.profiles?.username || 'Unknown',
+      display_name: item.profiles?.display_name,
+    }));
 }
 
 export function isStreakActive(lastActivityDate: string | null): boolean {

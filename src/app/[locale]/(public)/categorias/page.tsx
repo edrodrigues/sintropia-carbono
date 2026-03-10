@@ -72,14 +72,14 @@ export default async function Categorias({ params }: { params: Promise<{ locale:
     {
       title: t('items.irecWorld'),
       description: t('items.irecWorldDesc'),
-      image: "https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?q=80&w=600&auto=format&fit=crop",
+      image: "/images/categories/irec-mundo.png",
       alt: t('alt.irecWorld'),
       href: "/irec-mundo",
     },
     {
       title: t('items.carbonPrices'),
       description: t('items.carbonPricesDesc'),
-      image: "https://images.unsplash.com/photo-1611974714014-419b4578b8bc?q=80&w=600&auto=format&fit=crop",
+      image: "/images/categories/carbono-precos.png",
       alt: t('alt.carbonPrices'),
       href: "/carbono-precos",
     },

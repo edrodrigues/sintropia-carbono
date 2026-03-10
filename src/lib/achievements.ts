@@ -507,7 +507,7 @@ export function calculateAchievements(profile: {
         if (progress) progress.current = Math.min(stats.karma || 0, 1000);
         break;
       case "early_adopter":
-        earned = new Date(stats.createdAt) < new Date("2025-01-01");
+        earned = new Date(stats.createdAt) < new Date("2025-03-01");
         break;
       case "connected":
         earned = !!profile.linkedin_url || stats.hasLinkedIn;
