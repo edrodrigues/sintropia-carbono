@@ -10,12 +10,10 @@ import { StatsCard } from "@/components/ui/StatsCard";
 import { MobileTableWrapper } from "@/components/ui/MobileTable";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
-import { Badge } from "@/components/ui/tremor";
 import { BarList } from "@/components/ui/tremor";
 import {
   getIrecStakeholders,
   getIrecFullStats,
-  getIrecSectorDistribution,
 } from "@/lib/queries/irec";
 
 export async function generateMetadata({
@@ -73,13 +71,13 @@ export default async function RankingMundoPage({
 }) {
   const { locale } = await params;
 
-  const [stakeholders, stats, sectorDistribution] = await Promise.all([
+  const [stakeholders, stats] = await Promise.all([
     getIrecStakeholders("world"),
     getIrecFullStats("world"),
-    getIrecSectorDistribution("world"),
   ]);
 
-  const t = await getTranslations({ locale, namespace: "Energia" });
+  const { sectorDistribution } = stats;
+
   const tStats = await getTranslations({ locale, namespace: "Energia.stats" });
   const tTable = await getTranslations({ locale, namespace: "Energia.table" });
   const tRanking = await getTranslations({
