@@ -31,7 +31,7 @@ export const getCarbonStakeholders = cache(async (region: 'brazil' | 'world' = '
       return [];
     }
 
-    return data as CarbonStakeholder[];
+    return data as unknown as CarbonStakeholder[];
   });
 });
 

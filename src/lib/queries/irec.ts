@@ -34,7 +34,7 @@ export const getIrecStakeholders = cache(async (region: 'brazil' | 'world' = 'br
       return [];
     }
 
-    return data as Stakeholder[];
+    return data as unknown as Stakeholder[];
   });
 });
 
@@ -54,7 +54,7 @@ export const getIrecStakeholdersBySector = cache(async (setor: string, region: '
       return [];
     }
     
-    return data as Stakeholder[];
+    return data as unknown as Stakeholder[];
   });
 });
 
@@ -74,7 +74,7 @@ export const getTopIrecStakeholders = cache(async (limit: number = 10, region: '
       return [];
     }
     
-    return data as Stakeholder[];
+    return data as unknown as Stakeholder[];
   });
 });
 
@@ -144,6 +144,6 @@ export const getIrecPrices = cache(async (category: string) => {
       return [];
     }
 
-    return data as IrecPrice[];
+    return data as unknown as IrecPrice[];
   });
 });
