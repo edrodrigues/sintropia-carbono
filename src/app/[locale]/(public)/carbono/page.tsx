@@ -233,7 +233,7 @@ export default async function CarbonoPage({
                 </span>
               </Link>
               <Link
-                href={`/${locale}/carbono-projetos`}
+                href={`/${locale}/carbono/projetos`}
                 className="flex items-center gap-3 p-4 rounded-lg bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors"
               >
                 <RiFileList3Line className="w-5 h-5 text-purple-600" />
@@ -242,7 +242,7 @@ export default async function CarbonoPage({
                 </span>
               </Link>
               <Link
-                href={`/${locale}/carbono-precos`}
+                href={`/${locale}/carbono/precos`}
                 className="flex items-center gap-3 p-4 rounded-lg bg-rose-50 dark:bg-rose-900/20 hover:bg-rose-100 dark:hover:bg-rose-900/30 transition-colors col-span-2"
               >
                 <RiPriceTag3Line className="w-5 h-5 text-rose-600" />

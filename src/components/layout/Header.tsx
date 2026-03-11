@@ -92,12 +92,13 @@ export function Header() {
     },
     {
       label: tNav('carbon'),
-      href: "/carbono-brasil",
+      href: "/carbono",
       subItems: [
-        { label: tNav('marketBrazilCarbon'), href: "/carbono-brasil", desc: tNav('carbonDesc.marketBrazil') },
-        { label: tNav('marketWorldCarbon'), href: "/carbono-mundo", desc: tNav('carbonDesc.marketWorld') },
-        { label: tNav('carbonPrices'), href: "/carbono-precos", desc: tNav('carbonDesc.prices') },
-        { label: tNav('carbonData'), href: "/carbono-projetos", desc: tNav('carbonDesc.data') },
+        { label: tNav('marketBrazilCarbon'), href: "/carbono/ranking-brasil", desc: tNav('carbonDesc.marketBrazil') },
+        { label: tNav('marketWorldCarbon'), href: "/carbono/ranking-mundo", desc: tNav('carbonDesc.marketWorld') },
+        { label: tNav('carbonSectors'), href: "/carbono/setores", desc: tNav('carbonDesc.sectors') },
+        { label: tNav('carbonPrices'), href: "/carbono/precos", desc: tNav('carbonDesc.prices') },
+        { label: tNav('carbonData'), href: "/carbono/projetos", desc: tNav('carbonDesc.data') },
       ]
     },
     {

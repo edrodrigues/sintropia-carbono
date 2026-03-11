@@ -12,7 +12,10 @@ export function Breadcrumb() {
   const pathname = usePathname();
 
   const getBreadcrumbs = (): BreadcrumbItem[] => {
-    const paths = pathname.split("/").filter(Boolean);
+    const allPaths = pathname.split("/").filter(Boolean);
+    const locales = ['pt', 'en', 'es'];
+    const paths = allPaths.filter(p => !locales.includes(p));
+    
     const breadcrumbs: BreadcrumbItem[] = [{ label: "Início", href: "/" }];
 
     if (paths.length === 0) {
@@ -28,6 +31,13 @@ export function Breadcrumb() {
       mod: "Moderação",
       posts: "Posts",
       u: "Perfil",
+      carbono: "Carbono",
+      energia: "Energia",
+      "ranking-brasil": "Ranking Brasil",
+      "ranking-mundo": "Ranking Mundo",
+      setores: "Setores",
+      precos: "Preços",
+      projetos: "Projetos",
       "carbono-brasil": "Carbono Brasil",
       "carbono-mundo": "Carbono Mundo",
       "carbono-precos": "Preços Carbono",
@@ -45,6 +55,10 @@ export function Breadcrumb() {
     let currentPath = "";
 
     paths.forEach((path, index) => {
+      // Find the locale if present in the original pathname
+      const locale = allPaths.find(p => locales.includes(p));
+      const localePrefix = locale ? `/${locale}` : "";
+      
       currentPath += `/${path}`;
       const isLast = index === paths.length - 1;
       const label = pathLabels[path] || path;
@@ -52,7 +66,7 @@ export function Breadcrumb() {
       if (isLast) {
         breadcrumbs.push({ label: path.startsWith("@") ? path.slice(1) : label });
       } else {
-        breadcrumbs.push({ label, href: currentPath });
+        breadcrumbs.push({ label, href: `${localePrefix}${currentPath}` });
       }
     });
 

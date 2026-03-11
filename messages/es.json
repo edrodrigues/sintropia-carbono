@@ -66,8 +66,9 @@
         "marketWorld": "Mercado Global",
         "prices": "Precios",
         "sectors": "Sectores",
-        "marketBrazilCarbon": "Mercado Mundial",
-        "marketWorldCarbon": "Mercado Mundo",
+        "marketBrazilCarbon": "Ranking Brasil",
+        "marketWorldCarbon": "Ranking Mundo",
+        "carbonSectors": "Sectores",
         "carbonPrices": "Precios",
         "carbonData": "Datos de Proyectos",
         "newsFeed": "Feed de Noticias",
@@ -83,8 +84,9 @@
             "sectors": "Distribución del mercado I-REC por sector económico."
         },
         "carbonDesc": {
-            "marketBrazil": "Mira quiénes son los mayores compradores de créditos de carbono en el mundo.",
+            "marketBrazil": "Mira quiénes son los mayores compradores de créditos de carbono en el Brasil.",
             "marketWorld": "Mira quiénes son los mayores compradores de créditos de carbono en el mundo.",
+            "sectors": "Distribución del mercado de carbono por sector económico.",
             "prices": "Análisis comparado y evolución de los precios",
             "data": "Datos sobre 7700+ Proyectos de carbono."
         },

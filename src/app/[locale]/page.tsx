@@ -35,11 +35,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   ];
 
   const categories = [
-    { title: tIndex('categories.items.carbonBrazil'), bgImg: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=600&auto=format&fit=crop", active: true, href: "/carbono-brasil" },
+    { title: tIndex('categories.items.carbonBrazil'), bgImg: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=600&auto=format&fit=crop", active: true, href: "/carbono/ranking-brasil" },
     { title: tIndex('categories.items.energyBrazil'), bgImg: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=600&auto=format&fit=crop", href: "/irec-brasil" },
-    { title: tIndex('categories.items.carbonWorld'), bgImg: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop", href: "/carbono-mundo" },
+    { title: tIndex('categories.items.carbonWorld'), bgImg: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop", href: "/carbono/ranking-mundo" },
     { title: tIndex('categories.items.energyPrices'), bgImg: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=600&auto=format&fit=crop", href: "/irec-precos" },
-    { title: tIndex('categories.items.carbonProjects'), bgImg: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=600&auto=format&fit=crop", href: "/carbono-projetos" }
+    { title: tIndex('categories.items.carbonProjects'), bgImg: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=600&auto=format&fit=crop", href: "/carbono/projetos" }
   ];
 
   return (

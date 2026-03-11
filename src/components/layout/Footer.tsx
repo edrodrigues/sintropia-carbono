@@ -55,10 +55,11 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-300">{tNav('carbon')}</h4>
             <ul className="flex flex-col gap-4">
-              <li><Link href="/carbono-brasil" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketBrazilCarbon')}</Link></li>
-              <li><Link href="/carbono-mundo" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketWorldCarbon')}</Link></li>
-              <li><Link href="/carbono-precos" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('carbonPrices')}</Link></li>
-              <li><Link href="/carbono-projetos" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('carbonData')}</Link></li>
+              <li><Link href="/carbono/ranking-brasil" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketBrazilCarbon')}</Link></li>
+              <li><Link href="/carbono/ranking-mundo" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketWorldCarbon')}</Link></li>
+              <li><Link href="/carbono/setores" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('carbonSectors')}</Link></li>
+              <li><Link href="/carbono/precos" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('carbonPrices')}</Link></li>
+              <li><Link href="/carbono/projetos" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('carbonData')}</Link></li>
             </ul>
           </div>
 
