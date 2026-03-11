@@ -24,7 +24,7 @@ export const getIrecStakeholders = cache(async (region: 'brazil' | 'world' = 'br
     const supabase = createClient();
     
     const { data, error } = await supabase
-      .from('irec_stakeholders')
+      .from('irec_stakeholders' as any)
       .select('*')
       .eq('region', region)
       .order('ranking', { ascending: true });
@@ -43,7 +43,7 @@ export const getIrecStakeholdersBySector = cache(async (setor: string, region: '
     const supabase = createClient();
     
     const { data, error } = await supabase
-      .from('irec_stakeholders')
+      .from('irec_stakeholders' as any)
       .select('*')
       .eq('setor', setor)
       .eq('region', region)
@@ -63,7 +63,7 @@ export const getTopIrecStakeholders = cache(async (limit: number = 10, region: '
     const supabase = createClient();
     
     const { data, error } = await supabase
-      .from('irec_stakeholders')
+      .from('irec_stakeholders' as any)
       .select('*')
       .eq('region', region)
       .order('ranking', { ascending: true })
@@ -83,7 +83,7 @@ export const getIrecStats = cache(async (region: 'brazil' | 'world' = 'brazil') 
     const supabase = createClient();
     
     const { data, error } = await supabase
-      .from('v_irec_dashboard')
+      .from('v_irec_dashboard' as any)
       .select('*')
       .eq('region', region)
       .single();
@@ -134,7 +134,7 @@ export const getIrecPrices = cache(async (category: string) => {
     const supabase = createClient();
     
     const { data, error } = await supabase
-      .from('irec_prices')
+      .from('irec_prices' as any)
       .select('*')
       .eq('category', category)
       .order('created_at', { ascending: true });

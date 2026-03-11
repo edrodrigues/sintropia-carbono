@@ -21,7 +21,7 @@ export const getCarbonStakeholders = cache(async (region: 'brazil' | 'world' = '
     const supabase = createClient();
     
     const { data, error } = await supabase
-      .from('carbon_stakeholders')
+      .from('carbon_stakeholders' as any)
       .select('*')
       .eq('region', region)
       .order('ranking', { ascending: true });
@@ -41,7 +41,7 @@ export const getCarbonStats = cache(async (region: 'brazil' | 'world' = 'brazil'
     
     // Use the view for stats
     const { data, error } = await supabase
-      .from('v_carbon_dashboard')
+      .from('v_carbon_dashboard' as any)
       .select('*')
       .eq('region', region)
       .single();
