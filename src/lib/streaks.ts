@@ -41,7 +41,7 @@ export async function updateStreak(userId: string): Promise<{
 } | null> {
   const supabase = createClient();
   
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const { data, error } = await (supabase.rpc as any)('update_user_streak', {
     p_user_id: userId,
   });
@@ -53,7 +53,7 @@ export async function updateStreak(userId: string): Promise<{
 
   // After updating streak, check for achievements
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     await (supabase.rpc as any)('check_and_award_achievements', {
       p_user_id: userId,
     });
@@ -99,7 +99,7 @@ export async function getStreakLeaderboard(limit: number = 10): Promise<(UserStr
     .map(item => ({
       ...item,
       username: item.profiles?.username || 'Unknown',
-      display_name: item.profiles?.display_name,
+      display_name: item.profiles?.display_name ?? null,
     }));
 }
 

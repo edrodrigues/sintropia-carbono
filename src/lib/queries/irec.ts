@@ -78,7 +78,14 @@ export const getTopIrecStakeholders = cache(async (limit: number = 10, region: '
   });
 });
 
-export const getIrecStats = cache(async (region: 'brazil' | 'world' = 'brazil') => {
+export interface IrecDashboardStats {
+  total2024: number;
+  total2025: number;
+  total2026: number;
+  crescimento: number;
+}
+
+export const getIrecStats = cache(async (region: 'brazil' | 'world' = 'brazil'): Promise<IrecDashboardStats> => {
   return withMonitoring(`getIrecStats(${region})`, async () => {
     const supabase = createClient();
     
@@ -107,11 +114,18 @@ export const getIrecStats = cache(async (region: 'brazil' | 'world' = 'brazil') 
       return { total2024, total2025, total2026, crescimento };
     }
 
+    const viewData = data as unknown as {
+      total_volume_2024: number;
+      total_volume_2025: number;
+      total_volume_2026: number;
+      crescimento_pct: number;
+    };
+
     return {
-      total2024: data.total_volume_2024,
-      total2025: data.total_volume_2025,
-      total2026: data.total_volume_2026,
-      crescimento: data.crescimento_pct
+      total2024: viewData.total_volume_2024,
+      total2025: viewData.total_volume_2025,
+      total2026: viewData.total_volume_2026,
+      crescimento: viewData.crescimento_pct
     };
   });
 });

@@ -35,7 +35,14 @@ export const getCarbonStakeholders = cache(async (region: 'brazil' | 'world' = '
   });
 });
 
-export const getCarbonStats = cache(async (region: 'brazil' | 'world' = 'brazil') => {
+export interface CarbonDashboardStats {
+  total2024: number;
+  total2025: number;
+  crescimento: number;
+  total_stakeholders: number;
+}
+
+export const getCarbonStats = cache(async (region: 'brazil' | 'world' = 'brazil'): Promise<CarbonDashboardStats> => {
   return withMonitoring(`getCarbonStats(${region})`, async () => {
     const supabase = createClient();
     
@@ -69,11 +76,18 @@ export const getCarbonStats = cache(async (region: 'brazil' | 'world' = 'brazil'
       };
     }
 
+    const viewData = data as unknown as {
+      total_volume_2024: number;
+      total_volume_2025: number;
+      crescimento_pct: number;
+      total_stakeholders: number;
+    };
+
     return {
-      total2024: data.total_volume_2024,
-      total2025: data.total_volume_2025,
-      crescimento: data.crescimento_pct,
-      total_stakeholders: data.total_stakeholders
+      total2024: viewData.total_volume_2024,
+      total2025: viewData.total_volume_2025,
+      crescimento: viewData.crescimento_pct,
+      total_stakeholders: viewData.total_stakeholders
     };
   });
 });
