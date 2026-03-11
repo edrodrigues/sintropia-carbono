@@ -166,9 +166,68 @@ src/app/[locale]/(public)/
 │  │  [Energia] [Mineração] [Varejo] [Financeiro] ...  │   │
 │  └─────────────────────────────────────────────────────┘   │
 │                                                             │
-│  DataSources + LastUpdated                                  │
+│  LAST UPDATED + DATA SOURCES + CSV DOWNLOAD                  │
 └─────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+## 4.5 Componentes de Rodapé (Footer) - Obrigatório em Todas as Páginas
+
+Todas as páginas devem incluir no final:
+
+### 4.5.1 LastUpdated
+- **Componente existente**: `LastUpdated` em `src/components/ui/LastUpdated.tsx`
+- **Uso**: Exibe data da última atualização dos dados
+- **Dado**: Data do upload mais recente para Supabase
+
+### 4.5.2 DataSources
+- **Componente existente**: `DataSources` em `src/components/ui/DataSources.tsx`
+- **Uso**: Lista fontes dos dados (ex: I-REC Foundation, Verra, Gold Standard)
+- **Parâmetros**:
+  - `sources`: Array de { name: string, url: string }
+  - `downloadFile`: { name: string, path: string }
+
+### 4.5.3 CSV Download Button
+- **Novo componente**: `DataExportButton`
+- **Funcionalidade**:
+  - Botão para download dos dados em formato CSV
+  - Gera CSV a partir dos dados carregados da página
+  - Nome do arquivo: `{pagina}_{data}.csv` (ex: `energia-ranking-brasil_2026-03.csv`)
+
+### Wireframe do Footer (todas as páginas)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  LAST UPDATED                                       │   │
+│  │  Atualizado em: 11 de Março de 2026               │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  FONTES DE DADOS                                    │   │
+│  │  • I-REC Foundation (irec.org)                      │   │
+│  │  • I-TRACK Foundation (trackingstandard.org)         │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  BAIXAR DADOS                                       │   │
+│  │  [Download CSV]                                     │   │
+│  │  energia-ranking-brasil_2026-03.csv                │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Checklist de Componentes de Rodapé
+
+- [ ] LastUpdated - Usar componente existente
+- [ ] DataSources - Usar componente existente com sources atualizadas
+- [ ] DataExportButton - Criar novo componente
+- [ ] CSV Download - Funcional em todas as páginas de dados
+- [ ] Nome do arquivo - Formato: `{pagina}_{ano-mes}.csv`
+- [ ] i18n - Traduções para labels de download
 
 ### 4.3 Ranking Mundo (`/energia/ranking-mundo`)
 
@@ -219,6 +278,7 @@ src/app/[locale]/(public)/
 | `VolumeBarChart` | Gráfico de barras volume | `src/components/charts/VolumeBarChart.tsx` |
 | `SearchInput` | Input de busca | `src/components/ui/SearchInput.tsx` |
 | `Pagination` | Paginação | `src/components/ui/Pagination.tsx` |
+| `DataExportButton` | Botão download CSV | `src/components/ui/DataExportButton.tsx` |
 
 ### 5.2 Componentes de Página
 
@@ -348,6 +408,7 @@ interface IrecStats {
 - [ ] Criar SectorFilter
 - [ ] Criar YearToggle
 - [ ] Criar SearchInput
+- [ ] Criar DataExportButton (download CSV)
 
 ### Fase 3: Componentes Charts
 - [ ] Criar ComparisonChart
@@ -359,6 +420,12 @@ interface IrecStats {
 - [ ] Criar /energia/ranking-brasil
 - [ ] Criar /energia/ranking-mundo
 - [ ] Criar /energia/setores
+
+### Fase 4.5: Footer (Todas as Páginas)
+- [ ] Adicionar LastUpdated em todas as páginas
+- [ ] Adicionar DataSources em todas as páginas
+- [ ] Adicionar DataExportButton (CSV) em todas as páginas
+- [ ] Traduzir labels de download (i18n)
 
 ### Fase 5: Integração
 - [ ] Conectar com Supabase
