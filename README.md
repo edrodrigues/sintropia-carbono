@@ -1,10 +1,24 @@
 # 🌱 Sintropia
 
-Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e certificados de energia renovável no Brasil e no mundo.
+> Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e certificados de energia renovável no Brasil e no mundo.
 
 [![Deploy on Vercel](https://vercel.com/button)](https://vercel.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub Stars](https://img.shields.io/github/stars/edrodrigues/sintropia-carbono)](https://github.com/edrodrigues/sintropia-carbono/stargazers)
+
+## 📑 Índice
+
+- [✨ Funcionalidades](#-funcionalidades)
+- [🚀 Tecnologias](#-tecnologias)
+- [📈 Desenvolvimento Recente](#-desenvolvimento-recente)
+- [🛠️ Como Executar](#️-como-executar)
+- [🔧 Variáveis de Ambiente](#-variáveis-de-ambiente)
+- [🧪 Testes](#-testes)
+- [🔐 Segurança](#-segurança)
+- [🌐 SEO Otimizado](#-seo-otimizado)
+- [📱 Design](#-design)
+- [🤝 Como Contribuir](#-como-contribuir)
+- [📄 Licença](#-licença)
 
 ## ✨ Funcionalidades
 
@@ -81,9 +95,9 @@ Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
 
 ## 🔧 Variáveis de Ambiente
 
-Crie um arquivo `.env.local` com as following variáveis:
+Crie um arquivo `.env.local` com as seguintes variáveis:
 
-```env
+```bash
 NEXT_PUBLIC_SUPABASE_URL=sua_url_supabase
 NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anonima
 SUPABASE_SERVICE_ROLE_KEY=sua_chave_service_role
@@ -130,7 +144,7 @@ Contribuições são bem-vindas! Veja como você pode ajudar:
 3. **📊 Atualizar dados** - Mantenha as informações do mercado atualizadas
 4. **🎨 Melhorar o design** - Contribua com a interface visual
 5. **📝 Documentar** - Melhore a documentação do projeto
-6. 🚀 **Divulgar** - Compartilhe com sua rede
+6. **🚀 Divulgar** - Compartilhe com sua rede
 
 ### 📋 Pré-requisitos para Contribuir
 
@@ -140,7 +154,7 @@ Contribuições são bem-vindas! Veja como você pode ajudar:
 
 ## 📄 Licença
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
+Este projeto está sob a licença MIT.
 
 ## 🙏 Agradecimentos
 
