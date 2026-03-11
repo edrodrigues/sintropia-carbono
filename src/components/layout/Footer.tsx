@@ -43,8 +43,9 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-300">{tNav('energy')}</h4>
             <ul className="flex flex-col gap-4">
-              <li><Link href="/irec-brasil" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketBrazil')}</Link></li>
-              <li><Link href="/irec-mundo" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketWorld')}</Link></li>
+              <li><Link href="/energia/ranking-brasil" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketBrazil')}</Link></li>
+              <li><Link href="/energia/ranking-mundo" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('marketWorld')}</Link></li>
+              <li><Link href="/energia/setores" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('sectors')}</Link></li>
               <li><Link href="/irec-precos" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('prices')}</Link></li>
               <li><Link href="/certificadoras" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav('certificadoras')}</Link></li>
             </ul>

@@ -65,6 +65,7 @@
         "marketBrazil": "Mercado Mundial",
         "marketWorld": "Mercado Global",
         "prices": "Precios",
+        "sectors": "Sectores",
         "marketBrazilCarbon": "Mercado Mundial",
         "marketWorldCarbon": "Mercado Mundo",
         "carbonPrices": "Precios",
@@ -78,7 +79,8 @@
         "energyDesc": {
             "marketBrazil": "Mira quiénes son los mayores compradores de certificados I-REC en el mundo.",
             "marketWorld": "Mira quiénes son los mayores compradores de certificados I-REC en el Mundo.",
-            "prices": "Confirma los precios de los certificados I-REC de forma comparada entre los mercados."
+            "prices": "Confirma los precios de los certificados I-REC de forma comparada entre los mercados.",
+            "sectors": "Distribución del mercado I-REC por sector económico."
         },
         "carbonDesc": {
             "marketBrazil": "Mira quiénes son los mayores compradores de créditos de carbono en el mundo.",

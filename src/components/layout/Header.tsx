@@ -82,10 +82,11 @@ export function Header() {
     { label: tNav('certificadoras'), href: "/certificadoras" },
     {
       label: tNav('energy'),
-      href: "/irec-brasil",
+      href: "/energia",
       subItems: [
-        { label: tNav('marketBrazil'), href: "/irec-brasil", desc: tNav('energyDesc.marketBrazil') },
-        { label: tNav('marketWorld'), href: "/irec-mundo", desc: tNav('energyDesc.marketWorld') },
+        { label: tNav('marketBrazil'), href: "/energia/ranking-brasil", desc: tNav('energyDesc.marketBrazil') },
+        { label: tNav('marketWorld'), href: "/energia/ranking-mundo", desc: tNav('energyDesc.marketWorld') },
+        { label: tNav('sectors'), href: "/energia/setores", desc: tNav('energyDesc.sectors') },
         { label: tNav('prices'), href: "/irec-precos", desc: tNav('energyDesc.prices') },
       ]
     },
