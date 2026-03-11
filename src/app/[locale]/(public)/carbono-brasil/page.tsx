@@ -1,12 +1,12 @@
-import { redirect } from "next/navigation";
+import { redirect } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 
 export default async function CarbonoBrasilRedirect({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   
-  redirect(`/${locale}/carbono/ranking-brasil`);
+  redirect({ href: "/carbono/ranking-brasil", locale });
 
   return (
     <>
@@ -17,7 +17,7 @@ export default async function CarbonoBrasilRedirect({ params }: { params: Promis
           Esta página agora está localizada em um novo endereço.
         </p>
         <Link 
-          href={`/${locale}/carbono/ranking-brasil`}
+          href="/carbono/ranking-brasil"
           className="inline-flex items-center px-6 py-3 bg-forest-green text-white font-bold rounded-lg hover:bg-emerald-700 transition-colors"
         >
           Ir para a nova página →
