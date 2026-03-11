@@ -1009,5 +1009,78 @@
             "brasilVolume": "Volume Brasil",
             "mundoVolume": "Volume Mundo"
         }
+    },
+    "Carbono": {
+        "pageTitle": "Mercado de Carbono",
+        "pageSubtitle": "Créditos de carbono e compensação ambiental",
+        "heroTitle": "Mercado de Créditos de Carbono",
+        "heroSubtitle": "Dashboard completo do mercado de créditos de carbono - rankings, volumes e tendências",
+        "lastUpdated": "Última atualização",
+        "stats": {
+            "totalVolume": "Volume Total",
+            "growth": "Crescimento",
+            "sectors": "Setores",
+            "leaders": "Empresas",
+            "vsLastYear": "vs ano anterior",
+            "volumeUnit": "tCO2e"
+        },
+        "table": {
+            "rank": "#",
+            "company": "Empresa",
+            "sector": "Setor",
+            "country": "País",
+            "vol2024": "2024",
+            "vol2025": "2025",
+            "vol2026": "2026",
+            "delta": "Δ%"
+        },
+        "filters": {
+            "allSectors": "Todos os setores",
+            "search": "Buscar empresa...",
+            "year": "Ano",
+            "region": "Região"
+        },
+        "quickLinks": {
+            "title": "Navegação Rápida",
+            "rankingBrasil": "Ranking Brasil",
+            "rankingMundo": "Ranking Mundo",
+            "setores": "Análise por Setor",
+            "projetos": "Projetos de Carbono",
+            "precos": "Preços Carbono"
+        },
+        "sectors": {
+            "title": "Setores em Destaque",
+            "subtitle": "Distribuição do mercado por setor econômico"
+        },
+        "ranking": {
+            "brasilTitle": "Top 50 Carbono Brasil",
+            "brasilSubtitle": "Maiores compradores de créditos de carbono no Brasil",
+            "mundoTitle": "Top 50 Carbono Mundo",
+            "mundoSubtitle": "Maiores compradores globais de créditos de carbono",
+            "viewAll": "Ver ranking completo →"
+        },
+        "setoresPage": {
+            "title": "Análise por Setor",
+            "subtitle": "Distribuição do mercado de carbono por setor econômico",
+            "distribution": "Distribuição por Setor",
+            "volumeByYear": "Volume por Setor (Anual)",
+            "companiesBySector": "Empresas por Setor"
+        },
+        "comparison": {
+            "title": "Brasil vs Mundo",
+            "subtitle": "Comparativo de volumes 2024/2025/2026"
+        },
+        "insights": {
+            "leaderTitle": "Líder Global",
+            "leaderDesc": "Microsoft lidera o mercado global de créditos de carbono com investimentos em remoção de carbono (CDR).",
+            "growthTitle": "Crescimento",
+            "growthDesc": "O mercado voluntário de carbono apresenta forte crescimento, impulsionado por metas corporativas net-zero.",
+            "sectorTitle": "Setor Principal",
+            "sectorDesc": "Tecnologia e energia são os principais setores investindo em compensação de carbono de alta integridade."
+        },
+        "download": {
+            "button": "Baixar CSV",
+            "tooltip": "Exportar dados em formato CSV"
+        }
     }
 }
