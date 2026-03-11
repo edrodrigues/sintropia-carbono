@@ -1014,5 +1014,78 @@
             "brasilVolume": "Brazil Volume",
             "mundoVolume": "World Volume"
         }
+    },
+    "Carbono": {
+        "pageTitle": "Carbon Market",
+        "pageSubtitle": "Carbon credits and environmental offset",
+        "heroTitle": "Carbon Credit Market",
+        "heroSubtitle": "Complete carbon credit market dashboard - rankings, volumes and trends",
+        "lastUpdated": "Last updated",
+        "stats": {
+            "totalVolume": "Total Volume",
+            "growth": "Growth",
+            "sectors": "Sectors",
+            "leaders": "Companies",
+            "vsLastYear": "vs last year",
+            "volumeUnit": "tCO2e"
+        },
+        "table": {
+            "rank": "#",
+            "company": "Company",
+            "sector": "Sector",
+            "country": "Country",
+            "vol2024": "2024",
+            "vol2025": "2025",
+            "vol2026": "2026",
+            "delta": "Δ%"
+        },
+        "filters": {
+            "allSectors": "All sectors",
+            "search": "Search company...",
+            "year": "Year",
+            "region": "Region"
+        },
+        "quickLinks": {
+            "title": "Quick Navigation",
+            "rankingBrasil": "Brazil Ranking",
+            "rankingMundo": "World Ranking",
+            "setores": "Sector Analysis",
+            "projetos": "Carbon Projects",
+            "precos": "Carbon Prices"
+        },
+        "sectors": {
+            "title": "Featured Sectors",
+            "subtitle": "Market distribution by economic sector"
+        },
+        "ranking": {
+            "brasilTitle": "Top 50 Carbon Brazil",
+            "brasilSubtitle": "Largest carbon credit buyers in Brazil",
+            "mundoTitle": "Top 50 Carbon World",
+            "mundoSubtitle": "Largest global carbon credit buyers",
+            "viewAll": "View full ranking →"
+        },
+        "setoresPage": {
+            "title": "Sector Analysis",
+            "subtitle": "Carbon market distribution by economic sector",
+            "distribution": "Distribution by Sector",
+            "volumeByYear": "Volume by Sector (Annual)",
+            "companiesBySector": "Companies by Sector"
+        },
+        "comparison": {
+            "title": "Brazil vs World",
+            "subtitle": "Volume comparison 2024/2025/2026"
+        },
+        "insights": {
+            "leaderTitle": "Global Leader",
+            "leaderDesc": "Microsoft leads the global carbon credit market with investments in carbon removal (CDR).",
+            "growthTitle": "Growth",
+            "growthDesc": "The voluntary carbon market shows strong growth, driven by corporate net-zero targets.",
+            "sectorTitle": "Main Sector",
+            "sectorDesc": "Technology and energy are the main sectors investing in high-integrity carbon offsets."
+        },
+        "download": {
+            "button": "Download CSV",
+            "tooltip": "Export data as CSV"
+        }
     }
 }

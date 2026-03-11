@@ -11,9 +11,25 @@ export interface CarbonStakeholder {
   setor: string | null;
   volume_2024: number | null;
   volume_2025: number | null;
+  volume_2026: number | null;
   delta_pct: number | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface CarbonSectorCount {
+  setor: string;
+  count: number;
+  totalVolume: number;
+}
+
+export interface CarbonFullStats {
+  totalVolume: number;
+  crescimento: number;
+  totalStakeholders: number;
+  totalSectors: number;
+  leader: CarbonStakeholder | null;
+  sectorDistribution: CarbonSectorCount[];
 }
 
 export const getCarbonStakeholders = cache(async (region: 'brazil' | 'world' = 'brazil') => {
@@ -89,5 +105,117 @@ export const getCarbonStats = cache(async (region: 'brazil' | 'world' = 'brazil'
       crescimento: viewData.crescimento_pct,
       total_stakeholders: viewData.total_stakeholders
     };
+  });
+});
+
+export const getCarbonStakeholdersBySector = cache(async (setor: string, region: 'brazil' | 'world' = 'brazil') => {
+  return withMonitoring(`getCarbonStakeholdersBySector(${setor}, ${region})`, async () => {
+    const supabase = createClient();
+    
+    const { data, error } = await supabase
+      .from('carbon_stakeholders' as any)
+      .select('*')
+      .eq('setor', setor)
+      .eq('region', region)
+      .order('ranking', { ascending: true });
+
+    if (error) {
+      console.error(`Error fetching carbon_stakeholders for sector ${setor} in ${region}:`, error);
+      return [];
+    }
+    
+    return data as unknown as CarbonStakeholder[];
+  });
+});
+
+export const searchCarbonStakeholders = cache(async (query: string, region: 'brazil' | 'world' = 'brazil') => {
+  return withMonitoring(`searchCarbonStakeholders(${query}, ${region})`, async () => {
+    const supabase = createClient();
+    
+    const { data, error } = await supabase
+      .from('carbon_stakeholders' as any)
+      .select('*')
+      .eq('region', region)
+      .ilike('empresa', `%${query}%`)
+      .order('ranking', { ascending: true });
+
+    if (error) {
+      console.error(`Error searching carbon_stakeholders:`, error);
+      return [];
+    }
+
+    return data as unknown as CarbonStakeholder[];
+  });
+});
+
+export const getCarbonSectorDistribution = cache(async (region: 'brazil' | 'world' = 'brazil'): Promise<CarbonSectorCount[]> => {
+  return withMonitoring(`getCarbonSectorDistribution(${region})`, async () => {
+    const stakeholders = await getCarbonStakeholders(region);
+    
+    const sectorMap = new Map<string, { count: number; totalVolume: number }>();
+    
+    for (const s of stakeholders) {
+      const setor = s.setor || 'Outros';
+      const current = sectorMap.get(setor) || { count: 0, totalVolume: 0 };
+      sectorMap.set(setor, {
+        count: current.count + 1,
+        totalVolume: current.totalVolume + (Number(s.volume_2025) || Number(s.volume_2024) || 0)
+      });
+    }
+
+    return Array.from(sectorMap.entries())
+      .map(([setor, data]) => ({ setor, ...data }))
+      .sort((a, b) => b.totalVolume - a.totalVolume);
+  });
+});
+
+export const getCarbonFullStats = cache(async (region: 'brazil' | 'world' = 'brazil'): Promise<CarbonFullStats> => {
+  return withMonitoring(`getCarbonFullStats(${region})`, async () => {
+    const [stakeholders, sectorDistribution] = await Promise.all([
+      getCarbonStakeholders(region),
+      getCarbonSectorDistribution(region)
+    ]);
+
+    if (stakeholders.length === 0) {
+      return {
+        totalVolume: 0,
+        crescimento: 0,
+        totalStakeholders: 0,
+        totalSectors: 0,
+        leader: null,
+        sectorDistribution: []
+      };
+    }
+
+    const total2025 = stakeholders.reduce((sum, s) => sum + (Number(s.volume_2025) || 0), 0);
+    const total2024 = stakeholders.reduce((sum, s) => sum + (Number(s.volume_2024) || 0), 0);
+    const crescimento = total2024 > 0 ? ((total2025 - total2024) / total2024) * 100 : 0;
+
+    const uniqueSectors = new Set(stakeholders.map(s => s.setor).filter(Boolean));
+
+    return {
+      totalVolume: total2025,
+      crescimento,
+      totalStakeholders: stakeholders.length,
+      totalSectors: uniqueSectors.size,
+      leader: stakeholders[0] || null,
+      sectorDistribution
+    };
+  });
+});
+
+export const getCarbonByYear = cache(async (year: 2024 | 2025 | 2026, region: 'brazil' | 'world' = 'brazil') => {
+  return withMonitoring(`getCarbonByYear(${year}, ${region})`, async () => {
+    const stakeholders = await getCarbonStakeholders(region);
+    
+    const volumeKey = `volume_${year}` as keyof CarbonStakeholder;
+    
+    return stakeholders
+      .filter(s => s[volumeKey] !== null && Number(s[volumeKey]) > 0)
+      .map(s => ({
+        ...s,
+        volume: Number(s[volumeKey]) || 0
+      }))
+      .sort((a, b) => b.volume - a.volume);
   });
 });
