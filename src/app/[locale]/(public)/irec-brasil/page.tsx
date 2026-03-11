@@ -10,6 +10,7 @@ import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { MobileTableWrapper } from "@/components/ui/MobileTable";
 import { Card } from "@/components/ui/tremor";
+import { getIrecStakeholders, getIrecStats } from "@/lib/queries/irec";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -68,14 +69,44 @@ const dataSources = [
 
 export default async function IrecBrasil({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+
+  // Fetch data from Supabase
+  const [dbStakeholders, dbStats] = await Promise.all([
+    getIrecStakeholders('brazil'),
+    getIrecStats('brazil')
+  ]);
+
   const t = await getTranslations({ locale, namespace: 'IREC' });
   const tCards = await getTranslations({ locale, namespace: 'IREC.cards' });
   const tTable = await getTranslations({ locale, namespace: 'IREC.table' });
   const tLegend = await getTranslations({ locale, namespace: 'IREC.legend' });
   const tInsights = await getTranslations({ locale, namespace: 'IREC.insights' });
   
-  const totalVolume = irecData.reduce((acc, row) => acc + row.vol2025, 0);
-  const crescimento = ((totalVolume - irecData.reduce((acc, row) => acc + row.vol2024, 0)) / irecData.reduce((acc, row) => acc + row.vol2024, 0)) * 100;
+  // Use DB data if available, otherwise fallback to static data
+  const hasDbData = dbStakeholders.length > 0;
+  
+  const displayData = hasDbData 
+    ? dbStakeholders.map(s => ({
+        rank: s.ranking,
+        empresa: s.empresa,
+        papel: s.papel_mercado || 'N/A',
+        vol2024: s.volume_2024,
+        vol2025: s.volume_2025,
+        delta: s.delta_pct
+      }))
+    : irecData;
+
+  const totalVolume = hasDbData ? dbStats.total2025 : irecData.reduce((acc, row) => acc + row.vol2025, 0);
+  const totalVolume2024 = hasDbData ? dbStats.total2024 : irecData.reduce((acc, row) => acc + row.vol2024, 0);
+  const crescimento = hasDbData ? dbStats.crescimento : ((totalVolume - totalVolume2024) / totalVolume2024) * 100;
+
+  const sellersCount = hasDbData 
+    ? dbStakeholders.filter(s => s.papel_mercado?.toLowerCase().includes('vendedor') || s.papel_mercado?.toLowerCase().includes('gerador')).length
+    : irecData.filter(s => s.papel === "Vendedor").length;
+
+  const leader = hasDbData ? dbStakeholders[0] : irecData[0];
+  const leaderName = (leader as any).empresa;
+  const leaderVol = hasDbData ? (leader as any).volume_2025 : (leader as any).vol2025;
 
   return (
     <>
@@ -114,7 +145,7 @@ export default async function IrecBrasil({ params }: { params: Promise<{ locale:
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
               {tCards('sellers')}
             </p>
-            <h3 className="text-3xl font-bold text-green-600">3</h3>
+            <h3 className="text-3xl font-bold text-green-600">{sellersCount}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
               {tCards('topGenerators')}
             </p>
@@ -123,16 +154,16 @@ export default async function IrecBrasil({ params }: { params: Promise<{ locale:
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
               {tCards('leader')}
             </p>
-            <h3 className="text-2xl font-bold text-[#1e40af]">Eletrobras</h3>
+            <h3 className="text-2xl font-bold text-[#1e40af] truncate" title={leaderName}>{leaderName}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              14.5M I-RECs
+              {(leaderVol / 1000).toFixed(1)}M I-RECs
             </p>
           </div>
         </div>
 
         <Card>
           <MobileTableWrapper
-            data={irecData as unknown as Record<string, unknown>[]}
+            data={displayData as unknown as Record<string, unknown>[]}
             defaultMobileColumns={["rank", "empresa", "papel", "delta"]}
             columns={[
               { key: "rank", header: tTable('rank'), align: "center" },

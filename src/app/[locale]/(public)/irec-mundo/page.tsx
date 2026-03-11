@@ -10,6 +10,7 @@ import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { MobileTableWrapper } from "@/components/ui/MobileTable";
 import { Card } from "@/components/ui/tremor";
+import { getIrecStakeholders, getIrecStats } from "@/lib/queries/irec";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -54,11 +55,41 @@ const dataSources = [
 
 export default async function IrecMundo({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+
+  // Fetch data from Supabase
+  const [dbStakeholders, dbStats] = await Promise.all([
+    getIrecStakeholders('world'),
+    getIrecStats('world')
+  ]);
+
   const t = await getTranslations({ locale, namespace: 'IRECMundo' });
   const tCards = await getTranslations({ locale, namespace: 'IRECMundo.cards' });
   const tTable = await getTranslations({ locale, namespace: 'IRECMundo.table' });
   const tInsights = await getTranslations({ locale, namespace: 'IRECMundo.insights' });
   
+  // Use DB data if available, otherwise fallback to static data
+  const hasDbData = dbStakeholders.length > 0;
+
+  const displayData = hasDbData 
+    ? dbStakeholders.map(s => ({
+        rank: s.ranking,
+        empresa: s.empresa,
+        setor: s.setor || 'N/A',
+        vol2024: s.volume_2024 ? Number(s.volume_2024) / 1000000 : 0, // Assume stored as units, convert to M
+        vol2025: s.volume_2025 ? Number(s.volume_2025) / 1000000 : 0,
+        delta: s.delta_pct
+      }))
+    : energiaData;
+
+  const totalVolume = hasDbData ? Number(dbStats.total2025) / 1000000 : 380.3; // Static fallback
+  const leader = hasDbData ? dbStakeholders[0] : energiaData[0];
+  const leaderName = (leader as any).empresa;
+  const leaderVol = hasDbData ? Number((leader as any).volume_2025) / 1000000 : (leader as any).vol2025;
+  
+  const growthLeader = [...displayData].sort((a, b) => (Number(b.delta) || 0) - (Number(a.delta) || 0))[0];
+  
+  const techSectorCount = displayData.filter(d => d.setor?.toLowerCase().includes('tecnologia')).length;
+
     return (
         <>
             <Header />
@@ -74,29 +105,29 @@ export default async function IrecMundo({ params }: { params: Promise<{ locale: 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-12 mb-8">
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                         <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">{tCards('volumeTitle')}</p>
-                        <h3 className="text-3xl font-bold text-[#1e40af] dark:text-blue-400">380.3</h3>
+                        <h3 className="text-3xl font-bold text-[#1e40af] dark:text-blue-400">{totalVolume.toFixed(1)}</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{tCards('volumeUnit')}</p>
                     </div>
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                         <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">{tCards('topBuyer')}</p>
-                        <h3 className="text-2xl font-bold text-[#1e40af] dark:text-blue-400">Amazon</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">91.2 TWh</p>
+                        <h3 className="text-2xl font-bold text-[#1e40af] dark:text-blue-400 truncate" title={leaderName}>{leaderName}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{leaderVol.toFixed(1)} TWh</p>
                     </div>
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                         <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">{tCards('topGrowth')}</p>
-                        <h3 className="text-3xl font-bold text-green-600">+42.5%</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">Rio Tinto</p>
+                        <h3 className="text-3xl font-bold text-green-600">+{growthLeader.delta?.toFixed(1)}%</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 truncate" title={growthLeader.empresa}>{growthLeader.empresa}</p>
                     </div>
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                         <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">{tCards('dominantSector')}</p>
                         <h3 className="text-3xl font-bold text-[#1e40af] dark:text-blue-400">Tecnologia</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">5 {tCards('companies')}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{techSectorCount} {tCards('companies')}</p>
                     </div>
                 </div>
 
                 <Card>
                     <MobileTableWrapper
-                        data={energiaData as unknown as Record<string, unknown>[]}
+                        data={displayData as unknown as Record<string, unknown>[]}
                         defaultMobileColumns={["rank", "empresa", "delta"]}
                         columns={[
                             { key: "rank", header: tTable('rank'), align: "center" },

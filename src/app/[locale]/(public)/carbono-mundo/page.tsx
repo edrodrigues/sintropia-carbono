@@ -10,6 +10,7 @@ import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { MobileTableWrapper } from "@/components/ui/MobileTable";
 import { Card } from "@/components/ui/tremor";
+import { getCarbonStakeholders, getCarbonStats } from "@/lib/queries/carbon";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -51,11 +52,42 @@ const dataSources = [
 
 export default async function CarbonoMundo({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+
+  // Fetch data from Supabase
+  const [dbStakeholders, dbStats] = await Promise.all([
+    getCarbonStakeholders('world'),
+    getCarbonStats('world')
+  ]);
+
   const t = await getTranslations({ locale, namespace: 'CarbonoMundo' });
   const tCards = await getTranslations({ locale, namespace: 'CarbonoMundo.cards' });
   const tTable = await getTranslations({ locale, namespace: 'CarbonoMundo.table' });
   const tInsights = await getTranslations({ locale, namespace: 'CarbonoMundo.insights' });
   
+  // Use DB data if available, otherwise fallback to static data
+  const hasDbData = dbStakeholders.length > 0;
+
+  const displayData = hasDbData 
+    ? dbStakeholders.map(s => ({
+        rank: s.ranking,
+        empresa: s.empresa,
+        setor: s.setor || 'N/A',
+        vol2024: s.volume_2024,
+        vol2025: s.volume_2025,
+        delta: s.delta_pct
+      }))
+    : carbonoData;
+
+  const totalVolume = hasDbData ? dbStats.total2025 : 73.2; // Static fallback
+  const leader = hasDbData ? dbStakeholders[0] : carbonoData[0];
+  const leaderName = (leader as any).empresa;
+  const leaderVol = hasDbData ? (leader as any).volume_2025 : (leader as any).vol2025;
+  
+  const growthLeader = [...displayData].sort((a, b) => (Number(b.delta) || 0) - (Number(a.delta) || 0))[0];
+  
+  const energySectorCount = displayData.filter(d => d.setor?.toLowerCase().includes('energia')).length;
+  const energySectorPercent = displayData.length > 0 ? (energySectorCount / displayData.length) * 100 : 0;
+
     return (
         <>
             <Header />
@@ -71,29 +103,29 @@ export default async function CarbonoMundo({ params }: { params: Promise<{ local
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-12 mb-8">
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                         <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">{tCards('totalVolume')}</p>
-                        <h3 className="text-3xl font-bold text-[#1e40af] dark:text-blue-400">73.2M</h3>
+                        <h3 className="text-3xl font-bold text-[#1e40af] dark:text-blue-400">{totalVolume.toFixed(1)}M</h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{tCards('volumeUnit')}</p>
                     </div>
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                         <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">{tCards('topBuyer')}</p>
-                        <h3 className="text-2xl font-bold text-[#1e40af] dark:text-blue-400">Microsoft</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">29.5M tCO2e</p>
+                        <h3 className="text-2xl font-bold text-[#1e40af] dark:text-blue-400 truncate" title={leaderName}>{leaderName}</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{leaderVol.toFixed(1)}M tCO2e</p>
                     </div>
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                         <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">{tCards('topGrowth')}</p>
-                        <h3 className="text-3xl font-bold text-green-600">+95.3%</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">AtmosClear</p>
+                        <h3 className="text-3xl font-bold text-green-600">+{growthLeader.delta?.toFixed(1)}%</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 truncate" title={growthLeader.empresa}>{growthLeader.empresa}</p>
                     </div>
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
                         <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">{tCards('dominantSector')}</p>
                         <h3 className="text-3xl font-bold text-[#1e40af] dark:text-blue-400">Energia</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">50% {tCards('percentOfTop')}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{energySectorPercent.toFixed(0)}% {tCards('percentOfTop')}</p>
                     </div>
                 </div>
 
                 <Card>
                     <MobileTableWrapper
-                        data={carbonoData as unknown as Record<string, unknown>[]}
+                        data={displayData as unknown as Record<string, unknown>[]}
                         defaultMobileColumns={["rank", "empresa", "delta"]}
                         columns={[
                             { key: "rank", header: tTable('rank'), align: "center" },

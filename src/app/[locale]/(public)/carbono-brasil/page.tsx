@@ -10,6 +10,7 @@ import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { MobileTableWrapper } from "@/components/ui/MobileTable";
 import { Card } from "@/components/ui/tremor";
+import { getCarbonStakeholders, getCarbonStats } from "@/lib/queries/carbon";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -86,13 +87,39 @@ const dataSources = [
 
 export default async function CarbonoBrasil({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+
+  // Fetch data from Supabase
+  const [dbStakeholders, dbStats] = await Promise.all([
+    getCarbonStakeholders('brazil'),
+    getCarbonStats('brazil')
+  ]);
+
   const t = await getTranslations({ locale, namespace: 'Carbon' });
   const tCards = await getTranslations({ locale, namespace: 'Carbon.cards' });
   const tTable = await getTranslations({ locale, namespace: 'Carbon.table' });
   
-  const totalVolume = carbonoData.reduce((acc, row) => acc + row.vol2025, 0);
-  const crescimento = ((totalVolume - carbonoData.reduce((acc, row) => acc + row.vol2024, 0)) / carbonoData.reduce((acc, row) => acc + row.vol2024, 0)) * 100;
-  const setores = [...new Set(carbonoData.map((d) => d.setor))];
+  // Use DB data if available, otherwise fallback to static data
+  const hasDbData = dbStakeholders.length > 0;
+
+  const displayData = hasDbData 
+    ? dbStakeholders.map(s => ({
+        rank: s.ranking,
+        empresa: s.empresa,
+        setor: s.setor || 'N/A',
+        vol2024: s.volume_2024,
+        vol2025: s.volume_2025,
+        delta: s.delta_pct
+      }))
+    : carbonoData;
+
+  const totalVolume = hasDbData ? dbStats.total2025 : carbonoData.reduce((acc, row) => acc + row.vol2025, 0);
+  const totalVolume2024 = hasDbData ? dbStats.total2024 : carbonoData.reduce((acc, row) => acc + row.vol2024, 0);
+  const crescimento = hasDbData ? dbStats.crescimento : ((totalVolume - totalVolume2024) / totalVolume2024) * 100;
+  const setores = [...new Set(displayData.map((d) => d.setor))];
+
+  const leader = hasDbData ? dbStakeholders[0] : carbonoData[0];
+  const leaderName = (leader as any).empresa;
+  const leaderVol = hasDbData ? (leader as any).volume_2025 : (leader as any).vol2025;
 
   return (
     <>
@@ -140,14 +167,14 @@ export default async function CarbonoBrasil({ params }: { params: Promise<{ loca
             <p className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase mb-2">
               {tCards('leader')}
             </p>
-            <h3 className="text-2xl font-bold text-[#1e40af]">Banco Votorantim</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">5.2M tCO2e</p>
+            <h3 className="text-2xl font-bold text-[#1e40af] truncate" title={leaderName}>{leaderName}</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{leaderVol.toFixed(1)}M tCO2e</p>
           </div>
         </div>
 
         <Card>
           <MobileTableWrapper
-            data={carbonoData as unknown as Record<string, unknown>[]}
+            data={displayData as unknown as Record<string, unknown>[]}
             defaultMobileColumns={["rank", "empresa", "delta"]}
             columns={[
               { key: "rank", header: tTable('rank'), align: "center" },

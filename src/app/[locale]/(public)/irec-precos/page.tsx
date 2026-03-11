@@ -9,6 +9,7 @@ import { IrecPrecosChart } from "@/components/charts/IrecPrecosChart";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+import { getIrecPrices } from "@/lib/queries/irec";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -30,6 +31,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function IRECPrecos({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+
+  // Fetch data from Supabase for all categories
+  const [dbBrazil, dbLatam, dbAsia] = await Promise.all([
+    getIrecPrices('brazil'),
+    getIrecPrices('latam'),
+    getIrecPrices('asia_pacific')
+  ]);
+
   const t = await getTranslations({ locale, namespace: 'IrecPrecos' });
   const tSummary = await getTranslations({ locale, namespace: 'IrecPrecos.summaryItems' });
   const tTable = await getTranslations({ locale, namespace: 'IrecPrecos.table' });
@@ -38,20 +47,27 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
   const tProj = await getTranslations({ locale, namespace: 'IrecPrecos.projectionValues' });
   const tDrivers = await getTranslations({ locale, namespace: 'IrecPrecos.driversList' });
   
-    const brasilData = [
+  // Use DB data with fallback
+  const displayBrazil = dbBrazil.length > 0 
+    ? dbBrazil.map(p => ({ tech: p.technology, price: p.price_range, vintage: p.vintage, date: p.update_date }))
+    : [
         { tech: "Hidro", price: "$0.16 - $0.18", vintage: "2023-2024", date: "Fev 2025" },
         { tech: "Eólica", price: "$0.19 - $0.24", vintage: "2024-2025", date: "Fev 2025" },
         { tech: "Solar", price: "$0.19 - $0.236", vintage: "2024-2025", date: "Fev 2025" },
     ];
 
-    const amLatinaData = [
+  const displayLatam = dbLatam.length > 0
+    ? dbLatam.map(p => ({ country: p.country, tech: p.technology, price: p.price_range, trend: p.trend }))
+    : [
         { country: "Brasil", tech: "Hidro", price: "$0.16 - $0.18", trend: "↔️ Estável" },
         { country: "México", tech: "Eólica", price: "$4.30 - $5.05", trend: "⬆️ +187%" },
         { country: "Chile", tech: "Eólica/Solar", price: "$2.40 - $3.00", trend: "↗️ Crescendo" },
         { country: "Colômbia", tech: "Hidro", price: "$1.05 - $1.15", trend: "↗️ Crescendo" },
     ];
 
-    const globalData = [
+  const displayAsia = dbAsia.length > 0
+    ? dbAsia.map(p => ({ country: p.country, tech: p.technology, price: p.price_range, note: p.observation }))
+    : [
         { country: "China", tech: "Eólica", price: "$0.70 - $0.95", note: "⚠️ Saiu do I-REC (31/03/25)" },
         { country: "Índia", tech: "Solar", price: "$0.79 - $0.86", note: "⬆️ Demanda crescendo" },
         { country: "Malásia", tech: "Solar", price: "$5.55", note: "↗️ Em desenvolvimento" },
@@ -114,7 +130,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {brasilData.map((row, i) => (
+                                    {displayBrazil.map((row, i) => (
                                         <TableRow key={i}>
                                             <TableCell className="font-bold">{row.tech}</TableCell>
                                             <TableCell className="font-mono text-green-600 font-bold">{row.price}</TableCell>
@@ -146,7 +162,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
 
                 {/* Global Section */}
                 <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8 shadow-sm">
-                    <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-purple-900/10">
+                    <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-blue-900/10">
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">🌍 {t('asiaPacific')}</h3>
                     </div>
                     <div className="p-6">
@@ -160,7 +176,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {globalData.map((row, i) => (
+                                    {displayAsia.map((row, i) => (
                                         <TableRow key={i}>
                                             <TableCell className="font-bold">{row.country}</TableCell>
                                             <TableCell className="font-mono font-bold text-orange-600">{row.price}</TableCell>
@@ -190,7 +206,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {amLatinaData.map((row, i) => (
+                                    {displayLatam.map((row, i) => (
                                         <TableRow key={i}>
                                             <TableCell className="font-bold">{row.country}</TableCell>
                                             <TableCell>{row.tech}</TableCell>
