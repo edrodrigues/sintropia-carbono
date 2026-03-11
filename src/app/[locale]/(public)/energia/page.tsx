@@ -142,7 +142,7 @@ export default async function EnergiaPage({
           </div>
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <span>{t("lastUpdated")}:</span>
-            <span className="font-medium">Mar 2026</span>
+            <span className="font-medium">11 de Março de 2026</span>
           </div>
         </div>
 
