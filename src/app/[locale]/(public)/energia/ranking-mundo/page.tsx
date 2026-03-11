@@ -86,23 +86,29 @@ export default async function RankingMundoPage({
     locale,
     namespace: "Energia.ranking",
   });
+  const tInsights = await getTranslations({
+    locale,
+    namespace: "Energia.worldInsights",
+  });
+
+  const formatVolume = (vol: number | null) => {
+    if (vol === null) return "-";
+    // Volume is in millions of RECs (TWh)
+    return `${(vol / 1000000).toFixed(1)}M`;
+  };
 
   const tableData = stakeholders.map((s) => ({
     rank: s.ranking,
     empresa: s.empresa,
     setor: s.setor || "N/A",
-    vol2024: s.volume_2024
-      ? s.volume_2024.toFixed(1) + " TWh"
-      : "-",
-    vol2025: s.volume_2025
-      ? s.volume_2025.toFixed(1) + " TWh"
-      : "-",
+    vol2024: formatVolume(s.volume_2024),
+    vol2025: formatVolume(s.volume_2025),
     delta: s.delta_pct !== null ? (s.delta_pct > 0 ? "+" : "") + s.delta_pct.toFixed(1) + "%" : "-",
   }));
 
   const top10ForChart = stakeholders.slice(0, 10).map((s) => ({
     name: s.empresa,
-    value: s.volume_2025 || 0,
+    value: s.volume_2025 ? s.volume_2025 / 1000000 : 0,
   }));
 
   return (
@@ -125,8 +131,8 @@ export default async function RankingMundoPage({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatsCard
             title={tStats("totalVolume")}
-            value={`${stats.totalVolume.toFixed(1)}`}
-            subtitle="TWh (Top 50)"
+            value={`${(stats.totalVolume / 1000000).toFixed(1)}M`}
+            subtitle="I-RECs (Top 50)"
             trend="up"
             trendValue={`+${stats.crescimento.toFixed(1)}%`}
           />
@@ -146,7 +152,7 @@ export default async function RankingMundoPage({
             value={stats.leader?.empresa || "-"}
             subtitle={
               stats.leader?.volume_2025
-                ? `${stats.leader.volume_2025.toFixed(1)} TWh`
+                ? `${(stats.leader.volume_2025 / 1000000).toFixed(1)}M I-RECs`
                 : ""
             }
           />
@@ -208,26 +214,26 @@ export default async function RankingMundoPage({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
-              🏢 Big Tech Lidera
+              🏢 {tInsights("leaderTitle")}
             </h4>
             <p className="text-sm text-blue-800 dark:text-blue-300">
-              Amazon, Microsoft, Meta e Google são os 4 maiores compradores globais de energia renovável.
+              {tInsights("leaderDesc")}
             </p>
           </div>
           <div className="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-green-900 dark:text-green-200 mb-2">
-              📈 Crescimento Acelerado
+              📈 {tInsights("growthTitle")}
             </h4>
             <p className="text-sm text-green-800 dark:text-green-300">
-              O setor industrial mostra forte aceleração na transição energética em 2025.
+              {tInsights("growthDesc")}
             </p>
           </div>
           <div className="bg-purple-50 dark:bg-purple-900/20 border-l-4 border-purple-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-purple-900 dark:text-purple-200 mb-2">
-              🌍 Diversidade Global
+              🌍 {tInsights("sectorTitle")}
             </h4>
             <p className="text-sm text-purple-800 dark:text-purple-300">
-              Empresas de semicondutores, varejo e manufatura também figuram no topo do ranking.
+              {tInsights("sectorDesc")}
             </p>
           </div>
         </div>

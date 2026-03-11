@@ -993,10 +993,26 @@
         },
         "ranking": {
             "brasilTitle": "Top 50 I-REC Brasil",
-            "brasilSubtitle": "Maiores compradores e vendedores de certificados I-REC no Brasil",
+            "brasilSubtitle": "Maiores negociadores de certificados de energia renovável no Brasil",
             "mundoTitle": "Top 50 I-REC Mundo",
-            "mundoSubtitle": "Maiores traders globais de certificados de energia renovável",
+            "mundoSubtitle": "Maiores negociadores globais de certificados de energia renovável",
             "viewAll": "Ver ranking completo →"
+        },
+        "insights": {
+            "leaderTitle": "Comerc Lidera Brasil",
+            "leaderDesc": "A Comerc Energia mantém a liderança no mercado brasileiro, com um volume superior a 8 milhões de I-RECs em 2024.",
+            "growthTitle": "Expansão de Geradores",
+            "growthDesc": "Grandes geradores como Engie, Auren e Eletrobras consolidam sua atuação como principais emissores e vendedores.",
+            "sectorTitle": "Setor de Varejo",
+            "sectorDesc": "Empresas de varejo e tecnologia aumentaram em 30% a demanda por I-RECs para metas de energia 100% renovável."
+        },
+        "worldInsights": {
+            "leaderTitle": "Statkraft Lidera Global",
+            "leaderDesc": "A Statkraft consolidou sua posição como a maior negociadora global de I-RECs, atingindo 30.2 TWh em 2025.",
+            "growthTitle": "Mercado em Escala",
+            "growthDesc": "O volume dos Top 10 negociadores globais cresceu em média 25%, refletindo a maturidade dos certificados de energia.",
+            "sectorTitle": "Diversificação",
+            "sectorDesc": "Trading houses especializadas em ativos ambientais (STX, ACT) ganham espaço frente aos compradores diretos."
         },
         "setoresPage": {
             "title": "Análise por Setor",

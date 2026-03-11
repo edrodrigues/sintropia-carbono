@@ -6,6 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import CarbonPlanChartWrapper from "@/components/charts/CarbonPlanChartWrapper";
+import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Callout } from "@/components/ui/tremor";
 
@@ -104,6 +105,10 @@ export default async function CarbonoProjetosPage({ params }: { params: Promise<
               {t('downloadCredits')}
             </a>
           </div>
+        </div>
+
+        <div className="mt-12 flex items-center justify-between">
+          <LastUpdated dataFile="carbono-projetos" />
         </div>
 
         <DataSources sources={dataSources} />

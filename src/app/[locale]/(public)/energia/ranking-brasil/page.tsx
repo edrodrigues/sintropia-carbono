@@ -86,17 +86,20 @@ export default async function RankingBrasilPage({
     namespace: "Energia.ranking",
   });
 
+  const formatVolume = (vol: number | null) => {
+    if (vol === null) return "-";
+    if (vol >= 1000000) return `${(vol / 1000000).toFixed(1)}M`;
+    if (vol >= 1000) return `${(vol / 1000).toFixed(0)}K`;
+    return vol.toString();
+  };
+
   const tableData = stakeholders.map((s) => ({
     rank: s.ranking,
     empresa: s.empresa,
     setor: s.setor || "N/A",
     papel: s.papel_mercado || "N/A",
-    vol2024: s.volume_2024
-      ? (s.volume_2024 / 1000).toFixed(0) + "K"
-      : "-",
-    vol2025: s.volume_2025
-      ? (s.volume_2025 / 1000).toFixed(0) + "K"
-      : "-",
+    vol2024: formatVolume(s.volume_2024),
+    vol2025: formatVolume(s.volume_2025),
     delta: s.delta_pct !== null ? (s.delta_pct > 0 ? "+" : "") + s.delta_pct.toFixed(1) + "%" : "-",
   }));
 
@@ -145,7 +148,7 @@ export default async function RankingBrasilPage({
             value={stats.leader?.empresa || "-"}
             subtitle={
               stats.leader?.volume_2025
-                ? `${(stats.leader.volume_2025 / 1000).toFixed(0)}K I-RECs`
+                ? `${formatVolume(stats.leader.volume_2025)} I-RECs`
                 : ""
             }
           />
