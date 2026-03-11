@@ -90,6 +90,10 @@ export default async function RankingBrasilPage({
     locale,
     namespace: "Carbono.download",
   });
+  const tInsights = await getTranslations({
+    locale,
+    namespace: "Carbono.insights",
+  });
 
   const formatVolume = (vol: number | null) => {
     if (vol === null) return "-";
@@ -220,26 +224,26 @@ export default async function RankingBrasilPage({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-emerald-900 dark:text-emerald-200 mb-2">
-              🏭 Energia Lidera
+              🏭 {tInsights("leaderTitle")}
             </h4>
             <p className="text-sm text-emerald-800 dark:text-emerald-300">
-              Setor de energia é o maior comprador de créditos de carbono no Brasil, liderado por Shell e Eni.
+              {tInsights("leaderDesc")}
             </p>
           </div>
           <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
-              🌳 Papel e Celulose
+              🌳 {tInsights("growthTitle")}
             </h4>
             <p className="text-sm text-blue-800 dark:text-blue-300">
-              Suzano e outras empresas do setor investem fortemente em projetos de reflorestamento e compensação.
+              {tInsights("growthDesc")}
             </p>
           </div>
           <div className="bg-purple-50 dark:bg-purple-900/20 border-l-4 border-purple-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-purple-900 dark:text-purple-200 mb-2">
-              📈 Crescimento
+              📈 {tInsights("sectorTitle")}
             </h4>
             <p className="text-sm text-purple-800 dark:text-purple-300">
-              O mercado brasileiro de carbono cresce impulsionado por metas corporativas de descarbonização.
+              {tInsights("sectorDesc")}
             </p>
           </div>
         </div>

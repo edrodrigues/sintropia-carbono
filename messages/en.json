@@ -1078,12 +1078,20 @@
             "subtitle": "Volume comparison 2024/2025/2026"
         },
         "insights": {
-            "leaderTitle": "Global Leader",
-            "leaderDesc": "Microsoft leads the global carbon credit market with investments in carbon removal (CDR).",
-            "growthTitle": "Growth",
-            "growthDesc": "The voluntary carbon market shows strong growth, driven by corporate net-zero targets.",
-            "sectorTitle": "Main Sector",
-            "sectorDesc": "Technology and energy are the main sectors investing in high-integrity carbon offsets."
+            "leaderTitle": "Shell Brazil Leads",
+            "leaderDesc": "Shell PLC is the largest buyer of carbon credits in Brazil, with a volume exceeding 9.7 million tCO2e in 2025.",
+            "growthTitle": "Pulp and Paper",
+            "growthDesc": "Suzano and Klabin are major players, with Suzano showing the largest absolute growth in offset volume.",
+            "sectorTitle": "Energy Sector",
+            "sectorDesc": "Oil, gas and electricity companies continue to be the main drivers of carbon credit demand."
+        },
+        "worldInsights": {
+            "leaderTitle": "Microsoft Leads Globally",
+            "leaderDesc": "Microsoft consolidated its position as the largest global buyer of carbon credits, with 45 million tCO2e in 2025.",
+            "growthTitle": "Big Tech Focus",
+            "growthDesc": "Google, Amazon and Microsoft lead the transition, focusing on high-integrity credits and removal technologies (CDR).",
+            "sectorTitle": "Global Acceleration",
+            "sectorDesc": "The volume of Top 10 global companies doubled compared to 2024, signaling strong commitment to Net Zero goals."
         },
         "download": {
             "button": "Download CSV",

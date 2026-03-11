@@ -89,7 +89,7 @@ export default async function RankingMundoPage({
   });
   const tInsights = await getTranslations({
     locale,
-    namespace: "Carbono.insights",
+    namespace: "Carbono.worldInsights",
   });
   const tDownload = await getTranslations({
     locale,

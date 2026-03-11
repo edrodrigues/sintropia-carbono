@@ -1075,12 +1075,20 @@
             "subtitle": "Comparativo de volumes 2024/2025/2026"
         },
         "insights": {
-            "leaderTitle": "Líder Global",
-            "leaderDesc": "Microsoft lidera o mercado global de créditos de carbono com investimentos em remoção de carbono (CDR).",
-            "growthTitle": "Crescimento",
-            "growthDesc": "O mercado voluntário de carbono apresenta forte crescimento, impulsionado por metas corporativas net-zero.",
-            "sectorTitle": "Setor Principal",
-            "sectorDesc": "Tecnologia e energia são os principais setores investindo em compensação de carbono de alta integridade."
+            "leaderTitle": "Shell Brasil Lidera",
+            "leaderDesc": "A Shell PLC é a maior compradora de créditos de carbono no Brasil, com um volume superior a 9.7 milhões de tCO2e em 2025.",
+            "growthTitle": "Papel e Celulose",
+            "growthDesc": "Suzano e Klabin são grandes players, com a Suzano apresentando o maior crescimento absoluto no volume de compensação.",
+            "sectorTitle": "Setor de Energia",
+            "sectorDesc": "Empresas de óleo, gás e energia elétrica continuam sendo os principais motores da demanda por créditos de carbono."
+        },
+        "worldInsights": {
+            "leaderTitle": "Microsoft Lidera Global",
+            "leaderDesc": "A Microsoft consolidou sua posição como a maior compradora global de créditos de carbono, com 45 milhões de tCO2e em 2025.",
+            "growthTitle": "Big Tech em Foco",
+            "growthDesc": "Google, Amazon e Microsoft lideram a transição, focando em créditos de alta integridade e tecnologias de remoção (CDR).",
+            "sectorTitle": "Aceleração Global",
+            "sectorDesc": "O volume das Top 10 empresas globais dobrou em relação a 2024, sinalizando forte compromisso com metas Net Zero."
         },
         "download": {
             "button": "Baixar CSV",
