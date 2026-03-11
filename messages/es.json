@@ -961,5 +961,68 @@
     },
     "ProfileHeader": {
         "progressLabel": "Progreso para próximo nivel"
+    },
+    "Energia": {
+        "pageTitle": "Mercado de Energía Renovable",
+        "pageSubtitle": "Compensación de energía con certificados I-REC",
+        "heroTitle": "Energía Renovable en Brasil y en el Mundo",
+        "heroSubtitle": "Dashboard completo del mercado de certificados I-REC - rankings, precios y tendencias",
+        "lastUpdated": "Última actualización",
+        "stats": {
+            "totalVolume": "Volumen Total",
+            "growth": "Crecimiento",
+            "sectors": "Sectores",
+            "leaders": "Empresas",
+            "vsLastYear": "vs año anterior"
+        },
+        "table": {
+            "rank": "#",
+            "company": "Empresa",
+            "sector": "Sector",
+            "role": "Rol",
+            "vol2024": "2024",
+            "vol2025": "2025",
+            "vol2026": "2026",
+            "delta": "Δ%"
+        },
+        "filters": {
+            "allSectors": "Todos los sectores",
+            "search": "Buscar empresa...",
+            "year": "Año",
+            "region": "Región"
+        },
+        "quickLinks": {
+            "title": "Navegación Rápida",
+            "rankingBrasil": "Ranking Brasil",
+            "rankingMundo": "Ranking Mundo",
+            "setores": "Análisis por Sector",
+            "precos": "Precios I-REC"
+        },
+        "sectors": {
+            "title": "Sectores Destacados",
+            "subtitle": "Distribución del mercado por sector económico"
+        },
+        "ranking": {
+            "brasilTitle": "Top 50 I-REC Brasil",
+            "brasilSubtitle": "Mayores compradores y vendedores de certificados I-REC en Brasil",
+            "mundoTitle": "Top 50 I-REC Mundo",
+            "mundoSubtitle": "Mayores traders globales de certificados de energía renovable",
+            "viewAll": "Ver ranking completo →"
+        },
+        "setoresPage": {
+            "title": "Análisis por Sector",
+            "subtitle": "Distribución del mercado I-REC por sector económico",
+            "distribution": "Distribución por Sector",
+            "volumeByYear": "Volumen por Sector (Anual)",
+            "companiesBySector": "Empresas por Sector"
+        },
+        "comparison": {
+            "title": "Brasil vs Mundo",
+            "subtitle": "Comparativo de volúmenes 2024/2025/2026"
+        },
+        "chart": {
+            "brasilVolume": "Volumen Brasil",
+            "mundoVolume": "Volumen Mundo"
+        }
     }
 }
