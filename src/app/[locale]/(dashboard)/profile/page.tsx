@@ -8,6 +8,7 @@ import { decodeHtmlServer } from "@/lib/utils/sanitize";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { InviteSection } from "@/components/dashboard/InviteSection";
+import { FloatingInviteCard } from "@/components/dashboard/FloatingInviteCard";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
@@ -108,6 +109,11 @@ export default async function MyProfilePage() {
 
       <div className="mb-8">
         <InviteSection referralCode={profile.referral_code || ''} />
+      </div>
+
+      {/* Floating Invite Card - Compact variant for sidebar awareness */}
+      <div className="mb-8 max-w-md">
+        <FloatingInviteCard referralCode={profile.referral_code || ''} variant="compact" />
       </div>
 
       <div className="flex items-center justify-between mb-4">

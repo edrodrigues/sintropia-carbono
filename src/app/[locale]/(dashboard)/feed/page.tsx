@@ -30,5 +30,18 @@ export default async function FeedPage() {
     .order("created_at", { ascending: false })
     .limit(20);
 
-  return <FeedClient initialPosts={(posts || []) as PostWithRelations[]} />;
+  // Get current user and their referral code
+  const { data: { user } } = await supabase.auth.getUser();
+  let referralCode = '';
+  
+  if (user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+    referralCode = (profile as { referral_code?: string })?.referral_code || '';
+  }
+
+  return <FeedClient initialPosts={(posts || []) as PostWithRelations[]} referralCode={referralCode} />;
 }

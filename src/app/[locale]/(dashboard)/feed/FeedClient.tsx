@@ -9,10 +9,11 @@ import { PostModal } from "@/components/posts/PostModal";
 import { PostWithRelations } from "@/types";
 import { User } from "@supabase/supabase-js";
 import { useTranslations } from "next-intl";
+import { FloatingInviteCard } from "@/components/dashboard/FloatingInviteCard";
 
 type SortOption = "top" | "new" | "best";
 
-export default function FeedClient({ initialPosts }: { initialPosts: PostWithRelations[] }) {
+export default function FeedClient({ initialPosts, referralCode }: { initialPosts: PostWithRelations[]; referralCode: string }) {
     const t = useTranslations('Community.feed');
     const [posts, setPosts] = useState(initialPosts);
     const [selectedPost, setSelectedPost] = useState<PostWithRelations | null>(null);
@@ -118,6 +119,11 @@ export default function FeedClient({ initialPosts }: { initialPosts: PostWithRel
                 </div>
 
                 <div className="space-y-6">
+                    {/* Invite Friends Card - Inline variant */}
+                    {referralCode && (
+                        <FloatingInviteCard referralCode={referralCode} variant="inline" dismissible />
+                    )}
+
                     <CreatePostButton onPostCreated={refreshPosts} initialOpen={shouldOpenCreateModal} />
 
                     <div className="border-t border-gray-200 dark:border-gray-700">

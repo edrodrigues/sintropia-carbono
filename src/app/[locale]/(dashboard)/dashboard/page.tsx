@@ -3,9 +3,121 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { calculateAchievements } from '@/lib/achievements';
 import { AchievementList } from '@/components/profile/AchievementBadges';
-import { getStreakBonus, getStreakEmoji } from '@/types/gamification';
+import { getStreakBonus } from '@/types/gamification';
 import { getTranslations } from 'next-intl/server';
 import { InviteSection } from '@/components/dashboard/InviteSection';
+
+// SVG Icon Components (replacing emojis)
+const CrownIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 3l2.5 5 5.5 1-4 4 1 5.5-5-2.5-5 2.5 1-5.5-4-4 5.5-1L12 3z" />
+    </svg>
+);
+
+const DiamondIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 2L4 8l8 12 8-12-8-6z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 8h16M12 2v6" />
+    </svg>
+);
+
+const StarIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+);
+
+const LeafIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v12M8 10c2-2 4-2 8 0" />
+    </svg>
+);
+
+const SeedlingIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 2a10 10 0 00-10 10c0 5.5 4.5 10 10 10s10-4.5 10-10S17.5 2 12 2z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 12v8M8 14c2-2 4-2 8 0" />
+    </svg>
+);
+
+const EggIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4C8 4 5 8 5 13c0 3.5 2.5 6 7 6s7-2.5 7-6c0-5-3-9-7-9z" />
+    </svg>
+);
+
+const FireIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z" />
+    </svg>
+);
+
+const SleepingIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 12h-6M17 9v6M4 14h2a2 2 0 002-2v-2a2 2 0 00-2-2H4v6z" />
+    </svg>
+);
+
+const TrophyIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0V4z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 4H5a2 2 0 00-2 2v2a2 2 0 002 2h2M17 4h2a2 2 0 012 2v2a2 2 0 01-2 2h-2" />
+    </svg>
+);
+
+const RocketIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 2c0 0-7 4-7 11v3l-2 2h18l-2-2v-3c0-7-7-11-7-11z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14a2 2 0 100-4 2 2 0 000 4z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 22h14" />
+    </svg>
+);
+
+const DocumentIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+);
+
+const LightbulbIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+    </svg>
+);
+
+const ChartIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>
+);
+
+const CodeIcon = ({ className }: { className?: string }) => (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+    </svg>
+);
+
+// Get SVG icon based on streak
+const getStreakIcon = (streak: number) => {
+    if (streak === 0) return <SleepingIcon className="w-8 h-8 text-gray-400" />;
+    if (streak < 3) return <FireIcon className="w-8 h-8 text-orange-500" />;
+    if (streak < 7) return <FireIcon className="w-8 h-8 text-orange-500" />;
+    if (streak < 14) return <FireIcon className="w-8 h-8 text-red-500" />;
+    if (streak < 30) return <FireIcon className="w-8 h-8 text-red-600" />;
+    return <TrophyIcon className="w-8 h-8 text-yellow-500" />;
+};
+
+// Type definition for profile
+interface Profile {
+    id: string;
+    username: string;
+    display_name?: string | null;
+    karma: number;
+    linkedin_url?: string | null;
+    created_at: string;
+    referral_code?: string | null;
+}
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
@@ -37,11 +149,11 @@ export default async function DashboardPage() {
         redirect('/login');
     }
 
-    const { data: profile }: any = await supabase
+    const { data: profile } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
-        .single();
+        .single<Profile>();
 
     const { count: totalPosts } = await supabase
         .from('posts')
@@ -69,14 +181,38 @@ export default async function DashboardPage() {
     const userKarma = profile?.karma ?? 0;
     const ranking = higherKarmaCount !== null ? higherKarmaCount + 1 : 1;
 
-    // Badges logic
+    // Badges logic with SVG icons
     const getBadge = (karma: number) => {
-        if (karma >= 1000) return { name: 'Master', icon: '👑', nextLevel: 5000 };
-        if (karma >= 500) return { name: 'Especialista', icon: '💎', nextLevel: 1000 };
-        if (karma >= 100) return { name: 'Contribuidor', icon: '🌟', nextLevel: 500 };
-        if (karma >= 50) return { name: 'Aprendiz', icon: '🌿', nextLevel: 100 };
-        if (karma >= 10) return { name: 'Iniciante', icon: '🌱', nextLevel: 50 };
-        return { name: 'Novato', icon: '🥚', nextLevel: 10 };
+        if (karma >= 1000) return { 
+            name: 'Master', 
+            icon: <CrownIcon className="w-12 h-12 sm:w-16 sm:h-16 text-yellow-500" />, 
+            nextLevel: 5000 
+        };
+        if (karma >= 500) return { 
+            name: 'Especialista', 
+            icon: <DiamondIcon className="w-12 h-12 sm:w-16 sm:h-16 text-blue-500" />, 
+            nextLevel: 1000 
+        };
+        if (karma >= 100) return { 
+            name: 'Contribuidor', 
+            icon: <StarIcon className="w-12 h-12 sm:w-16 sm:h-16 text-amber-400" />, 
+            nextLevel: 500 
+        };
+        if (karma >= 50) return { 
+            name: 'Aprendiz', 
+            icon: <LeafIcon className="w-12 h-12 sm:w-16 sm:h-16 text-green-500" />, 
+            nextLevel: 100 
+        };
+        if (karma >= 10) return { 
+            name: 'Iniciante', 
+            icon: <SeedlingIcon className="w-12 h-12 sm:w-16 sm:h-16 text-green-400" />, 
+            nextLevel: 50 
+        };
+        return { 
+            name: 'Novato', 
+            icon: <EggIcon className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400" />, 
+            nextLevel: 10 
+        };
     };
 
     const badge = getBadge(userKarma);
@@ -149,7 +285,7 @@ export default async function DashboardPage() {
                 {/* Streak Card */}
                 <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20 rounded-2xl border border-orange-100 dark:border-orange-900/50 p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-4">
-                        <span className="text-3xl">{getStreakEmoji(streakData?.current_streak || 0)}</span>
+                        {getStreakIcon(streakData?.current_streak || 0)}
                         <span className="text-xs font-bold text-orange-600 dark:text-orange-400 uppercase tracking-widest">{tStreak('current')}</span>
                     </div>
                     <p className="text-4xl font-black text-orange-700 dark:text-orange-400 mb-1">
@@ -251,7 +387,7 @@ export default async function DashboardPage() {
                             href="/leaderboard"
                             className="flex items-center justify-center gap-2 w-full py-3 bg-gray-900 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 text-white text-sm font-bold rounded-xl transition-all"
                         >
-                            <span>👑</span> {tGamification('viewLeaderboard') || 'Ver Leaderboard'}
+                            <CrownIcon className="w-4 h-4" /> {tGamification('viewLeaderboard') || 'Ver Leaderboard'}
                         </Link>
                     </div>
                 </div>
@@ -261,7 +397,7 @@ export default async function DashboardPage() {
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 mb-8 shadow-sm">
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
-                        <span className="text-2xl">🏆</span>
+                        <TrophyIcon className="w-6 h-6 text-yellow-500" />
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white">{tAchievements('title')}</h3>
                     </div>
                     <div className="flex items-center gap-3">
@@ -279,7 +415,7 @@ export default async function DashboardPage() {
             {/* Contribution Section */}
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10 rounded-2xl border border-green-100 dark:border-green-800/50 p-6 shadow-sm">
                 <div className="flex items-center gap-2 mb-4">
-                    <span className="text-2xl">🚀</span>
+                    <RocketIcon className="w-6 h-6 text-green-600" />
                     <h3 className="text-xl font-bold text-green-900 dark:text-green-200">{tContribute('title')}</h3>
                 </div>
 
@@ -289,28 +425,28 @@ export default async function DashboardPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     <div className="flex items-start gap-3 p-3 bg-white/80 dark:bg-gray-800/80 rounded-xl backdrop-blur-sm">
-                        <span className="text-xl">📝</span>
+                        <DocumentIcon className="w-5 h-5 text-blue-500 shrink-0" />
                         <div>
                             <h4 className="font-semibold text-gray-900 dark:text-white text-sm">{tContribute('actions.shareKnowledge.title')}</h4>
                             <p className="text-xs text-gray-500 dark:text-gray-400">{tContribute('actions.shareKnowledge.desc')}</p>
                         </div>
                     </div>
                     <div className="flex items-start gap-3 p-3 bg-white/80 dark:bg-gray-800/80 rounded-xl backdrop-blur-sm">
-                        <span className="text-xl">💡</span>
+                        <LightbulbIcon className="w-5 h-5 text-yellow-500 shrink-0" />
                         <div>
                             <h4 className="font-semibold text-gray-900 dark:text-white text-sm">{tContribute('actions.helpNewbies.title')}</h4>
                             <p className="text-xs text-gray-500 dark:text-gray-400">{tContribute('actions.helpNewbies.desc')}</p>
                         </div>
                     </div>
                     <div className="flex items-start gap-3 p-3 bg-white/80 dark:bg-gray-800/80 rounded-xl backdrop-blur-sm">
-                        <span className="text-xl">📊</span>
+                        <ChartIcon className="w-5 h-5 text-purple-500 shrink-0" />
                         <div>
                             <h4 className="font-semibold text-gray-900 dark:text-white text-sm">{tContribute('actions.reportData.title')}</h4>
                             <p className="text-xs text-gray-500 dark:text-gray-400">{tContribute('actions.reportData.desc')}</p>
                         </div>
                     </div>
                     <div className="flex items-start gap-3 p-3 bg-white/80 dark:bg-gray-800/80 rounded-xl backdrop-blur-sm">
-                        <span className="text-xl">💻</span>
+                        <CodeIcon className="w-5 h-5 text-green-500 shrink-0" />
                         <div>
                             <h4 className="font-semibold text-gray-900 dark:text-white text-sm">{tContribute('actions.contributeCode.title')}</h4>
                             <p className="text-xs text-gray-500 dark:text-gray-400">{tContribute('actions.contributeCode.desc')}</p>

@@ -6,6 +6,7 @@ import { Tooltip } from "@/components/ui/Tooltip";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 import { getUserTypeIcon } from "@/lib/utils/user";
 import { getTranslations } from "next-intl/server";
+import { FloatingInviteCard } from "@/components/dashboard/FloatingInviteCard";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
@@ -29,6 +30,19 @@ export default async function LeaderboardPage() {
     .neq("role", "banned")
     .order("karma", { ascending: false })
     .limit(25);
+
+  // Get current user's referral code for invite card
+  const { data: { user } } = await supabase.auth.getUser();
+  let referralCode = '';
+  
+  if (user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .single();
+    referralCode = (profile as { referral_code?: string })?.referral_code || '';
+  }
 
   const getRankStyle = (rank: number) => {
     if (rank === 1) return "bg-yellow-50/50 dark:bg-yellow-900/10 border-l-4 border-l-yellow-400";
@@ -60,9 +74,16 @@ export default async function LeaderboardPage() {
         <h1 className="text-5xl font-black text-gray-900 dark:text-gray-100 mb-4 tracking-tight">
           {t('pageTitle')}
         </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
+        <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed mb-6">
           {t('pageSubtitle')}
         </p>
+        
+        {/* Invite Friends Card */}
+        {referralCode && (
+          <div className="max-w-2xl">
+            <FloatingInviteCard referralCode={referralCode} variant="inline" />
+          </div>
+        )}
       </div>
 
       <Card>

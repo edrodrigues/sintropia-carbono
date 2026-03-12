@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { calculateAchievements } from '@/lib/achievements';
 import { AchievementList } from '@/components/profile/AchievementBadges';
 import { getTranslations } from 'next-intl/server';
+import { FloatingInviteCard } from '@/components/dashboard/FloatingInviteCard';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
@@ -93,7 +94,7 @@ export default async function ConquistasPage() {
             {/* Your Progress */}
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl border border-blue-100 dark:border-blue-800 p-6 mb-8">
                 <h2 className="text-xl font-bold text-blue-900 dark:text-blue-200 mb-4">{t('progress')}</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl">
                         <span className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{userKarma}</span>
                         <p className="text-sm text-gray-600 dark:text-gray-400">{t('karmaTotal')}</p>
@@ -111,6 +112,11 @@ export default async function ConquistasPage() {
                         <p className="text-sm text-gray-600 dark:text-gray-400">{t('achievementsCount')}</p>
                     </div>
                 </div>
+                
+                {/* Invite Friends Card */}
+                {(profile as { referral_code?: string })?.referral_code && (
+                    <FloatingInviteCard referralCode={(profile as { referral_code?: string }).referral_code || ''} variant="compact" dismissible />
+                )}
             </div>
 
             {/* How to Earn Karma */}
