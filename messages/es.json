@@ -881,7 +881,8 @@
         "inviteDescription": "¡Gana 50 puntos de Karma por cada amigo que complete su perfil! Tus amigos también ganan 50 puntos.",
         "copied": "¡Copiado!",
         "copyLink": "Copiar Enlace",
-        "inviteLimit": "Límite de 20 invitaciones premiadas"
+        "inviteLimit": "Límite de 20 invitaciones premiadas",
+        "noReferralCode": "Código no disponible"
     },
     "Legal": {
         "privacy": {

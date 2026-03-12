@@ -83,7 +83,7 @@ interface AchievementListProps {
   maxVisible?: number;
 }
 
-export function AchievementList({ achievements }: AchievementListProps) {
+export function AchievementList({ achievements, maxVisible = 6 }: AchievementListProps) {
   const earnedAchievements = achievements.filter((a) => a.earned);
   const unearnedAchievements = achievements.filter((a) => !a.earned);
   
@@ -95,13 +95,13 @@ export function AchievementList({ achievements }: AchievementListProps) {
     return bProgress - aProgress;
   });
   
-  // Last 3 earned (most recent)
-  const last3Earned = earnedAchievements.slice(-3).reverse();
-  // Next 3 to achieve (closest to completing)
-  const next3ToEarn = sortedUnearned.slice(0, 3);
+  // Limit based on maxVisible
+  const halfLimit = Math.ceil(maxVisible / 2);
+  const lastEarned = earnedAchievements.slice(-halfLimit).reverse();
+  const nextToEarn = sortedUnearned.slice(0, maxVisible - lastEarned.length);
   
   const hasAchievements = earnedAchievements.length > 0;
-  const hasNextAchievements = next3ToEarn.length > 0;
+  const hasNextAchievements = nextToEarn.length > 0;
   
   if (!hasAchievements && !hasNextAchievements) {
     return (
@@ -114,14 +114,14 @@ export function AchievementList({ achievements }: AchievementListProps) {
   
   return (
     <div className="space-y-6">
-      {/* Last 3 Earned */}
+      {/* Last Earned */}
       {hasAchievements && (
         <div>
           <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 flex items-center gap-2">
             <span>🏆</span> Últimas Conquistas
           </h4>
           <div className="space-y-2">
-            {last3Earned.map((achievement) => (
+            {lastEarned.map((achievement) => (
               <div
                 key={achievement.id}
                 className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 border border-amber-200 dark:border-amber-800"
@@ -138,14 +138,14 @@ export function AchievementList({ achievements }: AchievementListProps) {
         </div>
       )}
       
-      {/* Next 3 to Achieve */}
+      {/* Next to Achieve */}
       {hasNextAchievements && (
         <div>
           <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 flex items-center gap-2">
             <span>🎯</span> Próximas Conquistas
           </h4>
           <div className="space-y-2">
-            {next3ToEarn.map((achievement) => {
+            {nextToEarn.map((achievement) => {
               const progress = achievement.progress;
               const progressPercent = progress ? Math.min((progress.current / progress.target) * 100, 100) : 0;
               

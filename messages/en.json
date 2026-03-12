@@ -952,7 +952,8 @@
         "inviteDescription": "Earn 50 Karma points for each friend who completes their profile! Your friends also get 50 points.",
         "copied": "Copied!",
         "copyLink": "Copy Link",
-        "inviteLimit": "Limit of 20 rewarded referrals"
+        "inviteLimit": "Limit of 20 rewarded referrals",
+        "noReferralCode": "Referral code not available"
     },
     "Posts": {
         "pageTitle": "Posts",

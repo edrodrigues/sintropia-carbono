@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { calculateAchievements } from '@/lib/achievements';
 import { AchievementList } from '@/components/profile/AchievementBadges';
 import { getStreakBonus, getStreakEmoji } from '@/types/gamification';
-import { getUserTypeIcon } from '@/lib/utils/user';
 import { getTranslations } from 'next-intl/server';
 import { InviteSection } from '@/components/dashboard/InviteSection';
 
@@ -26,7 +25,6 @@ export default async function DashboardPage() {
     const tProfile = await getTranslations('Dashboard.profile');
     const tStats = await getTranslations('Dashboard.stats');
     const tStreak = await getTranslations('Dashboard.streak');
-    const tSummary = await getTranslations('Dashboard.summary');
     const tGamification = await getTranslations('Dashboard.gamification');
     const tAchievements = await getTranslations('Dashboard.achievements');
     const tContribute = await getTranslations('Dashboard.contribute');
@@ -101,23 +99,23 @@ export default async function DashboardPage() {
         <div className="max-w-4xl mx-auto px-4 py-8">
             <h1 className="text-3xl font-extrabold text-gray-900 dark:text-white mb-8">{t('title')}</h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                 {/* Profile Summary Card */}
-                <div className="md:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm">
-                    <div className="bg-[#1e40af] h-24"></div>
-                    <div className="px-6 pb-6 -mt-12">
+                <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm flex flex-col">
+                    <div className="bg-gradient-to-r from-[#1e40af] to-blue-600 h-24 shrink-0"></div>
+                    <div className="px-4 sm:px-6 pb-6 -mt-12 flex-1 flex flex-col">
                         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                            <div className="flex items-end gap-4">
-                                <div className="w-24 h-24 rounded-2xl bg-white dark:bg-gray-900 border-4 border-white dark:border-gray-800 flex items-center justify-center text-4xl shadow-md">
+                            <div className="flex items-end gap-3 sm:gap-4 min-w-0">
+                                <div className="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-2xl bg-white dark:bg-gray-900 border-4 border-white dark:border-gray-800 flex items-center justify-center text-3xl sm:text-4xl shadow-md">
                                     {badge.icon}
                                 </div>
-                                <div className="mb-2">
-                                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white leading-none">
+                                <div className="mb-2 min-w-0">
+                                    <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white leading-tight truncate">
                                         {profile?.display_name || profile?.username}
                                     </h2>
-                                    <div className="flex items-center gap-2 mt-2">
-                                        <span className="text-blue-600 dark:text-blue-400 font-medium">@{profile?.username}</span>
-                                        <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[10px] rounded uppercase tracking-wider font-bold border border-gray-200 dark:border-gray-600">
+                                    <div className="flex flex-wrap items-center gap-2 mt-1 sm:mt-2">
+                                        <span className="text-blue-600 dark:text-blue-400 font-medium text-sm sm:text-base truncate">@{profile?.username}</span>
+                                        <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[9px] sm:text-[10px] rounded uppercase tracking-wider font-bold border border-gray-200 dark:border-gray-600 whitespace-nowrap">
                                             {badge.name}
                                         </span>
                                     </div>
@@ -125,24 +123,24 @@ export default async function DashboardPage() {
                             </div>
                             <Link
                                 href="/profile"
-                                className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm font-bold rounded-xl transition-colors mb-2"
+                                className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm font-bold rounded-xl transition-colors mb-2 text-center"
                             >
                                 {tProfile('viewProfile')}
                             </Link>
                         </div>
 
-                        <div className="mt-8 grid grid-cols-3 gap-4 border-t border-gray-100 dark:border-gray-700 pt-6">
-                            <div className="text-center">
-                                <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">{tStats('karma')}</p>
-                                <p className="text-xl font-extrabold text-[#1e40af] dark:text-blue-400">{userKarma.toLocaleString()}</p>
+                        <div className="mt-8 grid grid-cols-3 gap-2 sm:gap-4 border-t border-gray-100 dark:border-gray-700 pt-6">
+                            <div className="text-center min-w-0">
+                                <p className="text-[10px] sm:text-xs text-gray-500 uppercase font-bold tracking-wider mb-1 truncate">{tStats('karma')}</p>
+                                <p className="text-lg sm:text-xl font-extrabold text-[#1e40af] dark:text-blue-400 truncate">{userKarma.toLocaleString()}</p>
                             </div>
-                            <div className="text-center">
-                                <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">{tStats('posts')}</p>
-                                <p className="text-xl font-extrabold text-gray-900 dark:text-white">{totalPosts || 0}</p>
+                            <div className="text-center min-w-0">
+                                <p className="text-[10px] sm:text-xs text-gray-500 uppercase font-bold tracking-wider mb-1 truncate">{tStats('posts')}</p>
+                                <p className="text-lg sm:text-xl font-extrabold text-gray-900 dark:text-white truncate">{totalPosts || 0}</p>
                             </div>
-                            <div className="text-center">
-                                <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">{tStats('comments')}</p>
-                                <p className="text-xl font-extrabold text-gray-900 dark:text-white">{totalComments || 0}</p>
+                            <div className="text-center min-w-0">
+                                <p className="text-[10px] sm:text-xs text-gray-500 uppercase font-bold tracking-wider mb-1 truncate">{tStats('comments')}</p>
+                                <p className="text-lg sm:text-xl font-extrabold text-gray-900 dark:text-white truncate">{totalComments || 0}</p>
                             </div>
                         </div>
                     </div>
@@ -177,7 +175,7 @@ export default async function DashboardPage() {
             </div>
 
             {/* Karma & Ranking Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-8">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white">{tGamification('title')}</h3>

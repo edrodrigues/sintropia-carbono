@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Link } from "@/i18n/routing";
@@ -21,14 +21,7 @@ export function RegisterForm({ error: initialError }: RegisterFormProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [referralCode, setReferralCode] = useState<string | null>(null);
-
-    useEffect(() => {
-        const ref = searchParams.get('ref');
-        if (ref) {
-            setReferralCode(ref);
-        }
-    }, [searchParams]);
+    const referralCode = searchParams.get('ref');
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
