@@ -53,7 +53,7 @@ export async function updateProfile(formData: FormData) {
     // Check if profile exists
     const { data: existingProfile } = await supabase
         .from('profiles')
-        .select('id, username')
+        .select('id, username, referral_reward_claimed, referred_by')
         .eq('id', user.id)
         .single();
 
@@ -63,7 +63,7 @@ export async function updateProfile(formData: FormData) {
     }
 
     // Sanitize inputs
-    const updates = {
+    const updates: any = {
         id: user.id,
         username: username || existingProfile?.username || '',
         display_name: displayName || null,
@@ -106,6 +106,21 @@ export async function updateProfile(formData: FormData) {
             return { error: 'Permissão negada. Tente fazer login novamente.' };
         }
         return { error: `Erro ao salvar: ${error.message}` };
+    }
+
+    // Check for referral reward
+    if (existingProfile?.referred_by && !existingProfile.referral_reward_claimed) {
+        // If profile is now complete (has username and display name)
+        if (updates.username && updates.display_name) {
+             const { data: claimResult, error: claimError } = await supabase
+                .rpc('claim_referral_reward', { p_user_id: user.id });
+
+             if (claimError) {
+                 console.error('Error claiming referral reward:', claimError);
+             } else {
+                 console.log('Referral reward claim result:', claimResult);
+             }
+        }
     }
 
     revalidatePath('/profile');

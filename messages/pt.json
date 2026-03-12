@@ -144,7 +144,8 @@
         "errors": {
             "invalidEmail": "E-mail inválido",
             "required": "Campo obrigatório"
-        }
+        },
+        "referralApplied": "Indicação aplicada! Você ganhará 50 pontos de Karma após completar seu perfil."
     },
     "PasswordRequirements": {
         "length": "Mínimo 8 caracteres",
@@ -838,12 +839,30 @@
             },
             "badgesByLevel": "Badges por Nível de Karma",
             "badgeLevels": {
-                "newbie": { "name": "Novato", "threshold": "0+ Karma" },
-                "beginner": { "name": "Iniciante", "threshold": "10+ Karma" },
-                "learner": { "name": "Aprendiz", "threshold": "50+ Karma" },
-                "contributor": { "name": "Contribuidor", "threshold": "100+ Karma" },
-                "specialist": { "name": "Especialista", "threshold": "500+ Karma" },
-                "master": { "name": "Master", "threshold": "1000+ Karma" }
+                "newbie": {
+                    "name": "Novato",
+                    "threshold": "0+ Karma"
+                },
+                "beginner": {
+                    "name": "Iniciante",
+                    "threshold": "10+ Karma"
+                },
+                "learner": {
+                    "name": "Aprendiz",
+                    "threshold": "50+ Karma"
+                },
+                "contributor": {
+                    "name": "Contribuidor",
+                    "threshold": "100+ Karma"
+                },
+                "specialist": {
+                    "name": "Especialista",
+                    "threshold": "500+ Karma"
+                },
+                "master": {
+                    "name": "Master",
+                    "threshold": "1000+ Karma"
+                }
             },
             "streakBonus": "Bônus de Streak",
             "streakDescription": "Acesse diariamente para ganhar bônus de karma progressivos:",
@@ -894,7 +913,8 @@
                 "likePost": "Quando alguém curte seu post",
                 "likeComment": "Quando alguém curte seu comentário",
                 "dislikePost": "Quando alguém descurte seu post",
-                "dislikeComment": "Quando alguém descurte seu comentário"
+                "dislikeComment": "Quando alguém descurte seu comentário",
+                "inviteFriend": "Convidar amigo (após completar perfil)"
             },
             "badgesTitle": "Badges por nível de Karma:",
             "yourRanking": "Seu ranking atual:",
@@ -927,7 +947,12 @@
                 }
             },
             "cta": "Ver como contribuir"
-        }
+        },
+        "inviteTitle": "Convide Amigos",
+        "inviteDescription": "Ganhe 50 pontos de Karma por cada amigo que completar o perfil! Seus amigos também ganham 50 pontos.",
+        "copied": "Copiado!",
+        "copyLink": "Copiar Link",
+        "inviteLimit": "Limite de 20 indicações premiadas"
     },
     "Posts": {
         "pageTitle": "Posts",

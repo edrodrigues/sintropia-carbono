@@ -7,6 +7,7 @@ import { calculateAchievements } from "@/lib/achievements";
 import { decodeHtmlServer } from "@/lib/utils/sanitize";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { InviteSection } from "@/components/dashboard/InviteSection";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
     const { locale } = await params;
@@ -104,6 +105,10 @@ export default async function MyProfilePage() {
       />
 
       <StatsDashboard stats={stats} />
+
+      <div className="mb-8">
+        <InviteSection referralCode={profile.referral_code || ''} />
+      </div>
 
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">

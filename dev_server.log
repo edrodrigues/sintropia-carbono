@@ -1,0 +1,35 @@
+
+> sintropia-carbono@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.12
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.2:3000
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+ ✓ Starting...
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+ ✓ Ready in 1866ms
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 2.1s (284 modules)
+ ○ Compiling /[locale]/register ...
+ ✓ Compiled /[locale]/register in 9.3s (1100 modules)
+ ⨯ Error: Supabase URL e Anon Key são obrigatórias em ambiente de cliente.
+    at createClient (src/lib/supabase/client.ts:10:15)
+    at RegisterForm (src/components/auth/RegisterForm.tsx:17:34)
+   8 |
+   9 |     if (!supabaseUrl || !supabaseAnonKey) {
+> 10 |         throw new Error('Supabase URL e Anon Key são obrigatórias em ambiente de cliente.');
+     |               ^
+  11 |     }
+  12 |
+  13 |     return createBrowserClient(supabaseUrl, supabaseAnonKey); {
+  digest: '1322465919'
+}
+ GET /register?ref=TESTCODE 500 in 12261ms
+[?25h
