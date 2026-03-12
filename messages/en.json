@@ -144,7 +144,8 @@
         "errors": {
             "invalidEmail": "Invalid email",
             "required": "Required field"
-        }
+        },
+        "referralApplied": "Referral applied! You will earn 50 Karma points after completing your profile."
     },
     "PasswordRequirements": {
         "length": "Minimum 8 characters",
@@ -177,10 +178,7 @@
         "privacy": "Privacy",
         "terms": "Terms of Use",
         "contact": "Contact",
-        "github": "GitHub",
-        "privacy": "Privacy",
-        "terms": "Terms of Use",
-        "contact": "Contact"
+        "github": "GitHub"
     },
     "LanguageSwitcher": {
         "label": "Language"
@@ -841,12 +839,30 @@
             },
             "badgesByLevel": "Badges by Karma Level",
             "badgeLevels": {
-                "newbie": { "name": "Newbie", "threshold": "0+ Karma" },
-                "beginner": { "name": "Beginner", "threshold": "10+ Karma" },
-                "learner": { "name": "Learner", "threshold": "50+ Karma" },
-                "contributor": { "name": "Contributor", "threshold": "100+ Karma" },
-                "specialist": { "name": "Specialist", "threshold": "500+ Karma" },
-                "master": { "name": "Master", "threshold": "1000+ Karma" }
+                "newbie": {
+                    "name": "Newbie",
+                    "threshold": "0+ Karma"
+                },
+                "beginner": {
+                    "name": "Beginner",
+                    "threshold": "10+ Karma"
+                },
+                "learner": {
+                    "name": "Learner",
+                    "threshold": "50+ Karma"
+                },
+                "contributor": {
+                    "name": "Contributor",
+                    "threshold": "100+ Karma"
+                },
+                "specialist": {
+                    "name": "Specialist",
+                    "threshold": "500+ Karma"
+                },
+                "master": {
+                    "name": "Master",
+                    "threshold": "1000+ Karma"
+                }
             },
             "streakBonus": "Streak Bonus",
             "streakDescription": "Visit daily to earn progressive karma bonuses:",
@@ -897,7 +913,8 @@
                 "likePost": "When someone likes your post",
                 "likeComment": "When someone likes your comment",
                 "dislikePost": "When someone dislikes your post",
-                "dislikeComment": "When someone dislikes your comment"
+                "dislikeComment": "When someone dislikes your comment",
+                "inviteFriend": "Invite a friend (after profile completion)"
             },
             "badgesTitle": "Badges by Karma Level:",
             "yourRanking": "Your current ranking:",
@@ -930,7 +947,12 @@
                 }
             },
             "cta": "See how to contribute"
-        }
+        },
+        "inviteTitle": "Invite Friends",
+        "inviteDescription": "Earn 50 Karma points for each friend who completes their profile! Your friends also get 50 points.",
+        "copied": "Copied!",
+        "copyLink": "Copy Link",
+        "inviteLimit": "Limit of 20 rewarded referrals"
     },
     "Posts": {
         "pageTitle": "Posts",

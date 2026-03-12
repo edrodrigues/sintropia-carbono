@@ -29,7 +29,12 @@ model profiles {
   organization    String?
   linkedin_url    String?
   twitter_url     String?
+  referred_by     String?
+  referral_code   String?   @unique
+  referral_reward_claimed Boolean @default(false)
   
+  referrer        profiles? @relation("referrals", fields: [referred_by], references: [id])
+  referees        profiles[] @relation("referrals")
   posts           posts[]
   comments        comments[]
   votes           votes[]

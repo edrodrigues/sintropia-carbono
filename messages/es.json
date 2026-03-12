@@ -436,53 +436,9 @@
         }
     },
     "Contribuir": {
-        "back": "Volver",
-        "heroBadge": "Proyecto de Código Abierto",
-        "heroTitle": "Contribuye al Proyecto",
-        "heroDesc": "Sintropia es un proyecto colaborativo de código abierto. Tu contribución ayuda a hacer el mercado de carbono más transparente y accesible.",
-        "github": {
-            "title": "Código en GitHub",
-            "desc": "Accede al repositorio completo, haz forks, abre issues y envía pull requests.",
-            "button": "Ver Repositorio"
-        },
-        "docs": {
-            "title": "Documentación",
-            "desc": "Lee nuestra documentación técnica, guías de contribución y metodología de datos.",
-            "button": "Leer Documentación"
-        },
-        "howToTitle": "Cómo Contribuir",
-        "howTo": {
-            "report": {
-                "title": "Reportar Errores",
-                "desc": "¿Encontraste datos incorrectos o desactualizados? Abre un issue en GitHub."
-            },
-            "suggest": {
-                "title": "Sugerir Mejoras",
-                "desc": "¿Tienes ideas para nuevas funcionalidades o visualizaciones? Compártelas con nosotros."
-            },
-            "code": {
-                "title": "Enviar Código",
-                "desc": "Los desarrolladores pueden enviar pull requests con correcciones y nuevas features."
-            }
-        },
-        "techStackTitle": "Stack Tecnológica",
-        "techStack": {
-            "nextjs": "Framework React",
-            "typescript": "Tipado estático",
-            "tailwind": "Estilización",
-            "supabase": "Base de datos",
-            "chartjs": "Visualización",
-            "prisma": "ORM",
-            "vercel": "Despliegue",
-            "github": "Control de versiones"
-        },
-        "contact": "¿Tienes dudas o sugerencias? Contáctanos a través de GitHub.",
-        "openIssue": "Abrir Issue en GitHub",
-        "footer": "Proyecto colaborativo de código abierto.",
-        "footerLinks": {
-            "github": "GitHub",
-            "home": "Inicio"
-        }
+        "title": "Contribuye",
+        "subtitle": "Ayuda a construir la mayor base de datos de activos ambientales del mundo.",
+        "description": "Tu contribución es fundamental para democratizar el acceso a información sobre el mercado de carbono y energía renovable."
     },
     "Termos": {
         "back": "Volver",
@@ -718,7 +674,8 @@
         "errors": {
             "invalidEmail": "Correo inválido",
             "required": "Campo obligatorio"
-        }
+        },
+        "referralApplied": "¡Invitación aplicada! Ganarás 50 puntos de Karma después de completar tu perfil."
     },
     "PasswordRequirements": {
         "length": "Mínimo 8 caracteres",
@@ -811,60 +768,36 @@
             },
             "badgesByLevel": "Insignias por Nivel de Karma",
             "badgeLevels": {
-                "newbie": { "name": "Novato", "threshold": "0+ Karma" },
-                "beginner": { "name": "Iniciante", "threshold": "10+ Karma" },
-                "learner": { "name": "Aprendiz", "threshold": "50+ Karma" },
-                "contributor": { "name": "Contribuidor", "threshold": "100+ Karma" },
-                "specialist": { "name": "Especialista", "threshold": "500+ Karma" },
-                "master": { "name": "Master", "threshold": "1000+ Karma" }
+                "newbie": {
+                    "name": "Novato",
+                    "threshold": "0+ Karma"
+                },
+                "beginner": {
+                    "name": "Iniciante",
+                    "threshold": "10+ Karma"
+                },
+                "learner": {
+                    "name": "Aprendiz",
+                    "threshold": "50+ Karma"
+                },
+                "contributor": {
+                    "name": "Contribuidor",
+                    "threshold": "100+ Karma"
+                },
+                "specialist": {
+                    "name": "Especialista",
+                    "threshold": "500+ Karma"
+                },
+                "master": {
+                    "name": "Master",
+                    "threshold": "1000+ Karma"
+                }
             },
             "streakBonus": "Bono de Racha",
             "streakDescription": "Visita diariamente para ganar bonos de karma progresivos:",
             "day": "día",
             "allAchievements": "Todas las Conquistas"
         }
-    },
-    "Dashboard": {
-        "title": "Panel",
-        "welcome": "Bienvenido de nuevo",
-        "myProfile": "Mi Perfil",
-        "editProfile": "Editar Perfil",
-        "myPosts": "Mis Publicaciones",
-        "settings": "Configuración"
-    },
-    "Contribuir": {
-        "title": "Contribuye",
-        "subtitle": "Ayuda a construir la mayor base de datos de activos ambientales del mundo.",
-        "description": "Tu contribución es fundamental para democratizar el acceso a información sobre el mercado de carbono y energía renovable."
-    },
-    "Legal": {
-        "privacy": {
-            "title": "Política de Privacidad",
-            "lastUpdate": "Última actualización"
-        },
-        "terms": {
-            "title": "Términos de Uso",
-            "lastUpdate": "Última actualización"
-        }
-    },
-    "Common": {
-        "loading": "Cargando...",
-        "error": "Error",
-        "retry": "Intentar de nuevo",
-        "save": "Guardar",
-        "cancel": "Cancelar",
-        "confirm": "Confirmar",
-        "delete": "Eliminar",
-        "edit": "Editar",
-        "view": "Ver",
-        "search": "Buscar",
-        "noResults": "No se encontraron resultados",
-        "seeAll": "Ver todos",
-        "lastUpdated": "Última actualización",
-        "dataSources": "Fuentes de datos"
-    },
-    "LanguageSwitcher": {
-        "label": "Idioma"
     },
     "Dashboard": {
         "pageTitle": "Mi Página",
@@ -909,7 +842,8 @@
                 "likePost": "Cuando alguien da like a tu publicación",
                 "likeComment": "Cuando alguien da like a tu comentario",
                 "dislikePost": "Cuando alguien da dislike a tu publicación",
-                "dislikeComment": "Cuando alguien da dislike a tu comentario"
+                "dislikeComment": "Cuando alguien da dislike a tu comentario",
+                "inviteFriend": "Invitar a un amigo (tras completar perfil)"
             },
             "badgesTitle": "Insignias por Nivel de Karma:",
             "yourRanking": "Tu ranking actual:",
@@ -942,7 +876,41 @@
                 }
             },
             "cta": "Ver cómo contribuir"
+        },
+        "inviteTitle": "Invitar Amigos",
+        "inviteDescription": "¡Gana 50 puntos de Karma por cada amigo que complete su perfil! Tus amigos también ganan 50 puntos.",
+        "copied": "¡Copiado!",
+        "copyLink": "Copiar Enlace",
+        "inviteLimit": "Límite de 20 invitaciones premiadas"
+    },
+    "Legal": {
+        "privacy": {
+            "title": "Política de Privacidad",
+            "lastUpdate": "Última actualización"
+        },
+        "terms": {
+            "title": "Términos de Uso",
+            "lastUpdate": "Última actualización"
         }
+    },
+    "Common": {
+        "loading": "Cargando...",
+        "error": "Error",
+        "retry": "Intentar de nuevo",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "view": "Ver",
+        "search": "Buscar",
+        "noResults": "No se encontraron resultados",
+        "seeAll": "Ver todos",
+        "lastUpdated": "Última actualización",
+        "dataSources": "Fuentes de datos"
+    },
+    "LanguageSwitcher": {
+        "label": "Idioma"
     },
     "Posts": {
         "pageTitle": "Publicaciones",
