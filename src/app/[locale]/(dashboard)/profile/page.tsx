@@ -33,7 +33,7 @@ export default async function MyProfilePage() {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
+  const { data: profile }: any = await supabase
     .from("profiles")
     .select("*")
     .eq("id", user.id)
@@ -63,7 +63,7 @@ export default async function MyProfilePage() {
     .eq("author_id", profile.id)
     .eq("is_deleted", false);
 
-  const userPostIds = posts?.map((p) => p.id) || [];
+  const userPostIds = posts?.map((p: any) => p.id) || [];
   const { count: upvotesReceived } = await supabase
     .from("votes")
     .select("id", { count: "exact", head: true })
@@ -123,7 +123,7 @@ export default async function MyProfilePage() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {posts && posts.length > 0 ? (
-          posts.map((post) => (
+          posts.map((post: any) => (
             <Link
               key={post.id}
               href={`/feed?post=${post.id}`}

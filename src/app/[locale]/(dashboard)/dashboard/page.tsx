@@ -39,7 +39,7 @@ export default async function DashboardPage() {
         redirect('/login');
     }
 
-    const { data: profile } = await supabase
+    const { data: profile }: any = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
@@ -85,12 +85,16 @@ export default async function DashboardPage() {
     const progressToNext = Math.min((userKarma / badge.nextLevel) * 100, 100);
 
     const achievements = calculateAchievements({
-        postsCount: totalPosts || 0,
-        commentsCount: totalComments || 0,
         karma: userKarma,
-        streak: streakData?.current_streak || 0,
-        createdAt: profile?.created_at,
-        linkedinUrl: profile?.linkedin_url
+        linkedin_url: profile?.linkedin_url || undefined,
+        created_at: profile?.created_at || undefined
+    }, {
+        postCount: totalPosts || 0,
+        commentCount: totalComments || 0,
+        upvotesReceived: 0,
+        hasLinkedIn: !!profile?.linkedin_url,
+        createdAt: profile?.created_at || new Date().toISOString(),
+        streakDays: streakData?.current_streak || 0
     });
 
     return (

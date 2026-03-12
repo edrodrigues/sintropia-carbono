@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { isValidUsername } from '@/lib/utils/sanitize';
 
 export async function updateProfile(formData: FormData) {
-    const supabase = await createClient();
+    const supabase: any = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
     if (!user) {
@@ -51,7 +51,7 @@ export async function updateProfile(formData: FormData) {
     }
 
     // Check if profile exists
-    const { data: existingProfile } = await supabase
+    const { data: existingProfile }: any = await supabase
         .from('profiles')
         .select('id, username, referral_reward_claimed, referred_by')
         .eq('id', user.id)
