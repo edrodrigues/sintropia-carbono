@@ -90,10 +90,11 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
             <button
                 onClick={() => setIsOpen(true)}
                 className="w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm hover:border-blue-500 transition-all text-gray-400 group"
+                aria-label="Criar novo post"
             >
                 <span className="font-medium group-hover:text-blue-500">O que está acontecendo no mercado hoje?</span>
                 <div className="bg-blue-600 p-2 rounded-xl text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="M12 5v14" /></svg>
                 </div>
             </button>
 
@@ -120,8 +121,9 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                                     setKeywordInput("");
                                 }}
                                 className="text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-full transition-colors"
+                                aria-label="Fechar modal"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="M6 6l12 12" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M18 6 6 18" /><path d="M6 6l12 12" /></svg>
                             </button>
                         </div>
 
@@ -133,8 +135,9 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                             )}
 
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Título</label>
+                                <label htmlFor="post-title" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Título</label>
                                 <input
+                                    id="post-title"
                                     type="text"
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
@@ -149,8 +152,9 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">URL (opcional)</label>
+                                <label htmlFor="post-url" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">URL (opcional)</label>
                                 <input
+                                    id="post-url"
                                     type="url"
                                     value={url}
                                     onChange={(e) => setUrl(e.target.value)}
@@ -160,8 +164,9 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Categoria</label>
+                                <label htmlFor="post-category" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Categoria</label>
                                 <select
+                                    id="post-category"
                                     value={category}
                                     onChange={(e) => setCategory(e.target.value)}
                                     className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
@@ -175,7 +180,7 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
+                                <label htmlFor="post-keywords" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
                                     Palavras-chave
                                 </label>
                                 <div className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 focus-within:ring-2 focus-within:ring-blue-500 transition-all">
@@ -190,6 +195,7 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                                                     type="button"
                                                     onClick={() => setKeywords(keywords.filter((_, i) => i !== index))}
                                                     className="hover:text-blue-900 dark:hover:text-blue-100"
+                                                    aria-label={`Remover palavra-chave ${keyword}`}
                                                 >
                                                     ×
                                                 </button>
@@ -197,6 +203,7 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                                         ))}
                                     </div>
                                     <input
+                                        id="post-keywords"
                                         type="text"
                                         value={keywordInput}
                                         onChange={(e) => setKeywordInput(e.target.value)}
@@ -212,16 +219,18 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                                         }}
                                         placeholder="Digite e pressione Enter para adicionar"
                                         className="w-full bg-transparent text-gray-900 dark:text-gray-100 outline-none text-sm"
+                                        aria-describedby="keywords-helper"
                                     />
                                 </div>
-                                <p className="text-xs text-gray-500 mt-1">
+                                <p id="keywords-helper" className="text-xs text-gray-500 mt-1">
                                     Pressione Enter para separar as palavras-chave
                                 </p>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Conteúdo</label>
+                                <label htmlFor="post-content" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Conteúdo</label>
                                 <textarea
+                                    id="post-content"
                                     value={content}
                                     onChange={(e) => setContent(e.target.value)}
                                     placeholder="Opcional. Adicione mais detalhes..."
