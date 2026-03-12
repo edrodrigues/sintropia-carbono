@@ -150,31 +150,14 @@ export const searchCarbonStakeholders = cache(async (query: string, region: 'bra
 
 export const getCarbonSectorDistribution = cache(async (region: 'brazil' | 'world' = 'brazil'): Promise<CarbonSectorCount[]> => {
   return withMonitoring(`getCarbonSectorDistribution(${region})`, async () => {
-    const stakeholders = await getCarbonStakeholders(region);
-    
-    const sectorMap = new Map<string, { count: number; totalVolume: number }>();
-    
-    for (const s of stakeholders) {
-      const setor = s.setor || 'Outros';
-      const current = sectorMap.get(setor) || { count: 0, totalVolume: 0 };
-      sectorMap.set(setor, {
-        count: current.count + 1,
-        totalVolume: current.totalVolume + (Number(s.volume_2025) || Number(s.volume_2024) || 0)
-      });
-    }
-
-    return Array.from(sectorMap.entries())
-      .map(([setor, data]) => ({ setor, ...data }))
-      .sort((a, b) => b.totalVolume - a.totalVolume);
+    const stats = await getCarbonFullStats(region);
+    return stats.sectorDistribution;
   });
 });
 
 export const getCarbonFullStats = cache(async (region: 'brazil' | 'world' = 'brazil'): Promise<CarbonFullStats> => {
   return withMonitoring(`getCarbonFullStats(${region})`, async () => {
-    const [stakeholders, sectorDistribution] = await Promise.all([
-      getCarbonStakeholders(region),
-      getCarbonSectorDistribution(region)
-    ]);
+    const stakeholders = await getCarbonStakeholders(region);
 
     if (stakeholders.length === 0) {
       return {
@@ -187,11 +170,39 @@ export const getCarbonFullStats = cache(async (region: 'brazil' | 'world' = 'bra
       };
     }
 
-    const total2025 = stakeholders.reduce((sum, s) => sum + (Number(s.volume_2025) || 0), 0);
-    const total2024 = stakeholders.reduce((sum, s) => sum + (Number(s.volume_2024) || 0), 0);
+    let total2024 = 0;
+    let total2025 = 0;
+    const sectorMap = new Map<string, { count: number; totalVolume: number }>();
+    const uniqueSectors = new Set<string>();
+
+    // Single pass optimization: O(n) instead of O(5n)
+    // We calculate totals, unique sectors, and sector distribution in one go
+    for (const s of stakeholders) {
+      const vol2024 = Number(s.volume_2024) || 0;
+      const vol2025 = Number(s.volume_2025) || 0;
+
+      total2024 += vol2024;
+      total2025 += vol2025;
+
+      if (s.setor) {
+        uniqueSectors.add(s.setor);
+      }
+
+      const setor = s.setor || 'Outros';
+      const current = sectorMap.get(setor) || { count: 0, totalVolume: 0 };
+
+      sectorMap.set(setor, {
+        count: current.count + 1,
+        // Use 2025 volume for distribution if available, fallback to 2024
+        totalVolume: current.totalVolume + (vol2025 || vol2024)
+      });
+    }
+
     const crescimento = total2024 > 0 ? ((total2025 - total2024) / total2024) * 100 : 0;
 
-    const uniqueSectors = new Set(stakeholders.map(s => s.setor).filter(Boolean));
+    const sectorDistribution = Array.from(sectorMap.entries())
+      .map(([setor, data]) => ({ setor, ...data }))
+      .sort((a, b) => b.totalVolume - a.totalVolume);
 
     return {
       totalVolume: total2025,

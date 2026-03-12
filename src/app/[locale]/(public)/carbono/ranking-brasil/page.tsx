@@ -15,7 +15,6 @@ import { Badge } from "@/components/ui/tremor";
 import {
   getCarbonStakeholders,
   getCarbonFullStats,
-  getCarbonSectorDistribution,
 } from "@/lib/queries/carbon";
 
 export async function generateMetadata({
@@ -73,13 +72,13 @@ export default async function RankingBrasilPage({
 }) {
   const { locale } = await params;
 
-  const [stakeholders, stats, sectorDistribution] = await Promise.all([
+  const [stakeholders, stats] = await Promise.all([
     getCarbonStakeholders("brazil"),
     getCarbonFullStats("brazil"),
-    getCarbonSectorDistribution("brazil"),
   ]);
 
-  const t = await getTranslations({ locale, namespace: "Carbono" });
+  const { sectorDistribution } = stats;
+
   const tStats = await getTranslations({ locale, namespace: "Carbono.stats" });
   const tTable = await getTranslations({ locale, namespace: "Carbono.table" });
   const tRanking = await getTranslations({

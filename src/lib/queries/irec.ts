@@ -199,31 +199,14 @@ export const searchIrecStakeholders = cache(async (query: string, region: 'brazi
 
 export const getIrecSectorDistribution = cache(async (region: 'brazil' | 'world' = 'brazil'): Promise<SectorCount[]> => {
   return withMonitoring(`getIrecSectorDistribution(${region})`, async () => {
-    const stakeholders = await getIrecStakeholders(region);
-    
-    const sectorMap = new Map<string, { count: number; totalVolume: number }>();
-    
-    for (const s of stakeholders) {
-      const setor = s.setor || 'Outros';
-      const current = sectorMap.get(setor) || { count: 0, totalVolume: 0 };
-      sectorMap.set(setor, {
-        count: current.count + 1,
-        totalVolume: current.totalVolume + (Number(s.volume_2026) || Number(s.volume_2025) || 0)
-      });
-    }
-
-    return Array.from(sectorMap.entries())
-      .map(([setor, data]) => ({ setor, ...data }))
-      .sort((a, b) => b.totalVolume - a.totalVolume);
+    const stats = await getIrecFullStats(region);
+    return stats.sectorDistribution;
   });
 });
 
 export const getIrecFullStats = cache(async (region: 'brazil' | 'world' = 'brazil'): Promise<IrecFullStats> => {
   return withMonitoring(`getIrecFullStats(${region})`, async () => {
-    const [stakeholders, sectorDistribution] = await Promise.all([
-      getIrecStakeholders(region),
-      getIrecSectorDistribution(region)
-    ]);
+    const stakeholders = await getIrecStakeholders(region);
 
     if (stakeholders.length === 0) {
       return {
@@ -236,11 +219,39 @@ export const getIrecFullStats = cache(async (region: 'brazil' | 'world' = 'brazi
       };
     }
 
-    const total2025 = stakeholders.reduce((sum, s) => sum + (Number(s.volume_2025) || 0), 0);
-    const total2024 = stakeholders.reduce((sum, s) => sum + (Number(s.volume_2024) || 0), 0);
+    let total2024 = 0;
+    let total2025 = 0;
+    const sectorMap = new Map<string, { count: number; totalVolume: number }>();
+    const uniqueSectors = new Set<string>();
+
+    // Single pass optimization: O(n) instead of O(5n)
+    for (const s of stakeholders) {
+      const vol2024 = Number(s.volume_2024) || 0;
+      const vol2025 = Number(s.volume_2025) || 0;
+      const vol2026 = Number(s.volume_2026) || 0;
+
+      total2024 += vol2024;
+      total2025 += vol2025;
+
+      if (s.setor) {
+        uniqueSectors.add(s.setor);
+      }
+
+      const setor = s.setor || 'Outros';
+      const current = sectorMap.get(setor) || { count: 0, totalVolume: 0 };
+
+      sectorMap.set(setor, {
+        count: current.count + 1,
+        // Match original logic for distribution volume
+        totalVolume: current.totalVolume + (vol2026 || vol2025 || 0)
+      });
+    }
+
     const crescimento = total2024 > 0 ? ((total2025 - total2024) / total2024) * 100 : 0;
 
-    const uniqueSectors = new Set(stakeholders.map(s => s.setor).filter(Boolean));
+    const sectorDistribution = Array.from(sectorMap.entries())
+      .map(([setor, data]) => ({ setor, ...data }))
+      .sort((a, b) => b.totalVolume - a.totalVolume);
 
     return {
       totalVolume: total2025,

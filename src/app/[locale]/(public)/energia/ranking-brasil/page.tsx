@@ -14,7 +14,6 @@ import { Badge } from "@/components/ui/tremor";
 import {
   getIrecStakeholders,
   getIrecFullStats,
-  getIrecSectorDistribution,
 } from "@/lib/queries/irec";
 
 export async function generateMetadata({
@@ -72,13 +71,13 @@ export default async function RankingBrasilPage({
 }) {
   const { locale } = await params;
 
-  const [stakeholders, stats, sectorDistribution] = await Promise.all([
+  const [stakeholders, stats] = await Promise.all([
     getIrecStakeholders("brazil"),
     getIrecFullStats("brazil"),
-    getIrecSectorDistribution("brazil"),
   ]);
 
-  const t = await getTranslations({ locale, namespace: "Energia" });
+  const { sectorDistribution } = stats;
+
   const tStats = await getTranslations({ locale, namespace: "Energia.stats" });
   const tTable = await getTranslations({ locale, namespace: "Energia.table" });
   const tRanking = await getTranslations({
@@ -103,9 +102,6 @@ export default async function RankingBrasilPage({
     delta: s.delta_pct !== null ? (s.delta_pct > 0 ? "+" : "") + s.delta_pct.toFixed(1) + "%" : "-",
   }));
 
-  const uniqueSectors = Array.from(
-    new Set(stakeholders.map((s) => s.setor).filter(Boolean))
-  ) as string[];
 
   return (
     <>
