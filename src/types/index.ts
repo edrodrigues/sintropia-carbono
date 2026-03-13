@@ -98,3 +98,16 @@ export interface Ban {
     expires_at: string | null;
     created_at: string | null;
 }
+
+export type NotificationType = 'streak_reset' | 'bonus_unlocked' | 'achievement' | 'streak_warning' | 'system';
+
+export interface Notification {
+    id: string;
+    user_id: string;
+    type: NotificationType;
+    title: string;
+    message: string;
+    is_read: boolean;
+    created_at: string;
+    updated_at: string;
+}

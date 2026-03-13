@@ -14,6 +14,8 @@ import { DataSources } from "@/components/ui/DataSources";
 import {
   getIrecFullStats,
   getIrecStakeholders,
+  getIrecStats,
+  Stakeholder,
 } from "@/lib/queries/irec";
 import {
   RiFlashlightLine,
@@ -79,9 +81,10 @@ export default async function EnergiaPage({
 }) {
   const { locale } = await params;
 
-  const [brasilStats, mundoStats, brasilTop5, mundoTop5] = await Promise.all([
+  const [brasilStats, mundoStats, mundoStatsTotal, brasilTop5, mundoTop5] = await Promise.all([
     getIrecFullStats("brazil"),
-    getIrecFullStats("world"),
+    getIrecFullStats("world"), // Top 50 global (excl Brazil)
+    getIrecStats("world_total"), // True global total (incl Brazil)
     getIrecStakeholders("brazil").then((data) => data.slice(0, 5)),
     getIrecStakeholders("world").then((data) => data.slice(0, 5)),
   ]);
@@ -105,17 +108,17 @@ export default async function EnergiaPage({
     {
       name: "2024",
       brasil: brasilStats.totalVolume * 0.78, // Estimated 2024 based on growth
-      mundo: mundoStats.totalVolume * 0.75,
+      mundo: mundoStatsTotal.total2024,
     },
     {
       name: "2025",
       brasil: brasilStats.totalVolume,
-      mundo: mundoStats.totalVolume,
+      mundo: mundoStatsTotal.total2025,
     },
     {
       name: "2026 (proj.)",
       brasil: brasilStats.totalVolume * 1.15,
-      mundo: mundoStats.totalVolume * 1.12,
+      mundo: mundoStatsTotal.total2026 || (mundoStatsTotal.total2025 * 1.12), // Use projected if available
     },
   ];
 
@@ -140,9 +143,16 @@ export default async function EnergiaPage({
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
             <span>{t("lastUpdated")}:</span>
             <span className="font-medium">11 de Março de 2026</span>
+          </div>
+          {/* Unit Explanation */}
+          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800/30">
+            <p className="text-sm text-blue-800 dark:text-blue-200">
+              <strong>Unidade:</strong> 1 I-REC (International Renewable Energy Certificate) = 1 MWh de energia renovável. 
+              Os volumes mostrados representam certificados de energia renovável comercializados em 2025.
+            </p>
           </div>
         </div>
 
@@ -151,16 +161,16 @@ export default async function EnergiaPage({
           <StatsCard
             title={`${tStats("totalVolume")} Brasil`}
             value={`${(brasilStats.totalVolume / 1000000).toFixed(1)}M`}
-            subtitle="I-RECs"
+            subtitle="I-RECs (≈ MWh)"
             trend="up"
             trendValue={`+${brasilStats.crescimento.toFixed(1)}%`}
           />
           <StatsCard
-            title={`${tStats("totalVolume")} Mundo`}
-            value={`${(mundoStats.totalVolume / 1000000).toFixed(1)}M`}
-            subtitle="I-RECs"
+            title={`${tStats("totalVolume")} Mundial`}
+            value={`${(mundoStatsTotal.total2025 / 1000000).toFixed(1)}M`}
+            subtitle="I-RECs (≈ MWh) • Inclui Brasil"
             trend="up"
-            trendValue={`+${mundoStats.crescimento.toFixed(1)}%`}
+            trendValue={`+${mundoStatsTotal.crescimento.toFixed(1)}%`}
           />
           <StatsCard
             title={tStats("sectors")}
@@ -170,7 +180,7 @@ export default async function EnergiaPage({
           <StatsCard
             title={tStats("leaders")}
             value={brasilStats.totalStakeholders + mundoStats.totalStakeholders}
-            subtitle="Top 50 Brasil + Mundo"
+            subtitle="Top 50 Brasil + Top 50 Mundial"
           />
         </div>
 
@@ -250,7 +260,7 @@ export default async function EnergiaPage({
               </Link>
             </div>
             <div className="space-y-3">
-              {brasilTop5.map((company, index) => (
+              {brasilTop5.map((company: Stakeholder, index: number) => (
                 <div
                   key={company.id}
                   className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700 last:border-0"
@@ -263,8 +273,8 @@ export default async function EnergiaPage({
                       {company.empresa}
                     </span>
                   </div>
-                  <span className="text-sm text-gray-500">
-                    {((company.volume_2025 || 0) / 1000).toFixed(0)}K
+                   <span className="text-sm text-gray-500">
+                    {((company.volume_2025 || 0) / 1000000).toFixed(1)}M I-RECs
                   </span>
                 </div>
               ))}
@@ -286,7 +296,7 @@ export default async function EnergiaPage({
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {mundoTop5.map((company, index) => (
+            {mundoTop5.map((company: Stakeholder, index: number) => (
               <div
                 key={company.id}
                 className="text-center p-4 rounded-lg bg-gray-50 dark:bg-gray-700/50"
@@ -298,10 +308,15 @@ export default async function EnergiaPage({
                   {company.empresa}
                 </p>
                 <p className="text-xs text-gray-500 mt-1">
-                  {((company.volume_2025 || 0) / 1000).toFixed(1)}K TWh
+                  {((company.volume_2025 || 0) / 1000000).toFixed(1)}M I-RECs
                 </p>
               </div>
             ))}
+          </div>
+          <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg text-xs text-gray-600 dark:text-gray-400">
+            <strong>Nota:</strong> O &quot;Top 5 Mundial&quot; mostra as maiores empresas globais fora do Brasil. 
+            O volume total mundial (card acima) já inclui o Brasil. 
+            O Brasil representa {((brasilStats.totalVolume / mundoStatsTotal.total2025) * 100).toFixed(1)}% do mercado global.
           </div>
         </Card>
 

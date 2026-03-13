@@ -100,14 +100,18 @@ export interface IrecDashboardStats {
   crescimento: number;
 }
 
-export const getIrecStats = cache(async (region: 'brazil' | 'world' = 'brazil'): Promise<IrecDashboardStats> => {
+export const getIrecStats = cache(async (region: 'brazil' | 'world' | 'world_total' = 'brazil'): Promise<IrecDashboardStats> => {
   return withMonitoring(`getIrecStats(${region})`, async () => {
     const supabase = createClient();
     
+    // Use corrected view that includes Brazil in world totals
+    const viewName = region === 'world_total' ? 'v_irec_dashboard_corrected' : 'v_irec_dashboard';
+    const regionParam = region === 'world_total' ? 'world_total' : region;
+    
     const { data, error } = await supabase
-      .from('v_irec_dashboard' as any)
+      .from(viewName as any)
       .select('*')
-      .eq('region', region)
+      .eq('region', regionParam)
       .single();
 
     if (error || !data) {
@@ -115,8 +119,27 @@ export const getIrecStats = cache(async (region: 'brazil' | 'world' = 'brazil'):
         console.error(`Error fetching irec stats for ${region}:`, error);
       }
       
-      // Fallback
-      const stakeholders = await getIrecStakeholders(region);
+      // Fallback: calculate manually
+      if (region === 'world_total') {
+        // Calculate world total including Brazil
+        const allStakeholders = await getIrecStakeholders('brazil').then(brazil => 
+          getIrecStakeholders('world').then(world => [...brazil, ...world])
+        );
+        
+        if (allStakeholders.length === 0) {
+          return { total2024: 0, total2025: 0, total2026: 0, crescimento: 0 };
+        }
+
+        const total2024 = allStakeholders.reduce((sum, s) => sum + (Number(s.volume_2024) || 0), 0);
+        const total2025 = allStakeholders.reduce((sum, s) => sum + (Number(s.volume_2025) || 0), 0);
+        const total2026 = allStakeholders.reduce((sum, s) => sum + (Number(s.volume_2026) || 0), 0);
+        const crescimento = total2024 > 0 ? ((total2025 - total2024) / total2024) * 100 : 0;
+
+        return { total2024, total2025, total2026, crescimento };
+      }
+      
+      // Fallback for specific regions
+      const stakeholders = await getIrecStakeholders(region as 'brazil' | 'world');
       if (stakeholders.length === 0) {
         return { total2024: 0, total2025: 0, total2026: 0, crescimento: 0 };
       }

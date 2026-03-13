@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Profile } from "@/types";
 import { StreakDisplay } from "@/components/gamification/StreakBadge";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { Tooltip } from "@/components/ui/Tooltip";
 import LanguageSwitcher from "./LanguageSwitcher";
 
@@ -197,6 +198,9 @@ export function Header() {
             <div className="hidden md:block">
               <LanguageSwitcher />
             </div>
+
+            {/* Notification Bell */}
+            {user && <NotificationBell userId={user.id} />}
 
             {/* Mobile Menu Button */}
             <button

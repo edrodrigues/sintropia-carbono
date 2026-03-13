@@ -17,7 +17,7 @@ export function StreakBadge({
   showBonus = false 
 }: StreakBadgeProps) {
   const emoji = getStreakEmoji(currentStreak);
-  const bonus = getStreakBonus(currentStreak);
+  const nextBonus = getStreakBonus(currentStreak + 1);
   
   if (compact) {
     return (
@@ -56,7 +56,7 @@ export function StreakBadge({
         {showBonus && currentStreak > 0 && (
           <div className="text-right">
             <span className="text-xs text-orange-600 dark:text-orange-400">Próximo bônus</span>
-            <p className="text-lg font-bold text-green-600 dark:text-green-400">+{bonus}</p>
+            <p className="text-lg font-bold text-green-600 dark:text-green-400">+{nextBonus}</p>
           </div>
         )}
       </div>

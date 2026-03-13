@@ -16,20 +16,8 @@ export async function getUserStreak(userId: string): Promise<UserStreak | null> 
     return null;
   }
   
-  // Se o streak expirou (mais de 1 dia de inatividade), retornamos com current_streak 0
-  if (data && !isStreakActive(data.last_activity_date)) {
-    // Reset streak in database if expired
-    await supabase
-      .from('user_streaks')
-      .update({ current_streak: 0 })
-      .eq('user_id', userId);
-
-    return {
-      ...data,
-      current_streak: 0
-    };
-  }
-  
+  // Note: Streak reset now happens only server-side via update_user_streak function
+  // to avoid race conditions and timezone issues
   return data;
 }
 
@@ -107,14 +95,15 @@ export function isStreakActive(lastActivityDate: string | null): boolean {
   if (!lastActivityDate) return false;
   
   try {
+    // Use UTC for consistent timezone handling across client and server
     const today = new Date();
     const lastDate = new Date(lastActivityDate);
     
-    // Normalizar para o início do dia local para comparação justa
-    const t = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const l = new Date(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate());
+    // Convert to UTC dates (midnight UTC)
+    const todayUTC = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+    const lastUTC = Date.UTC(lastDate.getUTCFullYear(), lastDate.getUTCMonth(), lastDate.getUTCDate());
     
-    const diffTime = t.getTime() - l.getTime();
+    const diffTime = todayUTC - lastUTC;
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
     
     // Ativo se a última atividade foi hoje (0) ou ontem (1)

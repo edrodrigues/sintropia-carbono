@@ -1,19 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 interface StreakData {
   current_streak: number;
   longest_streak: number;
   total_days: number;
   bonus_earned: number;
+  streak_reset?: boolean;
 }
 
 export function StreakUpdater({ children }: { children: React.ReactNode }) {
-  const [hasUpdated, setHasUpdated] = useState(false);
+  // Use ref instead of state to prevent re-renders and race conditions
+  const hasUpdatedRef = useRef(false);
 
   useEffect(() => {
-    if (hasUpdated) return;
+    // Prevent multiple executions
+    if (hasUpdatedRef.current) return;
+    hasUpdatedRef.current = true;
 
     const updateStreak = async () => {
       try {
@@ -21,11 +25,11 @@ export function StreakUpdater({ children }: { children: React.ReactNode }) {
         const checkRes = await fetch("/api/gamification/streak");
         if (checkRes.ok) {
           const { streak } = await checkRes.json();
+          // Use UTC date for comparison
           const today = new Date().toISOString().split("T")[0];
           
           if (streak?.last_activity_date === today) {
             console.log("Streak already updated today");
-            setHasUpdated(true);
             return;
           }
         }
@@ -41,16 +45,20 @@ export function StreakUpdater({ children }: { children: React.ReactNode }) {
           if (data.bonus_earned > 0) {
             window.dispatchEvent(new CustomEvent("streak-updated", { detail: data }));
           }
+          
+          // Dispatch event for streak reset notification
+          if (data.streak_reset) {
+            window.dispatchEvent(new CustomEvent("streak-reset", { detail: data }));
+          }
         }
       } catch (error) {
         console.error("Failed to update streak:", error);
-      } finally {
-        setHasUpdated(true);
       }
     };
 
     updateStreak();
-  }, [hasUpdated]);
+    // Empty dependency array - run only once on mount
+  }, []);
 
   return <>{children}</>;
 }
