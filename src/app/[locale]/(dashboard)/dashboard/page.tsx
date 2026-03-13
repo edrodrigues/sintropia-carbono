@@ -185,32 +185,32 @@ export default async function DashboardPage() {
     const getBadge = (karma: number) => {
         if (karma >= 1000) return { 
             name: 'Master', 
-            icon: <CrownIcon className="w-12 h-12 sm:w-16 sm:h-16 text-yellow-500" />, 
+            icon: <CrownIcon className="w-10 h-10 sm:w-12 sm:h-12 text-yellow-500" />, 
             nextLevel: 5000 
         };
         if (karma >= 500) return { 
             name: 'Especialista', 
-            icon: <DiamondIcon className="w-12 h-12 sm:w-16 sm:h-16 text-blue-500" />, 
+            icon: <DiamondIcon className="w-10 h-10 sm:w-12 sm:h-12 text-blue-500" />, 
             nextLevel: 1000 
         };
         if (karma >= 100) return { 
             name: 'Contribuidor', 
-            icon: <StarIcon className="w-12 h-12 sm:w-16 sm:h-16 text-amber-400" />, 
+            icon: <StarIcon className="w-10 h-10 sm:w-12 sm:h-12 text-amber-400" />, 
             nextLevel: 500 
         };
         if (karma >= 50) return { 
             name: 'Aprendiz', 
-            icon: <LeafIcon className="w-12 h-12 sm:w-16 sm:h-16 text-green-500" />, 
+            icon: <LeafIcon className="w-10 h-10 sm:w-12 sm:h-12 text-green-500" />, 
             nextLevel: 100 
         };
         if (karma >= 10) return { 
             name: 'Iniciante', 
-            icon: <SeedlingIcon className="w-12 h-12 sm:w-16 sm:h-16 text-green-400" />, 
+            icon: <SeedlingIcon className="w-10 h-10 sm:w-12 sm:h-12 text-green-400" />, 
             nextLevel: 50 
         };
         return { 
             name: 'Novato', 
-            icon: <EggIcon className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400" />, 
+            icon: <EggIcon className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400" />, 
             nextLevel: 10 
         };
     };
@@ -238,11 +238,11 @@ export default async function DashboardPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                 {/* Profile Summary Card */}
                 <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm flex flex-col">
-                    <div className="bg-gradient-to-r from-[#1e40af] to-blue-600 h-24 shrink-0"></div>
-                    <div className="px-4 sm:px-6 pb-6 -mt-12 flex-1 flex flex-col">
+                    <div className="bg-gradient-to-r from-[#1e40af] to-blue-600 h-20 sm:h-24 shrink-0"></div>
+                    <div className="px-4 sm:px-6 pb-6 -mt-8 sm:-mt-12 flex-1 flex flex-col">
                         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                             <div className="flex items-end gap-3 sm:gap-4 min-w-0">
-                                <div className="w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-2xl bg-white dark:bg-gray-900 border-4 border-white dark:border-gray-800 flex items-center justify-center text-3xl sm:text-4xl shadow-md">
+                                <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-2xl bg-white dark:bg-gray-900 border-4 border-white dark:border-gray-800 flex items-center justify-center shadow-md">
                                     {badge.icon}
                                 </div>
                                 <div className="mb-2 min-w-0">
@@ -259,7 +259,8 @@ export default async function DashboardPage() {
                             </div>
                             <Link
                                 href="/profile"
-                                className="px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm font-bold rounded-xl transition-colors mb-2 text-center"
+                                className="px-6 py-3 min-h-[44px] bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 text-sm font-bold rounded-xl transition-colors mb-2 text-center inline-flex items-center justify-center"
+                                aria-label={tProfile('viewProfile')}
                             >
                                 {tProfile('viewProfile')}
                             </Link>
@@ -291,9 +292,41 @@ export default async function DashboardPage() {
                     <p className="text-4xl font-black text-orange-700 dark:text-orange-400 mb-1">
                         {streakData?.current_streak || 0}
                     </p>
-                    <p className="text-sm font-medium text-orange-600 dark:text-orange-400 mb-6">
+                    <p className="text-sm font-medium text-orange-600 dark:text-orange-400 mb-4">
                         {tStreak('days')}
                     </p>
+                    
+                    {/* 7-Day Streak Visual Progress */}
+                    <div className="mb-4">
+                        <div className="flex justify-between items-center gap-1">
+                            {[1, 2, 3, 4, 5, 6, 7].map((day) => {
+                                const isCompleted = day <= (streakData?.current_streak || 0);
+                                const isCurrent = day === (streakData?.current_streak || 0) + 1;
+                                return (
+                                    <div
+                                        key={day}
+                                        className={`flex-1 h-8 rounded-lg flex items-center justify-center text-xs font-bold transition-all ${
+                                            isCompleted
+                                                ? 'bg-orange-500 text-white shadow-sm'
+                                                : isCurrent
+                                                ? 'bg-orange-200 dark:bg-orange-800 text-orange-700 dark:text-orange-300 ring-2 ring-orange-400'
+                                                : 'bg-orange-100 dark:bg-orange-900/30 text-orange-300 dark:text-orange-600'
+                                        }`}
+                                        aria-label={`Dia ${day}${isCompleted ? ' completado' : ''}`}
+                                    >
+                                        {day === 7 ? '🎁' : day}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                        <p className="text-center text-[10px] text-orange-600 dark:text-orange-400 mt-2">
+                            {(streakData?.current_streak || 0) < 7 
+                                ? `${7 - (streakData?.current_streak || 0)} ${t('daysToBonus') || 'dias para o bônus especial!'}`
+                                : t('bonusUnlocked') || 'Bônus especial desbloqueado!'
+                            }
+                        </p>
+                    </div>
+                    
                     <div className="bg-white/50 dark:bg-orange-900/20 rounded-xl p-3 border border-orange-100 dark:border-orange-900/30">
                         <p className="text-[10px] text-orange-800 dark:text-orange-300 uppercase font-bold tracking-wider mb-1">
                             {tStreak('nextBonus')}
@@ -325,7 +358,14 @@ export default async function DashboardPage() {
                             <span className="text-sm font-medium text-gray-600 dark:text-gray-400">{tGamification('progress')}</span>
                             <span className="font-bold text-gray-900 dark:text-white">{userKarma.toLocaleString()} / {badge.nextLevel}</span>
                         </div>
-                        <div className="w-full bg-gray-100 dark:bg-gray-700 h-3 rounded-full overflow-hidden">
+                        <div 
+                            className="w-full bg-gray-100 dark:bg-gray-700 h-3 rounded-full overflow-hidden"
+                            role="progressbar"
+                            aria-valuenow={userKarma}
+                            aria-valuemin={0}
+                            aria-valuemax={badge.nextLevel}
+                            aria-label={`${tGamification('progress')}: ${userKarma} de ${badge.nextLevel} Karma`}
+                        >
                             <div
                                 className="bg-gradient-to-r from-blue-600 to-indigo-600 h-full rounded-full transition-all duration-1000"
                                 style={{ width: `${progressToNext}%` }}
@@ -368,28 +408,27 @@ export default async function DashboardPage() {
                 <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 shadow-sm">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">{tGamification('rankingTitle') || 'Sua Posição'}</h3>
 
-                    <div className="flex flex-col items-center justify-center py-6 border-b border-gray-100 dark:border-gray-700 mb-6">
-                        <div className="relative">
-                            <div className="w-32 h-32 rounded-full border-8 border-yellow-100 dark:border-yellow-900/30 flex items-center justify-center">
-                                <span className="text-4xl font-black text-yellow-600 dark:text-yellow-400">#{ranking}</span>
-                            </div>
-                            <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-4 py-1 bg-yellow-500 text-white text-xs font-bold rounded-full">
+                    {/* Horizontal Ranking Card */}
+                    <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 rounded-xl border border-yellow-100 dark:border-yellow-800/30 mb-6">
+                        <div className="flex-shrink-0 w-16 h-16 rounded-full bg-yellow-500 flex items-center justify-center shadow-lg shadow-yellow-500/30">
+                            <span className="text-2xl font-black text-white">#{ranking}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-sm font-bold text-yellow-800 dark:text-yellow-200">
                                 {tGamification('globalRanking') || 'Ranking Global'}
-                            </span>
+                            </p>
+                            <p className="text-xs text-yellow-700 dark:text-yellow-300 mt-1">
+                                {tGamification('rankingDesc') || 'Aumente seu Karma participando ativamente da comunidade e convidando novos membros.'}
+                            </p>
                         </div>
                     </div>
 
-                    <div className="space-y-4">
-                        <p className="text-sm text-gray-600 dark:text-gray-400 text-center px-4">
-                            {tGamification('rankingDesc') || 'Aumente seu Karma participando ativamente da comunidade e convidando novos membros.'}
-                        </p>
-                        <Link
-                            href="/leaderboard"
-                            className="flex items-center justify-center gap-2 w-full py-3 bg-gray-900 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 text-white text-sm font-bold rounded-xl transition-all"
-                        >
-                            <CrownIcon className="w-4 h-4" /> {tGamification('viewLeaderboard') || 'Ver Leaderboard'}
-                        </Link>
-                    </div>
+                    <Link
+                        href="/leaderboard"
+                        className="flex items-center justify-center gap-2 w-full py-3 min-h-[44px] bg-gray-900 dark:bg-gray-700 hover:bg-gray-800 dark:hover:bg-gray-600 text-white text-sm font-bold rounded-xl transition-all"
+                    >
+                        <CrownIcon className="w-4 h-4" /> {tGamification('viewLeaderboard') || 'Ver Leaderboard'}
+                    </Link>
                 </div>
             </div>
 
