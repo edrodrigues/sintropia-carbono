@@ -32,15 +32,15 @@ export async function generateMetadata({
   const { locale } = await params;
 
   const titles: Record<string, string> = {
-    pt: "Mercado de Energia Renovável I-REC 2026 | Sintropia",
-    en: "Renewable Energy I-REC Market 2026 | Sintropia",
-    es: "Mercado de Energía Renovable I-REC 2026 | Sintropia",
+    pt: "Mercado de Energia Renovável I-REC 2026 | Rankings Brasil e Mundial | Sintropia",
+    en: "Renewable Energy I-REC Market 2026 | Brazil & Global Rankings | Sintropia",
+    es: "Mercado de Energía Renovable I-REC 2026 | Rankings Brasil y Mundial | Sintropia",
   };
 
   const descriptions: Record<string, string> = {
-    pt: "Dashboard completo do mercado de certificados I-REC - rankings Brasil e Mundo, preços e tendências em tempo real.",
-    en: "Complete I-REC certificate market dashboard - Brazil and World rankings, prices and real-time trends.",
-    es: "Dashboard completo del mercado de certificados I-REC - rankings Brasil y Mundo, precios y tendencias en tiempo real.",
+    pt: "Dashboard completo do mercado de certificados I-REC com rankings atualizados do Brasil e mundo, preços por região, análise por setor e tendências do mercado de energia renovável em tempo real.",
+    en: "Complete I-REC renewable energy certificate market dashboard featuring updated Brazil and global rankings, regional pricing, sector analysis, and real-time market trends for clean energy trading.",
+    es: "Dashboard completo del mercado de certificados I-REC con rankings actualizados de Brasil y el mundo, precios por región, análisis sectorial y tendencias del mercado de energía renovable en tiempo real.",
   };
 
   return {
@@ -54,6 +54,11 @@ export async function generateMetadata({
             "certificados energia",
             "mercado I-REC Brasil",
             "ranking energia renovável",
+            "preços I-REC",
+            "setores energia",
+            "transição energética",
+            "certificação renovável",
+            "mercado carbono neutro",
           ]
         : [
             "I-REC",
@@ -61,6 +66,11 @@ export async function generateMetadata({
             "energy certificates",
             "I-REC market Brazil",
             "renewable energy ranking",
+            "I-REC pricing",
+            "energy sectors",
+            "energy transition",
+            "renewable certification",
+            "carbon neutral market",
           ],
     alternates: {
       canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}energia`,
@@ -320,6 +330,74 @@ export default async function EnergiaPage({
           </div>
         </Card>
 
+        {/* FAQ Section */}
+        <Card className="mb-8">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">
+            {locale === "pt" ? "Perguntas Frequentes" : locale === "en" ? "Frequently Asked Questions" : "Preguntas Frecuentes"}
+          </h3>
+          <div className="space-y-4">
+            <details className="group">
+              <summary className="flex items-center justify-between cursor-pointer p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <span className="font-medium text-gray-900 dark:text-white">
+                  {locale === "pt" ? "O que é I-REC?" : locale === "en" ? "What is I-REC?" : "¿Qué es I-REC?"}
+                </span>
+                <span className="transition group-open:rotate-180">
+                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p className="text-gray-600 dark:text-gray-400 mt-3 px-4">
+                {locale === "pt"
+                  ? "I-REC (International Renewable Energy Certificate) é um certificado internacional que comprova a geração de energia renovável. Cada I-REC representa 1 MWh de energia limpa produzida, permitindo que empresas compensem suas emissões e declarem o uso de energia renovável."
+                  : locale === "en"
+                  ? "I-REC (International Renewable Energy Certificate) is an international certificate that proves renewable energy generation. Each I-REC represents 1 MWh of clean energy produced, allowing companies to offset their emissions and declare renewable energy usage."
+                  : "I-REC (International Renewable Energy Certificate) es un certificado internacional que comprueba la generación de energía renovable. Cada I-REC representa 1 MWh de energía limpia producida, permitiendo que las empresas compensen sus emisiones y declaren el uso de energía renovable."}
+              </p>
+            </details>
+
+            <details className="group">
+              <summary className="flex items-center justify-between cursor-pointer p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <span className="font-medium text-gray-900 dark:text-white">
+                  {locale === "pt" ? "Como funciona o mercado de I-REC?" : locale === "en" ? "How does the I-REC market work?" : "¿Cómo funciona el mercado de I-REC?"}
+                </span>
+                <span className="transition group-open:rotate-180">
+                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p className="text-gray-600 dark:text-gray-400 mt-3 px-4">
+                {locale === "pt"
+                  ? "O mercado de I-REC funciona como um sistema de book-and-claim: geradoras de energia renovável emitem certificados, que são comprados por empresas que desejam comprovar o uso de energia limpa. O Brasil lidera o mercado global com mais de 8 bilhões de I-RECs comercializados anualmente."
+                  : locale === "en"
+                  ? "The I-REC market works as a book-and-claim system: renewable energy generators issue certificates, which are purchased by companies seeking to prove clean energy usage. Brazil leads the global market with over 8 billion I-RECs traded annually."
+                  : "El mercado de I-REC funciona como un sistema de book-and-claim: generadoras de energía renovable emiten certificados, que son comprados por empresas que desean comprobar el uso de energía limpia. Brasil lidera el mercado global con más de 8 mil millones de I-RECs comercializados anualmente."}
+              </p>
+            </details>
+
+            <details className="group">
+              <summary className="flex items-center justify-between cursor-pointer p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <span className="font-medium text-gray-900 dark:text-white">
+                  {locale === "pt" ? "Quais empresas podem comprar I-REC?" : locale === "en" ? "Which companies can buy I-RECs?" : "¿Qué empresas pueden comprar I-REC?"}
+                </span>
+                <span className="transition group-open:rotate-180">
+                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p className="text-gray-600 dark:text-gray-400 mt-3 px-4">
+                {locale === "pt"
+                  ? "Qualquer empresa com conta de energia pode adquirir I-RECs para compensar seu consumo. Comerc Energia, Raízen Power e Engie Brasil são as maiores geradoras, enquanto empresas de tecnologia, mineração e manufatura são as principais compradoras para cumprir metas ESG."
+                  : locale === "en"
+                  ? "Any company with an energy account can acquire I-RECs to offset their consumption. Comerc Energia, Raízen Power, and Engie Brasil are the largest generators, while technology, mining, and manufacturing companies are the main buyers to meet ESG goals."
+                  : "Cualquier empresa con cuenta de energía puede adquirir I-RECs para compensar su consumo. Comerc Energia, Raízen Power y Engie Brasil son las mayores generadoras, mientras empresas de tecnología, minería y manufactura son las principales compradoras para cumplir metas ESG."}
+              </p>
+            </details>
+          </div>
+        </Card>
+
         <div className="mt-6 flex items-center justify-between">
           <LastUpdated dataFile="energia" />
         </div>
@@ -330,6 +408,61 @@ export default async function EnergiaPage({
         />
       </main>
       <Footer />
+
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Dataset",
+                "@id": "https://sintropia.space/energia#dataset",
+                "name": locale === "pt" ? "Rankings e Dados do Mercado I-REC" : locale === "en" ? "I-REC Market Rankings and Data" : "Rankings y Datos del Mercado I-REC",
+                "description": locale === "pt" 
+                  ? "Conjunto de dados abrangente sobre o mercado de certificados de energia renovável I-REC, incluindo rankings das principais empresas do Brasil e do mundo, volumes de comercialização, preços por região e análise setorial."
+                  : locale === "en"
+                  ? "Comprehensive dataset on the I-REC renewable energy certificate market, including rankings of leading companies in Brazil and worldwide, trading volumes, regional pricing, and sectoral analysis."
+                  : "Conjunto de datos completo sobre el mercado de certificados de energía renovable I-REC, incluyendo rankings de las principales empresas de Brasil y el mundo, volúmenes de comercialización, precios por región y análisis sectorial.",
+                "url": `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}energia`,
+                "datePublished": "2025-01-01",
+                "dateModified": new Date().toISOString().split("T")[0],
+                "creator": {
+                  "@type": "Organization",
+                  "name": "Sintropia",
+                  "url": "https://sintropia.space"
+                },
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "Sintropia",
+                  "url": "https://sintropia.space",
+                  "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://sintropia.space/logo.png"
+                  }
+                },
+                "license": "https://creativecommons.org/licenses/by/4.0/",
+                "distribution": {
+                  "@type": "DataDownload",
+                  "contentUrl": "https://sintropia.space/dados/dados.md",
+                  "encodingFormat": "text/markdown"
+                },
+                "spatialCoverage": {
+                  "@type": "Place",
+                  "name": locale === "pt" ? "Brasil e Global" : locale === "en" ? "Brazil and Global" : "Brasil y Global"
+                },
+                "temporalCoverage": "2024/2026",
+                "variableMeasured": [
+                  locale === "pt" ? "Volume de I-RECs" : locale === "en" ? "I-REC Volume" : "Volumen de I-RECs",
+                  locale === "pt" ? "Preço por MWh" : locale === "en" ? "Price per MWh" : "Precio por MWh",
+                  locale === "pt" ? "Ranking Empresarial" : locale === "en" ? "Company Ranking" : "Ranking Empresarial"
+                ]
+              }
+            ]
+          })
+        }}
+      />
     </>
   );
 }

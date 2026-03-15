@@ -31,15 +31,15 @@ export async function generateMetadata({
   const { locale } = await params;
 
   const titles: Record<string, string> = {
-    pt: "Mercado de Créditos de Carbono 2026 | Sintropia",
-    en: "Carbon Credit Market 2026 | Sintropia",
-    es: "Mercado de Créditos de Carbono 2026 | Sintropia",
+    pt: "Mercado de Créditos de Carbono 2026 | Rankings Brasil e Mundial | Sintropia",
+    en: "Carbon Credit Market 2026 | Brazil & Global Rankings | Sintropia",
+    es: "Mercado de Créditos de Carbono 2026 | Rankings Brasil y Mundial | Sintropia",
   };
 
   const descriptions: Record<string, string> = {
-    pt: "Dashboard completo do mercado de créditos de carbono - rankings Brasil e Mundo, volumes e tendências em tempo real.",
-    en: "Complete carbon credit market dashboard - Brazil and World rankings, volumes and real-time trends.",
-    es: "Dashboard completo del mercado de créditos de carbono - rankings Brasil y Mundo, volúmenes y tendencias en tiempo real.",
+    pt: "Dashboard completo do mercado de créditos de carbono com rankings atualizados do Brasil e mundo, análise de projetos de compensação ambiental, preços por tonelada e tendências do mercado regulado e voluntário.",
+    en: "Complete carbon credit market dashboard featuring updated Brazil and global rankings, environmental offset project analysis, pricing per tonne, and trends for both compliance and voluntary carbon markets.",
+    es: "Dashboard completo del mercado de créditos de carbono con rankings actualizados de Brasil y el mundo, análisis de proyectos de compensación ambiental, precios por tonelada y tendencias de mercados regulados y voluntarios.",
   };
 
   return {
@@ -53,6 +53,12 @@ export async function generateMetadata({
             "compensação ambiental",
             "carbono Brasil",
             "ranking carbono",
+            "preços carbono",
+            "projetos carbono",
+            "Verra",
+            "Gold Standard",
+            "neutralidade carbônica",
+            "descarbonização",
           ]
         : [
             "carbon credits",
@@ -60,6 +66,12 @@ export async function generateMetadata({
             "environmental offset",
             "carbon Brazil",
             "carbon ranking",
+            "carbon pricing",
+            "carbon projects",
+            "Verra",
+            "Gold Standard",
+            "carbon neutrality",
+            "decarbonization",
           ],
     alternates: {
       canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}carbono`,
@@ -322,6 +334,74 @@ export default async function CarbonoPage({
           </div>
         </Card>
 
+        {/* FAQ Section */}
+        <Card className="mb-8">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">
+            {locale === "pt" ? "Perguntas Frequentes" : locale === "en" ? "Frequently Asked Questions" : "Preguntas Frecuentes"}
+          </h3>
+          <div className="space-y-4">
+            <details className="group">
+              <summary className="flex items-center justify-between cursor-pointer p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <span className="font-medium text-gray-900 dark:text-white">
+                  {locale === "pt" ? "O que são créditos de carbono?" : locale === "en" ? "What are carbon credits?" : "¿Qué son los créditos de carbono?"}
+                </span>
+                <span className="transition group-open:rotate-180">
+                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p className="text-gray-600 dark:text-gray-400 mt-3 px-4">
+                {locale === "pt"
+                  ? "Créditos de carbono são certificados que representam a remoção ou evitação de 1 tonelada de CO2 equivalente da atmosfera. Empresas compram esses créditos para compensar emissões que não conseguem eliminar, alcançando neutralidade carbônica."
+                  : locale === "en"
+                  ? "Carbon credits are certificates representing the removal or avoidance of 1 tonne of CO2 equivalent from the atmosphere. Companies purchase these credits to offset emissions they cannot eliminate, achieving carbon neutrality."
+                  : "Los créditos de carbono son certificados que representan la remoción o evitación de 1 tonelada de CO2 equivalente de la atmósfera. Las empresas compran estos créditos para compensar emisiones que no pueden eliminar, alcanzando neutralidad de carbono."}
+              </p>
+            </details>
+
+            <details className="group">
+              <summary className="flex items-center justify-between cursor-pointer p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <span className="font-medium text-gray-900 dark:text-white">
+                  {locale === "pt" ? "Como funciona o mercado de carbono?" : locale === "en" ? "How does the carbon market work?" : "¿Cómo funciona el mercado de carbono?"}
+                </span>
+                <span className="transition group-open:rotate-180">
+                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p className="text-gray-600 dark:text-gray-400 mt-3 px-4">
+                {locale === "pt"
+                  ? "O mercado de carbono pode ser regulado (compliance) ou voluntário. No regulado, empresas obrigadas por lei a reduzir emissões compram créditos. No voluntário, empresas adquirem créditos para metas ESG. Projetos de reflorestamento, energia renovável e captura de metano geram os créditos."
+                  : locale === "en"
+                  ? "The carbon market can be compliance or voluntary. In compliance markets, companies legally required to reduce emissions purchase credits. In voluntary markets, companies acquire credits for ESG goals. Reforestation, renewable energy, and methane capture projects generate the credits."
+                  : "El mercado de carbono puede ser regulado (cumplimiento) o voluntario. En el regulado, empresas obligadas por ley a reducir emisiones compran créditos. En el voluntario, empresas adquieren créditos para metas ESG. Proyectos de reforestación, energía renovable y captura de metano generan los créditos."}
+              </p>
+            </details>
+
+            <details className="group">
+              <summary className="flex items-center justify-between cursor-pointer p-4 bg-gray-50 dark:bg-gray-800 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <span className="font-medium text-gray-900 dark:text-white">
+                  {locale === "pt" ? "Quais são os principais certificadores?" : locale === "en" ? "Who are the main certifiers?" : "¿Quiénes son los principales certificadores?"}
+                </span>
+                <span className="transition group-open:rotate-180">
+                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p className="text-gray-600 dark:text-gray-400 mt-3 px-4">
+                {locale === "pt"
+                  ? "Verra (VCS) e Gold Standard são os maiores certificadores globais. No Brasil, o RenovaBio regula o mercado de biocombustíveis. ACR (American Carbon Registry) e CAR (Climate Action Reserve) também atuam no mercado voluntário americano."
+                  : locale === "en"
+                  ? "Verra (VCS) and Gold Standard are the largest global certifiers. In Brazil, RenovaBio regulates the biofuel market. ACR (American Carbon Registry) and CAR (Climate Action Reserve) also operate in the American voluntary market."
+                  : "Verra (VCS) y Gold Standard son los mayores certificadores globales. En Brasil, RenovaBio regula el mercado de biocombustibles. ACR (American Carbon Registry) y CAR (Climate Action Reserve) también operan en el mercado voluntario americano."}
+              </p>
+            </details>
+          </div>
+        </Card>
+
         <div className="mt-6 flex items-center justify-between">
           <LastUpdated dataFile="carbono" />
         </div>
@@ -332,6 +412,61 @@ export default async function CarbonoPage({
         />
       </main>
       <Footer />
+
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Dataset",
+                "@id": "https://sintropia.space/carbono#dataset",
+                "name": locale === "pt" ? "Rankings e Dados do Mercado de Carbono" : locale === "en" ? "Carbon Market Rankings and Data" : "Rankings y Datos del Mercado de Carbono",
+                "description": locale === "pt"
+                  ? "Conjunto de dados abrangente sobre o mercado de créditos de carbono, incluindo rankings das principais empresas e projetos do Brasil e do mundo, volumes de compensação, preços por tonelada de CO2 e análise por setor de atuação."
+                  : locale === "en"
+                  ? "Comprehensive dataset on the carbon credit market, including rankings of leading companies and projects in Brazil and worldwide, offset volumes, pricing per tonne of CO2, and sectoral analysis."
+                  : "Conjunto de datos completo sobre el mercado de créditos de carbono, incluyendo rankings de las principales empresas y proyectos de Brasil y el mundo, volúmenes de compensación, precios por tonelada de CO2 y análisis sectorial.",
+                "url": `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}carbono`,
+                "datePublished": "2025-01-01",
+                "dateModified": new Date().toISOString().split("T")[0],
+                "creator": {
+                  "@type": "Organization",
+                  "name": "Sintropia",
+                  "url": "https://sintropia.space"
+                },
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "Sintropia",
+                  "url": "https://sintropia.space",
+                  "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://sintropia.space/logo.png"
+                  }
+                },
+                "license": "https://creativecommons.org/licenses/by/4.0/",
+                "distribution": {
+                  "@type": "DataDownload",
+                  "contentUrl": "https://sintropia.space/dados/dados.md",
+                  "encodingFormat": "text/markdown"
+                },
+                "spatialCoverage": {
+                  "@type": "Place",
+                  "name": locale === "pt" ? "Brasil e Global" : locale === "en" ? "Brazil and Global" : "Brasil y Global"
+                },
+                "temporalCoverage": "2024/2026",
+                "variableMeasured": [
+                  locale === "pt" ? "Volume de Créditos de Carbono" : locale === "en" ? "Carbon Credit Volume" : "Volumen de Créditos de Carbono",
+                  locale === "pt" ? "Preço por tCO2e" : locale === "en" ? "Price per tCO2e" : "Precio por tCO2e",
+                  locale === "pt" ? "Ranking de Projetos" : locale === "en" ? "Project Ranking" : "Ranking de Proyectos"
+                ]
+              }
+            ]
+          })
+        }}
+      />
     </>
   );
 }
