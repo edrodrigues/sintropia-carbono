@@ -144,18 +144,43 @@ export default async function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "Organization",
+                "@id": "https://sintropia.space/#organization",
                 "name": "Sintropia",
+                "alternateName": ["Sintropia Carbon Intelligence", "Sintropy Space"],
                 "url": "https://sintropia.space",
-                "description": "Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e energia renovável.",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://sintropia.space/logo.png",
+                  "width": 512,
+                  "height": 512
+                },
+                "description": locale === 'pt' 
+                  ? "Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e energia renovável."
+                  : locale === 'en'
+                  ? "Collaborative intelligence dashboard on carbon credits and renewable energy markets."
+                  : "Panel de inteligencia colaborativa sobre el mercado de créditos de carbono y energía renovable.",
                 "sameAs": [
-                  "https://github.com/edrodrigues/sintropia-carbono"
+                  "https://github.com/edrodrigues/sintropia-carbono",
+                  "https://x.com/sintropyspace",
+                  "https://www.linkedin.com/company/future-ready-labs-br"
                 ],
                 "contactPoint": {
                   "@type": "ContactPoint",
-                  "contactType": "community",
-                  "url": "https://sintropia.space/feed"
+                  "contactType": "customer service",
+                  "email": "edmilson.rodrigues@futurereadylabs.com.br",
+                  "availableLanguage": ["Portuguese", "English", "Spanish"]
                 },
-                "logo": "https://sintropia.space/favicon.svg"
+                "foundingDate": "2024",
+                "founders": [{
+                  "@type": "Person",
+                  "name": "Edmilson Rodrigues"
+                }],
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Recife",
+                  "addressRegion": "Pernambuco",
+                  "addressCountry": "BR"
+                }
               })
             }}
           />
