@@ -120,6 +120,9 @@ export default async function SetoresPage({
     return companies.map((c) => ({
       setor: sector.setor,
       empresa: c.empresa,
+      vol2024: c.volume_2024
+        ? (c.volume_2024 / 1000).toFixed(0) + "K"
+        : "-",
       vol2025: c.volume_2025
         ? (c.volume_2025 / 1000).toFixed(0) + "K"
         : "-",
@@ -225,6 +228,7 @@ export default async function SetoresPage({
             columns={[
               { key: "setor", header: tTable("sector") },
               { key: "empresa", header: tTable("company") },
+              { key: "vol2024", header: tTable("vol2024"), align: "right" },
               { key: "vol2025", header: tTable("vol2025"), align: "right" },
               { key: "delta", header: tTable("delta"), align: "right" },
             ]}
