@@ -1026,19 +1026,19 @@
         },
         "insights": {
             "leaderTitle": "Comerc Leads Brazil",
-            "leaderDesc": "Comerc Energia maintains its leadership in the Brazilian market, with a volume exceeding 8 million I-RECs in 2024.",
-            "growthTitle": "Generator Expansion",
-            "growthDesc": "Large generators such as Engie, Auren and Eletrobras consolidate their role as main issuers and sellers.",
-            "sectorTitle": "Retail Sector",
-            "sectorDesc": "Retail and technology companies increased I-REC demand by 30% for 100% renewable energy goals."
+            "leaderDesc": "Comerc Energia maintains absolute leadership in the Brazilian market, trading 10.4 million I-RECs in 2025 (30% growth vs 2024).",
+            "growthTitle": "Market Consolidation",
+            "growthDesc": "The top 5 companies concentrate 45% of total volume, with Comerc, Raízen and Engie Brasil dominating the ranking.",
+            "sectorTitle": "Sector Diversity",
+            "sectorDesc": "Beyond the energy sector, mining (Vale), steel (Gerdau) and paper (Klabin, Suzano) companies are major consumers."
         },
         "worldInsights": {
             "leaderTitle": "Statkraft Leads Globally",
-            "leaderDesc": "Statkraft consolidated its position as the largest global I-REC trader, reaching 30.2 TWh in 2025.",
-            "growthTitle": "Market at Scale",
-            "growthDesc": "The volume of Top 10 global traders grew by an average of 25%, reflecting the maturity of energy certificates.",
-            "sectorTitle": "Diversification",
-            "sectorDesc": "Trading houses specialized in environmental assets (STX, ACT) are gaining ground against direct buyers."
+            "leaderDesc": "Statkraft consolidated its position as the largest global I-REC trader, reaching 30.2 TWh (30.2 million I-RECs) in 2025.",
+            "growthTitle": "Expanding Market",
+            "growthDesc": "The volume of Top 10 global traders grew by an average of 21.7%, with Tata Power (+31.8%) and Shell Energy (+26.5%) standing out.",
+            "sectorTitle": "Brazilian Presence",
+            "sectorDesc": "Brazilian companies such as Auren, Itaipu, CPFL Renováveis and Omega Energia rank among the top 20 global traders."
         },
         "setoresPage": {
             "title": "Sector Analysis",

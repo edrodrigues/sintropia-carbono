@@ -1026,19 +1026,19 @@
         },
         "insights": {
             "leaderTitle": "Comerc Lidera Brasil",
-            "leaderDesc": "A Comerc Energia mantém a liderança no mercado brasileiro, com um volume superior a 8 milhões de I-RECs em 2024.",
-            "growthTitle": "Expansão de Geradores",
-            "growthDesc": "Grandes geradores como Engie, Auren e Eletrobras consolidam sua atuação como principais emissores e vendedores.",
-            "sectorTitle": "Setor de Varejo",
-            "sectorDesc": "Empresas de varejo e tecnologia aumentaram em 30% a demanda por I-RECs para metas de energia 100% renovável."
+            "leaderDesc": "A Comerc Energia mantém a liderança absoluta no mercado brasileiro, negociando 10,4 milhões de I-RECs em 2025 (crescimento de 30% vs 2024).",
+            "growthTitle": "Consolidação do Mercado",
+            "growthDesc": "As 5 maiores empresas concentram 45% do volume total, com Comerc, Raízen e Engie Brasil dominando o ranking.",
+            "sectorTitle": "Diversidade de Setores",
+            "sectorDesc": "Além do setor energético, empresas de mineração (Vale), siderurgia (Gerdau) e papel (Klabin, Suzano) são grandes consumidoras."
         },
         "worldInsights": {
             "leaderTitle": "Statkraft Lidera Global",
-            "leaderDesc": "A Statkraft consolidou sua posição como a maior negociadora global de I-RECs, atingindo 30.2 TWh em 2025.",
-            "growthTitle": "Mercado em Escala",
-            "growthDesc": "O volume dos Top 10 negociadores globais cresceu em média 25%, refletindo a maturidade dos certificados de energia.",
-            "sectorTitle": "Diversificação",
-            "sectorDesc": "Trading houses especializadas em ativos ambientais (STX, ACT) ganham espaço frente aos compradores diretos."
+            "leaderDesc": "A Statkraft consolidou sua posição como a maior negociadora global de I-RECs, atingindo 30.2 TWh (30,2 milhões de I-RECs) em 2025.",
+            "growthTitle": "Mercado em Expansão",
+            "growthDesc": "O volume dos Top 10 negociadores globais cresceu em média 21,7%, com destaque para Tata Power (+31,8%) e Shell Energy (+26,5%).",
+            "sectorTitle": "Presença Brasileira",
+            "sectorDesc": "Empresas brasileiras como Auren, Itaipu, CPFL Renováveis e Omega Energia figuram entre os 20 maiores negociadores globais."
         },
         "setoresPage": {
             "title": "Análise por Setor",
