@@ -7,6 +7,8 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from "@/i18n/routing";
 import { HeroTitle } from "@/components/home/HeroTitle";
 import Image from "next/image";
+import { FAQSchema } from '@/components/seo/FAQSchema';
+import { homeFAQs } from '@/lib/seo/faq-data';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -44,6 +46,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
   return (
     <>
+      <FAQSchema items={homeFAQs[locale as keyof typeof homeFAQs] || homeFAQs.pt} pageName="home" />
       <Header />
       <main id="main-content" className="w-full" tabIndex={-1}>
         {/* Hero Section */}
