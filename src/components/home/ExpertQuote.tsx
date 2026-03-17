@@ -2,13 +2,6 @@
 
 import { Quote } from 'lucide-react';
 
-interface QuoteData {
-  text: string;
-  author: string;
-  role: string;
-  organization: string;
-}
-
 const quotes = {
   pt: {
     text: 'O mercado de créditos de carbono é uma ferramenta essencial para mobilizar financiamento privado para ação climática. Com transparência e integridade, pode acelerar significativamente nossa transição para uma economia de baixo carbono.',
