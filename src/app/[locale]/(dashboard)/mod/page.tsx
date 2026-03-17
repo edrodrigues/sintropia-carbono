@@ -216,27 +216,25 @@ export default async function ModDashboard() {
 
         <ModSearch />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
-              <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                Denúncias Pendentes
-              </h2>
-              <span className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs font-bold rounded-full">
-                {pendingCount || 0} novas
-              </span>
-            </div>
-            <ReportsList reports={(pendingReports || []) as Report[]} />
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+              Usuários Recentes
+            </h2>
           </div>
+          <UsersList />
+        </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                Usuários Recentes
-              </h2>
-            </div>
-            <UsersList />
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+              Denúncias Recentes
+            </h2>
+            <span className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs font-bold rounded-full">
+              {pendingCount || 0} pendentes
+            </span>
           </div>
+          <ReportsList reports={(pendingReports || []) as Report[]} />
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">

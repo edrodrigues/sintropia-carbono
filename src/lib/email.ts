@@ -293,3 +293,32 @@ export async function sendNotificationEmail(
   const html = buildEmail(subject, `<p>${content}</p>`, APP_URL, 'Acessar');
   return sendEmail(email, subject, html);
 }
+
+// E-mail de Incentivo ao Completar o Perfil
+export async function sendProfileCompletionEmail(email: string, name: string) {
+  const title = 'Destaque-se na Comunidade Sintropia! 🌿';
+  const content = `
+    <p>Olá ${name},</p>
+    <p>Notamos que seu perfil ainda está em fase inicial. Na Sintropia, acreditamos que a transparência e o networking são fundamentais para fortalecer o mercado de carbono e energias renováveis.</p>
+    
+    <h3>Por que completar seu perfil?</h3>
+    <ul>
+      <li><strong>Credibilidade:</strong> Perfis completos geram mais confiança em discussões na comunidade.</li>
+      <li><strong>Networking:</strong> Facilite que outros profissionais e empresas encontrem você.</li>
+      <li><strong>Visibilidade:</strong> Suas contribuições (posts e comentários) ganham mais destaque com foto e biografia.</li>
+      <li><strong>Oportunidades:</strong> Exiba sua organização e cargo para atrair parcerias estratégicas.</li>
+    </ul>
+
+    <h3>O que você pode adicionar:</h3>
+    <ul>
+      <li><strong>Nome de Exibição:</strong> Como você quer ser chamado na plataforma.</li>
+      <li><strong>Bio:</strong> Uma breve descrição de sua atuação no mercado sustentável.</li>
+      <li><strong>Cargo e Organização:</strong> Compartilhe onde você atua e sua área de expertise.</li>
+      <li><strong>LinkedIn:</strong> Conecte sua rede profissional diretamente.</li>
+    </ul>
+
+    <p>É rápido e faz toda a diferença para sua jornada na nossa plataforma!</p>
+  `;
+  const html = buildEmail(title, content, `${APP_URL}/profile/edit`, 'Completar meu perfil');
+  return sendEmail(email, title, html);
+}

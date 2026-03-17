@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -10,25 +10,52 @@ import { PromoteButton } from "./PromoteButton";
 import { WarnUserButton } from "./WarnUserButton";
 import { BanUserButton } from "./BanUserButton";
 
+const USERS_PER_PAGE = 10;
+
 export function UsersList() {
   const [users, setUsers] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const [page, setPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const supabaseRef = useRef(createClient());
+
+  const totalPages = Math.ceil(totalCount / USERS_PER_PAGE);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      const { data } = await supabase
+    let cancelled = false;
+
+    async function load() {
+      setLoading(true);
+      const from = (page - 1) * USERS_PER_PAGE;
+      const to = from + USERS_PER_PAGE - 1;
+
+      const { data, count } = await supabaseRef.current
         .from("profiles")
-        .select("*")
+        .select("*", { count: "exact" })
         .order("created_at", { ascending: false })
-        .limit(20);
+        .range(from, to);
 
-      if (data) setUsers(data);
+      if (cancelled) return;
+      if (data) {
+        setUsers(data);
+        setTotalCount(count || 0);
+      }
       setLoading(false);
-    };
+    }
 
-    fetchUsers();
-  }, [supabase]);
+    load();
+    return () => { cancelled = true; };
+  }, [page]);
+
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
 
   const getRoleBadge = (role: string) => {
     switch (role) {
@@ -80,48 +107,80 @@ export function UsersList() {
   }
 
   return (
-    <div className="divide-y divide-gray-200 dark:divide-gray-700">
-      {users.map((user) => (
-        <div key={user.id} className="p-4 flex items-center justify-between">
-          <Link href={`/u/${user.username}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[1.5px] shadow-sm flex-shrink-0">
-              <div className="w-full h-full rounded-[0.55rem] bg-white dark:bg-gray-900 flex items-center justify-center text-xl overflow-hidden relative">
-                {user.avatar_url ? (
-                  <Image
-                    src={user.avatar_url}
-                    alt={user.username}
-                    fill
-                    className="object-cover"
-                  />
-                ) : (
-                  getUserTypeIcon(user.user_type)
-                )}
+    <div>
+      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        {users.map((user) => (
+          <div key={user.id} className="p-4 flex items-center justify-between">
+            <Link href={`/u/${user.username}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity flex-1 min-w-0">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[1.5px] shadow-sm flex-shrink-0">
+                <div className="w-full h-full rounded-[0.55rem] bg-white dark:bg-gray-900 flex items-center justify-center text-xl overflow-hidden relative">
+                  {user.avatar_url ? (
+                    <Image
+                      src={user.avatar_url}
+                      alt={user.username}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    getUserTypeIcon(user.user_type)
+                  )}
+                </div>
               </div>
+              <div className="min-w-0">
+                <p className="font-medium text-gray-900 dark:text-gray-100 truncate">
+                  @{user.username}
+                </p>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-xs text-gray-400">
+                    {user.karma} karma
+                  </span>
+                  {getRoleBadge(user.role || "user")}
+                </div>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  Inscrito em {formatDate(user.created_at)}
+                </p>
+              </div>
+            </Link>
+            <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+              <PromoteButton
+                userId={user.id}
+                username={user.username}
+                currentRole={user.role || "user"}
+              />
+              {user.role !== "banned" && user.role !== "admin" && (
+                <>
+                  <WarnUserButton userId={user.id} username={user.username} />
+                  <BanUserButton userId={user.id} username={user.username} />
+                </>
+              )}
             </div>
-            <div>
-              <p className="font-medium text-gray-900 dark:text-gray-100">
-                @{user.username}
-              </p>
-              <p className="text-xs text-gray-400">
-                {user.karma} karma • {getRoleBadge(user.role || "user")}
-              </p>
-            </div>
-          </Link>
+          </div>
+        ))}
+      </div>
+      
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            Página {page} de {totalPages} • {totalCount} usuários
+          </div>
           <div className="flex items-center gap-2">
-            <PromoteButton
-              userId={user.id}
-              username={user.username}
-              currentRole={user.role || "user"}
-            />
-            {user.role !== "banned" && user.role !== "admin" && (
-              <WarnUserButton userId={user.id} username={user.username} />
-            )}
-            {user.role !== "banned" && user.role !== "admin" && (
-              <BanUserButton userId={user.id} username={user.username} />
-            )}
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
+            >
+              Anterior
+            </button>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+              className="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
+            >
+              Próxima
+            </button>
           </div>
         </div>
-      ))}
+      )}
     </div>
   );
 }
