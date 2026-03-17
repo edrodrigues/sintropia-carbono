@@ -153,7 +153,7 @@ export default async function RootLayout({
                 "contactPoint": {
                   "@type": "ContactPoint",
                   "contactType": "community",
-                  "url": "https://sintropia.space/feed"
+                  "url": `https://sintropia.space/${locale}/feed`
                 },
                 "logo": "https://sintropia.space/favicon.svg"
               })
@@ -171,7 +171,7 @@ export default async function RootLayout({
                 "description": "Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e energia renovável.",
                 "potentialAction": {
                   "@type": "SearchAction",
-                  "target": "https://sintropia.space/feed?q={search_term_string}",
+                  "target": `https://sintropia.space/${locale}/feed?q={search_term_string}`,
                   "query-input": "required name=search_term_string"
                 }
               })
