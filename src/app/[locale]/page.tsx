@@ -1,6 +1,8 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CommunityFeed } from "@/components/home/CommunityFeed";
+import { StatisticsSection } from "@/components/home/StatisticsSection";
+import { ExpertQuote } from "@/components/home/ExpertQuote";
 import { createClient } from "@/lib/supabase/server";
 import { getUserTypeIcon } from "@/lib/utils/user";
 import { getTranslations } from 'next-intl/server';
@@ -114,6 +116,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             ))}
           </div>
         </section>
+
+        {/* Statistics Section */}
+        <StatisticsSection locale={locale} />
+
+        {/* Expert Quote */}
+        <ExpertQuote locale={locale} />
 
         {/* Explore Categories */}
         <section className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 py-12 lg:py-24">
