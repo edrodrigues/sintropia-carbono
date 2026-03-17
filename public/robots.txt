@@ -1,4 +1,31 @@
 # https://sintropia.space/robots.txt
+
+# AI Crawlers - Allow access for search and citation
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# General crawlers
 User-agent: *
 Allow: /
 
@@ -8,13 +35,14 @@ Disallow: /admin/
 Disallow: /_next/static/
 Disallow: /dashboard
 Disallow: /profile
-Disallow: /feed
 Disallow: /profiles
 Disallow: /leaderboard
 Disallow: /conquistas
 Disallow: /mod
 Disallow: /posts
 Disallow: /u/
+
+# Feed pages are allowed - community news and updates
 
 # Sitemap
 Sitemap: https://sintropia.space/sitemap.xml
