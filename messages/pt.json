@@ -55,6 +55,11 @@
             "indexSREC": "Índice S-REC (Semanal)",
             "vsLastMonth": "vs mês passado",
             "pts": "pts"
+        },
+        "marketStats": {
+            "title": "Dados do Mercado de Carbono",
+            "subtitle": "Dados autoritativos de fontes confiáveis do setor",
+            "disclaimer": "* Dados de 2025. Fontes: Banco Mundial, Ecosystem Marketplace, SFB, IEA"
         }
     },
     "Navigation": {
@@ -182,6 +187,9 @@
     },
     "LanguageSwitcher": {
         "label": "Idioma"
+    },
+    "stats": {
+        "source": "Fonte"
     },
     "Common": {
         "loading": "Carregando...",
