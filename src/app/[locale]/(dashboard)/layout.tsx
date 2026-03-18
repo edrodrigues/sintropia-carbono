@@ -3,6 +3,8 @@ import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { StreakUpdater } from "@/components/gamification/StreakUpdater";
 
+export const dynamic = "force-dynamic";
+
 export default function DashboardLayout({
   children,
 }: {

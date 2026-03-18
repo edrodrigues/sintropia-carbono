@@ -197,7 +197,6 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
     const handleDelete = async () => {
         setLoading(true);
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const { error: deleteError } = await (supabase.rpc as any)("delete_post", { post_id: post.id });
 
         if (deleteError) {

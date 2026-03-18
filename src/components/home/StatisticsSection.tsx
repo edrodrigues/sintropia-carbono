@@ -8,7 +8,6 @@ interface StatItem {
 }
 
 export async function StatisticsSection({ locale }: { locale: string }) {
-  const t = await getTranslations('Index');
   const tStats = await getTranslations('stats');
 
   // Locale-aware statistics data

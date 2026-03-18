@@ -37,7 +37,6 @@ export async function POST() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (supabase.rpc as any)('update_user_streak', {
       p_user_id: user.id,
     });

@@ -1,34 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server';
+import type { Database } from '@/types/supabase';
+import { requireAdminApiAccess } from '@/lib/auth/server';
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
+import { carbonCreditUploadSchema } from '@/lib/validation/carbon-plan';
+
+type CarbonCreditInsert = Database['public']['Tables']['carbon_credits']['Insert'];
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { data } = body;
+    const access = await requireAdminApiAccess();
+    if (!access.ok) {
+      return access.response;
+    }
 
-    if (!data || !Array.isArray(data)) {
-      return NextResponse.json({ error: 'Invalid data format' }, { status: 400 });
+    const parsed = carbonCreditUploadSchema.safeParse(await request.json());
+    if (!parsed.success) {
+      return NextResponse.json(
+        {
+          details: parsed.error.flatten(),
+          error: 'Invalid data format',
+        },
+        { status: 400 },
+      );
     }
 
     const supabase = getSupabaseAdmin();
-
-    // Transform and insert data
-    const credits = data.map((row: Record<string, string>) => ({
-      project_id: row.project_id?.toString() || '',
-      quantity: parseInt(row.quantity) || 0,
-      vintage: parseInt(row.vintage) || 0,
-      transaction_date: row.transaction_date ? new Date(row.transaction_date).toISOString() : null,
-      transaction_type: row.transaction_type || '',
-      retirement_account: row.retirement_account || '',
-      retirement_beneficiary: row.retirement_beneficiary || '',
-      retirement_beneficiary_harmonized: row.retirement_beneficiary_harmonized || '',
-      retirement_note: row.retirement_note || '',
-      retirement_reason: row.retirement_reason || '',
+    const credits: CarbonCreditInsert[] = parsed.data.data.map((row) => ({
+      project_id: row.project_id ?? null,
+      quantity: row.quantity,
+      retirement_account: row.retirement_account ?? null,
+      retirement_beneficiary: row.retirement_beneficiary ?? null,
+      retirement_beneficiary_harmonized:
+        row.retirement_beneficiary_harmonized ?? null,
+      retirement_note: row.retirement_note ?? null,
+      retirement_reason: row.retirement_reason ?? null,
+      transaction_date: row.transaction_date ?? null,
+      transaction_type: row.transaction_type ?? null,
+      vintage: row.vintage ?? null,
     }));
 
-    // Insert credits (using any to bypass type issues)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (supabase.from('carbon_credits') as any)
+    const { error } = await supabase
+      .from('carbon_credits')
       .insert(credits)
       .select();
 

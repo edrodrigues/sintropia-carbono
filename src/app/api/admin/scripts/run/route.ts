@@ -1,7 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 import { spawn } from "child_process";
 import path from "path";
+
+import { requireAdminApiAccess } from "@/lib/auth/server";
 
 export const dynamic = "force-dynamic";
 
@@ -21,23 +22,9 @@ const ALLOWED_SCRIPTS = [
 
 export async function POST(request: Request) {
   try {
-    const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (profile?.role !== "admin") {
-      return new NextResponse("Forbidden", { status: 403 });
+    const access = await requireAdminApiAccess();
+    if (!access.ok) {
+      return access.response;
     }
 
     const { script, args = [] } = await request.json();
