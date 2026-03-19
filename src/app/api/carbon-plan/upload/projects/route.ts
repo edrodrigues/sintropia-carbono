@@ -1,41 +1,52 @@
 import { NextRequest, NextResponse } from 'next/server';
+import type { Database } from '@/types/supabase';
+import { requireAdminApiAccess } from '@/lib/auth/server';
 import { getSupabaseAdmin } from '@/lib/supabase/admin';
+import { carbonProjectUploadSchema } from '@/lib/validation/carbon-plan';
+
+type CarbonProjectInsert = Database['public']['Tables']['carbon_projects']['Insert'];
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { data } = body;
+    const access = await requireAdminApiAccess();
+    if (!access.ok) {
+      return access.response;
+    }
 
-    if (!data || !Array.isArray(data)) {
-      return NextResponse.json({ error: 'Invalid data format' }, { status: 400 });
+    const parsed = carbonProjectUploadSchema.safeParse(await request.json());
+    if (!parsed.success) {
+      return NextResponse.json(
+        {
+          details: parsed.error.flatten(),
+          error: 'Invalid data format',
+        },
+        { status: 400 },
+      );
     }
 
     const supabase = getSupabaseAdmin();
-
-    // Transform and insert data
-    const projects = data.map((row: Record<string, string>) => ({
-      project_id: row.project_id?.toString() || '',
-      name: row.name || '',
-      category: row.category || 'unknown',
-      country: row.country || '',
-      project_type: row.project_type || '',
-      project_type_source: row.project_type_source || '',
-      project_url: row.project_url || '',
-      proponent: row.proponent || '',
-      protocol: row.protocol || '',
-      registry: row.registry || '',
-      status: row.status || 'listed',
-      is_compliance: row.is_compliance === 'True' || row.is_compliance === 'true',
-      issued: parseInt(row.issued) || 0,
-      retired: parseInt(row.retired) || 0,
-      first_issuance_at: row.first_issuance_at ? new Date(row.first_issuance_at).toISOString() : null,
-      first_retirement_at: row.first_retirement_at ? new Date(row.first_retirement_at).toISOString() : null,
-      listed_at: row.listed_at ? new Date(row.listed_at).toISOString() : null,
+    const projects: CarbonProjectInsert[] = parsed.data.data.map((row) => ({
+      category: row.category ?? 'unknown',
+      country: row.country,
+      first_issuance_at: row.first_issuance_at,
+      first_retirement_at: row.first_retirement_at,
+      is_compliance: row.is_compliance,
+      issued: row.issued ?? 0,
+      listed_at: row.listed_at,
+      name: row.name,
+      project_id: row.project_id,
+      project_type: row.project_type,
+      project_type_source: row.project_type_source,
+      project_url: row.project_url,
+      proponent: row.proponent,
+      protocol: row.protocol,
+      registry: row.registry,
+      retired: row.retired ?? 0,
+      status: row.status ?? 'listed',
     }));
 
-    // Use upsert to handle existing records (using any to bypass type issues)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (supabase.from('carbon_projects') as any)
+    const { error } = await supabase
+      .from('carbon_projects')
       .upsert(projects, { 
         onConflict: 'project_id',
         ignoreDuplicates: false 

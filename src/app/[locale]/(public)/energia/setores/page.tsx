@@ -71,7 +71,7 @@ export default async function SetoresPage({
 }) {
   const { locale } = await params;
 
-  const [brasilStakeholders, mundoStakeholders, brasilSectors, mundoSectors] =
+  const [brasilStakeholders, _mundoStakeholders, brasilSectors, mundoSectors] =
     await Promise.all([
       getIrecStakeholders("brazil"),
       getIrecStakeholders("world"),
@@ -79,7 +79,6 @@ export default async function SetoresPage({
       getIrecSectorDistribution("world"),
     ]);
 
-  const t = await getTranslations({ locale, namespace: "Energia" });
   const tSetores = await getTranslations({
     locale,
     namespace: "Energia.setoresPage",

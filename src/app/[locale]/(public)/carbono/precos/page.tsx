@@ -41,8 +41,6 @@ export default async function CarbonoPrecosPage({ params }: { params: Promise<{ 
   const tQuality = await getTranslations({ locale, namespace: 'CarbonoPrecos.qualityLevels' });
   const tBrazil = await getTranslations({ locale, namespace: 'CarbonoPrecos.brazil' });
   const tGlossary = await getTranslations({ locale, namespace: 'CarbonoPrecos.glossaryTerms' });
-  const tRegulated = await getTranslations({ locale, namespace: 'CarbonoPrecos.regulatedMarkets' });
-  
   // Use DB data with fallback
   const compliancePrices = dbPrices.filter(p => p.market_type === 'compliance');
   const voluntaryPrices = dbPrices.filter(p => p.market_type === 'voluntary');

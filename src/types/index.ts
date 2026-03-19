@@ -99,7 +99,7 @@ export interface Ban {
     created_at: string | null;
 }
 
-export type NotificationType = 'streak_reset' | 'bonus_unlocked' | 'achievement' | 'streak_warning' | 'system';
+export type NotificationType = 'achievement' | 'system';
 
 export interface Notification {
     id: string;

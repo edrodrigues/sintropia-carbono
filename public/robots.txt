@@ -8,13 +8,14 @@ Disallow: /admin/
 Disallow: /_next/static/
 Disallow: /dashboard
 Disallow: /profile
-Disallow: /feed
 Disallow: /profiles
 Disallow: /leaderboard
 Disallow: /conquistas
 Disallow: /mod
 Disallow: /posts
 Disallow: /u/
+
+# Feed pages are allowed - community news and updates
 
 # Sitemap
 Sitemap: https://sintropia.space/sitemap.xml

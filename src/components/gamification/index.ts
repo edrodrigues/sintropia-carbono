@@ -1,1 +1,1 @@
-export { StreakBadge, StreakDisplay } from './StreakBadge';
+// Gamification exports - streak features removed

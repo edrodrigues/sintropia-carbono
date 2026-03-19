@@ -1,24 +1,38 @@
-import { createClient } from '@/lib/supabase/server';
 import { Metadata } from 'next';
+import { notFound, redirect } from 'next/navigation';
+
+import { getServerAuthContext, isDevelopmentEnvironment } from '@/lib/auth/server';
 
 export const metadata: Metadata = {
     title: 'Debug | Sintropia',
 };
 
-export default async function DebugPage() {
-    const supabase = await createClient();
-    // eslint-disable-next-line react-hooks/purity
-    const start = Date.now();
+export default async function DebugPage({
+    params,
+}: {
+    params: Promise<{ locale: string }>;
+}) {
+    if (!isDevelopmentEnvironment()) {
+        notFound();
+    }
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const { locale } = await params;
+    const { supabase, user, role } = await getServerAuthContext();
+
+    if (!user) {
+        redirect(`/${locale}/login`);
+    }
+
+    if (role !== 'admin') {
+        notFound();
+    }
     
     const profile = user 
         ? await supabase.from('profiles').select('*').eq('id', user.id).single()
         : { data: null };
 
     const timings = {
-        // eslint-disable-next-line react-hooks/purity
-        total: Date.now() - start,
+        total: 'n/a',
     };
 
     return (
@@ -57,14 +71,12 @@ export default async function DebugPage() {
                                     id: user.id,
                                     email: user.email,
                                     email_confirmed_at: user.email_confirmed_at,
+                                    role,
                                 }, null, 2)}
                             </pre>
                         </div>
                     ) : (
                         <p className="text-yellow-400">Not authenticated</p>
-                    )}
-                    {authError && (
-                        <p className="text-red-400 mt-2">Error: {authError.message}</p>
                     )}
                 </div>
 

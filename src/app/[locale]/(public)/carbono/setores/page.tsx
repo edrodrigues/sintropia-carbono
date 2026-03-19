@@ -71,7 +71,7 @@ export default async function SetoresPage({
 }) {
   const { locale } = await params;
 
-  const [brasilStakeholders, mundoStakeholders, brasilSectors, mundoSectors] =
+  const [brasilStakeholders, _mundoStakeholders, brasilSectors, mundoSectors] =
     await Promise.all([
       getCarbonStakeholders("brazil"),
       getCarbonStakeholders("world"),
@@ -79,7 +79,6 @@ export default async function SetoresPage({
       getCarbonSectorDistribution("world"),
     ]);
 
-  const t = await getTranslations({ locale, namespace: "Carbono" });
   const tSetores = await getTranslations({
     locale,
     namespace: "Carbono.setoresPage",
