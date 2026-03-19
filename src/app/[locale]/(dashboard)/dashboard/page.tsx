@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { calculateAchievements } from '@/lib/achievements';
 import { AchievementList } from '@/components/profile/AchievementBadges';
-import { getStreakBonus } from '@/types/gamification';
 import { getTranslations } from 'next-intl/server';
 import { InviteSection } from '@/components/dashboard/InviteSection';
 
@@ -98,16 +97,6 @@ const CodeIcon = ({ className }: { className?: string }) => (
     </svg>
 );
 
-// Get SVG icon based on streak
-const getStreakIcon = (streak: number) => {
-    if (streak === 0) return <SleepingIcon className="w-8 h-8 text-gray-400" />;
-    if (streak < 3) return <FireIcon className="w-8 h-8 text-orange-500" />;
-    if (streak < 7) return <FireIcon className="w-8 h-8 text-orange-500" />;
-    if (streak < 14) return <FireIcon className="w-8 h-8 text-red-500" />;
-    if (streak < 30) return <FireIcon className="w-8 h-8 text-red-600" />;
-    return <TrophyIcon className="w-8 h-8 text-yellow-500" />;
-};
-
 // Type definition for profile
 interface Profile {
     id: string;
@@ -136,7 +125,6 @@ export default async function DashboardPage() {
     const t = await getTranslations('Dashboard');
     const tProfile = await getTranslations('Dashboard.profile');
     const tStats = await getTranslations('Dashboard.stats');
-    const tStreak = await getTranslations('Dashboard.streak');
     const tGamification = await getTranslations('Dashboard.gamification');
     const tAchievements = await getTranslations('Dashboard.achievements');
     const tContribute = await getTranslations('Dashboard.contribute');
@@ -166,12 +154,6 @@ export default async function DashboardPage() {
         .select('id', { count: 'exact', head: true })
         .eq('author_id', user.id)
         .eq('is_deleted', false);
-
-    const { data: streakData } = await supabase
-        .from('user_streaks')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
 
     const { count: higherKarmaCount } = await supabase
         .from('profiles')
@@ -227,8 +209,7 @@ export default async function DashboardPage() {
         commentCount: totalComments || 0,
         upvotesReceived: 0,
         hasLinkedIn: !!profile?.linkedin_url,
-        createdAt: profile?.created_at || new Date().toISOString(),
-        streakDays: streakData?.current_streak || 0
+        createdAt: profile?.created_at || new Date().toISOString()
     });
 
     return (
@@ -280,60 +261,6 @@ export default async function DashboardPage() {
                                 <p className="text-lg sm:text-xl font-extrabold text-gray-900 dark:text-white truncate">{totalComments || 0}</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                {/* Streak Card */}
-                <div className="bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950/20 dark:to-amber-950/20 rounded-2xl border border-orange-100 dark:border-orange-900/50 p-6 shadow-sm">
-                    <div className="flex items-center justify-between mb-4">
-                        {getStreakIcon(streakData?.current_streak || 0)}
-                        <span className="text-xs font-bold text-orange-600 dark:text-orange-400 uppercase tracking-widest">{tStreak('current')}</span>
-                    </div>
-                    <p className="text-4xl font-black text-orange-700 dark:text-orange-400 mb-1">
-                        {streakData?.current_streak || 0}
-                    </p>
-                    <p className="text-sm font-medium text-orange-600 dark:text-orange-400 mb-4">
-                        {tStreak('days')}
-                    </p>
-                    
-                    {/* 7-Day Streak Visual Progress */}
-                    <div className="mb-4">
-                        <div className="flex justify-between items-center gap-1">
-                            {[1, 2, 3, 4, 5, 6, 7].map((day) => {
-                                const isCompleted = day <= (streakData?.current_streak || 0);
-                                const isCurrent = day === (streakData?.current_streak || 0) + 1;
-                                return (
-                                    <div
-                                        key={day}
-                                        className={`flex-1 h-8 rounded-lg flex items-center justify-center text-xs font-bold transition-all ${
-                                            isCompleted
-                                                ? 'bg-orange-500 text-white shadow-sm'
-                                                : isCurrent
-                                                ? 'bg-orange-200 dark:bg-orange-800 text-orange-700 dark:text-orange-300 ring-2 ring-orange-400'
-                                                : 'bg-orange-100 dark:bg-orange-900/30 text-orange-300 dark:text-orange-600'
-                                        }`}
-                                        aria-label={`Dia ${day}${isCompleted ? ' completado' : ''}`}
-                                    >
-                                        {day === 7 ? '🎁' : day}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                        <p className="text-center text-[10px] text-orange-600 dark:text-orange-400 mt-2">
-                            {(streakData?.current_streak || 0) < 7 
-                                ? `${7 - (streakData?.current_streak || 0)} ${t('daysToBonus') || 'dias para o bônus especial!'}`
-                                : t('bonusUnlocked') || 'Bônus especial desbloqueado!'
-                            }
-                        </p>
-                    </div>
-                    
-                    <div className="bg-white/50 dark:bg-orange-900/20 rounded-xl p-3 border border-orange-100 dark:border-orange-900/30">
-                        <p className="text-[10px] text-orange-800 dark:text-orange-300 uppercase font-bold tracking-wider mb-1">
-                            {tStreak('nextBonus')}
-                        </p>
-                        <p className="text-sm font-bold text-orange-900 dark:text-orange-200">
-                            +{getStreakBonus((streakData?.current_streak || 0) + 1)} Karma
-                        </p>
                     </div>
                 </div>
             </div>
