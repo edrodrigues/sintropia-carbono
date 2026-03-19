@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl';
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Profile } from "@/types";
-import { StreakDisplay } from "@/components/gamification/StreakBadge";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { Tooltip } from "@/components/ui/Tooltip";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -18,7 +17,6 @@ export function Header() {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
-  const [streak, setStreak] = useState<number>(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<number | null>(null);
 
@@ -39,13 +37,6 @@ export function Header() {
           .eq("id", user.id)
           .single();
         setProfile(profile);
-
-        const { data: streakData } = await supabase
-          .from("user_streaks")
-          .select("current_streak")
-          .eq("user_id", user.id)
-          .maybeSingle();
-        setStreak(streakData?.current_streak || 0);
       }
 
       setLoading(false);
@@ -213,9 +204,6 @@ export function Header() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-
-            {/* Streak */}
-            {user && streak > 0 && <StreakDisplay currentStreak={streak} />}
 
             {/* Post Button */}
             <Tooltip content={tHeader('newPostTooltip')}>
