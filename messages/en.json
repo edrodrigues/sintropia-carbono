@@ -833,7 +833,6 @@
             "backToDashboard": "← Back to Dashboard",
             "progress": "Your Progress",
             "karmaTotal": "Total Karma",
-            "streakDays": "Streak Days",
             "ranking": "Ranking",
             "achievementsCount": "Achievements",
             "howToEarn": "How to Earn Karma",
@@ -842,8 +841,7 @@
                 "createPost": "Create a post",
                 "comment": "Comment on someone else's post",
                 "likePost": "When someone likes your post",
-                "likeComment": "When someone likes your comment",
-                "streakBonus": "Daily streak bonus (up to +10)"
+                "likeComment": "When someone likes your comment"
             },
             "badgesByLevel": "Badges by Karma Level",
             "badgeLevels": {
@@ -872,8 +870,6 @@
                     "threshold": "1000+ Karma"
                 }
             },
-            "streakBonus": "Streak Bonus",
-            "streakDescription": "Visit daily to earn progressive karma bonuses:",
             "day": "day",
             "allAchievements": "All Achievements"
         }
@@ -893,14 +889,6 @@
             "comments": "Comments",
             "made": "made"
         },
-        "streak": {
-            "daysStreak": "days streak",
-            "record": "Record",
-            "nextBonus": "Next Bonus",
-            "weekProgress": "Week progress",
-            "daysOfWeek": "days",
-            "weeklyComplete": "Weekly Complete streak! Keep going to maintain the bonus!"
-        },
         "summary": {
             "title": "Summary",
             "ranking": "Ranking",
@@ -908,8 +896,6 @@
             "badge": "Badge",
             "posts": "Posts",
             "comments": "Comments",
-            "streakDays": "Streak Days",
-            "longestStreak": "Record",
             "toNext": "To next"
         },
         "gamification": {

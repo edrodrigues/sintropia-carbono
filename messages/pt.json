@@ -833,7 +833,6 @@
             "backToDashboard": "← Voltar ao Dashboard",
             "progress": "Seu Progresso",
             "karmaTotal": "Karma Total",
-            "streakDays": "Dias Seguidos",
             "ranking": "Ranking",
             "achievementsCount": "Conquistas",
             "howToEarn": "Como Ganhar Karma",
@@ -842,8 +841,7 @@
                 "createPost": "Criar um post",
                 "comment": "Comentar no post de outra pessoa",
                 "likePost": "Quando alguém curte seu post",
-                "likeComment": "Quando alguém curte seu comentário",
-                "streakBonus": "Bônus de streak diário (até +10)"
+                "likeComment": "Quando alguém curte seu comentário"
             },
             "badgesByLevel": "Badges por Nível de Karma",
             "badgeLevels": {
@@ -872,8 +870,6 @@
                     "threshold": "1000+ Karma"
                 }
             },
-            "streakBonus": "Bônus de Streak",
-            "streakDescription": "Acesse diariamente para ganhar bônus de karma progressivos:",
             "day": "dia",
             "allAchievements": "Todas as Conquistas"
         }
@@ -893,14 +889,6 @@
             "comments": "Comentários",
             "made": "realizados"
         },
-        "streak": {
-            "daysStreak": "dias seguidos",
-            "record": "Recorde",
-            "nextBonus": "Próximo Bônus",
-            "weekProgress": "Progresso da semana",
-            "daysOfWeek": "dias",
-            "weeklyComplete": "streak Semanal Completo! Continue para manter o bônus!"
-        },
         "summary": {
             "title": "Resumo",
             "ranking": "Ranking",
@@ -908,8 +896,6 @@
             "badge": "Badge",
             "posts": "Posts",
             "comments": "Comentários",
-            "streakDays": "Dias Seguidos",
-            "longestStreak": "Recorde",
             "toNext": "Para próximo"
         },
         "gamification": {

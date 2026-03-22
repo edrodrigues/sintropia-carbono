@@ -129,10 +129,6 @@ export default async function ConquistasPage() {
                         <span className="w-16 text-center py-1 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-700 dark:text-green-400 font-bold text-sm">+2</span>
                         <span className="text-gray-700 dark:text-gray-300">{t('earnActions.likeComment')}</span>
                     </div>
-                    <div className="flex items-center gap-3 p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                        <span className="text-xl mr-2">🔥</span>
-                        <span className="text-gray-700 dark:text-gray-300">{t('earnActions.streakBonus')}</span>
-                    </div>
                 </div>
             </div>
 
