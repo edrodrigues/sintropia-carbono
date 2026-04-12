@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { updateProfile } from '@/app/[locale]/(dashboard)/profile/actions';
 
 interface ProfileFormProps {
@@ -16,18 +15,11 @@ interface ProfileFormProps {
         twitter_url?: string | null;
     } | null;
     email: string;
-    onboarding?: boolean;
 }
 
-export default function ProfileForm({
-    profile,
-    email,
-    onboarding = false
-}: ProfileFormProps) {
-    const router = useRouter();
+export default function ProfileForm({ profile, email }: ProfileFormProps) {
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
-    const [skipped, setSkipped] = useState(false);
+    const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
     const [formData, setFormData] = useState({
         username: profile?.username || '',
         display_name: profile?.display_name || '',
@@ -50,126 +42,8 @@ export default function ProfileForm({
         if (result.error) {
             setMessage({ type: 'error', text: result.error });
         } else {
-            if (onboarding && !skipped) {
-                router.push('/?onboarding=complete');
-            } else {
-                setMessage({ type: 'success', text: 'Perfil atualizado com sucesso!' });
-            }
+            setMessage({ type: 'success', text: 'Perfil atualizado com sucesso!' });
         }
-    }
-
-    function handleSkip() {
-        setSkipped(true);
-        router.push('/?onboarding=complete');
-    }
-
-    if (onboarding) {
-        return (
-            <div className="space-y-6">
-                <div className="text-center mb-8">
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                        Bem-vindo ao Sintropia! 🎉
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        Complete seu perfil para uma experiência personalizada
-                    </p>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-2">
-                        <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">Tipo de Conta</label>
-                        <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-                            <label htmlFor="user_type_individual" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                                <input id="user_type_individual" type="radio" name="user_type" value="individual" defaultChecked={!profile?.user_type || profile?.user_type === 'individual'} className="hidden" />
-                                <span className="text-xl">👤</span>
-                                <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Indivíduo</span>
-                            </label>
-                            <label htmlFor="user_type_company" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                                <input id="user_type_company" type="radio" name="user_type" value="company" defaultChecked={profile?.user_type === 'company'} className="hidden" />
-                                <span className="text-xl">🏢</span>
-                                <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Empresa</span>
-                            </label>
-                            <label htmlFor="user_type_ong" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                                <input id="user_type_ong" type="radio" name="user_type" value="ong" defaultChecked={profile?.user_type === 'ong'} className="hidden" />
-                                <span className="text-xl">🤝</span>
-                                <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">ONG</span>
-                            </label>
-                            <label htmlFor="user_type_government" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                                <input id="user_type_government" type="radio" name="user_type" value="government" defaultChecked={profile?.user_type === 'government'} className="hidden" />
-                                <span className="text-xl">🏛️</span>
-                                <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Governo</span>
-                            </label>
-                            <label htmlFor="user_type_professor" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                                <input id="user_type_professor" type="radio" name="user_type" value="professor" defaultChecked={profile?.user_type === 'professor'} className="hidden" />
-                                <span className="text-xl">🧑‍🏫</span>
-                                <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Professor</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div className="space-y-2">
-                        <label htmlFor="username" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
-                            Nome de Usuário
-                            <span className="text-red-500 ml-1">*</span>
-                        </label>
-                        <input
-                            id="username"
-                            name="username"
-                            type="text"
-                            required
-                            value={formData.username}
-                            onChange={(e) => setFormData({ ...formData, username: e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, '') })}
-                            placeholder="ex: saulo_h"
-                            maxLength={30}
-                            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
-                        />
-                        <p className="text-[10px] text-gray-400 px-1">Seu @identificador na plataforma (letras, números, _ e -)</p>
-                    </div>
-
-                    <div className="space-y-2">
-                        <label htmlFor="display_name" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
-                            Nome de Exibição
-                            <span className="text-gray-300 font-normal ml-1">(opcional, para personalização)</span>
-                        </label>
-                        <input
-                            id="display_name"
-                            name="display_name"
-                            type="text"
-                            value={formData.display_name}
-                            onChange={(e) => setFormData({ ...formData, display_name: e.target.value })}
-                            placeholder="Como quer ser chamado"
-                            maxLength={50}
-                            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
-                        />
-                    </div>
-
-                    {message && (
-                        <div className={`p-4 rounded-xl text-sm font-medium border ${message.type === 'success'
-                            ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-100 dark:border-green-800'
-                            : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-100 dark:border-red-800'
-                            }`}>
-                            {message.text}
-                        </div>
-                    )}
-
-                    <div className="flex gap-3 pt-4">
-                        <button
-                            type="button"
-                            onClick={handleSkip}
-                            className="flex-1 py-3 px-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
-                        >
-                            Pular
-                        </button>
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="flex-1 py-3 px-4 rounded-xl bg-premium-blue text-white font-bold shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-700 active:scale-95 disabled:opacity-50 disabled:scale-100"
-                        >
-                            {loading ? 'Salvando...' : 'Continuar'}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        );
     }
 
     return (
@@ -178,28 +52,28 @@ export default function ProfileForm({
                 <div className="md:col-span-2 space-y-2">
                     <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">Tipo de Conta</label>
                     <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-                        <label htmlFor="user_type_individual_2" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                            <input id="user_type_individual_2" type="radio" name="user_type" value="individual" defaultChecked={!profile?.user_type || profile?.user_type === 'individual'} className="hidden" />
+                        <label htmlFor="user_type_individual" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                            <input id="user_type_individual" type="radio" name="user_type" value="individual" defaultChecked={!profile?.user_type || profile?.user_type === 'individual'} className="hidden" />
                             <span className="text-xl">👤</span>
                             <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Indivíduo</span>
                         </label>
-                        <label htmlFor="user_type_company_2" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                            <input id="user_type_company_2" type="radio" name="user_type" value="company" defaultChecked={profile?.user_type === 'company'} className="hidden" />
+                        <label htmlFor="user_type_company" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                            <input id="user_type_company" type="radio" name="user_type" value="company" defaultChecked={profile?.user_type === 'company'} className="hidden" />
                             <span className="text-xl">🏢</span>
                             <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Empresa</span>
                         </label>
-                        <label htmlFor="user_type_ong_2" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                            <input id="user_type_ong_2" type="radio" name="user_type" value="ong" defaultChecked={profile?.user_type === 'ong'} className="hidden" />
+                        <label htmlFor="user_type_ong" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                            <input id="user_type_ong" type="radio" name="user_type" value="ong" defaultChecked={profile?.user_type === 'ong'} className="hidden" />
                             <span className="text-xl">🤝</span>
                             <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">ONG</span>
                         </label>
-                        <label htmlFor="user_type_government_2" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                            <input id="user_type_government_2" type="radio" name="user_type" value="government" defaultChecked={profile?.user_type === 'government'} className="hidden" />
+                        <label htmlFor="user_type_government" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                            <input id="user_type_government" type="radio" name="user_type" value="government" defaultChecked={profile?.user_type === 'government'} className="hidden" />
                             <span className="text-xl">🏛️</span>
                             <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Governo</span>
                         </label>
-                        <label htmlFor="user_type_professor_2" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-                            <input id="user_type_professor_2" type="radio" name="user_type" value="professor" defaultChecked={profile?.user_type === 'professor'} className="hidden" />
+                        <label htmlFor="user_type_professor" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+                            <input id="user_type_professor" type="radio" name="user_type" value="professor" defaultChecked={profile?.user_type === 'professor'} className="hidden" />
                             <span className="text-xl">🧑‍🏫</span>
                             <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Professor</span>
                         </label>
@@ -338,7 +212,7 @@ export default function ProfileForm({
                 <div className={`p-4 rounded-xl text-sm font-medium border ${message.type === 'success'
                     ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-100 dark:border-green-800'
                     : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-100 dark:border-red-800'
-                    }`}>
+                }`}>
                     {message.text}
                 </div>
             )}
@@ -347,7 +221,7 @@ export default function ProfileForm({
                 <button
                     type="submit"
                     disabled={loading}
-                    className={`px-8 py-3 rounded-xl bg-premium-blue text-white font-bold shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-700 active:scale-95 disabled:opacity-50 disabled:scale-100`}
+                    className="px-8 py-3 rounded-xl bg-premium-blue text-white font-bold shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-700 active:scale-95 disabled:opacity-50 disabled:scale-100"
                 >
                     {loading ? 'Salvando...' : 'Salvar Alterações'}
                 </button>
