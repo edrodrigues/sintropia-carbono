@@ -7,7 +7,6 @@ interface UserStats {
   upvotesReceived: number;
   hasLinkedIn: boolean;
   createdAt: string;
-  streakDays?: number;
   postsWithHighUpvotes?: number;
   uniqueUsersInteracted?: number;
   totalCommentsOnPosts?: number;
@@ -281,46 +280,6 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
   
   // === CONSISTÊNCIA ===
   {
-    id: "week_warrior",
-    icon: "🔥",
-    label: "Guerreiro da Semana",
-    description: "Acesse 7 dias consecutivos",
-    earned: false,
-    rarity: "common",
-    category: "consistency",
-    progress: { current: 0, target: 7 }
-  },
-  {
-    id: "fortnight_fighter",
-    icon: "⚔️",
-    label: "Lutador de Quinzena",
-    description: "Acesse 14 dias consecutivos",
-    earned: false,
-    rarity: "rare",
-    category: "consistency",
-    progress: { current: 0, target: 14 }
-  },
-  {
-    id: "month_master",
-    icon: "📅",
-    label: "Mestre do Mês",
-    description: "Acesse 30 dias consecutivos",
-    earned: false,
-    rarity: "epic",
-    category: "consistency",
-    progress: { current: 0, target: 30 }
-  },
-  {
-    id: "unstoppable",
-    icon: "💪",
-    label: "Imparável",
-    description: "Acesse 100 dias consecutivos",
-    earned: false,
-    rarity: "legendary",
-    category: "consistency",
-    progress: { current: 0, target: 100 }
-  },
-  {
     id: "daily_contributor",
     icon: "📆",
     label: "Colaborador Diário",
@@ -464,22 +423,6 @@ export function calculateAchievements(profile: {
       case "community_builder":
         earned = (stats.totalCommentsOnPosts || 0) >= 200;
         if (progress) progress.current = stats.totalCommentsOnPosts || 0;
-        break;
-      case "week_warrior":
-        earned = (stats.streakDays || 0) >= 7;
-        if (progress) progress.current = stats.streakDays || 0;
-        break;
-      case "fortnight_fighter":
-        earned = (stats.streakDays || 0) >= 14;
-        if (progress) progress.current = stats.streakDays || 0;
-        break;
-      case "month_master":
-        earned = (stats.streakDays || 0) >= 30;
-        if (progress) progress.current = stats.streakDays || 0;
-        break;
-      case "unstoppable":
-        earned = (stats.streakDays || 0) >= 100;
-        if (progress) progress.current = stats.streakDays || 0;
         break;
       case "mentor":
         earned = stats.commentCount >= 10;

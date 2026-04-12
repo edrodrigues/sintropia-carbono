@@ -53,15 +53,6 @@ export default async function ConquistasPage() {
     const userKarma = profile?.karma || 0;
     const ranking = higherKarmaCount !== null ? higherKarmaCount + 1 : 1;
 
-    // Fetch streak data
-    const { data: streakData } = await supabase
-        .from('user_streaks')
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-
-    const currentStreak = streakData?.current_streak || 0;
-
     const achievements = calculateAchievements({
         karma: profile?.karma ?? undefined,
         linkedin_url: profile?.linkedin_url ?? undefined,
@@ -98,10 +89,6 @@ export default async function ConquistasPage() {
                     <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl">
                         <span className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{userKarma}</span>
                         <p className="text-sm text-gray-600 dark:text-gray-400">{t('karmaTotal')}</p>
-                    </div>
-                    <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl">
-                        <span className="text-3xl font-bold text-orange-600 dark:text-orange-400">{currentStreak}</span>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('streakDays')}</p>
                     </div>
                     <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl">
                         <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">#{ranking}</span>
@@ -141,10 +128,6 @@ export default async function ConquistasPage() {
                     <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
                         <span className="w-16 text-center py-1 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-700 dark:text-green-400 font-bold text-sm">+2</span>
                         <span className="text-gray-700 dark:text-gray-300">{t('earnActions.likeComment')}</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
-                        <span className="text-xl mr-2">🔥</span>
-                        <span className="text-gray-700 dark:text-gray-300">{t('earnActions.streakBonus')}</span>
                     </div>
                 </div>
             </div>
@@ -195,37 +178,6 @@ export default async function ConquistasPage() {
                             <p className="text-xs text-gray-500">{t('badgeLevels.master.threshold')}</p>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            {/* Streak Bonus */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 mb-8">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">🔥 {t('streakBonus')}</h2>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                    {t('streakDescription')}
-                </p>
-                <div className="grid grid-cols-7 gap-2">
-                    {[
-                        { day: 1, bonus: 2 },
-                        { day: 2, bonus: 3 },
-                        { day: 3, bonus: 4 },
-                        { day: 4, bonus: 5 },
-                        { day: 5, bonus: 6 },
-                        { day: 6, bonus: 8 },
-                        { day: 7, bonus: 10 },
-                    ].map(({ day, bonus }) => (
-                        <div 
-                            key={day}
-                            className={`flex flex-col items-center p-3 rounded-xl ${
-                                day <= currentStreak 
-                                    ? 'bg-orange-400 text-white' 
-                                    : 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400'
-                            }`}
-                        >
-                            <span className="text-lg font-bold">{day} {t('day')}</span>
-                            <span className="text-sm">+{bonus}</span>
-                        </div>
-                    ))}
                 </div>
             </div>
 

@@ -71,14 +71,8 @@ export async function markAllAsRead(userId: string): Promise<boolean> {
 
 export function getNotificationIcon(type: NotificationType): string {
     switch (type) {
-        case 'streak_reset':
-            return '🔥';
-        case 'bonus_unlocked':
-            return '🎁';
         case 'achievement':
             return '🏆';
-        case 'streak_warning':
-            return '⚠️';
         case 'system':
             return '📢';
         default:

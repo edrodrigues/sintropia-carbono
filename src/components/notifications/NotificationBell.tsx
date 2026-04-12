@@ -51,25 +51,6 @@ export function NotificationBell({ userId }: NotificationBellProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Listen for streak-related events
-  useEffect(() => {
-    const handleStreakEvent = () => {
-      // Refresh notifications when streak events occur
-      if (userId) {
-        getNotifications(userId, 20).then(setNotifications);
-        getUnreadCount(userId).then(setUnreadCount);
-      }
-    };
-
-    window.addEventListener("streak-updated", handleStreakEvent);
-    window.addEventListener("streak-reset", handleStreakEvent);
-    
-    return () => {
-      window.removeEventListener("streak-updated", handleStreakEvent);
-      window.removeEventListener("streak-reset", handleStreakEvent);
-    };
-  }, [userId]);
-
   const handleMarkAsRead = async (e: React.MouseEvent, notificationId: string) => {
     e.stopPropagation();
     const success = await markAsRead(notificationId);
@@ -101,11 +82,6 @@ export function NotificationBell({ userId }: NotificationBellProps) {
     
     // Navigate based on notification type
     switch (notification.type) {
-      case 'streak_reset':
-      case 'bonus_unlocked':
-      case 'streak_warning':
-        router.push('/dashboard');
-        break;
       case 'achievement':
         router.push('/conquistas');
         break;
