@@ -87,7 +87,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
             <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
                 <Breadcrumb />
                 <div className="mb-8">
-                    <h2 className="text-4xl font-bold text-[#1e40af] mb-2 font-inter">{t('title')}</h2>
+                    <h2 className="text-4xl font-bold text-premium-blue mb-2 font-inter">{t('title')}</h2>
                     <p className="text-gray-600 dark:text-gray-400 font-inter">{t('subtitle')}</p>
                     <p className="text-sm text-gray-500 mt-2 font-mono">{t('lastUpdate')}</p>
                 </div>
@@ -95,7 +95,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
                 <IrecPrecosChart />
 
                 {/* Resumo Executivo */}
-                <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-xl p-6 mt-12 mb-8 border border-gray-200 dark:border-gray-700 shadow-sm">
+                <div className="bg-gradient-to-r from-blue-50 to-emerald-50 dark:from-blue-900/20 dark:to-emerald-900/20 rounded-xl p-6 mt-12 mb-8 border border-gray-200 dark:border-gray-700 shadow-sm">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">📊 {t('summary')}</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {[
@@ -106,7 +106,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
                         ].map((item, i) => (
                             <div key={i} className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
                                 <p className="text-xs font-bold text-gray-500 uppercase mb-1">{item.label}</p>
-                                <h4 className="text-2xl font-bold text-[#1e40af] dark:text-blue-400">{item.value}</h4>
+                                <h4 className="text-2xl font-bold text-premium-blue dark:text-blue-400">{item.value}</h4>
                                 <p className="text-[10px] text-gray-500 mt-1 font-semibold">{item.sub}</p>
                             </div>
                         ))}
@@ -162,7 +162,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
 
                 {/* Global Section */}
                 <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8 shadow-sm">
-                    <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-blue-900/10">
+                    <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-emerald-50 dark:from-blue-900/10 dark:to-emerald-900/10">
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white">🌍 {t('asiaPacific')}</h3>
                     </div>
                     <div className="p-6">
@@ -210,7 +210,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
                                         <TableRow key={i}>
                                             <TableCell className="font-bold">{row.country}</TableCell>
                                             <TableCell>{row.tech}</TableCell>
-                                            <TableCell className="font-mono font-bold text-[#1e40af] dark:text-blue-400">{row.price}</TableCell>
+                                            <TableCell className="font-mono font-bold text-premium-blue dark:text-blue-400">{row.price}</TableCell>
                                             <TableCell className="text-right">{row.trend}</TableCell>
                                         </TableRow>
                                     ))}
@@ -228,7 +228,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
                             <div className="flex gap-4">
                                 <div className="bg-white dark:bg-gray-800 px-4 py-2 rounded shadow-sm border border-indigo-100">
                                     <span className="block text-[10px] uppercase font-bold text-gray-500">{tProj('estimatedValue')}</span>
-                                    <span className="text-xl font-bold text-[#1e40af] dark:text-blue-400">{tProj('value')}</span>
+                                    <span className="text-xl font-bold text-premium-blue dark:text-blue-400">{tProj('value')}</span>
                                 </div>
                                 <div className="bg-white dark:bg-gray-800 px-4 py-2 rounded shadow-sm border border-indigo-100">
                                     <span className="block text-[10px] uppercase font-bold text-gray-500">{tProj('cagr')}</span>
@@ -241,7 +241,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
                             <div className="space-y-2">
                                 <div className="flex justify-between text-xs border-b border-gray-50 dark:border-gray-700 pb-1"><span>{tDrivers('re100')}</span><span className="font-bold text-green-600">Alto</span></div>
                                 <div className="flex justify-between text-xs border-b border-gray-50 dark:border-gray-700 pb-1"><span>{tDrivers('scarcity')}</span><span className="font-bold text-orange-600">Médio</span></div>
-                                <div className="flex justify-between text-xs pb-1"><span>{tDrivers('quality')}</span><span className="font-bold text-[#1e40af]">Alto</span></div>
+                                <div className="flex justify-between text-xs pb-1"><span>{tDrivers('quality')}</span><span className="font-bold text-premium-blue">Alto</span></div>
                             </div>
                         </div>
                     </div>

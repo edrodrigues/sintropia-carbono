@@ -122,7 +122,7 @@ export default async function MyProfilePage() {
         </h2>
         <Link
           href="/feed"
-          className="text-sm text-[#1e40af] dark:text-blue-400 hover:underline"
+          className="text-sm text-premium-blue dark:text-blue-400 hover:underline"
         >
           {t('createNew')}
         </Link>
@@ -160,7 +160,7 @@ export default async function MyProfilePage() {
         ) : (
           <div className="col-span-full text-center py-8 text-gray-500">
             {t('noPosts')}{" "}
-            <Link href="/feed" className="text-[#1e40af] hover:underline">
+            <Link href="/feed" className="text-premium-blue hover:underline">
               {t('createFirst')}
             </Link>
           </div>

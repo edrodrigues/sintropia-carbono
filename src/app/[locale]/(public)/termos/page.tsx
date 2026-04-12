@@ -48,7 +48,7 @@ export default async function TermosPage({ params }: { params: Promise<{ locale:
             <Link href="/" className="flex items-center gap-3">
               <span className="text-3xl">🌱</span>
               <div>
-                <h1 className="font-bold text-xl text-[#1e40af] dark:text-blue-400 leading-tight">
+                <h1 className="font-bold text-xl text-premium-blue dark:text-blue-400 leading-tight">
                   Sintropia
                 </h1>
               </div>
@@ -65,7 +65,7 @@ export default async function TermosPage({ params }: { params: Promise<{ locale:
 
       <main className="max-w-4xl mx-auto px-8 lg:px-16 py-16">
         <div className="text-center mb-12">
-          <span className="inline-block px-4 py-2 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-full text-sm font-bold mb-4">
+          <span className="inline-block px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-sm font-bold mb-4">
             📄 {t('heroBadge')}
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
@@ -106,7 +106,7 @@ export default async function TermosPage({ params }: { params: Promise<{ locale:
                         href="https://github.com/edrodrigues/sintropia-carbono/issues"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-[#1e40af] dark:text-blue-400 font-bold hover:underline"
+                        className="inline-flex items-center gap-2 text-premium-blue dark:text-blue-400 font-bold hover:underline"
                     >
                         {section.button}
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,19 +127,19 @@ export default async function TermosPage({ params }: { params: Promise<{ locale:
             <div className="flex items-center gap-4">
               <Link
                 href="/privacidade"
-                className="text-sm text-gray-500 dark:text-gray-500 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors"
+                className="text-sm text-gray-500 dark:text-gray-500 hover:text-premium-blue dark:hover:text-blue-400 transition-colors"
               >
                 {tLinks('privacidade')}
               </Link>
               <Link
                 href="/termos"
-                className="text-sm text-gray-500 dark:text-gray-500 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors"
+                className="text-sm text-gray-500 dark:text-gray-500 hover:text-premium-blue dark:hover:text-blue-400 transition-colors"
               >
                 {tLinks('termos')}
               </Link>
               <Link
                 href="/"
-                className="text-sm text-gray-500 dark:text-gray-500 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors"
+                className="text-sm text-gray-500 dark:text-gray-500 hover:text-premium-blue dark:hover:text-blue-400 transition-colors"
               >
                 {tLinks('home')}
               </Link>

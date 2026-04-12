@@ -191,26 +191,26 @@ export default async function SetoresPage({
             const bgColors = [
               "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800",
               "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800",
-              "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800",
-              "bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800",
+              "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800",
+              "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800",
             ];
             const textColors = [
               "text-emerald-800 dark:text-emerald-200",
               "text-blue-800 dark:text-blue-200",
-              "text-amber-800 dark:text-amber-200",
-              "text-purple-800 dark:text-purple-200",
+              "text-emerald-800 dark:text-emerald-200",
+              "text-blue-800 dark:text-blue-200",
             ];
             const numColors = [
               "text-emerald-700 dark:text-emerald-300",
               "text-blue-700 dark:text-blue-300",
-              "text-amber-700 dark:text-amber-300",
-              "text-purple-700 dark:text-purple-300",
+              "text-emerald-700 dark:text-emerald-300",
+              "text-blue-700 dark:text-blue-300",
             ];
             const subColors = [
               "text-emerald-600 dark:text-emerald-400",
               "text-blue-600 dark:text-blue-400",
-              "text-amber-600 dark:text-amber-400",
-              "text-purple-600 dark:text-purple-400",
+              "text-emerald-600 dark:text-emerald-400",
+              "text-blue-600 dark:text-blue-400",
             ];
 
             return (

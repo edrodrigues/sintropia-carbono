@@ -190,8 +190,8 @@ export default async function SetoresPage({
             const colors = [
               "emerald",
               "blue",
-              "amber",
-              "purple",
+              "emerald",
+              "blue",
             ] as const;
             const color = colors[index];
             return (

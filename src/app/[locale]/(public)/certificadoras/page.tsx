@@ -86,7 +86,7 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
       <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
         <Breadcrumb />
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-[#1e40af] mb-2">
+          <h2 className="text-4xl font-bold text-premium-blue mb-2">
             {t('title')}
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
@@ -125,7 +125,7 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
                           href={cert.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#1e40af] hover:underline font-semibold"
+                          className="text-premium-blue hover:underline font-semibold"
                         >
                           {cert.nome} ↗
                         </a>
@@ -179,7 +179,7 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
                           href={padrao.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#1e40af] hover:underline font-semibold"
+                          className="text-premium-blue hover:underline font-semibold"
                         >
                           {padrao.nome} ↗
                         </a>
@@ -217,7 +217,7 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
                       href={padrao.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#1e40af] hover:underline font-semibold"
+                      className="text-premium-blue hover:underline font-semibold"
                     >
                       {padrao.nome}
                     </a>
