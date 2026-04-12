@@ -47,7 +47,7 @@ export default async function EditProfilePage(props: {
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       <div className="mb-10 text-center">
-        <h2 className="text-4xl font-bold text-[#1e40af] mb-3 dark:text-blue-400">Editar Perfil</h2>
+        <h2 className="text-4xl font-bold text-premium-blue mb-3 dark:text-blue-400">Editar Perfil</h2>
         <p className="text-gray-600 dark:text-gray-400">Gerencie suas informações pessoais e como elas aparecem na plataforma.</p>
       </div>
 

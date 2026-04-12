@@ -111,7 +111,7 @@ export default async function RankingBrasilPage({
 
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-[#059669] mb-2">
+          <h1 className="text-3xl lg:text-4xl font-bold text-forest-green mb-2">
             {tRanking("brasilTitle")}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -207,7 +207,7 @@ export default async function RankingBrasilPage({
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white bg-purple-600">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white bg-blue-600">
                 Ambos
               </span>
               <span className="text-sm text-gray-600 dark:text-gray-400">

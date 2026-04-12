@@ -44,7 +44,7 @@ export default async function ContribuirPage({ params }: { params: Promise<{ loc
             <Link href="/" className="flex items-center gap-3">
               <span className="text-3xl">🌱</span>
               <div>
-                <h1 className="font-bold text-xl text-[#1e40af] dark:text-blue-400 leading-tight">
+                <h1 className="font-bold text-xl text-premium-blue dark:text-blue-400 leading-tight">
                   Sintropia
                 </h1>
               </div>
@@ -175,7 +175,7 @@ export default async function ContribuirPage({ params }: { params: Promise<{ loc
             href="https://github.com/edrodrigues/sintropia-carbono/issues"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[#1e40af] dark:text-blue-400 font-bold hover:underline"
+            className="inline-flex items-center gap-2 text-premium-blue dark:text-blue-400 font-bold hover:underline"
           >
             {t('openIssue')}
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -196,13 +196,13 @@ export default async function ContribuirPage({ params }: { params: Promise<{ loc
                 href="https://github.com/edrodrigues/sintropia-carbono"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-gray-500 dark:text-gray-500 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors"
+                className="text-sm text-gray-500 dark:text-gray-500 hover:text-premium-blue dark:hover:text-blue-400 transition-colors"
               >
                 {tLinks('github')}
               </a>
               <Link
                 href="/"
-                className="text-sm text-gray-500 dark:text-gray-500 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors"
+                className="text-sm text-gray-500 dark:text-gray-500 hover:text-premium-blue dark:hover:text-blue-400 transition-colors"
               >
                 {tLinks('home')}
               </Link>

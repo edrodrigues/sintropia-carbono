@@ -117,7 +117,7 @@ export default async function RankingMundoPage({
 
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-[#1e40af] mb-2">
+          <h1 className="text-3xl lg:text-4xl font-bold text-premium-blue mb-2">
             {tRanking("mundoTitle")}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -226,11 +226,11 @@ export default async function RankingMundoPage({
               {tInsights("growthDesc")}
             </p>
           </div>
-          <div className="bg-purple-50 dark:bg-purple-900/20 border-l-4 border-purple-500 p-6 rounded-r-xl">
-            <h4 className="font-bold text-purple-900 dark:text-purple-200 mb-2">
+          <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
+            <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
               🌍 {tInsights("sectorTitle")}
             </h4>
-            <p className="text-sm text-purple-800 dark:text-purple-300">
+            <p className="text-sm text-blue-800 dark:text-blue-300">
               {tInsights("sectorDesc")}
             </p>
           </div>

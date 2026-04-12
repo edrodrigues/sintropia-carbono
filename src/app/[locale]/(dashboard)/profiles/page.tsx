@@ -69,7 +69,7 @@ export default async function ProfilesPage() {
     return (
         <div className="max-w-7xl mx-auto px-4 py-12">
             <div className="mb-8">
-                <h2 className="text-4xl font-bold text-[#1e40af] mb-2 dark:text-blue-400">
+                <h2 className="text-4xl font-bold text-premium-blue mb-2 dark:text-blue-400">
                     {t('title')}
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400">

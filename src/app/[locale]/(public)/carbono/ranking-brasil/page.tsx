@@ -130,7 +130,7 @@ export default async function RankingBrasilPage({
 
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-[#059669] mb-2">
+          <h1 className="text-3xl lg:text-4xl font-bold text-forest-green mb-2">
             {tRanking("brasilTitle")}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -146,17 +146,20 @@ export default async function RankingBrasilPage({
             subtitle={`${tStats("volumeUnit")} 2025`}
             trend="up"
             trendValue={`+${stats.crescimento.toFixed(1)}%`}
+            tooltip="Volume total de créditos de carbono compensados por este grupo de empresas em 2025."
           />
           <StatsCard
             title={tStats("growth")}
             value={`+${stats.crescimento.toFixed(1)}%`}
             subtitle={tStats("vsLastYear")}
             trend="up"
+            tooltip="Crescimento percentual do volume compensado em relação ao ano anterior (2024 vs 2025)."
           />
           <StatsCard
             title={tStats("sectors")}
             value={stats.totalSectors}
             subtitle="setores ativos"
+            tooltip="Número de diferentes setores da economia representados no ranking."
           />
           <StatsCard
             title="Líder"
@@ -166,6 +169,7 @@ export default async function RankingBrasilPage({
                 ? `${formatVolume(stats.leader.volume_2025)} ${tStats("volumeUnit")}`
                 : ""
             }
+            tooltip="Empresa que lidera o ranking em volume de compensação de carbono em 2025."
           />
         </div>
 
@@ -237,11 +241,11 @@ export default async function RankingBrasilPage({
               {tInsights("growthDesc")}
             </p>
           </div>
-          <div className="bg-purple-50 dark:bg-purple-900/20 border-l-4 border-purple-500 p-6 rounded-r-xl">
-            <h4 className="font-bold text-purple-900 dark:text-purple-200 mb-2">
+          <div className="bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500 p-6 rounded-r-xl">
+            <h4 className="font-bold text-emerald-900 dark:text-emerald-200 mb-2">
               📈 {tInsights("sectorTitle")}
             </h4>
-            <p className="text-sm text-purple-800 dark:text-purple-300">
+            <p className="text-sm text-emerald-800 dark:text-emerald-300">
               {tInsights("sectorDesc")}
             </p>
           </div>

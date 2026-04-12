@@ -478,7 +478,7 @@ export default async function DashboardPage() {
                         </div>
                     </div>
                     <div className="flex items-start gap-3 p-3 bg-white/80 dark:bg-gray-800/80 rounded-xl backdrop-blur-sm">
-                        <ChartIcon className="w-5 h-5 text-purple-500 shrink-0" />
+                        <ChartIcon className="w-5 h-5 text-blue-500 shrink-0" />
                         <div>
                             <h4 className="font-semibold text-gray-900 dark:text-white text-sm">{tContribute('actions.reportData.title')}</h4>
                             <p className="text-xs text-gray-500 dark:text-gray-400">{tContribute('actions.reportData.desc')}</p>
