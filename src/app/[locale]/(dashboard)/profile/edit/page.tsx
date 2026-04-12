@@ -12,12 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     };
 }
 
-export default async function EditProfilePage(props: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const searchParams = await props.searchParams;
-  const onboarding = searchParams.onboarding === 'true';
-
+export default async function EditProfilePage() {
   const supabase = await createClient();
 
   const {
@@ -33,16 +28,6 @@ export default async function EditProfilePage(props: {
     .select('*')
     .eq('id', user.id)
     .single();
-
-  if (onboarding) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
-        <div className="max-w-lg w-full">
-          <ProfileForm profile={profile} email={user.email!} onboarding={true} />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">

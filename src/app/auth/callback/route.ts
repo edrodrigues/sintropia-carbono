@@ -5,7 +5,6 @@ export async function GET(request: Request) {
     const { searchParams, origin } = new URL(request.url)
     const code = searchParams.get('code')
     const next = searchParams.get('next') ?? '/'
-    const onboarding = searchParams.get('onboarding')
 
     if (code) {
         const supabase = await createClient()
@@ -17,16 +16,29 @@ export async function GET(request: Request) {
             return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(error.message)}`)
         }
 
+        const { data: { user } } = await supabase.auth.getUser()
+
         const forwardedHost = request.headers.get('x-forwarded-host')
         const isLocalEnv = process.env.NODE_ENV === 'development'
         
-        let redirectUrl = isLocalEnv ? `${origin}${next}` : forwardedHost ? `https://${forwardedHost}${next}` : `${origin}${next}`
-        
-        if (onboarding === 'true') {
-            redirectUrl = `${origin}/profile/edit?onboarding=true`
+        const redirectBase = isLocalEnv ? origin : forwardedHost ? `https://${forwardedHost}` : origin
+
+        if (user) {
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('username, display_name')
+                .eq('id', user.id)
+                .single()
+
+            const hasUsername = profile?.username && profile.username.trim().length > 0
+            const hasDisplayName = profile?.display_name && profile.display_name.trim().length > 0
+
+            if (!hasUsername || !hasDisplayName) {
+                return NextResponse.redirect(`${redirectBase}/onboarding`)
+            }
         }
-        
-        return NextResponse.redirect(redirectUrl)
+
+        return NextResponse.redirect(`${redirectBase}${next}`)
     }
 
     return NextResponse.redirect(`${origin}/login?error=No+authorization+code+received`)

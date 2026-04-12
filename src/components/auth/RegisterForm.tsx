@@ -57,7 +57,7 @@ export function RegisterForm({ error: initialError }: RegisterFormProps) {
         const { error: googleError } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: `${window.location.origin}/auth/callback?onboarding=true${referralCode ? `&ref=${referralCode}` : ''}`,
+                redirectTo: `${window.location.origin}/auth/callback${referralCode ? `?ref=${referralCode}` : ''}`,
                 queryParams: referralCode ? { ref: referralCode } : undefined,
             },
         });
