@@ -1,23 +1,13 @@
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { CommunityFeed } from "@/components/home/CommunityFeed";
 import { createClient } from "@/lib/supabase/server";
-import { getUserTypeIcon } from "@/lib/utils/user";
 import { getTranslations } from 'next-intl/server';
 import { Link } from "@/i18n/routing";
 import { HeroTitle } from "@/components/home/HeroTitle";
-import Image from "next/image";
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const tIndex = await getTranslations({ locale, namespace: 'Index' });
-  const supabase = await createClient();
-
-  // Fetch current user if logged in
-  const { data: { user } } = await supabase.auth.getUser();
-  const { data: profile } = user
-    ? await supabase.from("profiles").select("*").eq("id", user.id).single()
-    : { data: null };
 
   const categories = [
     { title: tIndex('categories.items.carbonBrazil'), bgImg: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=600&auto=format&fit=crop", active: true, href: "/carbono/ranking-brasil" },
