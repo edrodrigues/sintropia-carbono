@@ -285,15 +285,15 @@ export function CarbonPlanChart() {
   }, [stats]);
 
   const getBadgeColor = (category: string) => {
-    const colors: Record<string, "green" | "amber" | "blue" | "red" | "violet" | "pink" | "emerald" | "purple" | "yellow" | "gray"> = {
+    const colors: Record<string, "green" | "amber" | "blue" | "red" | "pink" | "emerald" | "yellow" | "gray"> = {
       "forest": "green",
       "agriculture": "amber",
       "renewable-energy": "blue",
       "fuel-switching": "red",
-      "biochar": "violet",
+      "biochar": "blue",
       "energy-efficiency": "pink",
       "land-use": "emerald",
-      "carbon-capture": "purple",
+      "carbon-capture": "blue",
       "ghg-management": "yellow",
       "unknown": "gray",
     };
