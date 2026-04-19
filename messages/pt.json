@@ -94,7 +94,7 @@
         "carbonDesc": {
             "marketBrazil": "Veja quem são os maiores compradores de créditos de carbono no Brasil.",
             "marketWorld": "Veja quem são os maiores compradores de créditos de carbono no mundo.",
-            "sectors": "Distribución do mercado de carbono por setor econômico.",
+            "sectors": "Distribuição do mercado de carbono por setor econômico.",
             "prices": "Análise comparada e evolução dos preços",
             "data": "Dados sobre 7700+ Projetos de carbono."
         },
@@ -218,7 +218,7 @@
             "sede": "Sede / Região",
             "foco": "Foco Principal",
             "unidade": "Unidade",
-            "volume": "Volumen Total"
+            "volume": "Volume Total"
         },
         "padroes": {
             "title": "Padrões de Energia",
@@ -248,7 +248,7 @@
             "irecWorld": "I-REC Mundo",
             "irecWorldDesc": "Mercado global de certificados I-REC",
             "carbonPrices": "Preços Carbono",
-            "carbonPricesDesc": "Evolución e análise de preços de carbono"
+            "carbonPricesDesc": "Evolução e análise de preços de carbono"
         },
         "alt": {
             "carbonBrazil": "Floresta tropical densa representando créditos de carbono baseados na natureza",
@@ -302,7 +302,7 @@
         "worldInsights": {
             "leaderTitle": "Statkraft Líder Global",
             "leaderDesc": "A Statkraft consolidou sua posição como a maior negociadora global de I-RECs, atingindo 30.2 TWh (30,2 milhões de I-RECs) em 2025.",
-            "growthTitle": "Mercado em Expansión",
+            "growthTitle": "Mercado em Expansão",
             "growthDesc": "O volume dos Top 10 negociadores globais cresceu em média 21,7%, com destaque para Tata Power (+31,8%) e Shell Energy (+26,5%).",
             "sectorTitle": "Presença Brasileira",
             "sectorDesc": "Empresas brasileiras como Auren, Itaipu, CPFL Renováveis e Omega Energia figuram entre os 20 maiores negociadores globais."
@@ -340,7 +340,7 @@
         "table": {
             "rank": "#",
             "company": "Empresa",
-            "sector": "Sector",
+            "sector": "Setor",
             "country": "País",
             "vol2024": "2024",
             "vol2025": "2025",
@@ -359,7 +359,7 @@
             "rankingMundo": "Ranking Mundo",
             "setores": "Análise por Setor",
             "projetos": "Projetos de Carbono",
-            "precos": "Precios Carbono"
+            "precos": "Preços Carbono"
         },
         "sectors": {
             "title": "Setores em Destaque",
@@ -375,33 +375,824 @@
         "setoresPage": {
             "title": "Análise por Setor",
             "subtitle": "Distribuição do mercado de carbono por setor econômico",
-            "distribution": "Distribución por Setor",
+            "distribution": "Distribuição por Setor",
             "volumeByYear": "Volume por Setor (Anual)",
             "companiesBySector": "Empresas por Setor"
         },
         "comparison": {
             "title": "Brasil vs Mundo",
-            "subtitle": "Comparativo de volúmenes 2024/2025/2026"
+            "subtitle": "Comparativo de volumes 2024/2025/2026"
         },
         "insights": {
             "leaderTitle": "Shell Brasil Lidera",
-            "leaderDesc": "Shell PLC é o maior comprador de créditos de carbono en Brasil, com un volume superior a 9.7 milhões de tCO2e em 2025.",
+            "leaderDesc": "Shell PLC é o maior comprador de créditos de carbono no Brasil, com um volume superior a 9.7 milhões de tCO2e em 2025.",
             "growthTitle": "Papel e Celulose",
-            "growthDesc": "Suzano y Klabin son grandes players, con Suzano presentando el mayor crecimiento absoluto en el volumen de compensación.",
-            "sectorTitle": "Sector de Energía",
-            "sectorDesc": "Empresas de petróleo, gas y energía eléctrica continúan siendo los principales motores de la demanda por créditos de carbono."
+            "growthDesc": "Suzano e Klabin são grandes players, com a Suzano apresentando o maior crescimento absoluto no volume de compensação.",
+            "sectorTitle": "Setor de Energia",
+            "sectorDesc": "Empresas de petróleo, gás e energia elétrica continuam sendo os principais motores da demanda por créditos de carbono."
         },
         "worldInsights": {
-            "leaderTitle": "Microsoft Lidera Global",
-            "leaderDesc": "Microsoft consolidó su posición como la mayor compradora global de créditos de carbono, con 45 millones de tCO2e en 2025.",
-            "growthTitle": "Big Tech en Foco",
-            "growthDesc": "Google, Amazon y Microsoft lideran la transición, enfocándose en créditos de alta integridad y tecnologías de remoción (CDR).",
-            "sectorTitle": "Aceleración Global",
-            "sectorDesc": "El volumen de las Top 10 empresas globales se duplicó en comparación con 2024, señalando un fuerte compromiso con las metas Net Zero."
+            "leaderTitle": "Microsoft Lidera Globalmente",
+            "leaderDesc": "A Microsoft consolidou sua posição como a maior compradora global de créditos de carbono, com 45 milhões de tCO2e em 2025.",
+            "growthTitle": "Big Tech em Foco",
+            "growthDesc": "Google, Amazon e Microsoft lideram a transição, focando em créditos de alta integridade e tecnologias de remoção (CDR).",
+            "sectorTitle": "Aceleração Global",
+            "sectorDesc": "O volume das Top 10 empresas globais dobrou em comparação com 2024, sinalizando forte compromisso com as metas Net Zero."
         },
         "download": {
-            "button": "Descargar CSV",
-            "tooltip": "Exportar datos en formato CSV"
+            "button": "Baixar CSV",
+            "tooltip": "Exportar dados em formato CSV"
+        }
+    },
+    "IRECMundo": {
+        "title": "Maiores Compradores de Energia Renovável no Mundo 2025",
+        "subtitle": "As 15 principais corporações globais por volume de energia renovável. Amazon, Microsoft, Meta e Google lideram. Dados em TWh.",
+        "pageTitle": "Maiores Compradores de Energia Renovável (Mundo)",
+        "pageSubtitle": "As 15 corporações globais por volume de energia renovável negociada (TWh).",
+        "cards": {
+            "volumeTitle": "Volume Top 15 2025",
+            "volumeUnit": "TWh",
+            "topBuyer": "Maior Comprador",
+            "topGrowth": "Maior Crescimento",
+            "dominantSector": "Setor Dominante",
+            "companies": "empresas"
+        },
+        "table": {
+            "rank": "Rank",
+            "company": "Corporação",
+            "sector": "Setor",
+            "vol2024": "Vol 2024",
+            "vol2025": "Vol 2025",
+            "delta": "Delta %"
+        },
+        "insights": {
+            "bigTechTitle": "Big Tech Lidera",
+            "bigTechDesc": "Amazon, Microsoft, Meta e Google são os 4 maiores compradores globais de energia renovável.",
+            "growthTitle": "Crescimento",
+            "growthDesc": "O setor industrial (Rio Tinto) mostra aceleração na transição energética em 2025.",
+            "diversityTitle": "Diversidade",
+            "diversityDesc": "Empresas de semicondutores e varejo também aparecem no topo do ranking global."
+        }
+    },
+    "CarbonoMundo": {
+        "title": "Compradores de Carbono (Mundo)",
+        "subtitle": "Principais corporações globais por volume de créditos de carbono (Milhões tCO2e).",
+        "cards": {
+            "totalVolume": "Volume Total 2025",
+            "volumeUnit": "tCO2e (Top 10)",
+            "topBuyer": "Maior Comprador",
+            "topGrowth": "Maior Crescimento",
+            "dominantSector": "Setor Dominante",
+            "percentOfTop": "do Top 10"
+        },
+        "table": {
+            "rank": "Rank",
+            "company": "Empresa",
+            "sector": "Setor",
+            "vol2024": "Vol 2024",
+            "vol2025": "Vol 2025",
+            "delta": "Delta %"
+        },
+        "insights": {
+            "microsoftTitle": "Microsoft Lidera",
+            "microsoftDesc": "A Microsoft consolidou sua posição como a maior compradora global de créditos de carbono de alta integridade.",
+            "cdrTitle": "CDR em Ascensão",
+            "cdrDesc": "Tecnologias de Remoção de Carbono (CDR) atraem investimentos massivos de empresas de tecnologia e logística.",
+            "portfolioTitle": "Ajuste de Portfólio",
+            "portfolioDesc": "Alguns gigantes de energia estão reduzindo volumes de créditos baseados em natureza para focar em tecnologia."
+        }
+    },
+    "CarbonoPrecos": {
+        "title": "Preços do Carbono",
+        "subtitle": "Mercados Globais e Brasil - Análise Completa 2024-2025",
+        "lastUpdate": "Última atualização: 11 de Março de 2026",
+        "summary": "RESUMO",
+        "summaryItems": {
+            "latam": "América Latina",
+            "latamValue": "USD $63.05B",
+            "latamSub": "2025 → $824B (2034)",
+            "euEts": "EU ETS",
+            "euEtsValue": "€60-80",
+            "euEtsSub": "/tonelada CO2",
+            "freeMarket": "Mercado Livre",
+            "freeMarketValue": "$3.50-14.80",
+            "freeMarketSub": "/tonelada por qualidade",
+            "colombia": "Colômbia",
+            "colombiaValue": "Queda 70%+",
+            "colombiaSub": "Crise de preços"
+        },
+        "regulated": "Mercados Regulados",
+        "regulatedMarkets": {
+            "euEts": "EU ETS",
+            "ukEts": "UK ETS",
+            "california": "Califórnia",
+            "avg2024": "Média 2024",
+            "minimum": "Mínimo"
+        },
+        "voluntary": "Mercado Voluntário (VCM)",
+        "brazilian": "Mercado Brasileiro",
+        "glossary": "Glossário Rápido",
+        "table": {
+            "quality": "Qualidade",
+            "price": "Preço (USD/tCO2e)",
+            "status": "Status"
+        },
+        "qualityLevels": {
+            "highIntegrity": "Alta Integridade",
+            "highIntegrityDesc": "Prêmio por qualidade e co-benefícios",
+            "standard": "Padrão de Mercado",
+            "standardDesc": "VCS/Gold Standard padrão",
+            "legacy": "Legado / Baixo",
+            "legacyDesc": "Projetos antigos com dúvidas de adicionalidade"
+        },
+        "brazil": {
+            "law": "Lei 14.590/2023 (SBCE)",
+            "lawDesc": "Aprovada em Nov 2024. Regulamentação pela CVM/B3 em andamento para 2025.",
+            "nbs": "NBS Premiadas",
+            "nbsTypes": {
+                "redd": "REDD+ (Alta Qualidade)",
+                "restoration": "Restauração Nativa (ARR)",
+                "mangroves": "Manguezais (Blue Carbon)"
+            },
+            "tech": "Tecnologias",
+            "techTypes": {
+                "stoves": "Fogões Eficientes",
+                "methane": "Captura de Metano",
+                "biochar": "Biochar"
+            }
+        },
+        "glossaryTerms": {
+            "sbce": "Sistema Brasileiro de Comércio de Emissões",
+            "tco2e": "Tonelada de CO2 equivalente",
+            "afolu": "Agricultura, Silvicultura e Outros Usos da Terra",
+            "ets": "Sistema de Comércio de Emissões",
+            "arr": "Florestamento, Reflorestamento e Revegetação",
+            "vcm": "Mercado Voluntário de Carbono"
+        }
+    },
+    "CarbonoProjetos": {
+        "title": "Projetos de Carbono",
+        "subtitle": "Visualização interativa de projetos de carbono registrados no mercado voluntário.",
+        "projectIds": "Entendendo os IDs de Projetos",
+        "projectIdsDesc": "Cada projeto de carbono possui um identificador único (ID) que indica o registro onde está cadastrado:",
+        "projectIdDetails": {
+            "vcs": "Verra Carbon Standard (ex: VCS2547) - O maior sistema de registro de créditos de carbono do mundo",
+            "car": "Climate Action Reserve (ex: CAR1019) - Registro americano",
+            "acr": "American Carbon Registry (ex: ACR1000) - Registro americano de carbono",
+            "gld": "Gold Standard (ex: GLD7737) - Padrão suíço para projetos de carbono e desenvolvimento sustentável",
+            "cdm": "Clean Development Mechanism (ex: CDM1234) - Mecanismo de Desenvolvimento Limpo da ONU",
+            "gs": "Gold Standard (ex: GS1234) - Versão moderna do Gold Standard"
+        },
+        "aboutData": "Sobre os Dados",
+        "aboutDataDesc": "Estes dados são fornecidos pelo carbonplan.org, uma organização de pesquisa independente que analisa e oferece gratuitamente informações sobre projetos de carbono.",
+        "aboutDataNote": "Nota: Esta página mostra projetos listados mas ainda não emitidos. Os créditos emitidos serão adicionados à medida que os dados forem atualizados.",
+        "download": "Download de Dados",
+        "downloadDesc": "Baixe os dados completos em formato CSV para análise offline.",
+        "downloadProjects": "Projetos CSV",
+        "downloadCredits": "Créditos CSV"
+    },
+    "IrecPrecos": {
+        "title": "Preços de Certificados I-REC",
+        "subtitle": "Brasil e Mercado Global - Análise Completa 2024-2025",
+        "lastUpdate": "Última atualização: 11 de Março de 2026",
+        "summary": "RESUMO EXECUTIVO",
+        "summaryItems": {
+            "globalVolume": "Volume Global",
+            "globalVolumeValue": "45.1 TWh",
+            "globalVolumeSub": "+40% YoY",
+            "brazilPrice": "Brasil - Preço Hidro",
+            "brazilPriceValue": "$0.18/MWh",
+            "brazilPriceSub": "Mais barato do mundo",
+            "singaporePrice": "Singapura - Preço Solar",
+            "singaporePriceValue": "$75/MWh",
+            "singaporePriceSub": "Mais caro do mundo",
+            "difference": "Diferença",
+            "differenceValue": "416x",
+            "differenceSub": "Entre mercados extremos"
+        },
+        "brazil": "Mercado Brasileiro - Líder Global",
+        "table": {
+            "technology": "Tecnologia",
+            "price": "Preço (USD/MWh)",
+            "vintage": "Safra",
+            "date": "Data",
+            "country": "País",
+            "tech": "Tech",
+            "trend": "Tendência",
+            "observation": "Observação"
+        },
+        "lowPriceTitle": "Por que tão baixo?",
+        "lowPriceItems": {
+            "oversupply": "Oferta massiva (hidrelétrica)",
+            "renewable": "89% da energia brasileira já é renovável"
+        },
+        "trendsTitle": "Tendências",
+        "trendsItems": {
+            "ccee": "Plataforma CCEE atrai novos compradores",
+            "esg": "Crescimento da demanda ESG"
+        },
+        "asiaPacific": "Ásia-Pacífico - Destaques",
+        "latam": "América Latina - Mercado Regional",
+        "projection": "Projeção 2030",
+        "projectionDesc": "O mercado global de I-REC deve alcançar entre 800 e 1.000 TWh até 2030, impulsionado pela meta RE100 das multinacionais.",
+        "projectionValues": {
+            "estimatedValue": "Valor Estimado",
+            "cagr": "CAGR",
+            "value": "$66B",
+            "cagrValue": "28%"
+        },
+        "drivers": "Principais Impulsionadores",
+        "driversList": {
+            "re100": "Políticas RE100",
+            "scarcity": "Escassez de Solar/Eólica",
+            "quality": "Padrões de Qualidade"
+        }
+    },
+    "Contribuir": {
+        "back": "Voltar",
+        "heroBadge": "Projeto Colaborativo",
+        "heroTitle": "Contribua com o Projeto",
+        "heroDesc": "Sintropia é um projeto colaborativo de código aberto. Sua contribuição ajuda a democratizar o acesso a dados ambientais.",
+        "github": {
+            "title": "Código no GitHub",
+            "desc": "Acesse o repositório completo, faça forks, abra issues e envie pull requests.",
+            "button": "Ver Repositório"
+        },
+        "docs": {
+            "title": "Documentação",
+            "desc": "Leia nossa documentação técnica, guias de contribuição e metodologia de dados.",
+            "button": "Ler Documentação"
+        },
+        "howToTitle": "Como Contribuir",
+        "howTo": {
+            "report": {
+                "title": "Reportar Erros",
+                "desc": "Encontrou dados incorretos ou desatualizados? Abra uma issue no GitHub."
+            },
+            "suggest": {
+                "title": "Sugerir Melhorias",
+                "desc": "Tem ideias para novas funcionalidades ou visualizações? Compartilhe conosco."
+            },
+            "code": {
+                "title": "Enviar Código",
+                "desc": "Desenvolvedores podem enviar pull requests com correções e novas features."
+            }
+        },
+        "techStackTitle": "Stack Tecnológica",
+        "techStack": {
+            "nextjs": "Framework React",
+            "typescript": "Tipagem Estática",
+            "tailwind": "Estilização",
+            "supabase": "Banco de Dados",
+            "chartjs": "Visualização",
+            "prisma": "ORM",
+            "vercel": "Deploy",
+            "github": "Versionamento"
+        },
+        "contact": "Tem perguntas ou sugestões? Entre em contato pelo GitHub.",
+        "openIssue": "Abrir Issue no GitHub",
+        "footer": "Projeto colaborativo de código aberto.",
+        "footerLinks": {
+            "github": "GitHub",
+            "home": "Início"
+        }
+    },
+    "Termos": {
+        "back": "Voltar",
+        "heroBadge": "Termos de Uso",
+        "heroTitle": "Termos e Condições",
+        "heroDesc": "Ao usar o Sintropia, você concorda com estes termos. Por favor, leia-os com atenção.",
+        "lastUpdate": "Última atualização: 11 de Março de 2026",
+        "sections": {
+            "1": {
+                "title": "Aceitação dos Termos",
+                "content": "Ao acessar e usar o Sintropia, você aceita e concorda em cumprir estes Termos de Uso. Se não concordar com qualquer parte destes termos, não deverá usar nossa plataforma."
+            },
+            "2": {
+                "title": "Descrição do Serviço",
+                "content": "Sintropia é uma plataforma de dados abertos que oferece:",
+                "list": [
+                    "Dados sobre o mercado de carbono e energia renovável",
+                    "Uma comunidade para discussão e compartilhamento de informações",
+                    "Perfis de usuário públicos",
+                    "Funcionalidades de publicação e interação social"
+                ],
+                "footer": "O serviço é fornecido como projeto colaborativo de código aberto."
+            },
+            "3": {
+                "title": "Registro de Conta",
+                "content": "Para usar certas funcionalidades, você pode criar uma conta:",
+                "list": [
+                    "Você deve fornecer informações verdadeiras e atualizadas",
+                    "Você é responsável por manter a segurança de sua conta",
+                    "Você deve nos notificar imediatamente sobre qualquer uso não autorizado",
+                    "Você deve ter pelo menos 18 anos para criar uma conta"
+                ]
+            },
+            "4": {
+                "title": "Conteúdo do Usuário",
+                "content": "Sintropia é uma plataforma de dados abertos. Por design:",
+                "list": [
+                    "Publicações, comentários e perfis são públicos por padrão",
+                    "Você mantém a propriedade do conteúdo que publica",
+                    "Ao publicar, você nos concede licença para exibir seu conteúdo",
+                    "Você é responsável pelo conteúdo que publica"
+                ]
+            },
+            "5": {
+                "title": "Condições de Uso",
+                "content": "Você concorda em NÃO:",
+                "list": [
+                    "Publicar conteúdo ilegal, difamatório ou abusivo",
+                    "Usar a plataforma para atividades ilegais",
+                    "Tentar acessar contas de outros usuários",
+                    "Publicar spam ou conteúdo comercial não solicitado",
+                    "Infringir direitos de propriedade intelectual de terceiros",
+                    "Criar múltiplas contas para evadir restrições"
+                ]
+            },
+            "6": {
+                "title": "Moderação e Suspensão",
+                "content": "Reservamo-nos o direito de:",
+                "list": [
+                    "Remover conteúdo que viole estes termos",
+                    "Suspender ou encerrar contas infratoras",
+                    "Modificar ou descontinuar o serviço a qualquer momento"
+                ]
+            },
+            "7": {
+                "title": "Isenção de Garantias",
+                "content": "O serviço é fornecido \"como está\" e \"conforme disponível\". Não garantimos que o serviço será ininterrupto, seguro ou livre de erros. Os dados são fornecidos apenas para fins informativos e não constituem aconselhamento financeiro ou profissional."
+            },
+            "8": {
+                "title": "Limitação de Responsabilidade",
+                "content": "Em nenhuma circunstância seremos responsáveis por quaisquer danos indiretos, incidentais, especiais ou consequentes resultantes do uso ou da impossibilidade de usar o serviço."
+            },
+            "9": {
+                "title": "Dados de Mercado",
+                "content": "Os dados de mercado de carbono e energia disponíveis na plataforma:",
+                "list": [
+                    "São fornecidos apenas para fins informativos",
+                    "Não constituem aconselhamento financeiro ou de investimento",
+                    "Podem conter imprecisões e atrasos",
+                    "Não nos responsabilizamos por decisões baseadas nestes dados"
+                ]
+            },
+            "10": {
+                "title": "Propriedade Intelectual",
+                "content": "Sintropia é um projeto de código aberto. O código-fonte está disponível no GitHub sob licença MIT. Os dados públicos podem ser utilizados, desde que a fonte seja citada."
+            },
+            "11": {
+                "title": "Alterações nos Termos",
+                "content": "Podemos revisar estes termos periodicamente. A versão mais atual estará sempre nesta página. O uso continuado da plataforma após alterações indica sua aceitação dos novos termos."
+            },
+            "12": {
+                "title": "Contato",
+                "content": "Se tiver perguntas sobre estes termos, entre em contato conosco:",
+                "button": "Abrir Issue no GitHub"
+            }
+        },
+        "footer": "Projeto colaborativo de código aberto.",
+        "footerLinks": {
+            "privacidade": "Privacidade",
+            "termos": "Termos",
+            "home": "Início"
+        }
+    },
+    "Privacidade": {
+        "back": "Voltar",
+        "heroBadge": "Política de Privacidade",
+        "heroTitle": "Sua Privacidade é Importante",
+        "heroDesc": "Esta política descreve como coletamos, usamos e protegemos suas informações.",
+        "lastUpdate": "Última atualização: 11 de Março de 2026",
+        "sections": {
+            "1": {
+                "title": "Informações que Coletamos",
+                "content": "Sintropia é uma plataforma de dados abertos. Coletamos as seguintes informações:",
+                "list": [
+                    "Dados públicos: username, bio, avatar e publicações que você escolhe compartilhar publicamente",
+                    "Dados de autenticação: e-mail e senha (criptografados) para conta no site",
+                    "Dados de uso: informações anônimas sobre como você interage com a plataforma"
+                ]
+            },
+            "2": {
+                "title": "Como Usamos suas Informações",
+                "list": [
+                    "Fornecer e manter nossos serviços",
+                    "Autenticar sua conta e permitir o login",
+                    "Publicar seu conteúdo (publicações, comentários) de forma pública",
+                    "Melhorar e personalizar sua experiência na plataforma",
+                    "Enviar comunicações importantes sobre a plataforma"
+                ]
+            },
+            "3": {
+                "title": "Compartilhamento de Dados",
+                "content": "Sintropia é uma plataforma de dados abertos. Por padrão:",
+                "list": [
+                    "Suas publicações, perfil e atividades são públicos por design",
+                    "Não vendemos seus dados pessoais a terceiros",
+                    "Podemos compartilhar dados agregados e anonimizados para fins estatísticos",
+                    "Apenas compartilhamos dados pessoais quando exigido por lei"
+                ]
+            },
+            "4": {
+                "title": "Segurança",
+                "content": "Implementamos medidas de segurança apropriadas para proteger suas informações:",
+                "list": [
+                    "Senhas armazenadas com hash e criptografia",
+                    "Conexões criptografadas via HTTPS",
+                    "Acesso restrito a dados pessoais",
+                    "Monitoramento contínuo de segurança"
+                ]
+            },
+            "5": {
+                "title": "Seus Direitos",
+                "content": "Você tem os seguintes direitos sobre seus dados:",
+                "list": [
+                    "Acesso: Solicitar cópia de seus dados pessoais",
+                    "Correção: Solicitar correção de dados incorretos",
+                    "Exclusão: Solicitar exclusão de sua conta e dados",
+                    "Portabilidade: Solicitar seus dados em formato legível"
+                ],
+                "footer": "Para exercer estes direitos, entre em contato conosco pelo GitHub."
+            },
+            "6": {
+                "title": "Cookies",
+                "content": "Utilizamos cookies essenciais para autenticação e preferências. Você pode desativar cookies no seu navegador, mas isso pode afetar algumas funcionalidades do site."
+            },
+            "7": {
+                "title": "Crianças",
+                "content": "Nosso serviço não é direcionado a menores de 13 anos. Não coletamos intencionalmente informações de crianças."
+            },
+            "8": {
+                "title": "Alterações",
+                "content": "Podemos atualizar esta política periodicamente. Notificaremos sobre alterações significativas através do site. A versão mais atualizada estará sempre disponível nesta página."
+            },
+            "9": {
+                "title": "Contato",
+                "content": "Se tiver perguntas sobre esta política, entre em contato conosco:",
+                "button": "Abrir Issue no GitHub"
+            }
+        },
+        "footer": "Projeto colaborativo de código aberto.",
+        "footerLinks": {
+            "privacidade": "Privacidade",
+            "termos": "Termos",
+            "home": "Início"
+        }
+    },
+    "Metadata": {
+        "dashboard": "Painel",
+        "feed": "Feed",
+        "profiles": "Perfis",
+        "leaderboard": "Classificação",
+        "achievements": "Conquistas",
+        "profile": "Perfil"
+    },
+    "Carbon": {
+        "title": "Mercado Global de Carbono",
+        "subtitle": "Dashboard de inteligência sobre créditos de carbono no mundo.",
+        "cards": {
+            "totalVolume": "Volume Total 2025",
+            "growth": "Crescimento Médio",
+            "sectors": "Setores",
+            "leader": "Líder",
+            "vsLastYear": "vs 2024",
+            "sectorsRepresented": "setores representados"
+        },
+        "table": {
+            "rank": "Rank",
+            "company": "Empresa",
+            "sector": "Setor",
+            "country": "País",
+            "vol2024": "Vol 2024",
+            "vol2025": "Vol 2025",
+            "delta": "Delta %"
+        },
+        "sectorsRepresented": "Setores Representados"
+    },
+    "Community": {
+        "feed": {
+            "title": "Feed de Notícias",
+            "subtitle": "Insights e posts da nossa rede de especialistas.",
+            "todayFeed": "Feed de Hoje",
+            "shareInsight": "Compartilhe insights e discuta tendências do mercado de carbono.",
+            "sortTop": "Top",
+            "sortNew": "Novos",
+            "sortBest": "Melhores",
+            "noPosts": "Nenhum post ainda",
+            "beFirst": "Seja o primeiro a compartilhar algo com a comunidade!"
+        },
+        "profiles": {
+            "title": "Perfis da Comunidade",
+            "subtitle": "Veja todos os perfis da comunidade.",
+            "explore": "Explore os membros da comunidade Sintropia e suas contribuições",
+            "posts": "Posts",
+            "comments": "Comentários",
+            "viewActivities": "Ver Atividades →",
+            "noProfiles": "Nenhum perfil encontrado",
+            "beFirstProfile": "Seja o primeiro a entrar na comunidade!",
+            "showTop": "Mostrando os 50 melhores membros por pontos",
+            "noUsername": "sem username",
+            "noAchievement": "Nenhuma conquista ainda",
+            "badges": {
+                "master": "Mestre",
+                "specialist": "Especialista",
+                "contributor": "Contribuidor",
+                "learner": "Aprendiz",
+                "beginner": "Iniciante",
+                "newbie": "Novato"
+            },
+            "userTypes": {
+                "company": "Empresa",
+                "ong": "ONG",
+                "government": "Governo",
+                "professor": "Professor",
+                "individual": "Individual"
+            }
+        },
+        "leaderboard": {
+            "title": "Ranking de Membros",
+            "subtitle": "Veja quem são os maiores contribuidores.",
+            "pageTitle": "Ranking Mais Ativo",
+            "pageSubtitle": "Os membros mais ativos contribuindo para a comunidade.",
+            "rank": "Rank",
+            "user": "Usuário",
+            "achievements": "Conquistas",
+            "karma": "Karma",
+            "points": "Pontos",
+            "pointsTooltip": "Pontos ganhos por contribuições na comunidade",
+            "noData": "Nenhum dado disponível",
+            "joinNow": "Comece a participar para aparecer no ranking!",
+            "noAchievement": "Nenhuma conquista ainda",
+            "badges": {
+                "master": "Mestre",
+                "specialist": "Especialista",
+                "contributor": "Contribuidor",
+                "learner": "Aprendiz",
+                "beginner": "Iniciante"
+            }
+        },
+        "conquistas": {
+            "title": "Missões e Conquistas",
+            "subtitle": "Ganhe karma e suba de nível na plataforma.",
+            "pageTitle": "Conquistas e Gamificação",
+            "pageSubtitle": "Entenda como funciona o sistema de recompensas do Sintropia",
+            "backToDashboard": "← Voltar ao Painel",
+            "progress": "Seu Progresso",
+            "karmaTotal": "Karma Total",
+            "ranking": "Ranking",
+            "achievementsCount": "Conquistas",
+            "howToEarn": "Como Ganhar Karma",
+            "karmaDescription": "Karma é sua reputação na comunidade. Quanto mais contribuições de qualidade, mais pontos você ganha!",
+            "earnActions": {
+                "createPost": "Criar um post",
+                "comment": "Comentar no post de outro",
+                "likePost": "Quando alguém curte seu post",
+                "likeComment": "Quando alguém curte seu comentário"
+            },
+            "badgesByLevel": "Badges por Nível de Karma",
+            "badgeLevels": {
+                "newbie": {
+                    "name": "Novato",
+                    "threshold": "0+ Karma"
+                },
+                "beginner": {
+                    "name": "Iniciante",
+                    "threshold": "10+ Karma"
+                },
+                "learner": {
+                    "name": "Aprendiz",
+                    "threshold": "50+ Karma"
+                },
+                "contributor": {
+                    "name": "Contribuidor",
+                    "threshold": "100+ Karma"
+                },
+                "specialist": {
+                    "name": "Especialista",
+                    "threshold": "500+ Karma"
+                },
+                "master": {
+                    "name": "Mestre",
+                    "threshold": "1000+ Karma"
+                }
+            },
+            "day": "dia",
+            "allAchievements": "Todas as Conquistas"
+        }
+    },
+    "Dashboard": {
+        "pageTitle": "Minha Página",
+        "pageSubtitle": "Sua jornada na comunidade Sintropia",
+        "profile": {
+            "username": "Usuário",
+            "noUsername": "sem username",
+            "karma": "Karma",
+            "nextLevel": "para o próximo nível"
+        },
+        "stats": {
+            "posts": "Posts",
+            "published": "publicados",
+            "comments": "Comentários",
+            "made": "feitos"
+        },
+        "summary": {
+            "title": "Resumo",
+            "ranking": "Ranking",
+            "karma": "Karma",
+            "badge": "Badge",
+            "posts": "Posts",
+            "comments": "Comentários",
+            "toNext": "Para o próximo"
+        },
+        "gamification": {
+            "title": "Como Funciona a Gamificação",
+            "description": "Karma é sua reputação na comunidade. Quanto mais contribuições de qualidade, mais pontos você ganha!",
+            "actions": {
+                "createPost": "Criar um post",
+                "comment": "Comentar no post de outro",
+                "likePost": "Quando alguém curte seu post",
+                "likeComment": "Quando alguém curte seu comentário",
+                "dislikePost": "Quando alguém dá dislike no seu post",
+                "dislikeComment": "Quando alguém dá dislike no seu comentário",
+                "inviteFriend": "Convidar um amigo (após completar o perfil)"
+            },
+            "badgesTitle": "Badges por Nível de Karma:",
+            "yourRanking": "Seu ranking atual:",
+            "viewRanking": "Ver ranking completo →"
+        },
+        "achievements": {
+            "title": "Conquistas",
+            "earned": "conquistados",
+            "viewAll": "Ver todos →"
+        },
+        "contribute": {
+            "title": "Como Contribuir",
+            "description": "Sintropia é um projeto colaborativo de código aberto. Sua contribuição ajuda a tornar o mercado de carbono mais transparente e acessível.",
+            "actions": {
+                "shareKnowledge": {
+                    "title": "Compartilhar conhecimento",
+                    "desc": "Publique posts e comente na comunidade"
+                },
+                "helpNewbies": {
+                    "title": "Ajudar novatos",
+                    "desc": "Responda perguntas e colabore"
+                },
+                "reportData": {
+                    "title": "Reportar dados",
+                    "desc": "Reporte dados de mercado incorretos"
+                },
+                "contributeCode": {
+                    "title": "Contribuir com código",
+                    "desc": "Faça fork no GitHub e envie PRs"
+                }
+            },
+            "cta": "Veja como contribuir"
+        },
+        "inviteTitle": "Convidar Amigos",
+        "inviteDescription": "Ganhe 50 pontos de Karma por cada amigo que completar o perfil! Seus amigos também ganham 50 pontos.",
+        "copied": "Copiado!",
+        "copyLink": "Copiar Link",
+        "inviteLimit": "Limite de 20 indicações recompensadas",
+        "noReferralCode": "Código de indicação não disponível"
+    },
+    "Onboarding": {
+        "step1Label": "Identidade",
+        "step2Label": "Detalhes",
+        "step3Label": "Pronto",
+        "step1TitleNew": "Bem-vindo ao Sintropia!",
+        "step1SubtitleNew": "Conte-nos quem você é para personalizar sua experiência. Seu nome e handle são obrigatórios.",
+        "step1TitleReturning": "Vamos finalizar seu perfil",
+        "step1SubtitleReturning": "Quase lá! Adicione seu nome e handle para desbloquear todas as funcionalidades.",
+        "accountTypeLabel": "Tipo de Conta",
+        "type_individual": "Individual",
+        "type_company": "Empresa",
+        "type_ong": "ONG",
+        "type_government": "Governo",
+        "type_professor": "Professor",
+        "usernameLabel": "Nome de Usuário",
+        "usernameHint": "Seu @handle na plataforma (letras, números, _ e -)",
+        "usernameMinLength": "Nome de usuário deve ter pelo menos 3 caracteres",
+        "displayNameLabel": "Nome de Exibição",
+        "displayNamePlaceholder": "Como devemos chamá-lo?",
+        "continueButton": "Continuar",
+        "saving": "Salvando...",
+        "step2Title": "Conte-nos mais (opcional)",
+        "step2Subtitle": "Estes detalhes ajudam outros a se conectar com você. Você pode adicioná-los depois.",
+        "organizationLabel": "Organização",
+        "organizationPlaceholder": "ex: Empresa X, ONG Y",
+        "cargoLabel": "Cargo",
+        "cargoPlaceholder": "ex: Gerente de Sustentabilidade, Analista",
+        "bioLabel": "Bio / Sobre",
+        "bioPlaceholder": "Conte-nos um pouco sobre você ou sua empresa...",
+        "saveAndContinue": "Salvar e Continuar",
+        "completeLater": "Farei isso depois",
+        "step3Title": "Tudo pronto!",
+        "step3Subtitle": "Seu perfil está completo. Hora de explorar a comunidade!",
+        "karmaBonus": "Você ganhou Karma por completar seu perfil!",
+        "step3CtaDashboard": "Ir para o Painel",
+        "step3CtaFeed": "Explorar Feed"
+    },
+    "Posts": {
+        "pageTitle": "Posts",
+        "pageSubtitle": "Comunidade e discussões sobre o mercado de carbono",
+        "newPost": "+ Novo Post"
+    },
+    "Perfil": {
+        "myPosts": "Meus Posts",
+        "noPosts": "Nenhum post ainda.",
+        "createFirst": "Criar primeiro post",
+        "createNew": "Criar novo post →",
+        "editProfile": "Editar Perfil",
+        "achievements": "Conquistas"
+    },
+    "StatsDashboard": {
+        "posts": "Posts",
+        "comments": "Comentários",
+        "upvotes": "Curtidas",
+        "ranking": "Ranking"
+    },
+    "ProfileHeader": {
+        "progressLabel": "Progresso para o próximo nível"
+    },
+    "Energia": {
+        "pageTitle": "Mercado de Energia Renovável",
+        "pageSubtitle": "Compensação energética com certificados I-REC",
+        "heroTitle": "Energia Renovável no Brasil e no Mundo",
+        "heroSubtitle": "Dashboard completo do mercado de certificados I-REC - rankings, preços e tendências",
+        "lastUpdated": "Última atualização",
+        "stats": {
+            "totalVolume": "Volume Total",
+            "growth": "Crescimento",
+            "sectors": "Setores",
+            "leaders": "Empresas",
+            "vsLastYear": "vs ano anterior"
+        },
+        "table": {
+            "rank": "#",
+            "company": "Empresa",
+            "sector": "Setor",
+            "role": "Papel",
+            "vol2024": "2024",
+            "vol2025": "2025",
+            "vol2026": "2026",
+            "delta": "Δ%"
+        },
+        "filters": {
+            "allSectors": "Todos os setores",
+            "search": "Buscar empresa...",
+            "year": "Ano",
+            "region": "Região"
+        },
+        "quickLinks": {
+            "title": "Navegação Rápida",
+            "rankingBrasil": "Ranking Brasil",
+            "rankingMundo": "Ranking Mundo",
+            "setores": "Análise por Setor",
+            "precos": "Preços I-REC"
+        },
+        "sectors": {
+            "title": "Setores em Destaque",
+            "subtitle": "Distribuição do mercado por setor econômico"
+        },
+        "ranking": {
+            "brasilTitle": "Top 50 I-REC Brasil",
+            "brasilSubtitle": "Maiores negociadores de certificados de energia renovável no Brasil",
+            "mundoTitle": "Top 50 I-REC Mundo",
+            "mundoSubtitle": "Maiores negociadores globais de certificados de energia renovável",
+            "viewAll": "Ver ranking completo →"
+        },
+        "insights": {
+            "leaderTitle": "Comerc Lidera Brasil",
+            "leaderDesc": "A Comerc Energia mantém liderança absoluta no mercado brasileiro, negociando 10.4 milhões de I-RECs em 2025 (30% de crescimento vs 2024).",
+            "growthTitle": "Consolidação do Mercado",
+            "growthDesc": "As 5 maiores empresas concentram 45% do volume total, com Comerc, Raízen e Engie Brasil dominando o ranking.",
+            "sectorTitle": "Diversidade Setorial",
+            "sectorDesc": "Além do setor de energia, empresas de mineração (Vale), siderurgia (Gerdau) e papel (Klabin, Suzano) são grandes consumidores."
+        },
+        "worldInsights": {
+            "leaderTitle": "Statkraft Lidera Globalmente",
+            "leaderDesc": "A Statkraft consolidou sua posição como a maior negociadora global de I-RECs, atingindo 30.2 TWh (30.2 milhões de I-RECs) em 2025.",
+            "growthTitle": "Mercado em Expansão",
+            "growthDesc": "O volume dos Top 10 negociadores globais cresceu em média 21.7%, com destaque para Tata Power (+31.8%) e Shell Energy (+26.5%).",
+            "sectorTitle": "Presença Brasileira",
+            "sectorDesc": "Empresas brasileiras como Auren, Itaipu, CPFL Renováveis e Omega Energia figuram entre os 20 maiores negociadores globais."
+        },
+        "setoresPage": {
+            "title": "Análise por Setor",
+            "subtitle": "Distribuição do mercado I-REC por setor econômico",
+            "distribution": "Distribuição por Setor",
+            "volumeByYear": "Volume por Setor (Anual)",
+            "companiesBySector": "Empresas por Setor"
+        },
+        "comparison": {
+            "title": "Brasil vs Mundo",
+            "subtitle": "Comparativo de volumes 2024/2025/2026"
+        },
+        "chart": {
+            "brasilVolume": "Volume Brasil",
+            "mundoVolume": "Volume Mundo"
         }
     }
 }
