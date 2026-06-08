@@ -1,0 +1,77 @@
+Rank,Empresa,Setor,Volume 2024 (tCO2e),Volume 2025 (tCO2e),Delta (%),Delta (tCO2),Volume 2026 (YTD)
+1,Shell,Energia / Óleo e Gás,22.480.000,9.750.000,"-56,63%",-12.730.000,4.200.000
+2,Eni,Energia / Óleo e Gás,10.020.000,8.900.000,"-11,18%",-1.120.000,3.800.000
+3,Microsoft,Tecnologia,5.100.000,6.800.000,"+33,33%",+1.700.000,2.900.000
+4,Delta Air Lines,Aviação,4.500.000,4.100.000,"-8,89%",-400,1.750.000
+5,Walt Disney Company,Entretenimento,1.660.000,1.850.000,"+11,45%",+190.000,780
+6,CPC Corporation,Industrial / Refino,1.680.000,1.550.000,"-7,74%",-130,690
+7,Apple,Tecnologia,910,1.200.000,"+31,87%",+290.000,510
+8,Volkswagen Group,Automotivo,1.200.000,1.150.000,"-4,17%",-50,480
+9,BHP,Mineração,1.100.000,1.080.000,"-1,82%",-20,440
+10,BP,Energia / Óleo e Gás,1.350.000,1.050.000,"-22,22%",-300,410
+11,Google (Alphabet),Tecnologia,850,1.020.000,"+20,00%",+170.000,490
+12,Amazon,Varejo / Tecnologia,780,950,"+21,79%",+170.000,430
+13,JPMorgan Chase,Financeiro,620,840,"+35,48%",+220.000,390
+14,Primax,Energia,710,790,"+11,27%",+80.000,310
+15,Guacolda Energía,Energia / Utilidades,680,720,"+5,88%",+40.000,285
+16,South Pole,Intermediário / Desenvolvedor,850,710,"-16,47%",-140,290
+17,Meta Platforms,Tecnologia,520,680,"+30,77%",+160.000,310
+18,TotalEnergies,Energia / Óleo e Gás,800,650,"-18,75%",-150,240
+19,Chevron,Energia / Óleo e Gás,720,630,"-12,50%",-90,220
+20,3Degrees,Intermediário / Mercado,610,620,"+1,64%",+10.000,250
+21,Climate Impact Partners,Intermediário / Soluções,640,600,"-6,25%",-40,235
+22,EasyJet,Aviação,650,580,"-10,77%",-70,210
+23,Iberdrola,Energia / Utilidades,540,560,"+3,70%",+20.000,240
+24,JetBlue Airways,Aviação,510,490,"-3,92%",-20,185
+25,Salesforce,Tecnologia,380,480,"+26,32%",+100.000,215
+26,Netflix,Entretenimento,410,440,"+7,32%",+30.000,190
+27,Goldman Sachs,Financeiro,350,420,"+20,00%",+70.000,180
+28,Woodside Energy,Energia,450,410,"-8,89%",-40,165
+29,Rio Tinto,Mineração,430,390,"-9,30%",-40,150
+30,Boeing,Aeroespacial,380,370,"-2,63%",-10,140
+31,Unilever,Bens de Consumo,310,350,"+12,90%",+40.000,155
+32,Nestlé,Alimentos e Bebidas,340,330,"-2,94%",-10,130
+33,Stripe,Finanças / Tecnologia,180,320,"+77,78%",+140.000,165
+34,Shopify,E-commerce / Tecnologia,190,310,"+63,16%",+120.000,150
+35,Petrobras,Energia / Óleo e Gás,280,290,"+3,57%",+10.000,120
+36,Natura &Co,Cosméticos,250,280,"+12,00%",+30.000,135
+37,Suzano,Papel e Celulose,220,260,"+18,18%",+40.000,115
+38,Vale,Mineração,240,250,"+4,17%",+10.000,105
+39,Klabin,Papel e Celulose,190,220,"+15,79%",+30.000,95
+40,JBS,Alimentos,180,210,"+16,67%",+30.000,90
+41,Cosan,Bioenergia,170,195,"+14,71%",+25.000,85
+42,EKI Energy Services,Desenvolvedor / Consultoria,250,190,"-24,00%",-60,80
+43,ClimeCo,Intermediário / Soluções,210,185,"-11,90%",-25,85
+44,EcoAct,Consultoria / Soluções,220,180,"-18,18%",-40,75
+45,Ecosecurities,Intermediário / Desenvolvedor,190,175,"-7,89%",-15,70
+46,Finite Carbon,Silvicultura / Desenvolvedor,180,170,"-5,56%",-10,65
+47,BCG,Consultoria,120,160,"+33,33%",+40.000,75
+48,McKinsey & Company,Consultoria,110,150,"+36,36%",+40.000,70
+49,Swiss Re,Seguros / Financeiro,130,145,"+11,54%",+15.000,65
+50,Porsche,Automotivo,140,135,"-3,57%",-5,55
+,,,,,,,
+,,,,,,,
+,,,,,,,
+Tendências Observadas nos Dados (2024–2026),,,,,,,
+,,,,,,,
+"Mudança de Volume para Valor (""Flight to Quality""): Como observado na queda acentuada do volume da Shell e de outros gigantes do setor energético, muitas corporações reduziram o volume bruto de créditos de ""baixa qualidade"" (como os créditos legados de desmatamento evitado de metodologias antigas) devido à pressão reputacional.",,,,,,,
+,,,,,,,
+"A Ascensão das Tecnologias de Remoção (CDR): Empresas de tecnologia (como Microsoft, Stripe e Shopify) vêm aumentando significativamente seus aportes. Embora comprem menor volume total em toneladas se comparadas ao setor de óleo e gás, elas investem bilhões de dólares em contratos futuros de remoção durável de engenharia (como DAC e biochar), cujos preços por tonelada são drasticamente maiores.",,,,,,,
+,,,,,,,
+"Destaque do Mercado Brasileiro: Empresas do agro, papel/celulose e energia (como Natura, Suzano, Klabin e Cosan) seguem como referências de mercado por atuarem tanto no desenvolvimento direto de soluções baseadas na natureza (NbS) quanto em Programas de Eficiência de Carbono.",,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+Referências Bibliográficas (Padrão ABNT),,,,,,,
+,,,,,,,
+"ECOSYSTEM MARKETPLACE. State of the Voluntary Carbon Markets 2024/2025: insights and trends. Washington, DC: Forest Trends, 2025. Disponível em: https://www.ecosystemmarketplace.com. Acesso em: 8 jun. 2026.",,,,,,,
+,,,,,,,
+"MICROSOFT CORPORATION. 2024 Environmental Sustainability Report: pathways to net-zero. Redmond: Microsoft, 2025. Disponível em: https://www.microsoft.com/sustainability. Acesso em: 8 jun. 2026.",,,,,,,
+,,,,,,,
+"MSCI CARBON MARKETS. Global Carbon Markets: annual review and corporate purchase tracking. London: MSCI, 2025. Disponível em: https://www.msci.com/our-solutions/climate-investing/carbon-markets. Acesso em: 8 jun. 2026.",,,,,,,
+,,,,,,,
+"SHELL PLC. Shell Sustainability Report 2024: strategic carbon management and offsets. London: Shell, 2025. Disponível em: https://www.shell.com/sustainability. Acesso em: 8 jun. 2026.",,,,,,,
+,,,,,,,
+"SYLVERA. The Carbon Market Report: flight to quality and technological carbon removals. London: Sylvera, 2025. Disponível em: https://www.sylvera.com. Acesso em: 8 jun. 2026.",,,,,,,
+,,,,,,,
+"VERRA. Verified Carbon Standard Registry: dynamic tracking of credit issuances and allocations. Washington, DC: Verra, 2026. Disponível em: https://registry.verra.org. Acesso em: 8 jun. 2026.",,,,,,,

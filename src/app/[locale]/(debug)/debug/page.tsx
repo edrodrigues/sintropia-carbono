@@ -5,6 +5,14 @@ import { getServerAuthContext, isDevelopmentEnvironment } from "@/lib/auth/serve
 
 export const metadata: Metadata = {
   title: "Debug | Sintropia",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
 };
 
 export default async function DebugPage({

@@ -84,7 +84,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       },
     },
     icons: {
-      icon: "/favicon.ico",
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon.svg", type: "image/svg+xml" },
+      ],
       shortcut: "/favicon.ico",
       apple: "/favicon.ico",
     },

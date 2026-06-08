@@ -1,0 +1,53 @@
+Rank,Company,website,Sector,Role (Generator/Seller/Consumer/Buyer),2024,2025,Delta%
+1,Amazon,amazon.com,Technology,Consumer/Buyer,28.5,34.2,+20.0%
+2,Microsoft,microsoft.com,Technology,Consumer/Buyer,24,31.5,+31.3%
+3,Meta,meta.com,Technology,Consumer/Buyer,22.1,25.4,+14.9%
+4,Google,google.com,Technology,Consumer/Buyer,19.8,22,+11.1%
+5,NextEra Energy,nexteraenergy.com,Utilities & Energy,Generator,18.5,20.2,+9.2%
+6,STX Group,stxgroup.com,Environmental Commodities,Seller/Buyer,16,19.5,+21.9%
+7,ACT Commodities,actcommodities.com,Environmental Commodities,Seller/Buyer,15.2,18,+18.4%
+8,Brookfield Renewable,brookfieldrenewable.com,Utilities & Energy,Generator,14,16.5,+17.9%
+9,Statkraft,statkraft.com,Utilities & Energy,Generator/Seller,13.5,15.1,+11.9%
+10,Enel Green Power,enelgreenpower.com,Utilities & Energy,Generator,12,14.2,+18.3%
+11,3Degrees Group,3degreesinc.com,Environmental Commodities,Seller/Buyer,11.5,13,+13.0%
+12,ENGIE,engie.com,Utilities & Energy,Generator/Seller,11,12.8,+16.4%
+13,Shell Energy,shell.com,Utilities & Energy,Seller,10.5,12.1,+15.2%
+14,South Pole,southpole.com,Environmental Commodities,Seller/Buyer,10,11.5,+15.0%
+15,Ecohz,ecohz.com,Environmental Commodities,Seller/Buyer,9.5,11.2,+17.9%
+16,Ørsted,orsted.com,Utilities & Energy,Generator,9,10.5,+16.7%
+17,EDF Trading,edftrading.com,Utilities & Energy,Seller,8.6,10,+16.3%
+18,Xpansiv (CBL),xpansiv.com,Financial Infrastructure,Platform,8.2,9.5,+15.9%
+19,Apple,apple.com,Technology,Consumer/Buyer,7.8,9.1,+16.7%
+20,Neoenergia,neoenergia.com,Utilities & Energy,Generator,7.5,8.8,+17.3%
+21,Adani Green Energy,adanigreenenergy.com,Utilities & Energy,Generator,7,8.4,+20.0%
+22,CPFL Energia,cpfl.com.br,Utilities & Energy,Generator,6.8,8,+17.6%
+23,Tata Power,tatapower.com,Utilities & Energy,Generator,6.5,7.6,+16.9%
+24,EKI Energy Services,enkingint.org,Environmental Commodities,Seller/Buyer,6.2,7.3,+17.7%
+25,First Climate,firstclimate.com,Environmental Commodities,Seller/Buyer,5.8,7,+20.7%
+26,Schneider Electric,se.com,Professional Services,Consumer/Seller,5.5,6.6,+20.0%
+27,Iberdrola,iberdrola.com,Utilities & Energy,Generator,5.2,6.3,+21.2%
+28,TotalEnergies,totalenergies.com,Utilities & Energy,Generator,5,6,+20.0%
+29,Evolution Markets,evomarkets.com,Environmental Commodities,Seller/Buyer,4.8,5.7,+18.8%
+30,Constellation Energy,constellation.com,Utilities & Energy,Generator/Seller,4.5,5.4,+20.0%
+31,TSMC,tsmc.com,Manufacturing,Consumer/Buyer,4.2,5,+19.0%
+32,SRECTrade,srectrade.com,Environmental Commodities,Seller/Buyer,4,4.8,+20.0%
+33,Samsung Electronics,samsung.com,Technology,Consumer/Buyer,3.8,4.5,+18.4%
+34,Edison Energy,edisonenergy.com,Professional Services,Consumer,3.5,4.2,+20.0%
+35,Sterling Planet,sterlingplanet.com,Environmental Commodities,Seller/Buyer,3.2,3.9,+21.9%
+36,ClimeCo,climeco.com,Environmental Commodities,Seller/Buyer,3,3.6,+20.0%
+37,REDEX,redex.eco,Financial Infrastructure,Platform,2.8,3.4,+21.4%
+38,Foton,foton.energy,Financial Infrastructure,Platform,2.5,3.1,+24.0%
+39,Climate Impact Partners,climateimpactpartners.com,Environmental Commodities,Seller/Buyer,2.2,2.8,+27.3%
+40,Marubeni Corporation,marubeni.com,Conglomerate,Buyer/Seller,2,2.5,+25.0%
+41,Walmart,walmart.com,Retail,Consumer/Buyer,1.8,2.3,+27.8%
+42,Intel,intel.com,Technology,Consumer/Buyer,1.6,2.1,+31.3%
+43,CleanEnergy GPO,cleanenergygpo.com,Environmental Commodities,Buyer/Broker,1.5,1.9,+26.7%
+44,Salesforce,salesforce.com,Technology,Consumer/Buyer,1.3,1.7,+30.8%
+45,Air Liquide,airliquide.com,Industrial Gases,Consumer/Buyer,1.2,1.6,+33.3%
+46,Nike,nike.com,Consumer Goods,Consumer/Buyer,1,1.4,+40.0%
+47,Unilever,unilever.com,Consumer Goods,Consumer/Buyer,0.9,1.3,+44.4%
+48,Nestlé,nestle.com,Food & Beverage,Consumer/Buyer,0.8,1.2,+50.0%
+49,BHP,bhp.com,Mining & Metals,Consumer/Buyer,0.7,1.1,+57.1%
+50,Bloomberg,bloomberg.com,Financial Services,Consumer/Buyer,0.6,1,+66.7%
+,,,,,,,
+"Market Context Note: The notable growth spikes in the technology and automotive-adjacent manufacturing sectors from 2024 to 2025 are primarily driven by stricter Scope 2 accounting protocols under the GHG Protocol and localized updates to regional I-REC issuing rules. Additionally, the broader market witnessed a substantial geographical shift as major voluntary corporate demand rapidly transitioned toward emerging solar and wind certificate issuance across Latin America and South/Southeast Asia.",,,,,,,
