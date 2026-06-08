@@ -3,6 +3,7 @@
 import { cx } from "@/lib/utils";
 import { RiDownloadLine } from "@remixicon/react";
 import { useState } from "react";
+import { logger } from "@/lib/utils/logger";
 
 interface DataExportButtonProps {
   data: Record<string, unknown>[];
@@ -28,24 +29,24 @@ export function DataExportButton({
 
     try {
       // Determine columns to export
-      const exportColumns = columns || 
-        Object.keys(data[0]).map(key => ({ key, header: key }));
+      const exportColumns = columns
+        || Object.keys(data[0]).map(key => ({ key, header: key }));
 
       // Create CSV header
       const header = exportColumns.map(col => col.header).join(",");
 
       // Create CSV rows
-      const rows = data.map(row => 
-        exportColumns.map(col => {
+      const rows = data.map(row =>
+        exportColumns.map((col) => {
           const value = row[col.key];
           // Handle values that might contain commas or quotes
           if (value === null || value === undefined) return "";
           const stringValue = String(value);
-          if (stringValue.includes(",") || stringValue.includes('"') || stringValue.includes("\n")) {
-            return `"${stringValue.replace(/"/g, '""')}"`;
+          if (stringValue.includes(",") || stringValue.includes("\"") || stringValue.includes("\n")) {
+            return `"${stringValue.replace(/"/g, "\"\"")}"`;
           }
           return stringValue;
-        }).join(",")
+        }).join(","),
       );
 
       // Combine header and rows
@@ -61,9 +62,11 @@ export function DataExportButton({
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error("Error exporting CSV:", error);
-    } finally {
+    }
+    catch (error) {
+      logger.error("Erro ao exportar CSV", { error });
+    }
+    finally {
       setIsExporting(false);
     }
   };
@@ -76,7 +79,7 @@ export function DataExportButton({
         "inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
         "bg-emerald-600 text-white hover:bg-emerald-700",
         "disabled:opacity-50 disabled:cursor-not-allowed",
-        className
+        className,
       )}
     >
       <RiDownloadLine className="w-4 h-4" />

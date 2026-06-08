@@ -1,8 +1,8 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations } from "next-intl/server";
 
 export default async function Posts() {
-  const t = await getTranslations('Posts');
-  
+  const t = await getTranslations("Posts");
+
   const posts = [
     {
       id: 1,
@@ -37,18 +37,18 @@ export default async function Posts() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{t('pageTitle')}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{t("pageTitle")}</h1>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
-            {t('pageSubtitle')}
+            {t("pageSubtitle")}
           </p>
         </div>
         <button className="bg-[#1e40af] hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
-          {t('newPost')}
+          {t("newPost")}
         </button>
       </div>
 
       <div className="space-y-6">
-        {posts.map((post) => (
+        {posts.map(post => (
           <div
             key={post.id}
             className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow"
@@ -59,12 +59,24 @@ export default async function Posts() {
             <p className="text-gray-600 dark:text-gray-400 mb-4">{post.excerpt}</p>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                <span>👤 {post.author}</span>
-                <span>📅 {post.date}</span>
+                <span>
+                  👤
+                  {post.author}
+                </span>
+                <span>
+                  📅
+                  {post.date}
+                </span>
               </div>
               <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-                <span>❤️ {post.likes}</span>
-                <span>💬 {post.comments}</span>
+                <span>
+                  ❤️
+                  {post.likes}
+                </span>
+                <span>
+                  💬
+                  {post.comments}
+                </span>
               </div>
             </div>
           </div>

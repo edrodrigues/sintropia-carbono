@@ -41,17 +41,17 @@ export async function generateMetadata({
     keywords:
       locale === "pt"
         ? [
-            "I-REC setores",
-            "análise setor energia",
-            "transição energética setorial",
-            "I-REC por indústria",
-          ]
+          "I-REC setores",
+          "análise setor energia",
+          "transição energética setorial",
+          "I-REC por indústria",
+        ]
         : [
-            "I-REC sectors",
-            "energy sector analysis",
-            "sectoral energy transition",
-            "I-REC by industry",
-          ],
+          "I-REC sectors",
+          "energy sector analysis",
+          "sectoral energy transition",
+          "I-REC by industry",
+        ],
     alternates: {
       canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}energia/setores`,
     },
@@ -71,8 +71,8 @@ export default async function SetoresPage({
 }) {
   const { locale } = await params;
 
-  const [brasilStakeholders, _mundoStakeholders, brasilSectors, mundoSectors] =
-    await Promise.all([
+  const [brasilStakeholders, _mundoStakeholders, brasilSectors, mundoSectors]
+    = await Promise.all([
       getIrecStakeholders("brazil"),
       getIrecStakeholders("world"),
       getIrecSectorDistribution("brazil"),
@@ -88,19 +88,19 @@ export default async function SetoresPage({
   // Prepare volume by sector data for bar chart
   const sectorVolumeData = brasilSectors.slice(0, 8).map((sector) => {
     const brasilCompanies = brasilStakeholders.filter(
-      (s) => s.setor === sector.setor
+      s => s.setor === sector.setor,
     );
     const vol2024 = brasilCompanies.reduce(
       (sum, s) => sum + (Number(s.volume_2024) || 0),
-      0
+      0,
     );
     const vol2025 = brasilCompanies.reduce(
       (sum, s) => sum + (Number(s.volume_2025) || 0),
-      0
+      0,
     );
     const vol2026 = brasilCompanies.reduce(
       (sum, s) => sum + (Number(s.volume_2026) || 0),
-      0
+      0,
     );
 
     return {
@@ -114,9 +114,9 @@ export default async function SetoresPage({
   // Prepare table data - companies by sector
   const topCompaniesBySector = brasilSectors.slice(0, 5).flatMap((sector) => {
     const companies = brasilStakeholders
-      .filter((s) => s.setor === sector.setor)
+      .filter(s => s.setor === sector.setor)
       .slice(0, 3);
-    return companies.map((c) => ({
+    return companies.map(c => ({
       setor: sector.setor,
       empresa: c.empresa,
       vol2024: c.volume_2024
@@ -153,7 +153,9 @@ export default async function SetoresPage({
           {/* Pie Chart - Brasil */}
           <Card>
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-              {tSetores("distribution")} - Brasil
+              {tSetores("distribution")}
+              {" "}
+              - Brasil
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
               Volume por setor em I-RECs
@@ -164,7 +166,9 @@ export default async function SetoresPage({
           {/* Pie Chart - Mundo */}
           <Card>
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-              {tSetores("distribution")} - Mundo
+              {tSetores("distribution")}
+              {" "}
+              - Mundo
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
               Volume por setor em TWh
@@ -176,7 +180,9 @@ export default async function SetoresPage({
         {/* Volume by Year Bar Chart */}
         <Card className="mb-12">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-            {tSetores("volumeByYear")} - Brasil
+            {tSetores("volumeByYear")}
+            {" "}
+            - Brasil
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
             Evolução do volume de I-RECs por setor (em milhares)
@@ -209,7 +215,8 @@ export default async function SetoresPage({
                   empresas
                 </p>
                 <p className={`text-xs text-${color}-500 dark:text-${color}-500 mt-2`}>
-                  {(sector.totalVolume / 1000).toFixed(0)}K I-RECs
+                  {(sector.totalVolume / 1000).toFixed(0)}
+                  K I-RECs
                 </p>
               </div>
             );

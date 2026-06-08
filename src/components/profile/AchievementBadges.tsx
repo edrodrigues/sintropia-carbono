@@ -18,9 +18,9 @@ interface AchievementBadgesProps {
 }
 
 export function AchievementBadges({ achievements, maxVisible = 6 }: AchievementBadgesProps) {
-  const earnedAchievements = achievements.filter((a) => a.earned);
-  const unearnedAchievements = achievements.filter((a) => !a.earned);
-  
+  const earnedAchievements = achievements.filter(a => a.earned);
+  const unearnedAchievements = achievements.filter(a => !a.earned);
+
   const nextAchievement = unearnedAchievements.reduce<Achievement | null>((closest, achievement) => {
     if (!achievement.progress) return closest;
     if (!closest || !closest.progress) return achievement;
@@ -31,7 +31,7 @@ export function AchievementBadges({ achievements, maxVisible = 6 }: AchievementB
 
   const displayAchievements = [
     ...earnedAchievements.slice(0, maxVisible),
-    ...(nextAchievement ? [nextAchievement] : [])
+    ...(nextAchievement ? [nextAchievement] : []),
   ].slice(0, maxVisible);
 
   return (
@@ -40,7 +40,7 @@ export function AchievementBadges({ achievements, maxVisible = 6 }: AchievementB
         {displayAchievements.map((achievement) => {
           const isEarned = achievement.earned;
           const progress = achievement.progress;
-          
+
           return (
             <div
               key={achievement.id}
@@ -60,17 +60,22 @@ export function AchievementBadges({ achievements, maxVisible = 6 }: AchievementB
                 </span>
                 {!isEarned && progress && (
                   <span className="text-xs text-gray-400 dark:text-gray-500">
-                    {progress.current}/{progress.target}
+                    {progress.current}
+                    /
+                    {progress.target}
                   </span>
                 )}
               </div>
             </div>
           );
         })}
-        
+
         {achievements.length > maxVisible && (
           <div className="flex items-center gap-2 px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
-            +{achievements.length - maxVisible} mais
+            +
+            {achievements.length - maxVisible}
+            {" "}
+            mais
           </div>
         )}
       </div>
@@ -84,9 +89,9 @@ interface AchievementListProps {
 }
 
 export function AchievementList({ achievements, maxVisible = 6 }: AchievementListProps) {
-  const earnedAchievements = achievements.filter((a) => a.earned);
-  const unearnedAchievements = achievements.filter((a) => !a.earned);
-  
+  const earnedAchievements = achievements.filter(a => a.earned);
+  const unearnedAchievements = achievements.filter(a => !a.earned);
+
   // Sort unearned by progress percentage (closest to completing first)
   const sortedUnearned = [...unearnedAchievements].sort((a, b) => {
     if (!a.progress || !b.progress) return 0;
@@ -94,15 +99,15 @@ export function AchievementList({ achievements, maxVisible = 6 }: AchievementLis
     const bProgress = b.progress.current / b.progress.target;
     return bProgress - aProgress;
   });
-  
+
   // Limit based on maxVisible
   const halfLimit = Math.ceil(maxVisible / 2);
   const lastEarned = earnedAchievements.slice(-halfLimit).reverse();
   const nextToEarn = sortedUnearned.slice(0, maxVisible - lastEarned.length);
-  
+
   const hasAchievements = earnedAchievements.length > 0;
   const hasNextAchievements = nextToEarn.length > 0;
-  
+
   if (!hasAchievements && !hasNextAchievements) {
     return (
       <div className="text-center py-8 text-gray-500 dark:text-gray-400">
@@ -111,17 +116,19 @@ export function AchievementList({ achievements, maxVisible = 6 }: AchievementLis
       </div>
     );
   }
-  
+
   return (
     <div className="space-y-6">
       {/* Last Earned */}
       {hasAchievements && (
         <div>
           <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 flex items-center gap-2">
-            <span>🏆</span> Últimas Conquistas
+            <span>🏆</span>
+            {" "}
+            Últimas Conquistas
           </h4>
           <div className="space-y-2">
-            {lastEarned.map((achievement) => (
+            {lastEarned.map(achievement => (
               <div
                 key={achievement.id}
                 className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/20 dark:to-yellow-900/20 border border-amber-200 dark:border-amber-800"
@@ -137,18 +144,20 @@ export function AchievementList({ achievements, maxVisible = 6 }: AchievementLis
           </div>
         </div>
       )}
-      
+
       {/* Next to Achieve */}
       {hasNextAchievements && (
         <div>
           <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 flex items-center gap-2">
-            <span>🎯</span> Próximas Conquistas
+            <span>🎯</span>
+            {" "}
+            Próximas Conquistas
           </h4>
           <div className="space-y-2">
             {nextToEarn.map((achievement) => {
               const progress = achievement.progress;
               const progressPercent = progress ? Math.min((progress.current / progress.target) * 100, 100) : 0;
-              
+
               return (
                 <div
                   key={achievement.id}
@@ -158,10 +167,14 @@ export function AchievementList({ achievements, maxVisible = 6 }: AchievementLis
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-medium text-gray-700 dark:text-gray-300">{achievement.label}</span>
-                      <span className="text-xs text-gray-500">{progress?.current || 0}/{progress?.target || 0}</span>
+                      <span className="text-xs text-gray-500">
+                        {progress?.current || 0}
+                        /
+                        {progress?.target || 0}
+                      </span>
                     </div>
                     <div className="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <div 
+                      <div
                         className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all"
                         style={{ width: `${progressPercent}%` }}
                       />
@@ -173,11 +186,16 @@ export function AchievementList({ achievements, maxVisible = 6 }: AchievementLis
           </div>
         </div>
       )}
-      
+
       {/* Total count */}
       <div className="text-center pt-2 border-t border-gray-100 dark:border-gray-700">
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          {earnedAchievements.length} de {achievements.length} conquistas desbloqueadas
+          {earnedAchievements.length}
+          {" "}
+          de
+          {achievements.length}
+          {" "}
+          conquistas desbloqueadas
         </p>
       </div>
     </div>

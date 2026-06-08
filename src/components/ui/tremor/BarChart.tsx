@@ -42,7 +42,11 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
         <p className="font-medium text-gray-900 dark:text-white">{label}</p>
         <p className="text-sm text-blue-600 dark:text-blue-400 font-bold">
           {payload[0].value?.toLocaleString()}
-          <span className="ml-1 text-[10px] text-gray-500 font-normal">({formatNumber(payload[0].value || 0)})</span>
+          <span className="ml-1 text-[10px] text-gray-500 font-normal">
+            (
+            {formatNumber(payload[0].value || 0)}
+            )
+          </span>
         </p>
       </div>
     );
@@ -106,7 +110,7 @@ export function BarList({ data, className }: BarListProps) {
               className="h-full rounded-full transition-all duration-300"
               style={{
                 width: `${(item.value / maxValue) * 100}%`,
-                backgroundColor: item.color || defaultColors[index % defaultColors.length]
+                backgroundColor: item.color || defaultColors[index % defaultColors.length],
               }}
             />
           </div>

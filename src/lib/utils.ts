@@ -1,28 +1,28 @@
-import clsx, { type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import clsx, { type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cx(...args: ClassValue[]) {
-  return twMerge(clsx(...args))
+  return twMerge(clsx(...args));
 }
 
 export const focusInput = [
   "focus:ring-2",
   "focus:ring-blue-200 dark:focus:ring-blue-700/30",
   "focus:border-blue-500 dark:focus:border-blue-700",
-]
+];
 
 export const focusRing = [
   "outline outline-offset-2 outline-0 focus-visible:outline-2",
   "outline-blue-500 dark:outline-blue-500",
-]
+];
 
 export const hasErrorInput = [
   "ring-2",
   "border-red-500 dark:border-red-700",
   "ring-red-200 dark:ring-red-700/30",
-]
+];
 
-export type ColorUtility = "bg" | "stroke" | "fill" | "text"
+export type ColorUtility = "bg" | "stroke" | "fill" | "text";
 
 export const chartColors = {
   blue: {
@@ -70,25 +70,25 @@ export const chartColors = {
 } as const satisfies {
   [color: string]: {
     [key in ColorUtility]: string
-  }
-}
+  };
+};
 
-export type AvailableChartColorsKeys = keyof typeof chartColors
+export type AvailableChartColorsKeys = keyof typeof chartColors;
 
 export const AvailableChartColors: AvailableChartColorsKeys[] = Object.keys(
   chartColors,
-) as Array<AvailableChartColorsKeys>
+) as Array<AvailableChartColorsKeys>;
 
 export const constructCategoryColors = (
   categories: string[],
   colors: AvailableChartColorsKeys[],
 ): Map<string, AvailableChartColorsKeys> => {
-  const categoryColors = new Map<string, AvailableChartColorsKeys>()
+  const categoryColors = new Map<string, AvailableChartColorsKeys>();
   categories.forEach((category, index) => {
-    categoryColors.set(category, colors[index % colors.length])
-  })
-  return categoryColors
-}
+    categoryColors.set(category, colors[index % colors.length]);
+  });
+  return categoryColors;
+};
 
 export const getColorClassName = (
   color: AvailableChartColorsKeys,
@@ -99,34 +99,34 @@ export const getColorClassName = (
     stroke: "stroke-gray-500",
     fill: "fill-gray-500",
     text: "text-gray-500",
-  }
-  return chartColors[color]?.[type] ?? fallbackColor[type]
-}
+  };
+  return chartColors[color]?.[type] ?? fallbackColor[type];
+};
 
 export const getYAxisDomain = (
   autoMinValue: boolean,
   minValue: number | undefined,
   maxValue: number | undefined,
 ) => {
-  const minDomain = autoMinValue ? "auto" : minValue ?? 0
-  const maxDomain = maxValue ?? "auto"
-  return [minDomain, maxDomain]
-}
+  const minDomain = autoMinValue ? "auto" : minValue ?? 0;
+  const maxDomain = maxValue ?? "auto";
+  return [minDomain, maxDomain];
+};
 
 export function hasOnlyOneValueForKey(
   array: Record<string, unknown>[],
   keyToCheck: string,
 ): boolean {
-  const val: unknown[] = []
+  const val: unknown[] = [];
 
   for (const obj of array) {
     if (Object.prototype.hasOwnProperty.call(obj, keyToCheck)) {
-      val.push(obj[keyToCheck])
+      val.push(obj[keyToCheck]);
       if (val.length > 1) {
-        return false
+        return false;
       }
     }
   }
 
-  return true
+  return true;
 }

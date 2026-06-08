@@ -1,0 +1,21 @@
+ranking,empresa,setor,volume_2024,volume_2025,delta_pct,region
+1,Banco Votorantim,Financeiro,3.8,5.2,36.84,brazil
+2,Petrobras,Energia,0.68,0.75,10.29,brazil
+3,Suzano,Celulose,0.42,0.58,38.1,brazil
+4,Vale,Mineração,0.38,0.45,18.42,brazil
+5,Itaú,Financeiro,0.31,0.39,25.81,brazil
+6,Bradesco,Financeiro,0.29,0.36,24.14,brazil
+7,Klabin,Celulose,0.25,0.32,28.0,brazil
+8,Natura,Cosméticos,0.23,0.29,26.09,brazil
+9,Banco do Brasil,Financeiro,0.21,0.27,28.57,brazil
+10,Gerdau,Siderurgia,0.195,0.25,28.21,brazil
+11,Lojas Renner,Varejo,0.18,0.24,33.33,brazil
+12,GOL,Aviação,0.175,0.23,31.43,brazil
+13,Azul,Aviação,0.165,0.215,30.3,brazil
+14,Ambev,Bebidas,0.15,0.195,30.0,brazil
+15,JBS,Proteína Animal,0.14,0.18,28.57,brazil
+16,Raízen,Energia,0.135,0.17,25.93,brazil
+17,Cosan,Energia,0.12,0.155,29.17,brazil
+18,Cielo,Serviços Fin.,0.115,0.15,30.43,brazil
+19,Marfrig,Proteína Animal,0.105,0.14,33.33,brazil
+20,Localiza,Logística,0.095,0.13,36.84,brazil

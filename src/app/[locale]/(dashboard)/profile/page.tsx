@@ -11,20 +11,20 @@ import { InviteSection } from "@/components/dashboard/InviteSection";
 import { FloatingInviteCard } from "@/components/dashboard/FloatingInviteCard";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-    const { locale } = await params;
-    
-    return {
-        title: locale === 'pt' ? 'Perfil | Sintropia' : 'Profile | Sintropia',
-        robots: {
-            index: false,
-            follow: false,
-        },
-    };
+  const { locale } = await params;
+
+  return {
+    title: locale === "pt" ? "Perfil | Sintropia" : "Profile | Sintropia",
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
 }
 
 export default async function MyProfilePage() {
   const supabase = await createClient();
-  const t = await getTranslations('Perfil');
+  const t = await getTranslations("Perfil");
 
   const {
     data: { user },
@@ -77,7 +77,6 @@ export default async function MyProfilePage() {
     .neq("role", "banned")
     .gt("karma", profile?.karma ?? 0);
 
-
   const stats = {
     posts: postCount || 0,
     comments: commentCount || 0,
@@ -108,63 +107,72 @@ export default async function MyProfilePage() {
       <StatsDashboard stats={stats} />
 
       <div className="mb-8">
-        <InviteSection referralCode={profile.referral_code || ''} />
+        <InviteSection referralCode={profile.referral_code || ""} />
       </div>
 
       {/* Floating Invite Card - Compact variant for sidebar awareness */}
       <div className="mb-8 max-w-md">
-        <FloatingInviteCard referralCode={profile.referral_code || ''} variant="compact" />
+        <FloatingInviteCard referralCode={profile.referral_code || ""} variant="compact" />
       </div>
 
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-          {t('myPosts')}
+          {t("myPosts")}
         </h2>
         <Link
           href="/feed"
           className="text-sm text-premium-blue dark:text-blue-400 hover:underline"
         >
-          {t('createNew')}
+          {t("createNew")}
         </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {posts && posts.length > 0 ? (
-          posts.map((post: any) => (
-            <Link
-              key={post.id}
-              href={`/feed?post=${post.id}`}
-              className="block bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 uppercase">
-                  {post.category}
-                </span>
-                <span className="text-xs text-gray-500">
-                  {post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR") : ''}
-                </span>
+        {posts && posts.length > 0
+          ? (
+              posts.map((post: any) => (
+                <Link
+                  key={post.id}
+                  href={`/feed?post=${post.id}`}
+                  className="block bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-shadow"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 uppercase">
+                      {post.category}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      {post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR") : ""}
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-1">
+                    {decodeHtmlServer(post.title)}
+                  </h3>
+                  {post.content && (
+                    <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-3">
+                      {decodeHtmlServer(post.content)}
+                    </p>
+                  )}
+                  <div className="flex items-center justify-between text-xs text-gray-500">
+                    <span>
+                      ⬆
+                      {post.karma}
+                    </span>
+                    <span>
+                      💬
+                      {post.comment_count}
+                    </span>
+                  </div>
+                </Link>
+              ))
+            )
+          : (
+              <div className="col-span-full text-center py-8 text-gray-500">
+                {t("noPosts")}
+                {" "}
+                <Link href="/feed" className="text-premium-blue hover:underline">
+                  {t("createFirst")}
+                </Link>
               </div>
-              <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-1">
-                {decodeHtmlServer(post.title)}
-              </h3>
-              {post.content && (
-                <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-3">
-                  {decodeHtmlServer(post.content)}
-                </p>
-              )}
-              <div className="flex items-center justify-between text-xs text-gray-500">
-                <span>⬆ {post.karma}</span>
-                <span>💬 {post.comment_count}</span>
-              </div>
-            </Link>
-          ))
-        ) : (
-          <div className="col-span-full text-center py-8 text-gray-500">
-            {t('noPosts')}{" "}
-            <Link href="/feed" className="text-premium-blue hover:underline">
-              {t('createFirst')}
-            </Link>
-          </div>
-        )}
+            )}
       </div>
     </main>
   );

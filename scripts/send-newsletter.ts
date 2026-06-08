@@ -1,11 +1,11 @@
-import 'dotenv/config';
-import { resolve } from 'path';
-import dotenv from 'dotenv';
+import "dotenv/config";
+import { resolve } from "path";
+import dotenv from "dotenv";
 
-dotenv.config({ path: resolve(process.cwd(), '.env.local') });
+dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 
-import { Resend } from 'resend';
-import { createClient } from '@supabase/supabase-js';
+import { Resend } from "resend";
+import { createClient } from "@supabase/supabase-js";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY!;
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -28,9 +28,9 @@ interface User {
 
 async function getPosts(): Promise<Post[]> {
   const { data, error } = await supabase
-    .from('posts')
-    .select('title, content, url, created_at, author_id')
-    .order('created_at', { ascending: false })
+    .from("posts")
+    .select("title, content, url, created_at, author_id")
+    .order("created_at", { ascending: false })
     .limit(10);
 
   if (error) throw error;
@@ -38,19 +38,19 @@ async function getPosts(): Promise<Post[]> {
   const postsWithAuthors = await Promise.all(
     (data || []).map(async (post) => {
       const { data: profile } = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('id', post.author_id)
+        .from("profiles")
+        .select("username")
+        .eq("id", post.author_id)
         .single();
-      
+
       return {
         title: post.title,
         content: post.content,
         url: post.url,
-        username: profile?.username || 'Anónimo',
+        username: profile?.username || "Anónimo",
         created_at: post.created_at,
       };
-    })
+    }),
   );
 
   return postsWithAuthors;
@@ -59,17 +59,17 @@ async function getPosts(): Promise<Post[]> {
 async function getUsers(): Promise<User[]> {
   const { data: authData, error: authError } = await supabase
     .auth.admin.listUsers();
-  
+
   if (authError) throw authError;
-  
+
   return (authData.users || [])
     .map(u => ({ email: u.email }))
     .filter((u): u is { email: string } => Boolean(u.email));
 }
 
 function truncate(text: string | null, length: number): string {
-  if (!text) return '';
-  return text.length > length ? text.substring(0, length) + '...' : text;
+  if (!text) return "";
+  return text.length > length ? text.substring(0, length) + "..." : text;
 }
 
 function createEmailHtml(posts: Post[]): string {
@@ -77,7 +77,7 @@ function createEmailHtml(posts: Post[]): string {
     <tr>
       <td style="padding: 20px; border-bottom: 1px solid #e2e8f0;">
         <p style="margin: 0 0 8px 0; font-size: 14px; color: #64748b; font-weight: 600;">
-          ${String(index + 1).padStart(2, '0')} • ${new Date(post.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
+          ${String(index + 1).padStart(2, "0")} • ${new Date(post.created_at).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" })}
         </p>
         <h3 style="margin: 0 0 8px 0; font-size: 18px; font-weight: 700; color: #064e3b;">
           ${post.title}
@@ -93,7 +93,7 @@ function createEmailHtml(posts: Post[]): string {
         </a>
       </td>
     </tr>
-  `).join('');
+  `).join("");
 
   return `
 <!DOCTYPE html>
@@ -155,11 +155,11 @@ function createEmailHtml(posts: Post[]): string {
 }
 
 async function sendNewsletter() {
-  console.log('Fetching posts...');
+  console.log("Fetching posts...");
   const posts = await getPosts();
   console.log(`Found ${posts.length} posts`);
 
-  console.log('Fetching users...');
+  console.log("Fetching users...");
   const users = await getUsers();
   console.log(`Found ${users.length} users`);
 
@@ -170,21 +170,21 @@ async function sendNewsletter() {
 
   const { data, error } = await resend.batch.send(
     emails.map(email => ({
-      from: 'Sintropia <contato@contato.sintropia.space>',
+      from: "Sintropia <contato@contato.sintropia.space>",
       to: [email],
-      subject: 'Links e Notícias Mais Interessantes de Fevereiro de 2026',
+      subject: "Links e Notícias Mais Interessantes de Fevereiro de 2026",
       html,
     })),
-    { idempotencyKey: `newsletter-feb-2026-${Date.now()}` }
+    { idempotencyKey: `newsletter-feb-2026-${Date.now()}` },
   );
 
   if (error) {
-    console.error('Error sending email:', error);
+    console.error("Error sending email:", error);
     throw error;
   }
 
-  console.log('Email sent successfully!');
-  console.log('Response:', data);
+  console.log("Email sent successfully!");
+  console.log("Response:", data);
 }
 
 sendNewsletter().catch(console.error);

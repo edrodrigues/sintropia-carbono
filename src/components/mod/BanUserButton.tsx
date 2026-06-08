@@ -24,7 +24,7 @@ export function BanUserButton({ userId, username }: BanUserButtonProps) {
     const result = await banUser(userId, reason, duration);
 
     if (!result.success) {
-      setError(result.error || 'Erro desconhecido');
+      setError(result.error || "Erro desconhecido");
       setLoading(false);
       return;
     }
@@ -49,7 +49,8 @@ export function BanUserButton({ userId, username }: BanUserButtonProps) {
           <div className="bg-white dark:bg-gray-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
             <div className="p-6 border-b border-gray-100 dark:border-gray-700">
               <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                Banir @{username}
+                Banir @
+                {username}
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 Esta ação não pode ser desfeita facilmente.
@@ -99,7 +100,7 @@ export function BanUserButton({ userId, username }: BanUserButtonProps) {
                 </label>
                 <textarea
                   value={reason}
-                  onChange={(e) => setReason(e.target.value)}
+                  onChange={e => setReason(e.target.value)}
                   placeholder="Descreva o motivo..."
                   className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
                   rows={3}

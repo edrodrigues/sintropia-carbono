@@ -44,7 +44,13 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
         <p className="font-medium text-gray-900 dark:text-white mb-2">{label}</p>
         {payload.map((entry, index) => (
           <p key={index} className="text-sm" style={{ color: entry.color }}>
-            {entry.name}: {entry.value?.toLocaleString()} ({formatNumber(entry.value || 0)})
+            {entry.name}
+            :
+            {entry.value?.toLocaleString()}
+            {" "}
+            (
+            {formatNumber(entry.value || 0)}
+            )
           </p>
         ))}
       </div>

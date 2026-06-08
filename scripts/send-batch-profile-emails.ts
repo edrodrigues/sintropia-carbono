@@ -1,9 +1,9 @@
-import { sendProfileCompletionEmail } from '../src/lib/email';
-import * as dotenv from 'dotenv';
-import path from 'path';
+import { sendProfileCompletionEmail } from "../src/lib/email";
+import * as dotenv from "dotenv";
+import path from "path";
 
 // Load .env.local
-dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 
 const emails = [
   "sondra@heartstonepictures.com",
@@ -48,39 +48,41 @@ const emails = [
   "info@everysecurity.nl",
   "finance@telus.com",
   "j.e.ss.b.e.tt.y14@gmail.com",
-  "hs0.1.167.2.4@gmail.com"
+  "hs0.1.167.2.4@gmail.com",
 ];
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function main() {
   console.log(`Starting batch send of profile completion email to ${emails.length} users...`);
-  
+
   let successCount = 0;
   let failureCount = 0;
 
   for (const email of emails) {
     try {
       console.log(`Sending to ${email}...`);
-      const result = await sendProfileCompletionEmail(email, 'Membro da Comunidade');
-      
+      const result = await sendProfileCompletionEmail(email, "Membro da Comunidade");
+
       if (result.success) {
         successCount++;
         console.log(`✅ Success for ${email}`);
-      } else {
+      }
+      else {
         failureCount++;
         console.error(`❌ Failed for ${email}:`, result.error);
       }
-    } catch (error) {
+    }
+    catch (error) {
       failureCount++;
       console.error(`💥 Error sending to ${email}:`, error);
     }
-    
+
     // Sleep for 200ms to avoid rate limiting
     await sleep(200);
   }
 
-  console.log('--- BATCH COMPLETE ---');
+  console.log("--- BATCH COMPLETE ---");
   console.log(`Total Emails Processed: ${emails.length}`);
   console.log(`Successfully Sent: ${successCount}`);
   console.log(`Failed to Send: ${failureCount}`);

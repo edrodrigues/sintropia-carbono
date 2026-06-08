@@ -1,11 +1,11 @@
-import 'dotenv/config';
-import { resolve } from 'path';
-import dotenv from 'dotenv';
+import "dotenv/config";
+import { resolve } from "path";
+import dotenv from "dotenv";
 
-dotenv.config({ path: resolve(process.cwd(), '.env.local') });
+dotenv.config({ path: resolve(process.cwd(), ".env.local") });
 
-import { Resend } from 'resend';
-import { createClient } from '@supabase/supabase-js';
+import { Resend } from "resend";
+import { createClient } from "@supabase/supabase-js";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY!;
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -14,30 +14,30 @@ const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 const resend = new Resend(RESEND_API_KEY);
 
-const FROM_EMAIL = 'Sintropia <contato@contato.sintropia.space>';
-const APP_URL = 'https://sintropia.space';
+const FROM_EMAIL = "Sintropia <contato@contato.sintropia.space>";
+const APP_URL = "https://sintropia.space";
 
 async function getUsers() {
-  console.log('Fetching users and profiles...');
-  
+  console.log("Fetching users and profiles...");
+
   // 1. Get all profiles (to get display_name and check if banned)
   const { data: profiles, error: profilesError } = await supabase
-    .from('profiles')
-    .select('id, username, display_name, role')
-    .neq('role', 'banned');
+    .from("profiles")
+    .select("id, username, display_name, role")
+    .neq("role", "banned");
 
   if (profilesError) throw profilesError;
-  
+
   // 2. Get auth users (to get emails)
   const { data: authData, error: authError } = await supabase.auth.admin.listUsers();
-  
+
   if (authError) throw authError;
 
   // Merge data
-  const recipients = profiles.map(profile => {
+  const recipients = profiles.map((profile) => {
     const authUser = authData.users.find(u => u.id === profile.id);
     if (!authUser || !authUser.email) return null;
-    
+
     return {
       email: authUser.email,
       name: profile.display_name || `@${profile.username}`,
@@ -115,37 +115,39 @@ async function run() {
     console.log(`Found ${recipients.length} non-banned recipients.`);
 
     if (recipients.length === 0) {
-      console.log('No recipients to send to.');
+      console.log("No recipients to send to.");
       return;
     }
 
     // Split into batches of 100 (Resend limit per batch is 100 usually, but we'll use batch api)
-    // Actually resend.batch.send takes an array. 
+    // Actually resend.batch.send takes an array.
     // For many users, we should chunk it to be safe.
     const CHUNK_SIZE = 100;
     for (let i = 0; i < recipients.length; i += CHUNK_SIZE) {
       const chunk = recipients.slice(i, i + CHUNK_SIZE);
-      console.log(`Sending batch ${Math.floor(i/CHUNK_SIZE) + 1} (${chunk.length} emails)...`);
-      
+      console.log(`Sending batch ${Math.floor(i / CHUNK_SIZE) + 1} (${chunk.length} emails)...`);
+
       const { data, error } = await resend.batch.send(
         chunk.map(r => ({
           from: FROM_EMAIL,
           to: [r.email],
-          subject: '🆘 Precisa de uma mãozinha? Conheça o novo "Pedir Ajuda" no Sintropia!',
+          subject: "🆘 Precisa de uma mãozinha? Conheça o novo \"Pedir Ajuda\" no Sintropia!",
           html: createEmailHtml(r.name),
-        }))
+        })),
       );
 
       if (error) {
-        console.error('Error in batch:', error);
-      } else {
+        console.error("Error in batch:", error);
+      }
+      else {
         console.log(`Batch sent successfully. ID:`, data);
       }
     }
 
-    console.log('All batches processed.');
-  } catch (error) {
-    console.error('Fatal error:', error);
+    console.log("All batches processed.");
+  }
+  catch (error) {
+    console.error("Fatal error:", error);
   }
 }
 

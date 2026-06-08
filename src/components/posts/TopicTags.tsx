@@ -37,7 +37,8 @@ export function TopicTags({ tags, maxVisible = 3 }: TopicTagsProps) {
       ))}
       {remainingCount > 0 && (
         <span className="px-2 py-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-          +{remainingCount}
+          +
+          {remainingCount}
         </span>
       )}
     </div>

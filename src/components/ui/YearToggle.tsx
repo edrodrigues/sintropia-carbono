@@ -19,10 +19,10 @@ export function YearToggle({
     <div
       className={cx(
         "inline-flex rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 p-1",
-        className
+        className,
       )}
     >
-      {years.map((year) => (
+      {years.map(year => (
         <button
           key={year}
           onClick={() => onChange(year)}
@@ -30,7 +30,7 @@ export function YearToggle({
             "px-4 py-1.5 text-sm font-medium rounded-md transition-colors",
             selectedYear === year
               ? "bg-emerald-600 text-white"
-              : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600"
+              : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-600",
           )}
         >
           {year}

@@ -12,6 +12,8 @@ const eslintConfig = [
         "caughtErrorsIgnorePattern": "^_"
       }],
       "@typescript-eslint/no-explicit-any": "off",
+      "indent": ["warn", 2, { "SwitchCase": 1, "ignoredNodes": ["ConditionalExpression"] }],
+      "no-mixed-spaces-and-tabs": "error",
     },
   },
 ];

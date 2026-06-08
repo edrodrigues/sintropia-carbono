@@ -36,8 +36,8 @@ const getBadge = (karma: number) => {
 };
 
 export function ProfileHeader({ profile, achievements, isOwnProfile = false }: ProfileHeaderProps) {
-  const t = useTranslations('ProfileHeader');
-  const tPerfil = useTranslations('Perfil');
+  const t = useTranslations("ProfileHeader");
+  const tPerfil = useTranslations("Perfil");
   const karma = profile.karma ?? 0;
   const badge = getBadge(karma);
 
@@ -47,16 +47,18 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
         <div className="flex items-start gap-6">
           <div className="w-28 h-28 rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[3px] shadow-2xl flex-shrink-0">
             <div className="w-full h-full rounded-[1.6rem] bg-white dark:bg-gray-900 flex items-center justify-center text-6xl font-bold text-blue-600 overflow-hidden relative">
-              {profile.avatar_url ? (
-                <Image
-                  src={profile.avatar_url}
-                  alt={profile.display_name || profile.username}
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                getUserTypeIcon(profile.user_type)
-              )}
+              {profile.avatar_url
+                ? (
+                    <Image
+                      src={profile.avatar_url}
+                      alt={profile.display_name || profile.username}
+                      fill
+                      className="object-cover"
+                    />
+                  )
+                : (
+                    getUserTypeIcon(profile.user_type)
+                  )}
             </div>
           </div>
 
@@ -70,7 +72,10 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
                 <span>{badge.label}</span>
               </span>
             </div>
-            <p className="text-blue-100 mb-2">@{profile.username}</p>
+            <p className="text-blue-100 mb-2">
+              @
+              {profile.username}
+            </p>
 
             {profile.bio && (
               <p className="text-blue-50 mb-3 max-w-xl">{profile.bio}</p>
@@ -80,7 +85,7 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
               <ProgressBar
                 current={karma}
                 max={badge.nextLevel}
-                label={t('progressLabel')}
+                label={t("progressLabel")}
               />
             </div>
           </div>
@@ -93,7 +98,7 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
               <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
-              {tPerfil('editProfile')}
+              {tPerfil("editProfile")}
             </Link>
           )}
         </div>
@@ -103,7 +108,9 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
             <div className="flex flex-wrap items-center gap-4">
               {profile.organization && (
                 <span className="text-blue-100 text-sm">
-                  🏢 {profile.organization}
+                  🏢
+                  {" "}
+                  {profile.organization}
                   {profile.cargo && ` - ${profile.cargo}`}
                 </span>
               )}
@@ -137,7 +144,7 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
 
       <div className="mb-6">
         <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-          {tPerfil('achievements')}
+          {tPerfil("achievements")}
         </h3>
         <AchievementBadges achievements={achievements || []} />
       </div>

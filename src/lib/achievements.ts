@@ -21,7 +21,7 @@ interface AchievementDefinition {
   description: string;
   earned: boolean;
   rarity: AchievementRarity;
-  category: 'quality' | 'quantity' | 'social' | 'consistency' | 'specialization';
+  category: "quality" | "quantity" | "social" | "consistency" | "specialization";
   progress?: {
     current: number;
     target: number;
@@ -38,7 +38,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "karma_50",
@@ -48,7 +48,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 50 }
+    progress: { current: 0, target: 50 },
   },
   {
     id: "karma_100",
@@ -58,7 +58,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "quantity",
-    progress: { current: 0, target: 100 }
+    progress: { current: 0, target: 100 },
   },
   {
     id: "karma_500",
@@ -68,7 +68,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "epic",
     category: "quantity",
-    progress: { current: 0, target: 500 }
+    progress: { current: 0, target: 500 },
   },
   {
     id: "karma_1000",
@@ -78,9 +78,9 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "legendary",
     category: "quantity",
-    progress: { current: 0, target: 1000 }
+    progress: { current: 0, target: 1000 },
   },
-  
+
   // === QUANTIDADE - Comum ===
   {
     id: "first_post",
@@ -90,7 +90,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 1 }
+    progress: { current: 0, target: 1 },
   },
   {
     id: "veteran",
@@ -100,7 +100,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "influencer_post",
@@ -110,7 +110,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "quantity",
-    progress: { current: 0, target: 50 }
+    progress: { current: 0, target: 50 },
   },
   {
     id: "content_machine",
@@ -120,9 +120,9 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "epic",
     category: "quantity",
-    progress: { current: 0, target: 100 }
+    progress: { current: 0, target: 100 },
   },
-  
+
   // === QUANTIDADE - Comentários ===
   {
     id: "first_comment",
@@ -132,7 +132,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 1 }
+    progress: { current: 0, target: 1 },
   },
   {
     id: "chatterbox",
@@ -142,7 +142,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 20 }
+    progress: { current: 0, target: 20 },
   },
   {
     id: "conversation_master",
@@ -152,9 +152,9 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "quantity",
-    progress: { current: 0, target: 100 }
+    progress: { current: 0, target: 100 },
   },
-  
+
   // === QUALIDADE ===
   {
     id: "first_upvote",
@@ -164,7 +164,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quality",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "star_author",
@@ -174,7 +174,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "quality",
-    progress: { current: 0, target: 100 }
+    progress: { current: 0, target: 100 },
   },
   {
     id: "quality_post",
@@ -184,7 +184,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "quality",
-    progress: { current: 0, target: 1 }
+    progress: { current: 0, target: 1 },
   },
   {
     id: "quality_streak",
@@ -194,7 +194,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "epic",
     category: "quality",
-    progress: { current: 0, target: 3 }
+    progress: { current: 0, target: 3 },
   },
   {
     id: "trend_setter",
@@ -204,7 +204,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "legendary",
     category: "quality",
-    progress: { current: 0, target: 1 }
+    progress: { current: 0, target: 1 },
   },
   {
     id: "viral_author",
@@ -214,9 +214,9 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "legendary",
     category: "quality",
-    progress: { current: 0, target: 1 }
+    progress: { current: 0, target: 1 },
   },
-  
+
   // === SOCIAL ===
   {
     id: "mentor",
@@ -226,7 +226,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "social",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "connected",
@@ -245,7 +245,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "social",
-    progress: { current: 0, target: 20 }
+    progress: { current: 0, target: 20 },
   },
   {
     id: "conversation_starter",
@@ -255,7 +255,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "social",
-    progress: { current: 0, target: 50 }
+    progress: { current: 0, target: 50 },
   },
   {
     id: "community_builder",
@@ -265,7 +265,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "epic",
     category: "social",
-    progress: { current: 0, target: 200 }
+    progress: { current: 0, target: 200 },
   },
   {
     id: "welcomer",
@@ -275,9 +275,9 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "social",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
-  
+
   // === CONSISTÊNCIA ===
   {
     id: "daily_contributor",
@@ -287,9 +287,9 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "consistency",
-    progress: { current: 0, target: 7 }
+    progress: { current: 0, target: 7 },
   },
-  
+
   // === ESPECIALIZAÇÃO ===
   {
     id: "news_reporter",
@@ -299,7 +299,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "specialization",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "market_analyst",
@@ -309,7 +309,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "specialization",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "educator",
@@ -319,7 +319,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "specialization",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "polymath",
@@ -329,7 +329,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "epic",
     category: "specialization",
-    progress: { current: 0, target: 5 }
+    progress: { current: 0, target: 5 },
   },
   {
     id: "help_seeker",
@@ -339,9 +339,9 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "specialization",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
-  
+
   // === ESPECIAL ===
   {
     id: "early_adopter",
@@ -359,10 +359,10 @@ export function calculateAchievements(profile: {
   linkedin_url?: string | null;
   created_at?: string;
 }, stats: UserStats): Achievement[] {
-  const achievements: Achievement[] = ACHIEVEMENT_DEFINITIONS.map(def => {
+  const achievements: Achievement[] = ACHIEVEMENT_DEFINITIONS.map((def) => {
     let earned = false;
     const progress = def.progress ? { ...def.progress } : undefined;
-    
+
     switch (def.id) {
       case "first_post":
         earned = stats.postCount >= 1;
@@ -456,17 +456,17 @@ export function calculateAchievements(profile: {
         earned = !!profile.linkedin_url || stats.hasLinkedIn;
         break;
       case "news_reporter":
-        const newsCount = stats.categoryPosts?.['Notícias'] || stats.categoryPosts?.['noticias'] || 0;
+        const newsCount = stats.categoryPosts?.["Notícias"] || stats.categoryPosts?.["noticias"] || 0;
         earned = newsCount >= 10;
         if (progress) progress.current = newsCount;
         break;
       case "market_analyst":
-        const analysisCount = stats.categoryPosts?.['Análises'] || stats.categoryPosts?.['analises'] || 0;
+        const analysisCount = stats.categoryPosts?.["Análises"] || stats.categoryPosts?.["analises"] || 0;
         earned = analysisCount >= 10;
         if (progress) progress.current = analysisCount;
         break;
       case "educator":
-        const eduCount = stats.categoryPosts?.['Educação'] || stats.categoryPosts?.['educacao'] || 0;
+        const eduCount = stats.categoryPosts?.["Educação"] || stats.categoryPosts?.["educacao"] || 0;
         earned = eduCount >= 10;
         if (progress) progress.current = eduCount;
         break;
@@ -476,12 +476,12 @@ export function calculateAchievements(profile: {
         if (progress) progress.current = categoryCount;
         break;
       case "help_seeker":
-        const helpCount = stats.categoryPosts?.['help'] || stats.categoryPosts?.['Pedir Ajuda'] || 0;
+        const helpCount = stats.categoryPosts?.["help"] || stats.categoryPosts?.["Pedir Ajuda"] || 0;
         earned = helpCount >= 10;
         if (progress) progress.current = helpCount;
         break;
     }
-    
+
     return {
       id: def.id,
       icon: def.icon,
@@ -494,7 +494,7 @@ export function calculateAchievements(profile: {
 
   const earnedList = achievements.filter(a => a.earned);
   const unearned = achievements.filter(a => !a.earned);
-  
+
   const sortedUnearned = unearned.sort((a, b) => {
     if (!a.progress || !b.progress) return 0;
     const aProgress = a.progress.current / a.progress.target;
@@ -507,10 +507,10 @@ export function calculateAchievements(profile: {
 
 export function getAchievementRarity(achievementId: string): AchievementRarity {
   const def = ACHIEVEMENT_DEFINITIONS.find(d => d.id === achievementId);
-  return def?.rarity || 'common';
+  return def?.rarity || "common";
 }
 
-export function getAchievementsByCategory(category: AchievementDefinition['category']): AchievementDefinition[] {
+export function getAchievementsByCategory(category: AchievementDefinition["category"]): AchievementDefinition[] {
   return ACHIEVEMENT_DEFINITIONS.filter(d => d.category === category);
 }
 

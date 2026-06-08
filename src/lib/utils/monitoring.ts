@@ -1,62 +1,36 @@
-// src/lib/utils/monitoring.ts
+import { logger } from "./logger";
 
-type LogLevel = 'info' | 'warn' | 'error';
-
-interface LogEntry {
-  message: string;
-  level: LogLevel;
-  timestamp: string;
-  context?: Record<string, unknown>;
-  duration?: number;
-}
+const SLOW_QUERY_THRESHOLD_MS = 500;
 
 export function logQuery(
   queryName: string,
   duration: number,
   success: boolean,
-  error?: unknown
+  error?: unknown,
 ) {
-  const threshold = 500; // 500ms threshold for "slow" queries
-  const level: LogLevel = !success ? 'error' : duration > threshold ? 'warn' : 'info';
-  
-  const entry: LogEntry = {
-    message: `Query ${queryName} ${success ? 'completed' : 'failed'}`,
-    level,
-    timestamp: new Date().toISOString(),
-    duration,
-    context: {
-      queryName,
-      success,
-      error: error instanceof Error ? error.message : error,
-    }
-  };
+  const level = !success ? "error" : duration > SLOW_QUERY_THRESHOLD_MS ? "warn" : "info";
+  const message = `Query ${queryName} ${success ? "completed" : "failed"}`;
 
-  // In production, you might send this to a service like Sentry, Axiom, or Datadog
-  if (level === 'error') {
-    console.error(`[MONITORING][ERROR] ${entry.message}`, entry);
-  } else if (level === 'warn') {
-    console.warn(`[MONITORING][WARN] ${entry.message} (took ${duration}ms)`, entry);
+  if (level === "error") {
+    logger.error(message, { queryName, success, duration, error: error instanceof Error ? error.message : error });
+  } else if (level === "warn") {
+    logger.warn(message, { queryName, success, duration });
   } else {
-    // Basic info logging (can be disabled in production)
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(`[MONITORING][INFO] ${entry.message} (took ${duration}ms)`);
-    }
+    logger.info(message, { queryName, duration });
   }
 }
 
 export async function withMonitoring<T>(
   name: string,
-  fn: () => Promise<T>
+  fn: () => Promise<T>,
 ): Promise<T> {
   const start = performance.now();
   try {
     const result = await fn();
-    const duration = performance.now() - start;
-    logQuery(name, duration, true);
+    logQuery(name, performance.now() - start, true);
     return result;
   } catch (error) {
-    const duration = performance.now() - start;
-    logQuery(name, duration, false, error);
+    logQuery(name, performance.now() - start, false, error);
     throw error;
   }
 }

@@ -50,8 +50,8 @@ function CustomLegend({ payload }: { payload?: Array<{ value?: string; color?: s
     <div className="flex flex-wrap justify-center gap-4 mt-4">
       {payload?.map((entry, index) => (
         <div key={index} className="flex items-center gap-1">
-          <div 
-            className="w-3 h-3 rounded-full" 
+          <div
+            className="w-3 h-3 rounded-full"
             style={{ backgroundColor: entry?.color }}
           />
           <span className="text-xs text-gray-600 dark:text-gray-400">{entry?.value}</span>
@@ -76,8 +76,8 @@ export function DonutChart({ data, className, showLegend = true, colors = defaul
             dataKey="value"
           >
             {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
+              <Cell
+                key={`cell-${index}`}
                 fill={entry.color || colors[index % colors.length]}
                 stroke="#ffffff"
                 strokeWidth={2}

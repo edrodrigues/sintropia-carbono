@@ -15,7 +15,7 @@ export interface UserAchievement {
   metadata: Record<string, unknown>;
 }
 
-export type AchievementRarity = 'common' | 'rare' | 'epic' | 'legendary';
+export type AchievementRarity = "common" | "rare" | "epic" | "legendary";
 
 export interface ExtendedAchievement {
   id: string;
@@ -33,24 +33,24 @@ export interface ExtendedAchievement {
 
 export const RARITY_COLORS: Record<AchievementRarity, { bg: string; border: string; text: string }> = {
   common: {
-    bg: 'bg-gray-100 dark:bg-gray-800',
-    border: 'border-gray-300 dark:border-gray-600',
-    text: 'text-gray-700 dark:text-gray-300',
+    bg: "bg-gray-100 dark:bg-gray-800",
+    border: "border-gray-300 dark:border-gray-600",
+    text: "text-gray-700 dark:text-gray-300",
   },
   rare: {
-    bg: 'bg-blue-50 dark:bg-blue-900/30',
-    border: 'border-blue-300 dark:border-blue-700',
-    text: 'text-blue-700 dark:text-blue-300',
+    bg: "bg-blue-50 dark:bg-blue-900/30",
+    border: "border-blue-300 dark:border-blue-700",
+    text: "text-blue-700 dark:text-blue-300",
   },
   epic: {
-    bg: 'bg-purple-50 dark:bg-purple-900/30',
-    border: 'border-purple-300 dark:border-purple-700',
-    text: 'text-purple-700 dark:text-purple-300',
+    bg: "bg-purple-50 dark:bg-purple-900/30",
+    border: "border-purple-300 dark:border-purple-700",
+    text: "text-purple-700 dark:text-purple-300",
   },
   legendary: {
-    bg: 'bg-amber-50 dark:bg-amber-900/30',
-    border: 'border-amber-400 dark:border-amber-600',
-    text: 'text-amber-700 dark:text-amber-300',
+    bg: "bg-amber-50 dark:bg-amber-900/30",
+    border: "border-amber-400 dark:border-amber-600",
+    text: "text-amber-700 dark:text-amber-300",
   },
 };
 
@@ -67,10 +67,10 @@ export function getStreakBonus(streak: number): number {
 }
 
 export function getStreakEmoji(streak: number): string {
-  if (streak === 0) return '💤';
-  if (streak < 3) return '🔥';
-  if (streak < 7) return '🔥🔥';
-  if (streak < 14) return '🔥🔥🔥';
-  if (streak < 30) return '💥';
-  return '🏆';
+  if (streak === 0) return "💤";
+  if (streak < 3) return "🔥";
+  if (streak < 7) return "🔥🔥";
+  if (streak < 14) return "🔥🔥🔥";
+  if (streak < 30) return "💥";
+  return "🏆";
 }

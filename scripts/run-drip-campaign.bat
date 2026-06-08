@@ -1,3 +1,3 @@
 @echo off
-cd /d "C:\Users\edrodrigues\Documents\GitHub\MercadoCarbono"
+cd /d "%~dp0.."
 npx tsx scripts/send-drip-emails.ts

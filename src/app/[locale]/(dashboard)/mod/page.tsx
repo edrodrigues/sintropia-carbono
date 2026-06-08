@@ -24,7 +24,7 @@ export default async function ModDashboard() {
     .eq("id", user.id)
     .single();
 
-  if (!profile || !["moderator", "admin"].includes(profile.role ?? '')) {
+  if (!profile || !["moderator", "admin"].includes(profile.role ?? "")) {
     redirect("/");
   }
 
@@ -34,7 +34,7 @@ export default async function ModDashboard() {
       `
       *,
       reporter:profiles!reports_reporter_id_fkey(username)
-    `
+    `,
     )
     .eq("status", "pending")
     .order("created_at", { ascending: false })
@@ -46,7 +46,7 @@ export default async function ModDashboard() {
       `
       *,
       reporter:profiles!reports_reporter_id_fkey(username)
-    `
+    `,
     )
     .neq("status", "pending")
     .order("created_at", { ascending: false })
@@ -59,7 +59,7 @@ export default async function ModDashboard() {
       *,
       user:profiles!bans_user_id_fkey(username),
       moderator:profiles!bans_moderator_id_fkey(username)
-    `
+    `,
     )
     .order("created_at", { ascending: false })
     .limit(10);
@@ -231,7 +231,9 @@ export default async function ModDashboard() {
               Denúncias Recentes
             </h2>
             <span className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs font-bold rounded-full">
-              {pendingCount || 0} pendentes
+              {pendingCount || 0}
+              {" "}
+              pendentes
             </span>
           </div>
           <ReportsList reports={(pendingReports || []) as Report[]} />
@@ -254,14 +256,15 @@ export default async function ModDashboard() {
               </h2>
             </div>
             <div className="divide-y divide-gray-200 dark:divide-gray-700">
-              {recentBans.map((ban) => (
+              {recentBans.map(ban => (
                 <div
                   key={ban.id}
                   className="p-4 flex items-center justify-between"
                 >
                   <div>
                     <Link href={`/u/${ban.user?.username}`} className="font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400">
-                      @{ban.user?.username || "Usuário banido"}
+                      @
+                      {ban.user?.username || "Usuário banido"}
                     </Link>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       {ban.reason || "Sem motivo especificado"}
@@ -269,15 +272,18 @@ export default async function ModDashboard() {
                   </div>
                   <div className="text-right">
                     <p className="text-sm text-gray-500 dark:text-gray-400">
-                      por <Link href={`/u/${ban.moderator?.username}`} className="hover:text-blue-600 dark:hover:text-blue-400">
-                        @{ban.moderator?.username || "Moderador"}
+                      por
+                      {" "}
+                      <Link href={`/u/${ban.moderator?.username}`} className="hover:text-blue-600 dark:hover:text-blue-400">
+                        @
+                        {ban.moderator?.username || "Moderador"}
                       </Link>
                     </p>
                     <p className="text-xs text-gray-400 dark:text-gray-500">
                       {ban.expires_at
                         ? `Expira: ${new Date(ban.expires_at).toLocaleDateString(
-                            "pt-BR"
-                          )}`
+                          "pt-BR",
+                        )}`
                         : "Permanente"}
                     </p>
                   </div>

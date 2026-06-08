@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import { getSupabaseAdmin } from '@/lib/supabase/admin';
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
+import { logger } from "@/lib/utils/logger";
 
 const countryToContinent: Record<string, string> = {
   "Colombia": "South America",
@@ -112,24 +113,25 @@ const countryToContinent: Record<string, string> = {
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const country = searchParams.get('country');
-    const category = searchParams.get('category');
-    const search = searchParams.get('search');
-    const limit = parseInt(searchParams.get('limit') || '100');
-    const offset = parseInt(searchParams.get('offset') || '0');
+    const country = searchParams.get("country");
+    const category = searchParams.get("category");
+    const search = searchParams.get("search");
+    const limit = parseInt(searchParams.get("limit") || "100");
+    const offset = parseInt(searchParams.get("offset") || "0");
 
     // Use admin client to bypass RLS and get all records
     let supabase;
     try {
       supabase = getSupabaseAdmin();
-    } catch {
+    }
+    catch {
       // Fallback to anon client if admin not available
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
       const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
       if (!supabaseUrl || !supabaseAnonKey) {
         return NextResponse.json({
-          error: 'Database not configured',
-          fallback: true
+          error: "Database not configured",
+          fallback: true,
         }, { status: 500 });
       }
       supabase = createClient(supabaseUrl, supabaseAnonKey);
@@ -137,15 +139,15 @@ export async function GET(request: NextRequest) {
 
     // Build query
     let query = supabase
-      .from('carbon_projects')
-      .select('*', { count: 'exact' });
+      .from("carbon_projects")
+      .select("*", { count: "exact" });
 
     if (country) {
-      query = query.eq('country', country);
+      query = query.eq("country", country);
     }
 
     if (category) {
-      query = query.eq('category', category);
+      query = query.eq("category", category);
     }
 
     if (search) {
@@ -154,16 +156,16 @@ export async function GET(request: NextRequest) {
 
     // Get total count first
     const { count } = await supabase
-      .from('carbon_projects')
-      .select('*', { count: 'exact', head: true });
+      .from("carbon_projects")
+      .select("*", { count: "exact", head: true });
 
     // Fetch paginated data
     const { data: projects, error } = await query
       .range(offset, offset + limit - 1)
-      .order('country', { ascending: true });
+      .order("country", { ascending: true });
 
     if (error) {
-      console.error('Supabase query error:', error);
+      logger.error("Erro na consulta Supabase (carbon-projects)", { error });
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
@@ -178,13 +180,13 @@ export async function GET(request: NextRequest) {
     let allProjectsData: ProjectStat[] = [];
     let page = 0;
     const pageSize = 1000;
-    
+
     while (true) {
       const { data: batch } = await supabase
-        .from('carbon_projects')
-        .select('project_id, country, category')
+        .from("carbon_projects")
+        .select("project_id, country, category")
         .range(page * pageSize, (page + 1) * pageSize - 1);
-      
+
       if (!batch || batch.length === 0) break;
       allProjectsData = [...allProjectsData, ...batch as ProjectStat[]];
       page++;
@@ -193,16 +195,16 @@ export async function GET(request: NextRequest) {
 
     const allProjects = allProjectsData || [];
     const totalProjects = allProjects.length;
-    const forestProjects = allProjects.filter(p => p.category === 'forest').length;
+    const forestProjects = allProjects.filter(p => p.category === "forest").length;
 
     // Country stats
     const countryStats: Record<string, number> = {};
     const continentStats: Record<string, number> = {};
     const countriesSet = new Set<string>();
 
-    allProjects.forEach(p => {
+    allProjects.forEach((p) => {
       countryStats[p.country] = (countryStats[p.country] || 0) + 1;
-      const continent = countryToContinent[p.country] || 'Unknown';
+      const continent = countryToContinent[p.country] || "Unknown";
       continentStats[continent] = (continentStats[continent] || 0) + 1;
       countriesSet.add(p.country);
     });
@@ -212,13 +214,13 @@ export async function GET(request: NextRequest) {
 
     // Category stats
     const categoryStats: Record<string, number> = {};
-    allProjects.forEach(p => {
+    allProjects.forEach((p) => {
       categoryStats[p.category] = (categoryStats[p.category] || 0) + 1;
     });
 
     // Build project_id to country map
     const projectCountryMap: Record<string, string> = {};
-    allProjects.forEach(p => {
+    allProjects.forEach((p) => {
       projectCountryMap[p.project_id] = p.country;
     });
 
@@ -231,13 +233,13 @@ export async function GET(request: NextRequest) {
     let allCredits: CreditStat[] = [];
     let creditPage = 0;
     const creditPageSize = 1000;
-    
+
     while (true) {
       const { data: creditBatch } = await supabase
-        .from('carbon_credits')
-        .select('vintage, quantity, project_id')
+        .from("carbon_credits")
+        .select("vintage, quantity, project_id")
         .range(creditPage * creditPageSize, (creditPage + 1) * creditPageSize - 1);
-      
+
       if (!creditBatch || creditBatch.length === 0) break;
       allCredits = [...allCredits, ...creditBatch as CreditStat[]];
       creditPage++;
@@ -249,7 +251,7 @@ export async function GET(request: NextRequest) {
 
     // Calculate vintageStats
     const vintageStats: Record<string, number> = {};
-    (allCredits || []).forEach(c => {
+    (allCredits || []).forEach((c) => {
       if (c.vintage) {
         vintageStats[c.vintage.toString()] = (vintageStats[c.vintage.toString()] || 0) + (c.quantity || 0);
       }
@@ -257,7 +259,7 @@ export async function GET(request: NextRequest) {
 
     // Credits by country
     const creditsByCountry: Record<string, number> = {};
-    (allCredits || []).forEach(c => {
+    (allCredits || []).forEach((c) => {
       const country = projectCountryMap[c.project_id];
       if (country) {
         creditsByCountry[country] = (creditsByCountry[country] || 0) + (c.quantity || 0);
@@ -282,18 +284,18 @@ export async function GET(request: NextRequest) {
         total: count || 0,
         limit,
         offset,
-      }
+      },
     }, {
       headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+        "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
       },
     });
-
-  } catch (error) {
-    console.error('Fetch error:', error);
+  }
+  catch (error) {
+    logger.error("Erro ao buscar carbon-projects", { error });
     return NextResponse.json({
-      error: error instanceof Error ? error.message : 'Unknown error',
-      fallback: true
+      error: error instanceof Error ? error.message : "Unknown error",
+      fallback: true,
     }, { status: 500 });
   }
 }

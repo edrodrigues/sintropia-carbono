@@ -42,17 +42,17 @@ export async function generateMetadata({
     keywords:
       locale === "pt"
         ? [
-            "carbono global",
-            "ranking créditos carbono mundial",
-            "Big Tech carbono",
-            "maiores compradores carbono mundo",
-          ]
+          "carbono global",
+          "ranking créditos carbono mundial",
+          "Big Tech carbono",
+          "maiores compradores carbono mundo",
+        ]
         : [
-            "global carbon",
-            "worldwide carbon credits ranking",
-            "Big Tech carbon",
-            "largest carbon buyers world",
-          ],
+          "global carbon",
+          "worldwide carbon credits ranking",
+          "Big Tech carbon",
+          "largest carbon buyers world",
+        ],
     alternates: {
       canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}carbono/ranking-mundo`,
     },
@@ -102,7 +102,7 @@ export default async function RankingMundoPage({
     return vol.toFixed(0);
   };
 
-  const tableData = stakeholders.map((s) => ({
+  const tableData = stakeholders.map(s => ({
     rank: s.ranking,
     empresa: s.empresa,
     setor: s.setor || "N/A",
@@ -114,12 +114,12 @@ export default async function RankingMundoPage({
         : "-",
   }));
 
-  const top10ForChart = stakeholders.slice(0, 10).map((s) => ({
+  const top10ForChart = stakeholders.slice(0, 10).map(s => ({
     name: s.empresa,
     value: s.volume_2025 || 0,
   }));
 
-  const exportData = stakeholders.map((s) => ({
+  const exportData = stakeholders.map(s => ({
     ranking: s.ranking,
     empresa: s.empresa,
     setor: s.setor || "",
@@ -180,7 +180,9 @@ export default async function RankingMundoPage({
           {/* Top 10 Chart */}
           <Card className="lg:col-span-1">
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-              Top 10 Global ({tStats("volumeUnit")})
+              Top 10 Global (
+              {tStats("volumeUnit")}
+              )
             </h3>
             <BarList data={top10ForChart} />
           </Card>
@@ -191,7 +193,7 @@ export default async function RankingMundoPage({
               Distribuição por Setor
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {sectorDistribution.slice(0, 6).map((sector) => (
+              {sectorDistribution.slice(0, 6).map(sector => (
                 <div
                   key={sector.setor}
                   className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800"
@@ -203,7 +205,9 @@ export default async function RankingMundoPage({
                     {sector.count}
                   </p>
                   <p className="text-xs text-blue-600 dark:text-blue-400">
-                    {formatVolume(sector.totalVolume)} {tStats("volumeUnit")}
+                    {formatVolume(sector.totalVolume)}
+                    {" "}
+                    {tStats("volumeUnit")}
                   </p>
                 </div>
               ))}
@@ -248,7 +252,9 @@ export default async function RankingMundoPage({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
-              🏢 {tInsights("leaderTitle")}
+              🏢
+              {" "}
+              {tInsights("leaderTitle")}
             </h4>
             <p className="text-sm text-blue-800 dark:text-blue-300">
               {tInsights("leaderDesc")}
@@ -256,7 +262,9 @@ export default async function RankingMundoPage({
           </div>
           <div className="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-green-900 dark:text-green-200 mb-2">
-              📈 {tInsights("growthTitle")}
+              📈
+              {" "}
+              {tInsights("growthTitle")}
             </h4>
             <p className="text-sm text-green-800 dark:text-green-300">
               {tInsights("growthDesc")}
@@ -264,7 +272,9 @@ export default async function RankingMundoPage({
           </div>
           <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
-              🌍 {tInsights("sectorTitle")}
+              🌍
+              {" "}
+              {tInsights("sectorTitle")}
             </h4>
             <p className="text-sm text-blue-800 dark:text-blue-300">
               {tInsights("sectorDesc")}

@@ -41,17 +41,17 @@ export async function generateMetadata({
     keywords:
       locale === "pt"
         ? [
-            "I-REC Brasil",
-            "ranking energia renovável",
-            "certificados I-REC",
-            "maiores compradores I-REC",
-          ]
+          "I-REC Brasil",
+          "ranking energia renovável",
+          "certificados I-REC",
+          "maiores compradores I-REC",
+        ]
         : [
-            "I-REC Brazil",
-            "renewable energy ranking",
-            "I-REC certificates",
-            "largest I-REC buyers",
-          ],
+          "I-REC Brazil",
+          "renewable energy ranking",
+          "I-REC certificates",
+          "largest I-REC buyers",
+        ],
     alternates: {
       canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}energia/ranking-brasil`,
     },
@@ -92,7 +92,7 @@ export default async function RankingBrasilPage({
     return vol.toString();
   };
 
-  const tableData = stakeholders.map((s) => ({
+  const tableData = stakeholders.map(s => ({
     rank: s.ranking,
     empresa: s.empresa,
     setor: s.setor || "N/A",
@@ -101,7 +101,6 @@ export default async function RankingBrasilPage({
     vol2025: formatVolume(s.volume_2025),
     delta: s.delta_pct !== null ? (s.delta_pct > 0 ? "+" : "") + s.delta_pct.toFixed(1) + "%" : "-",
   }));
-
 
   return (
     <>
@@ -173,12 +172,16 @@ export default async function RankingBrasilPage({
             Setores Representados
           </h3>
           <div className="flex flex-wrap gap-2">
-            {sectorDistribution.slice(0, 10).map((sector) => (
+            {sectorDistribution.slice(0, 10).map(sector => (
               <Badge
                 key={sector.setor}
                 className="px-3 py-1 text-sm bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300"
               >
-                {sector.setor} ({sector.count})
+                {sector.setor}
+                {" "}
+                (
+                {sector.count}
+                )
               </Badge>
             ))}
           </div>

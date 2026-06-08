@@ -103,11 +103,11 @@ export function ModSearch() {
 
   const getUserTypeIcon = (type: string | null): string => {
     switch (type) {
-      case 'company': return '🏢';
-      case 'ong': return '🤝';
-      case 'government': return '🏛️';
-      case 'professor': return '🧑‍🏫';
-      default: return '👤';
+      case "company": return "🏢";
+      case "ong": return "🤝";
+      case "government": return "🏛️";
+      case "professor": return "🧑‍🏫";
+      default: return "👤";
     }
   };
 
@@ -127,7 +127,7 @@ export function ModSearch() {
             type="text"
             placeholder="Buscar usuários (nome, username) ou posts (título, conteúdo, tags)..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={e => setQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-forest-green focus:border-transparent"
           />
         </div>
@@ -142,7 +142,9 @@ export function ModSearch() {
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200"
               }`}
             >
-              Usuários ({users.length})
+              Usuários (
+              {users.length}
+              )
             </button>
             <button
               onClick={() => setActiveTab("posts")}
@@ -152,89 +154,121 @@ export function ModSearch() {
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200"
               }`}
             >
-              Posts ({posts.length})
+              Posts (
+              {posts.length}
+              )
             </button>
           </div>
         )}
       </div>
 
-      {loading ? (
-        <div className="p-8 text-center">
-          <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-3" />
-          <p className="text-gray-500">Buscando...</p>
-        </div>
-      ) : query.trim() && activeTab === "users" ? (
-        users.length > 0 ? (
-          <div className="divide-y divide-gray-200 dark:divide-gray-700">
-            {users.map((user) => (
-              <div key={user.id} className="p-4 flex items-center justify-between">
-                <Link href={`/u/${user.username}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[1.5px] shadow-sm flex-shrink-0">
-                    <div className="w-full h-full rounded-[0.55rem] bg-white dark:bg-gray-900 flex items-center justify-center text-xl overflow-hidden relative">
-                      {user.avatar_url ? (
-                        <Image src={user.avatar_url} alt={user.username} fill className="object-cover" />
-                      ) : (
-                        getUserTypeIcon(user.user_type)
-                      )}
+      {loading
+        ? (
+            <div className="p-8 text-center">
+              <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-3" />
+              <p className="text-gray-500">Buscando...</p>
+            </div>
+          )
+        : query.trim() && activeTab === "users"
+          ? (
+              users.length > 0
+                ? (
+                    <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                      {users.map(user => (
+                        <div key={user.id} className="p-4 flex items-center justify-between">
+                          <Link href={`/u/${user.username}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[1.5px] shadow-sm flex-shrink-0">
+                              <div className="w-full h-full rounded-[0.55rem] bg-white dark:bg-gray-900 flex items-center justify-center text-xl overflow-hidden relative">
+                                {user.avatar_url
+                                  ? (
+                                      <Image src={user.avatar_url} alt={user.username} fill className="object-cover" />
+                                    )
+                                  : (
+                                      getUserTypeIcon(user.user_type)
+                                    )}
+                              </div>
+                            </div>
+                            <div>
+                              <p className="font-medium text-gray-900 dark:text-gray-100">
+                                @
+                                {user.username}
+                              </p>
+                              <p className="text-xs text-gray-400">
+                                {user.karma}
+                                {" "}
+                                karma •
+                                {" "}
+                                {getRoleBadge(user.role)}
+                              </p>
+                            </div>
+                          </Link>
+                          <div className="flex items-center gap-2">
+                            <PromoteButton userId={user.id} username={user.username} currentRole={user.role || "user"} />
+                            {user.role !== "banned" && user.role !== "admin" && (
+                              <WarnUserButton userId={user.id} username={user.username} />
+                            )}
+                            {user.role !== "banned" && user.role !== "admin" && (
+                              <BanUserButton userId={user.id} username={user.username} />
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
+                  )
+                : (
+                    <div className="p-8 text-center">
+                      <p className="text-gray-500 dark:text-gray-400">Nenhum usuário encontrado</p>
+                    </div>
+                  )
+            )
+          : query.trim() && activeTab === "posts"
+            ? (
+                posts.length > 0
+                  ? (
+                      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                        {posts.map(post => (
+                          <div key={post.id} className="p-4 flex items-center justify-between">
+                            <div className="flex-1 min-w-0">
+                              <Link href={`/feed/${post.id}`} className="font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 line-clamp-1">
+                                {post.title}
+                              </Link>
+                              <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                                <span className="px-2 py-0.5 bg-gray-100 rounded">{post.category}</span>
+                                <span>
+                                  por @
+                                  {post.author?.username || "desconhecido"}
+                                </span>
+                                <span>
+                                  {post.karma ?? 0}
+                                  {" "}
+                                  karma
+                                </span>
+                                <span>{post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR") : ""}</span>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-2 ml-4">
+                              <Link href={`/feed/${post.id}`} className="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg">
+                                Ver
+                              </Link>
+                              <DeletePostButton postId={post.id} postTitle={post.title} />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  : (
+                      <div className="p-8 text-center">
+                        <p className="text-gray-500 dark:text-gray-400">Nenhum post encontrado</p>
+                      </div>
+                    )
+              )
+            : query.trim()
+              ? (
+                  <div className="p-8 text-center">
+                    <p className="text-gray-500 dark:text-gray-400">Digite para buscar...</p>
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-gray-100">@{user.username}</p>
-                    <p className="text-xs text-gray-400">{user.karma} karma • {getRoleBadge(user.role)}</p>
-                  </div>
-                </Link>
-                <div className="flex items-center gap-2">
-                  <PromoteButton userId={user.id} username={user.username} currentRole={user.role || "user"} />
-                  {user.role !== "banned" && user.role !== "admin" && (
-                    <WarnUserButton userId={user.id} username={user.username} />
-                  )}
-                  {user.role !== "banned" && user.role !== "admin" && (
-                    <BanUserButton userId={user.id} username={user.username} />
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="p-8 text-center">
-            <p className="text-gray-500 dark:text-gray-400">Nenhum usuário encontrado</p>
-          </div>
-        )
-      ) : query.trim() && activeTab === "posts" ? (
-        posts.length > 0 ? (
-          <div className="divide-y divide-gray-200 dark:divide-gray-700">
-            {posts.map((post) => (
-              <div key={post.id} className="p-4 flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <Link href={`/feed/${post.id}`} className="font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 line-clamp-1">
-                    {post.title}
-                  </Link>
-                  <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
-                    <span className="px-2 py-0.5 bg-gray-100 rounded">{post.category}</span>
-                    <span>por @{post.author?.username || "desconhecido"}</span>
-                    <span>{post.karma ?? 0} karma</span>
-                    <span>{post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR") : ''}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 ml-4">
-                  <Link href={`/feed/${post.id}`} className="px-2 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-lg">
-                    Ver
-                  </Link>
-                  <DeletePostButton postId={post.id} postTitle={post.title} />
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="p-8 text-center">
-            <p className="text-gray-500 dark:text-gray-400">Nenhum post encontrado</p>
-          </div>
-        )
-      ) : query.trim() ? (
-        <div className="p-8 text-center">
-          <p className="text-gray-500 dark:text-gray-400">Digite para buscar...</p>
-        </div>
-      ) : null}
+                )
+              : null}
     </div>
   );
 }

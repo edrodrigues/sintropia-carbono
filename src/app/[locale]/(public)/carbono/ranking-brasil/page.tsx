@@ -42,17 +42,17 @@ export async function generateMetadata({
     keywords:
       locale === "pt"
         ? [
-            "carbono Brasil",
-            "ranking créditos carbono",
-            "maiores compradores carbono",
-            "mercado carbono brasileiro",
-          ]
+          "carbono Brasil",
+          "ranking créditos carbono",
+          "maiores compradores carbono",
+          "mercado carbono brasileiro",
+        ]
         : [
-            "carbon Brazil",
-            "carbon credits ranking",
-            "largest carbon buyers",
-            "Brazilian carbon market",
-          ],
+          "carbon Brazil",
+          "carbon credits ranking",
+          "largest carbon buyers",
+          "Brazilian carbon market",
+        ],
     alternates: {
       canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}carbono/ranking-brasil`,
     },
@@ -101,7 +101,7 @@ export default async function RankingBrasilPage({
     return vol.toFixed(0);
   };
 
-  const tableData = stakeholders.map((s) => ({
+  const tableData = stakeholders.map(s => ({
     rank: s.ranking,
     empresa: s.empresa,
     setor: s.setor || "N/A",
@@ -113,7 +113,7 @@ export default async function RankingBrasilPage({
         : "-",
   }));
 
-  const exportData = stakeholders.map((s) => ({
+  const exportData = stakeholders.map(s => ({
     ranking: s.ranking,
     empresa: s.empresa,
     setor: s.setor || "",
@@ -212,12 +212,16 @@ export default async function RankingBrasilPage({
             Setores Representados
           </h3>
           <div className="flex flex-wrap gap-2">
-            {sectorDistribution.slice(0, 10).map((sector) => (
+            {sectorDistribution.slice(0, 10).map(sector => (
               <Badge
                 key={sector.setor}
                 className="px-3 py-1 text-sm bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300"
               >
-                {sector.setor} ({sector.count})
+                {sector.setor}
+                {" "}
+                (
+                {sector.count}
+                )
               </Badge>
             ))}
           </div>
@@ -227,7 +231,9 @@ export default async function RankingBrasilPage({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-emerald-900 dark:text-emerald-200 mb-2">
-              🏭 {tInsights("leaderTitle")}
+              🏭
+              {" "}
+              {tInsights("leaderTitle")}
             </h4>
             <p className="text-sm text-emerald-800 dark:text-emerald-300">
               {tInsights("leaderDesc")}
@@ -235,7 +241,9 @@ export default async function RankingBrasilPage({
           </div>
           <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
-              🌳 {tInsights("growthTitle")}
+              🌳
+              {" "}
+              {tInsights("growthTitle")}
             </h4>
             <p className="text-sm text-blue-800 dark:text-blue-300">
               {tInsights("growthDesc")}
@@ -243,7 +251,9 @@ export default async function RankingBrasilPage({
           </div>
           <div className="bg-emerald-50 dark:bg-emerald-900/20 border-l-4 border-emerald-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-emerald-900 dark:text-emerald-200 mb-2">
-              📈 {tInsights("sectorTitle")}
+              📈
+              {" "}
+              {tInsights("sectorTitle")}
             </h4>
             <p className="text-sm text-emerald-800 dark:text-emerald-300">
               {tInsights("sectorDesc")}

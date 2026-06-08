@@ -1,11 +1,12 @@
 // src/lib/queries/carbon-prices.ts
-import { createClient } from '@/lib/supabase/client';
-import { cache } from 'react';
-import { withMonitoring } from '@/lib/utils/monitoring';
+import { createClient } from "@/lib/supabase/client";
+import { cache } from "react";
+import { withMonitoring } from "@/lib/utils/monitoring";
+import { logger } from "@/lib/utils/logger";
 
 export interface CarbonPrice {
   id: string;
-  market_type: 'compliance' | 'voluntary';
+  market_type: "compliance" | "voluntary";
   market_name: string;
   region: string | null;
   price_range: string | null;
@@ -17,22 +18,22 @@ export interface CarbonPrice {
   created_at: string;
 }
 
-export const getCarbonPrices = cache(async (marketType?: 'compliance' | 'voluntary') => {
-  return withMonitoring(`getCarbonPrices(${marketType || 'all'})`, async () => {
+export const getCarbonPrices = cache(async (marketType?: "compliance" | "voluntary") => {
+  return withMonitoring(`getCarbonPrices(${marketType || "all"})`, async () => {
     const supabase = createClient();
-    
+
     let query = supabase
-      .from('carbon_prices' as any)
-      .select('*');
-    
+      .from("carbon_prices")
+      .select("*");
+
     if (marketType) {
-      query = query.eq('market_type', marketType);
+      query = query.eq("market_type", marketType);
     }
 
-    const { data, error } = await query.order('created_at', { ascending: true });
+    const { data, error } = await query.order("created_at", { ascending: true });
 
     if (error) {
-      console.error(`Error fetching carbon_prices:`, error);
+      logger.error("Erro ao buscar preços de carbono", { error });
       return [];
     }
 

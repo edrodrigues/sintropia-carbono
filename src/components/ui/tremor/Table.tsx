@@ -24,7 +24,7 @@ export function TableBody({ children, className }: { children: ReactNode; classN
 
 export function TableRow({ children, className, onClick }: { children: ReactNode; className?: string; onClick?: () => void }) {
   return (
-    <tr 
+    <tr
       className={cx("border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50", className)}
       onClick={onClick}
     >
@@ -35,7 +35,7 @@ export function TableRow({ children, className, onClick }: { children: ReactNode
 
 export function TableHeader({ children, className, onClick }: { children: ReactNode; className?: string; onClick?: () => void }) {
   return (
-    <th 
+    <th
       className={cx("text-left py-3 px-3 font-semibold text-gray-600 dark:text-gray-400", className)}
       onClick={onClick}
     >

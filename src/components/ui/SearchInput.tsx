@@ -22,7 +22,7 @@ export function SearchInput({
         className={cx(
           "w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white",
           focusInput,
-          className
+          className,
         )}
         {...props}
       />

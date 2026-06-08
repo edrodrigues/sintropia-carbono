@@ -41,17 +41,17 @@ export async function generateMetadata({
     keywords:
       locale === "pt"
         ? [
-            "I-REC global",
-            "ranking energia renovável mundial",
-            "Big Tech energia renovável",
-            "maiores compradores energia",
-          ]
+          "I-REC global",
+          "ranking energia renovável mundial",
+          "Big Tech energia renovável",
+          "maiores compradores energia",
+        ]
         : [
-            "I-REC global",
-            "worldwide renewable energy ranking",
-            "Big Tech renewable energy",
-            "largest energy buyers",
-          ],
+          "I-REC global",
+          "worldwide renewable energy ranking",
+          "Big Tech renewable energy",
+          "largest energy buyers",
+        ],
     alternates: {
       canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}energia/ranking-mundo`,
     },
@@ -95,7 +95,7 @@ export default async function RankingMundoPage({
     return `${(vol / 1000000).toFixed(1)}M`;
   };
 
-  const tableData = stakeholders.map((s) => ({
+  const tableData = stakeholders.map(s => ({
     rank: s.ranking,
     empresa: s.empresa,
     setor: s.setor || "N/A",
@@ -104,7 +104,7 @@ export default async function RankingMundoPage({
     delta: s.delta_pct !== null ? (s.delta_pct > 0 ? "+" : "") + s.delta_pct.toFixed(1) + "%" : "-",
   }));
 
-  const top10ForChart = stakeholders.slice(0, 10).map((s) => ({
+  const top10ForChart = stakeholders.slice(0, 10).map(s => ({
     name: s.empresa,
     value: s.volume_2025 ? s.volume_2025 / 1000000 : 0,
   }));
@@ -172,7 +172,7 @@ export default async function RankingMundoPage({
               Distribuição por Setor
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {sectorDistribution.slice(0, 6).map((sector) => (
+              {sectorDistribution.slice(0, 6).map(sector => (
                 <div
                   key={sector.setor}
                   className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800"
@@ -184,7 +184,9 @@ export default async function RankingMundoPage({
                     {sector.count}
                   </p>
                   <p className="text-xs text-blue-600 dark:text-blue-400">
-                    {sector.totalVolume.toFixed(1)} TWh
+                    {sector.totalVolume.toFixed(1)}
+                    {" "}
+                    TWh
                   </p>
                 </div>
               ))}
@@ -212,7 +214,9 @@ export default async function RankingMundoPage({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
-              🏢 {tInsights("leaderTitle")}
+              🏢
+              {" "}
+              {tInsights("leaderTitle")}
             </h4>
             <p className="text-sm text-blue-800 dark:text-blue-300">
               {tInsights("leaderDesc")}
@@ -220,7 +224,9 @@ export default async function RankingMundoPage({
           </div>
           <div className="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-green-900 dark:text-green-200 mb-2">
-              📈 {tInsights("growthTitle")}
+              📈
+              {" "}
+              {tInsights("growthTitle")}
             </h4>
             <p className="text-sm text-green-800 dark:text-green-300">
               {tInsights("growthDesc")}
@@ -228,7 +234,9 @@ export default async function RankingMundoPage({
           </div>
           <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
-              🌍 {tInsights("sectorTitle")}
+              🌍
+              {" "}
+              {tInsights("sectorTitle")}
             </h4>
             <p className="text-sm text-blue-800 dark:text-blue-300">
               {tInsights("sectorDesc")}

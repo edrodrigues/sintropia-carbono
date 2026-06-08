@@ -1,15 +1,15 @@
-import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
-import ProfileForm from '@/app/[locale]/(dashboard)/profile/ProfileForm';
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
+import ProfileForm from "@/app/[locale]/(dashboard)/profile/ProfileForm";
 import { getUserTypeIcon } from "@/lib/utils/user";
 import Image from "next/image";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-    const { locale } = await params;
-    
-    return {
-        title: locale === 'pt' ? 'Editar Perfil | Sintropia' : 'Edit Profile | Sintropia',
-    };
+  const { locale } = await params;
+
+  return {
+    title: locale === "pt" ? "Editar Perfil | Sintropia" : "Edit Profile | Sintropia",
+  };
 }
 
 export default async function EditProfilePage() {
@@ -20,13 +20,13 @@ export default async function EditProfilePage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login');
+    redirect("/login");
   }
 
   const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
     .single();
 
   return (
@@ -41,11 +41,13 @@ export default async function EditProfilePage() {
           <div className="absolute -bottom-12 left-8">
             <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[3px] shadow-2xl flex-shrink-0">
               <div className="w-full h-full rounded-[1.3rem] bg-white dark:bg-gray-900 flex items-center justify-center text-5xl font-bold overflow-hidden relative">
-                {profile?.avatar_url ? (
-                  <Image src={profile.avatar_url} alt="" fill className="object-cover" />
-                ) : (
-                  getUserTypeIcon(profile?.user_type)
-                )}
+                {profile?.avatar_url
+                  ? (
+                      <Image src={profile.avatar_url} alt="" fill className="object-cover" />
+                    )
+                  : (
+                      getUserTypeIcon(profile?.user_type)
+                    )}
               </div>
             </div>
           </div>
@@ -55,9 +57,12 @@ export default async function EditProfilePage() {
           <div className="flex flex-wrap items-center justify-between gap-6 mb-8 pb-8 border-b border-gray-100 dark:border-gray-800">
             <div>
               <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                {profile?.display_name || profile?.username || 'Usuário'}
+                {profile?.display_name || profile?.username || "Usuário"}
               </h3>
-              <p className="text-gray-500">@{profile?.username || 'usuario'}</p>
+              <p className="text-gray-500">
+                @
+                {profile?.username || "usuario"}
+              </p>
             </div>
             <div className="flex gap-4 text-center">
               <div className="px-6 py-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-2xl border border-yellow-100 dark:border-yellow-900/30">
@@ -67,7 +72,7 @@ export default async function EditProfilePage() {
               <div className="px-6 py-3 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/30">
                 <p className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Membro desde</p>
                 <p className="text-2xl font-black text-blue-700 dark:text-blue-500">
-                  {profile?.created_at ? new Date(profile.created_at).getFullYear() : ''}
+                  {profile?.created_at ? new Date(profile.created_at).getFullYear() : ""}
                 </p>
               </div>
             </div>

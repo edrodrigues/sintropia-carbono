@@ -28,7 +28,8 @@ export function MobileTableWrapper({
       const next = new Set(prev);
       if (next.has(index)) {
         next.delete(index);
-      } else {
+      }
+      else {
         next.add(index);
       }
       return next;
@@ -37,8 +38,8 @@ export function MobileTableWrapper({
 
   const desktopColumns = columns;
 
-  const defaultCols = columns.filter((col) =>
-    defaultMobileColumns.includes(col.key)
+  const defaultCols = columns.filter(col =>
+    defaultMobileColumns.includes(col.key),
   );
 
   const getColumnValue = (item: Record<string, unknown>, key: string) => {
@@ -60,15 +61,15 @@ export function MobileTableWrapper({
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-200 dark:border-gray-700">
-              {desktopColumns.map((col) => (
+              {desktopColumns.map(col => (
                 <th
                   key={col.key}
                   className={`py-3 px-3 font-semibold text-gray-600 dark:text-gray-400 text-sm ${
                     col.align === "right"
                       ? "text-right"
                       : col.align === "center"
-                      ? "text-center"
-                      : "text-left"
+                        ? "text-center"
+                        : "text-left"
                   }`}
                 >
                   {col.header}
@@ -82,15 +83,15 @@ export function MobileTableWrapper({
                 key={index}
                 className="border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50"
               >
-                {desktopColumns.map((col) => (
+                {desktopColumns.map(col => (
                   <td
                     key={col.key}
                     className={`py-3 px-3 ${
                       col.align === "right"
                         ? "text-right"
                         : col.align === "center"
-                        ? "text-center"
-                        : ""
+                          ? "text-center"
+                          : ""
                     }`}
                   >
                     {getColumnValue(item, col.key)}
@@ -106,7 +107,7 @@ export function MobileTableWrapper({
         {data.map((item, index) => {
           const isExpanded = expandedItems.has(index);
           const hasExpandable = columns.some(
-            (col) => !defaultMobileColumns.includes(col.key)
+            col => !defaultMobileColumns.includes(col.key),
           );
 
           return (
@@ -116,36 +117,42 @@ export function MobileTableWrapper({
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  {defaultCols.map((col) => (
+                  {defaultCols.map(col => (
                     <div
                       key={col.key}
                       className={col.align === "right" ? "text-right" : ""}
                     >
-                      {col.key === "rank" ? (
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg font-bold text-gray-900 dark:text-white">
-                            {getColumnValue(item, col.key)}
-                          </span>
-                        </div>
-                      ) : col.key === "empresa" ||
-                        col.header === "Corporação" ||
-                        col.header === "Empresa" ? (
-                        <div className="font-bold text-gray-900 dark:text-white text-lg">
-                          {getColumnValue(item, col.key)}
-                        </div>
-                      ) : col.header === "Delta %" ||
-                        col.key === "delta" ? (
-                        <div className={`text-lg font-semibold ${getDeltaClass(item[col.key])}`}>
-                          {getColumnValue(item, col.key)}
-                        </div>
-                      ) : (
-                        <div className="text-sm text-gray-600 dark:text-gray-400">
-                          <span className="text-xs uppercase text-gray-500 block">
-                            {col.header}
-                          </span>
-                          {getColumnValue(item, col.key)}
-                        </div>
-                      )}
+                      {col.key === "rank"
+                        ? (
+                            <div className="flex items-center gap-2">
+                              <span className="text-lg font-bold text-gray-900 dark:text-white">
+                                {getColumnValue(item, col.key)}
+                              </span>
+                            </div>
+                          )
+                        : col.key === "empresa"
+                          || col.header === "Corporação"
+                          || col.header === "Empresa"
+                          ? (
+                              <div className="font-bold text-gray-900 dark:text-white text-lg">
+                                {getColumnValue(item, col.key)}
+                              </div>
+                            )
+                          : col.header === "Delta %"
+                            || col.key === "delta"
+                            ? (
+                                <div className={`text-lg font-semibold ${getDeltaClass(item[col.key])}`}>
+                                  {getColumnValue(item, col.key)}
+                                </div>
+                              )
+                            : (
+                                <div className="text-sm text-gray-600 dark:text-gray-400">
+                                  <span className="text-xs uppercase text-gray-500 block">
+                                    {col.header}
+                                  </span>
+                                  {getColumnValue(item, col.key)}
+                                </div>
+                              )}
                     </div>
                   ))}
                 </div>
@@ -179,8 +186,8 @@ export function MobileTableWrapper({
                 <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                   <div className="grid grid-cols-2 gap-4 text-sm">
                     {columns
-                      .filter((col) => !defaultMobileColumns.includes(col.key))
-                      .map((col) => (
+                      .filter(col => !defaultMobileColumns.includes(col.key))
+                      .map(col => (
                         <div key={col.key}>
                           <span className="text-xs uppercase text-gray-500">
                             {col.header}

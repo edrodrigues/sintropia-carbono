@@ -35,7 +35,7 @@ const variantClasses: Record<CalloutVariant, { bg: string; border: string; title
 
 export function Callout({ children, variant = "info", className, title }: CalloutProps) {
   const styles = variantClasses[variant];
-  
+
   return (
     <div className={cx("rounded-xl p-6 border", styles.bg, styles.border, className)}>
       <div className="flex items-start gap-3">

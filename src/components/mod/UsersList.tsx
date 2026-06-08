@@ -109,35 +109,42 @@ export function UsersList() {
   return (
     <div>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        {users.map((user) => (
+        {users.map(user => (
           <div key={user.id} className="p-4 flex items-center justify-between">
             <Link href={`/u/${user.username}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity flex-1 min-w-0">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[1.5px] shadow-sm flex-shrink-0">
                 <div className="w-full h-full rounded-[0.55rem] bg-white dark:bg-gray-900 flex items-center justify-center text-xl overflow-hidden relative">
-                  {user.avatar_url ? (
-                    <Image
-                      src={user.avatar_url}
-                      alt={user.username}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    getUserTypeIcon(user.user_type)
-                  )}
+                  {user.avatar_url
+                    ? (
+                        <Image
+                          src={user.avatar_url}
+                          alt={user.username}
+                          fill
+                          className="object-cover"
+                        />
+                      )
+                    : (
+                        getUserTypeIcon(user.user_type)
+                      )}
                 </div>
               </div>
               <div className="min-w-0">
                 <p className="font-medium text-gray-900 dark:text-gray-100 truncate">
-                  @{user.username}
+                  @
+                  {user.username}
                 </p>
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-xs text-gray-400">
-                    {user.karma} karma
+                    {user.karma}
+                    {" "}
+                    karma
                   </span>
                   {getRoleBadge(user.role || "user")}
                 </div>
                 <p className="text-xs text-gray-400 mt-0.5">
-                  Inscrito em {formatDate(user.created_at)}
+                  Inscrito em
+                  {" "}
+                  {formatDate(user.created_at)}
                 </p>
               </div>
             </Link>
@@ -157,22 +164,34 @@ export function UsersList() {
           </div>
         ))}
       </div>
-      
+
       {totalPages > 1 && (
         <div className="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700">
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            Página {page} de {totalPages} • {totalCount} usuários
+            Página
+            {" "}
+            {page}
+            {" "}
+            de
+            {" "}
+            {totalPages}
+            {" "}
+            •
+            {" "}
+            {totalCount}
+            {" "}
+            usuários
           </div>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              onClick={() => setPage(p => Math.max(1, p - 1))}
               disabled={page === 1}
               className="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
             >
               Anterior
             </button>
             <button
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              onClick={() => setPage(p => Math.min(totalPages, p + 1))}
               disabled={page === totalPages}
               className="px-3 py-1.5 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300"
             >

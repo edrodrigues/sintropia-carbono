@@ -3,6 +3,7 @@ import { spawn } from "child_process";
 import path from "path";
 
 import { requireAdminApiAccess } from "@/lib/auth/server";
+import { logger } from "@/lib/utils/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -20,14 +21,27 @@ const ALLOWED_SCRIPTS = [
   "verify-drip-status.ts",
 ];
 
+const SAFE_ARG_REGEX = /^[a-zA-Z0-9@%\-_./\\:]+$/;
+
+function sanitizeArgs(args: unknown): string[] {
+  if (!Array.isArray(args)) return [];
+  return args.filter(
+    (a): a is string => typeof a === "string" && SAFE_ARG_REGEX.test(a),
+  );
+}
+
 export async function POST(request: Request) {
+  let script = "";
   try {
     const access = await requireAdminApiAccess();
     if (!access.ok) {
       return access.response;
     }
 
-    const { script, args = [] } = await request.json();
+    const body = await request.json();
+    script = body.script;
+    const rawArgs = body.args;
+    const args = sanitizeArgs(rawArgs);
 
     if (!ALLOWED_SCRIPTS.includes(script)) {
       return new NextResponse("Invalid script", { status: 400 });
@@ -73,8 +87,9 @@ export async function POST(request: Request) {
         "Connection": "keep-alive",
       },
     });
-  } catch (error) {
-    console.error("Error running script:", error);
+  }
+  catch (error) {
+    logger.error("Erro ao executar script", { error, script });
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

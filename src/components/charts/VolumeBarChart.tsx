@@ -47,7 +47,9 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
         <p className="font-medium text-gray-900 dark:text-white mb-2">{label}</p>
         {payload.map((entry, index) => (
           <p key={index} className="text-sm" style={{ color: entry.color }}>
-            {entry.name}: {formatNumber(entry.value || 0)}
+            {entry.name}
+            :
+            {formatNumber(entry.value || 0)}
           </p>
         ))}
       </div>
@@ -64,7 +66,7 @@ export function VolumeBarChart({
   label2025 = "2025",
   label2026 = "2026",
 }: VolumeBarChartProps) {
-  const hasVol2026 = data.some((d) => d.vol2026 !== undefined && d.vol2026 > 0);
+  const hasVol2026 = data.some(d => d.vol2026 !== undefined && d.vol2026 > 0);
 
   return (
     <div className={cx("h-[350px]", className)}>

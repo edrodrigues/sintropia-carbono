@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import type { Database } from '@/types/supabase';
-import { requireAdminApiAccess } from '@/lib/auth/server';
-import { getSupabaseAdmin } from '@/lib/supabase/admin';
-import { carbonProjectUploadSchema } from '@/lib/validation/carbon-plan';
+import { NextRequest, NextResponse } from "next/server";
+import type { Database } from "@/types/supabase";
+import { requireAdminApiAccess } from "@/lib/auth/server";
+import { getSupabaseAdmin } from "@/lib/supabase/admin";
+import { carbonProjectUploadSchema } from "@/lib/validation/carbon-plan";
+import { logger } from "@/lib/utils/logger";
 
-type CarbonProjectInsert = Database['public']['Tables']['carbon_projects']['Insert'];
+type CarbonProjectInsert = Database["public"]["Tables"]["carbon_projects"]["Insert"];
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,15 +19,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           details: parsed.error.flatten(),
-          error: 'Invalid data format',
+          error: "Invalid data format",
         },
         { status: 400 },
       );
     }
 
     const supabase = getSupabaseAdmin();
-    const projects: CarbonProjectInsert[] = parsed.data.data.map((row) => ({
-      category: row.category ?? 'unknown',
+    const projects: CarbonProjectInsert[] = parsed.data.data.map(row => ({
+      category: row.category ?? "unknown",
       country: row.country,
       first_issuance_at: row.first_issuance_at,
       first_retirement_at: row.first_retirement_at,
@@ -42,32 +43,32 @@ export async function POST(request: NextRequest) {
       protocol: row.protocol,
       registry: row.registry,
       retired: row.retired ?? 0,
-      status: row.status ?? 'listed',
+      status: row.status ?? "listed",
     }));
 
     const { error } = await supabase
-      .from('carbon_projects')
-      .upsert(projects, { 
-        onConflict: 'project_id',
-        ignoreDuplicates: false 
+      .from("carbon_projects")
+      .upsert(projects, {
+        onConflict: "project_id",
+        ignoreDuplicates: false,
       })
       .select();
 
     if (error) {
-      console.error('Supabase error:', error);
+      logger.error("Erro Supabase ao inserir projetos", { error });
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       count: projects.length,
-      message: `Successfully uploaded ${projects.length} projects`
+      message: `Successfully uploaded ${projects.length} projects`,
     });
-
-  } catch (error) {
-    console.error('Upload error:', error);
-    return NextResponse.json({ 
-      error: error instanceof Error ? error.message : 'Unknown error' 
+  }
+  catch (error) {
+    logger.error("Erro no upload de projetos", { error });
+    return NextResponse.json({
+      error: error instanceof Error ? error.message : "Unknown error",
     }, { status: 500 });
   }
 }

@@ -41,17 +41,17 @@ export async function generateMetadata({
     keywords:
       locale === "pt"
         ? [
-            "carbono setores",
-            "análise setor carbono",
-            "compensação carbono setorial",
-            "créditos carbono indústria",
-          ]
+          "carbono setores",
+          "análise setor carbono",
+          "compensação carbono setorial",
+          "créditos carbono indústria",
+        ]
         : [
-            "carbon sectors",
-            "carbon sector analysis",
-            "sectoral carbon offset",
-            "carbon credits industry",
-          ],
+          "carbon sectors",
+          "carbon sector analysis",
+          "sectoral carbon offset",
+          "carbon credits industry",
+        ],
     alternates: {
       canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}carbono/setores`,
     },
@@ -71,8 +71,8 @@ export default async function SetoresPage({
 }) {
   const { locale } = await params;
 
-  const [brasilStakeholders, _mundoStakeholders, brasilSectors, mundoSectors] =
-    await Promise.all([
+  const [brasilStakeholders, _mundoStakeholders, brasilSectors, mundoSectors]
+    = await Promise.all([
       getCarbonStakeholders("brazil"),
       getCarbonStakeholders("world"),
       getCarbonSectorDistribution("brazil"),
@@ -95,15 +95,15 @@ export default async function SetoresPage({
   // Prepare volume by sector data for bar chart
   const sectorVolumeData = brasilSectors.slice(0, 8).map((sector) => {
     const brasilCompanies = brasilStakeholders.filter(
-      (s) => s.setor === sector.setor
+      s => s.setor === sector.setor,
     );
     const vol2024 = brasilCompanies.reduce(
       (sum, s) => sum + (Number(s.volume_2024) || 0),
-      0
+      0,
     );
     const vol2025 = brasilCompanies.reduce(
       (sum, s) => sum + (Number(s.volume_2025) || 0),
-      0
+      0,
     );
 
     return {
@@ -119,9 +119,9 @@ export default async function SetoresPage({
   // Prepare table data - companies by sector
   const topCompaniesBySector = brasilSectors.slice(0, 5).flatMap((sector) => {
     const companies = brasilStakeholders
-      .filter((s) => s.setor === sector.setor)
+      .filter(s => s.setor === sector.setor)
       .slice(0, 3);
-    return companies.map((c) => ({
+    return companies.map(c => ({
       setor: sector.setor,
       empresa: c.empresa,
       vol2025: formatVolume(c.volume_2025 || 0),
@@ -153,10 +153,14 @@ export default async function SetoresPage({
           {/* Pie Chart - Brasil */}
           <Card>
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-              {tSetores("distribution")} - Brasil
+              {tSetores("distribution")}
+              {" "}
+              - Brasil
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-              Volume por setor em {tStats("volumeUnit")}
+              Volume por setor em
+              {" "}
+              {tStats("volumeUnit")}
             </p>
             <SectorPieChart data={brasilSectors.slice(0, 8)} />
           </Card>
@@ -164,10 +168,14 @@ export default async function SetoresPage({
           {/* Pie Chart - Mundo */}
           <Card>
             <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-              {tSetores("distribution")} - Mundo
+              {tSetores("distribution")}
+              {" "}
+              - Mundo
             </h3>
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-              Volume por setor em {tStats("volumeUnit")}
+              Volume por setor em
+              {" "}
+              {tStats("volumeUnit")}
             </p>
             <SectorPieChart data={mundoSectors.slice(0, 8)} />
           </Card>
@@ -176,11 +184,15 @@ export default async function SetoresPage({
         {/* Volume by Year Bar Chart */}
         <Card className="mb-12">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-            {tSetores("volumeByYear")} - Brasil
+            {tSetores("volumeByYear")}
+            {" "}
+            - Brasil
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-            Evolução do volume de créditos de carbono por setor (em milhares de{" "}
-            {tStats("volumeUnit")})
+            Evolução do volume de créditos de carbono por setor (em milhares de
+            {" "}
+            {tStats("volumeUnit")}
+            )
           </p>
           <VolumeBarChart data={sectorVolumeData} />
         </Card>
@@ -226,7 +238,9 @@ export default async function SetoresPage({
                 </p>
                 <p className={`text-sm ${subColors[index]}`}>empresas</p>
                 <p className={`text-xs ${subColors[index]} mt-2`}>
-                  {formatVolume(sector.totalVolume)} {tStats("volumeUnit")}
+                  {formatVolume(sector.totalVolume)}
+                  {" "}
+                  {tStats("volumeUnit")}
                 </p>
               </div>
             );

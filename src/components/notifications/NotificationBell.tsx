@@ -21,11 +21,11 @@ export function NotificationBell({ userId }: NotificationBellProps) {
   // Fetch notifications on mount
   useEffect(() => {
     if (!userId) return;
-    
+
     const fetchNotifications = async () => {
       const [notifs, count] = await Promise.all([
         getNotifications(userId, 20),
-        getUnreadCount(userId)
+        getUnreadCount(userId),
       ]);
       setNotifications(notifs);
       setUnreadCount(count);
@@ -33,7 +33,7 @@ export function NotificationBell({ userId }: NotificationBellProps) {
     };
 
     fetchNotifications();
-    
+
     // Poll for new notifications every 30 seconds
     const interval = setInterval(fetchNotifications, 30000);
     return () => clearInterval(interval);
@@ -55,8 +55,8 @@ export function NotificationBell({ userId }: NotificationBellProps) {
     e.stopPropagation();
     const success = await markAsRead(notificationId);
     if (success) {
-      setNotifications(prev => 
-        prev.map(n => n.id === notificationId ? { ...n, is_read: true } : n)
+      setNotifications(prev =>
+        prev.map(n => n.id === notificationId ? { ...n, is_read: true } : n),
       );
       setUnreadCount(prev => Math.max(0, prev - 1));
     }
@@ -74,21 +74,21 @@ export function NotificationBell({ userId }: NotificationBellProps) {
     // Mark as read
     if (!notification.is_read) {
       await markAsRead(notification.id);
-      setNotifications(prev => 
-        prev.map(n => n.id === notification.id ? { ...n, is_read: true } : n)
+      setNotifications(prev =>
+        prev.map(n => n.id === notification.id ? { ...n, is_read: true } : n),
       );
       setUnreadCount(prev => Math.max(0, prev - 1));
     }
-    
+
     // Navigate based on notification type
     switch (notification.type) {
-      case 'achievement':
-        router.push('/conquistas');
+      case "achievement":
+        router.push("/conquistas");
         break;
       default:
         break;
     }
-    
+
     setIsOpen(false);
   };
 
@@ -98,30 +98,30 @@ export function NotificationBell({ userId }: NotificationBellProps) {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="relative p-2 text-slate-600 hover:text-forest-green hover:bg-slate-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-2"
-        aria-label={`Notificações${unreadCount > 0 ? ` (${unreadCount} não lidas)` : ''}`}
+        aria-label={`Notificações${unreadCount > 0 ? ` (${unreadCount} não lidas)` : ""}`}
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
         {/* Bell Icon (GitHub style) */}
-        <svg 
-          className="w-5 h-5" 
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24" 
+        <svg
+          className="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
           aria-hidden="true"
         >
-          <path 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            strokeWidth={2} 
-            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" 
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
           />
         </svg>
-        
+
         {/* Unread Badge */}
         {unreadCount > 0 && (
           <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white ring-2 ring-white">
-            {unreadCount > 9 ? '9+' : unreadCount}
+            {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
       </button>
@@ -160,23 +160,23 @@ export function NotificationBell({ userId }: NotificationBellProps) {
               </div>
             ) : (
               <div className="divide-y divide-slate-50">
-                {notifications.map((notification) => (
+                {notifications.map(notification => (
                   <div
                     key={notification.id}
                     onClick={() => handleNotificationClick(notification)}
                     className={`flex items-start gap-3 p-4 cursor-pointer hover:bg-slate-50 transition-colors ${
-                      !notification.is_read ? 'bg-blue-50/30' : ''
+                      !notification.is_read ? "bg-blue-50/30" : ""
                     }`}
                   >
                     {/* Icon */}
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-lg">
                       {getNotificationIcon(notification.type)}
                     </div>
-                    
+
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
-                        <p className={`text-sm leading-tight ${!notification.is_read ? 'font-semibold text-slate-900' : 'text-slate-700'}`}>
+                        <p className={`text-sm leading-tight ${!notification.is_read ? "font-semibold text-slate-900" : "text-slate-700"}`}>
                           {notification.title}
                         </p>
                         <span className="text-[10px] text-slate-400 whitespace-nowrap">
@@ -187,11 +187,11 @@ export function NotificationBell({ userId }: NotificationBellProps) {
                         {notification.message}
                       </p>
                     </div>
-                    
+
                     {/* Unread Indicator */}
                     {!notification.is_read && (
                       <button
-                        onClick={(e) => handleMarkAsRead(e, notification.id)}
+                        onClick={e => handleMarkAsRead(e, notification.id)}
                         className="flex-shrink-0 w-2 h-2 rounded-full bg-forest-green hover:bg-emerald-600 transition-colors"
                         aria-label="Marcar como lida"
                         title="Marcar como lida"

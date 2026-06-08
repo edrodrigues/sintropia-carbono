@@ -57,10 +57,14 @@ function CustomTooltip({ active, payload }: CustomTooltipProps) {
       <div className="bg-white dark:bg-gray-800 px-4 py-3 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
         <p className="font-medium text-gray-900 dark:text-white">{data?.setor}</p>
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          Volume: {formatNumber(data?.totalVolume || 0)}
+          Volume:
+          {" "}
+          {formatNumber(data?.totalVolume || 0)}
         </p>
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          Empresas: {data?.count}
+          Empresas:
+          {" "}
+          {data?.count}
         </p>
       </div>
     );
@@ -95,7 +99,7 @@ export function SectorPieChart({
   className,
   showLegend = true,
 }: SectorPieChartProps) {
-  const chartData = data.map((item) => ({
+  const chartData = data.map(item => ({
     ...item,
     name: item.setor,
     value: item.totalVolume,

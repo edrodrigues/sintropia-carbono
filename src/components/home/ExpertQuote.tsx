@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Quote } from 'lucide-react';
+import { Quote } from "lucide-react";
 
 interface QuoteData {
   text: string;
@@ -11,22 +11,22 @@ interface QuoteData {
 
 const quotes: Record<string, QuoteData> = {
   pt: {
-    text: 'O mercado de créditos de carbono é uma ferramenta essencial para mobilizar financiamento privado para a ação climática. Com transparência e integridade, pode acelerar significativamente nossa transição para uma economia de baixo carbono.',
-    author: 'Rachel Kyte',
-    role: 'Ex-Diretora Executiva',
-    organization: 'Climate Policy Initiative',
+    text: "O mercado de créditos de carbono é uma ferramenta essencial para mobilizar financiamento privado para a ação climática. Com transparência e integridade, pode acelerar significativamente nossa transição para uma economia de baixo carbono.",
+    author: "Rachel Kyte",
+    role: "Ex-Diretora Executiva",
+    organization: "Climate Policy Initiative",
   },
   en: {
-    text: 'The carbon credit market is an essential tool to mobilize private finance for climate action. With transparency and integrity, it can significantly accelerate our transition to a low-carbon economy.',
-    author: 'Rachel Kyte',
-    role: 'Former Executive Director',
-    organization: 'Climate Policy Initiative',
+    text: "The carbon credit market is an essential tool to mobilize private finance for climate action. With transparency and integrity, it can significantly accelerate our transition to a low-carbon economy.",
+    author: "Rachel Kyte",
+    role: "Former Executive Director",
+    organization: "Climate Policy Initiative",
   },
   es: {
-    text: 'El mercado de créditos de carbono es una herramienta esencial para movilizar financiamiento privado para la acción climática. Con transparencia e integridad, puede acelerar significativamente nuestra transición hacia una economía baja en carbono.',
-    author: 'Rachel Kyte',
-    role: 'Ex-Directora Ejecutiva',
-    organization: 'Climate Policy Initiative',
+    text: "El mercado de créditos de carbono es una herramienta esencial para movilizar financiamiento privado para la acción climática. Con transparencia e integridad, puede acelerar significativamente nuestra transición hacia una economía baja en carbono.",
+    author: "Rachel Kyte",
+    role: "Ex-Directora Ejecutiva",
+    organization: "Climate Policy Initiative",
   },
 };
 
@@ -46,7 +46,9 @@ export function ExpertQuote({ locale }: { locale: string }) {
           {/* Quote Text */}
           <blockquote className="mb-10">
             <p className="text-2xl sm:text-3xl lg:text-4xl text-white font-light leading-relaxed">
-              &ldquo;{quote.text}&rdquo;
+              &ldquo;
+              {quote.text}
+              &rdquo;
             </p>
           </blockquote>
 
@@ -57,7 +59,9 @@ export function ExpertQuote({ locale }: { locale: string }) {
                 {quote.author}
               </span>
               <span className="block text-emerald-300 mt-1">
-                {quote.role}, {quote.organization}
+                {quote.role}
+                ,
+                {quote.organization}
               </span>
             </cite>
           </div>

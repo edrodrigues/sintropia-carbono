@@ -45,7 +45,7 @@ export function PostsList({ posts: initialPosts }: PostsListProps) {
 
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
-      {posts.map((post) => (
+      {posts.map(post => (
         <div key={post.id} className="p-4 flex items-center justify-between">
           <div className="flex-1 min-w-0">
             <Link href={`/feed/${post.id}`} className="font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 line-clamp-1">
@@ -55,10 +55,21 @@ export function PostsList({ posts: initialPosts }: PostsListProps) {
               <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">
                 {post.category}
               </span>
-              <span>por @{post.author?.username || "desconhecido"}</span>
-              <span>{post.karma ?? 0} karma</span>
-              <span>{post.comment_count ?? 0} comentários</span>
-              <span>{post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR") : ''}</span>
+              <span>
+                por @
+                {post.author?.username || "desconhecido"}
+              </span>
+              <span>
+                {post.karma ?? 0}
+                {" "}
+                karma
+              </span>
+              <span>
+                {post.comment_count ?? 0}
+                {" "}
+                comentários
+              </span>
+              <span>{post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR") : ""}</span>
             </div>
           </div>
           <div className="flex items-center gap-2 ml-4">

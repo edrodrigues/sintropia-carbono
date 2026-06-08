@@ -7,80 +7,80 @@ import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'Categorias' });
+  const t = await getTranslations({ locale, namespace: "Categorias" });
 
   return {
-    title: t('title'),
-    description: t('subtitle'),
+    title: t("title"),
+    description: t("subtitle"),
     keywords: locale === "pt"
       ? ["categorias carbono", "energia renovável", "I-REC", "créditos carbono", "inteligência mercado"]
       : ["carbon categories", "renewable energy", "I-REC", "carbon credits", "market intelligence"],
     alternates: {
-      canonical: `https://sintropia.space/${locale === 'pt' ? '' : locale + '/'}categorias`,
+      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}categorias`,
     },
   };
 }
 
 export default async function Categorias({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'Categorias' });
+  const t = await getTranslations({ locale, namespace: "Categorias" });
 
   const categories = [
     {
-      title: t('items.carbonBrazil'),
-      description: t('items.carbonBrazilDesc'),
+      title: t("items.carbonBrazil"),
+      description: t("items.carbonBrazilDesc"),
       image: "/images/categories/carbono-brasil.png",
-      alt: t('alt.carbonBrazil'),
+      alt: t("alt.carbonBrazil"),
       href: "/carbono-brasil",
       active: true,
     },
     {
-      title: t('items.energyBrazil'),
-      description: t('items.energyBrazilDesc'),
+      title: t("items.energyBrazil"),
+      description: t("items.energyBrazilDesc"),
       image: "/images/categories/irec-brasil.png",
-      alt: t('alt.energyBrazil'),
+      alt: t("alt.energyBrazil"),
       href: "/irec-brasil",
     },
     {
-      title: t('items.carbonWorld'),
-      description: t('items.carbonWorldDesc'),
+      title: t("items.carbonWorld"),
+      description: t("items.carbonWorldDesc"),
       image: "/images/categories/carbono-mundo.png",
-      alt: t('alt.carbonWorld'),
+      alt: t("alt.carbonWorld"),
       href: "/carbono-mundo",
     },
     {
-      title: t('items.energyPrices'),
-      description: t('items.energyPricesDesc'),
+      title: t("items.energyPrices"),
+      description: t("items.energyPricesDesc"),
       image: "/images/categories/irec-precos.png",
-      alt: t('alt.energyPrices'),
+      alt: t("alt.energyPrices"),
       href: "/irec-precos",
     },
     {
-      title: t('items.carbonProjects'),
-      description: t('items.carbonProjectsDesc'),
+      title: t("items.carbonProjects"),
+      description: t("items.carbonProjectsDesc"),
       image: "/images/categories/carbono-projetos.png",
-      alt: t('alt.carbonProjects'),
+      alt: t("alt.carbonProjects"),
       href: "/carbono-projetos",
     },
     {
-      title: t('items.certificadoras'),
-      description: t('items.certificadorasDesc'),
+      title: t("items.certificadoras"),
+      description: t("items.certificadorasDesc"),
       image: "/images/categories/certificadoras.png",
-      alt: t('alt.certificadoras'),
+      alt: t("alt.certificadoras"),
       href: "/certificadoras",
     },
     {
-      title: t('items.irecWorld'),
-      description: t('items.irecWorldDesc'),
+      title: t("items.irecWorld"),
+      description: t("items.irecWorldDesc"),
       image: "/images/categories/irec-mundo.png",
-      alt: t('alt.irecWorld'),
+      alt: t("alt.irecWorld"),
       href: "/irec-mundo",
     },
     {
-      title: t('items.carbonPrices'),
-      description: t('items.carbonPricesDesc'),
+      title: t("items.carbonPrices"),
+      description: t("items.carbonPricesDesc"),
       image: "/images/categories/carbono-precos.png",
-      alt: t('alt.carbonPrices'),
+      alt: t("alt.carbonPrices"),
       href: "/carbono-precos",
     },
   ];
@@ -92,10 +92,10 @@ export default async function Categorias({ params }: { params: Promise<{ locale:
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20">
           <div className="mb-16">
             <h1 className="text-5xl font-black text-forest-green tracking-tight mb-6">
-              {t('title')}
+              {t("title")}
             </h1>
             <p className="text-slate-500 text-xl max-w-2xl leading-relaxed">
-              {t('subtitle')}
+              {t("subtitle")}
             </p>
           </div>
 

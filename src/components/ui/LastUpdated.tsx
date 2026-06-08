@@ -32,7 +32,7 @@ export function LastUpdated({ dataFile, className = "" }: LastUpdatedProps) {
 
     const dateStr = fileDates[dataFile] || "2026-02-15";
     const date = new Date(dateStr);
-    
+
     // Format the date
     const formattedDate = date.toLocaleDateString("pt-BR", {
       day: "numeric",
@@ -54,7 +54,9 @@ export function LastUpdated({ dataFile, className = "" }: LastUpdatedProps) {
     <div className={`inline-flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 ${className}`}>
       <span className={`w-2 h-2 rounded-full ${isStale ? "bg-yellow-400" : "bg-green-500"}`} />
       <span>
-        Atualizado em: <strong>{lastUpdated}</strong>
+        Atualizado em:
+        {" "}
+        <strong>{lastUpdated}</strong>
       </span>
     </div>
   );
