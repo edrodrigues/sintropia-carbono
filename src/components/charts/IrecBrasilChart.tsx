@@ -5,52 +5,84 @@ import { Card, Title, BarChart, DonutChart } from "@/components/ui/tremor";
 
 const fullChartData = {
   labels: [
-    "Eletrobras",
-    "Vale",
+    "AXIA Energia",
+    "Voltalia",
+    "Comerc Energia",
+    "Engie Brasil",
+    "Auren Energia",
+    "Cemig",
+    "Copel",
+    "CPFL Energia",
     "Neoenergia",
-    "Gerdau",
-    "Petrobras",
-    "JBS",
+    "CTG Brasil",
+    "EDP Brasil",
+    "Matrix Energia",
+    "2W Ecobank",
     "Braskem",
-    "Voltalia Brasil",
-    "Raízen",
-    "Suzano",
-    "Ambev",
-    "CGN Brasil Energia",
-    "Itaú Unibanco",
-    "Bradesco",
-    "Banco do Brasil",
-    "Santander Brasil",
-    "Natura &Co",
-    "Magazine Luiza",
-    "Embraer",
-    "Lojas Renner",
-    "Leroy Merlin Brasil",
-    "Decathlon Brasil",
-    "Cielo",
-    "Hospital de Clínicas de Porto Alegre",
-    "SAP Brasil",
+    "Itaú Unibanco"
   ],
   volumes2024: [
-    9.2, 4.2, 3.2, 3.2, 2.8, 2.4, 2.1, 1.1, 1.8, 1.55, 1.25, 0.95, 0.62, 0.55,
-    0.52, 0.48, 0.41, 0.28, 0.26, 0.195, 0.145, 0.075, 0.045, 0.033, 0.022,
+    0.0,
+    1.4,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
   ],
   volumes2025: [
-    14.5, 5.5, 4.8, 4.15, 3.65, 3.1, 2.75, 2.5, 2.4, 2.05, 1.63, 1.3, 0.81, 0.72,
-    0.68, 0.625, 0.535, 0.365, 0.34, 0.255, 0.19, 0.098, 0.058, 0.035, 0.0285,
+    11.9,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
   ],
-  sectors: ["Vendedor", "Comprador", "Ambos"],
-  sectorDistribution: [20, 65, 15],
+  sectors: [
+    "Gerador / Comercializador",
+    "Comercializador",
+    "Gerador",
+    "Consumidor / Comprador"
+  ],
+  sectorDistribution: [
+    53,
+    20,
+    13,
+    14
+  ],
 };
 
-const sectorColors = ["#16a34a", "#2563eb", "#9333ea"];
+const sectorColors = [
+  "#16a34a",
+  "#2563eb",
+  "#9333ea",
+  "#d97706",
+  "#dc2626"
+];
 
 export function IrecBrasilChart() {
   const [view, setView] = useState<"top10" | "top25">("top25");
   const [type, setType] = useState<"bar" | "pie">("bar");
   const [year, setYear] = useState<"2024" | "2025">("2024");
 
-  const limit = view === "top10" ? 10 : 25;
+  const limit = view === "top10" ? 10 : 15;
 
   const barData = fullChartData.labels
     .slice(0, limit)
@@ -89,7 +121,7 @@ export function IrecBrasilChart() {
                 : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
               }`}
             >
-              Top 25
+              Top 15
             </button>
           </div>
           <div className="flex gap-2">
@@ -142,13 +174,13 @@ export function IrecBrasilChart() {
         {type === "bar"
           ? (
               <>
-                <Title className="text-center mb-4">Comparação de Volumes I-REC - Brasil (Milhões)</Title>
+                <Title className="text-center mb-4">Comparação de Volumes (Milhões)</Title>
                 <BarChart data={barData} className="h-[320px]" />
               </>
             )
           : (
               <>
-                <Title className="text-center mb-4">Distribuição por Papel no Mercado (%)</Title>
+                <Title className="text-center mb-4">Distribuição (%)</Title>
                 <DonutChart data={sectorData} className="h-[320px]" />
               </>
             )}

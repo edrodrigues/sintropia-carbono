@@ -5,45 +5,108 @@ import { Card, Title, BarChart, DonutChart } from "@/components/ui/tremor";
 
 const fullChartData = {
   labels: [
-    "Microsoft",
-    "Google",
     "Amazon",
+    "Microsoft",
     "Meta",
+    "Google",
+    "NextEra Energy",
+    "STX Group",
+    "ACT Commodities",
+    "Brookfield Renewable",
+    "Statkraft",
+    "Enel Green Power",
+    "3Degrees Group",
+    "ENGIE",
+    "Shell Energy",
+    "South Pole",
+    "Ecohz",
+    "Ørsted",
+    "EDF Trading",
+    "Xpansiv (CBL)",
     "Apple",
-    "Shell",
-    "BP",
-    "ExxonMobil",
-    "Samsung",
-    "TSMC",
-    "Walmart",
-    "Volkswagen",
-    "Toyota",
-    "Nestlé",
-    "PepsiCo",
-    "Unilever",
-    "L'Oreal",
-    "Procter & Gamble",
-    "Siemens",
-    "Schneider Electric",
-    "ABB",
-    "Danone",
-    "Heineken",
-    "IKEA",
-    "Nike",
+    "Neoenergia",
+    "Adani Green Energy",
+    "CPFL Energia",
+    "Tata Power",
+    "EKI Energy Services",
+    "First Climate"
   ],
   volumes2024: [
-    4.5, 3.8, 3.2, 2.8, 2.5, 2.1, 1.8, 1.5, 1.2, 1.1, 0.95, 0.85, 0.78, 0.72,
-    0.68, 0.65, 0.62, 0.58, 0.55, 0.52, 0.48, 0.45, 0.42, 0.41, 0.39,
+    28.5,
+    24.0,
+    22.1,
+    19.8,
+    18.5,
+    16.0,
+    15.2,
+    14.0,
+    13.5,
+    12.0,
+    11.5,
+    11.0,
+    10.5,
+    10.0,
+    9.5,
+    9.0,
+    8.6,
+    8.2,
+    7.8,
+    7.5,
+    7.0,
+    6.8,
+    6.5,
+    6.2,
+    5.8
   ],
   volumes2025: [
-    29.5, 12.8, 10.5, 8.44, 7.2, 4.8, 3.3, 3.1, 2.4, 2.0, 1.9, 1.65, 1.45, 1.3,
-    1.25, 1.1, 0.85, 0.81, 0.75, 0.72, 0.61, 0.58, 0.55, 0.48, 0.44,
+    34.2,
+    31.5,
+    25.4,
+    22.0,
+    20.2,
+    19.5,
+    18.0,
+    16.5,
+    15.1,
+    14.2,
+    13.0,
+    12.8,
+    12.1,
+    11.5,
+    11.2,
+    10.5,
+    10.0,
+    9.5,
+    9.1,
+    8.8,
+    8.4,
+    8.0,
+    7.6,
+    7.3,
+    7.0
   ],
-  sectors: ["Tecnologia", "Energia", "Varejo", "Automotivo", "Consumo"],
-  sectorDistribution: [45, 20, 15, 10, 10],
+  sectors: [
+    "Utilities & Energy",
+    "Technology",
+    "Environmental Commodities",
+    "Financial Infrastructure"
+  ],
+  sectorDistribution: [
+    48,
+    20,
+    28,
+    4
+  ],
 };
 
-const sectorColors = ["#2563eb", "#16a34a", "#d97706", "#dc2626", "#9333ea"];
+const sectorColors = [
+  "#2563eb",
+  "#16a34a",
+  "#d97706",
+  "#dc2626",
+  "#9333ea",
+  "#0891b2"
+];
 
 export function IrecMundoChart() {
   const [view, setView] = useState<"top10" | "top25">("top25");
@@ -142,13 +205,13 @@ export function IrecMundoChart() {
         {type === "bar"
           ? (
               <>
-                <Title className="text-center mb-4">Comparação de Volumes I-REC - Mundo (Milhões)</Title>
+                <Title className="text-center mb-4">Comparação de Volumes (Milhões)</Title>
                 <BarChart data={barData} className="h-[320px]" />
               </>
             )
           : (
               <>
-                <Title className="text-center mb-4">Distribuição por Setor (%)</Title>
+                <Title className="text-center mb-4">Distribuição (%)</Title>
                 <DonutChart data={sectorData} className="h-[320px]" />
               </>
             )}

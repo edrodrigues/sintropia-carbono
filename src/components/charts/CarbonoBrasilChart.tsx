@@ -5,58 +5,80 @@ import { Card, Title, BarChart, DonutChart } from "@/components/ui/tremor";
 
 const fullChartData = {
   labels: [
-    "Banco Votorantim",
-    "Petrobras",
-    "Suzano",
-    "Vale",
-    "Itaú",
-    "Bradesco",
-    "Klabin",
     "Natura",
-    "Banco do Brasil",
-    "Gerdau",
-    "Lojas Renner",
-    "GOL",
-    "Azul",
-    "Ambev",
+    "Petrobras",
+    "Localiza",
+    "Vale",
+    "Suzano",
+    "Klabin",
     "JBS",
     "Raízen",
-    "Cosan",
-    "Cielo",
+    "Ambev",
+    "Itaú",
+    "Bradesco",
+    "Gerdau",
+    "Engie Brasil",
     "Marfrig",
-    "Localiza",
-    "Rede D'Or",
-    "Neoenergia",
-    "Cemig",
-    "TIM",
-    "3tentos",
+    "Cosan"
   ],
   volumes2024: [
-    3.8, 0.68, 0.42, 0.38, 0.31, 0.29, 0.25, 0.23, 0.21, 0.195, 0.18, 0.175,
-    0.165, 0.15, 0.14, 0.135, 0.12, 0.115, 0.105, 0.095, 0.09, 0.085, 0.08, 0.075,
+    0.61,
+    0.23,
     0.07,
+    0.18,
+    0.15,
+    0.12,
+    0.1,
+    0.08,
+    0.09,
+    0.07,
+    0.07,
+    0.06,
+    0.06,
+    0.05,
+    0.04
   ],
   volumes2025: [
-    5.2, 0.75, 0.58, 0.45, 0.39, 0.36, 0.32, 0.29, 0.27, 0.25, 0.24, 0.23, 0.215,
-    0.195, 0.18, 0.17, 0.155, 0.15, 0.14, 0.13, 0.125, 0.115, 0.11, 0.105, 0.1,
+    0.4,
+    0.37,
+    0.26,
+    0.21,
+    0.17,
+    0.14,
+    0.12,
+    0.1,
+    0.09,
+    0.09,
+    0.08,
+    0.07,
+    0.06,
+    0.06,
+    0.05
   ],
   sectors: [
+    "Bens de Consumo",
+    "Energia e Utilidades",
+    "Papel e Celulose",
+    "Transporte e Logística",
+    "Mineração e Metais",
+    "Alimentos e Agronegócio",
     "Financeiro",
-    "Energia",
-    "Celulose",
-    "Mineração",
-    "Varejo",
-    "Aviação",
-    "Bebidas",
-    "Proteína",
-    "Siderurgia",
-    "Cosméticos",
-    "Saúde",
-    "Telecom",
-    "Logística",
-    "Agro",
+    "Energia e Biocombustíveis",
+    "Siderurgia e Metais",
+    "Energia e Logística"
   ],
-  sectorDistribution: [20, 20, 8, 4, 4, 8, 4, 8, 4, 4, 4, 4, 4, 4],
+  sectorDistribution: [
+    13,
+    13,
+    13,
+    7,
+    7,
+    13,
+    13,
+    7,
+    7,
+    7
+  ],
 };
 
 const sectorColors = [
@@ -73,7 +95,7 @@ const sectorColors = [
   "#db2777",
   "#d97706",
   "#06b6d4",
-  "#7c3aed",
+  "#7c3aed"
 ];
 
 export function CarbonoBrasilChart() {
@@ -81,7 +103,7 @@ export function CarbonoBrasilChart() {
   const [type, setType] = useState<"bar" | "pie">("bar");
   const [year, setYear] = useState<"2024" | "2025">("2024");
 
-  const limit = view === "top10" ? 10 : 25;
+  const limit = view === "top10" ? 10 : 15;
 
   const barData = fullChartData.labels
     .slice(0, limit)
@@ -120,7 +142,7 @@ export function CarbonoBrasilChart() {
                 : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
               }`}
             >
-              Top 25
+              Top 15
             </button>
           </div>
           <div className="flex gap-2">
@@ -173,13 +195,13 @@ export function CarbonoBrasilChart() {
         {type === "bar"
           ? (
               <>
-                <Title className="text-center mb-4">Comparação de Volumes de Carbono - Brasil (Milhões tCO2e)</Title>
+                <Title className="text-center mb-4">Comparação de Volumes (Milhões tCO2e)</Title>
                 <BarChart data={barData} className="h-[320px]" />
               </>
             )
           : (
               <>
-                <Title className="text-center mb-4">Distribuição por Setor (%)</Title>
+                <Title className="text-center mb-4">Distribuição (%)</Title>
                 <DonutChart data={sectorData} className="h-[320px]" />
               </>
             )}

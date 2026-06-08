@@ -16,21 +16,21 @@ export function LastUpdated({ dataFile, className = "" }: LastUpdatedProps) {
     // In a real scenario, this would be fetched from the server
     // For now, we'll use a static date based on the file
     const fileDates: Record<string, string> = {
-      "carbono": "2026-03-11",
-      "carbono-ranking-brasil": "2026-03-11",
-      "carbono-ranking-mundo": "2026-03-11",
-      "carbono-setores": "2026-03-11",
-      "carbono-precos": "2026-03-11",
-      "carbono-projetos": "2026-03-11",
-      "energia": "2026-03-11",
-      "energia-ranking-brasil": "2026-03-11",
-      "energia-ranking-mundo": "2026-03-11",
-      "energia-setores": "2026-03-11",
-      "irec-precos": "2026-03-11",
-      "certificadoras": "2026-03-11",
+      "carbono": "2026-06-08",
+      "carbono-ranking-brasil": "2026-06-08",
+      "carbono-ranking-mundo": "2026-06-08",
+      "carbono-setores": "2026-06-08",
+      "carbono-precos": "2026-06-08",
+      "carbono-projetos": "2026-06-08",
+      "energia": "2026-06-08",
+      "energia-ranking-brasil": "2026-06-08",
+      "energia-ranking-mundo": "2026-06-08",
+      "energia-setores": "2026-06-08",
+      "irec-precos": "2026-06-08",
+      "certificadoras": "2026-06-08",
     };
 
-    const dateStr = fileDates[dataFile] || "2026-02-15";
+    const dateStr = fileDates[dataFile] || "2026-06-08";
     const date = new Date(dateStr);
 
     // Format the date

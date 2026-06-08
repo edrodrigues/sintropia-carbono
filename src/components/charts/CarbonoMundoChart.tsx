@@ -5,50 +5,82 @@ import { Card, Title, BarChart, DonutChart } from "@/components/ui/tremor";
 
 const fullChartData = {
   labels: [
-    "Microsoft",
     "Shell",
-    "AtmosClear",
     "Eni",
-    "Banco Votorantim",
-    "Netflix",
-    "Stockholm Exergi",
-    "Guacolda Energía",
-    "Organizacion Terpel",
-    "CO280",
-    "Engie",
-    "Woodside Energy",
-    "PetroChina",
-    "Chevron",
-    "JPMorgan Chase",
-    "Google",
-    "PwC",
-    "Deloitte",
-    "Petrobras",
-    "Primax Colombia",
-    "Goldman Sachs",
-    "Qantas Airways",
+    "Microsoft",
+    "Delta Air Lines",
+    "Walt Disney Company",
+    "CPC Corporation",
+    "Apple",
+    "Volkswagen Group",
+    "BHP",
+    "BP",
+    "Google (Alphabet)",
     "Amazon",
-    "Biomax Biocombustibles",
-    "Puma Energy",
+    "JPMorgan Chase",
+    "Primax",
+    "Guacolda Energía"
   ],
   volumes2024: [
-    5.5, 14.5, 0.32, 3.58, 3.8, 0.82, 0.3, 1.8, 1.6, 0.25, 2.1, 1.4, 1.2, 1.15,
-    0.95, 0.78, 0.65, 0.62, 0.68, 0.65, 0.48, 0.45, 0.42, 0.41, 0.39,
+    22.48,
+    10.02,
+    5.1,
+    4.5,
+    1.66,
+    1.68,
+    0.91,
+    1.2,
+    1.1,
+    1.35,
+    0.85,
+    0.78,
+    0.62,
+    0.71,
+    0.68
   ],
   volumes2025: [
-    29.5, 9.75, 6.75, 6.44, 5.2, 4.8, 3.3, 3.1, 2.4, 2.0, 1.9, 1.65, 1.45, 1.3,
-    1.25, 1.1, 0.85, 0.81, 0.75, 0.72, 0.61, 0.58, 0.55, 0.48, 0.44,
+    9.75,
+    8.9,
+    6.8,
+    4.1,
+    1.85,
+    1.55,
+    1.2,
+    1.15,
+    1.08,
+    1.05,
+    1.02,
+    0.95,
+    0.84,
+    0.79,
+    0.72
   ],
-  sectorsByVolume: [
-    "Energia",
+  sectors: [
+    "Energia / Óleo e Gás",
     "Tecnologia",
-    "CDR Tech",
-    "Financeiro",
-    "Consultoria",
-    "Media/Tech",
     "Aviação",
+    "Entretenimento",
+    "Industrial / Refino",
+    "Automotivo",
+    "Mineração",
+    "Varejo / Tecnologia",
+    "Financeiro",
+    "Energia",
+    "Energia / Utilidades"
   ],
-  sectorDistribution: [60, 12, 8, 8, 4, 4, 4],
+  sectorDistribution: [
+    20,
+    20,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    7,
+    4
+  ],
 };
 
 const sectorColors = [
@@ -58,7 +90,7 @@ const sectorColors = [
   "#1e40af",
   "#6b7280",
   "#0891b2",
-  "#dc2626",
+  "#dc2626"
 ];
 
 export function CarbonoMundoChart() {
@@ -66,7 +98,7 @@ export function CarbonoMundoChart() {
   const [type, setType] = useState<"bar" | "pie">("bar");
   const [year, setYear] = useState<"2024" | "2025">("2024");
 
-  const limit = view === "top10" ? 10 : 25;
+  const limit = view === "top10" ? 10 : 15;
 
   const barData = fullChartData.labels
     .slice(0, limit)
@@ -75,7 +107,7 @@ export function CarbonoMundoChart() {
       value: year === "2024" ? fullChartData.volumes2024[i] : fullChartData.volumes2025[i],
     }));
 
-  const sectorData = fullChartData.sectorsByVolume.map((sector, i) => ({
+  const sectorData = fullChartData.sectors.map((sector, i) => ({
     name: sector,
     value: fullChartData.sectorDistribution[i],
     color: sectorColors[i],
@@ -105,7 +137,7 @@ export function CarbonoMundoChart() {
                 : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
               }`}
             >
-              Top 25
+              Top 15
             </button>
           </div>
           <div className="flex gap-2">
@@ -158,13 +190,13 @@ export function CarbonoMundoChart() {
         {type === "bar"
           ? (
               <>
-                <Title className="text-center mb-4">Comparação de Volumes de Carbono (Milhões tCO2e)</Title>
+                <Title className="text-center mb-4">Comparação de Volumes (Milhões tCO2e)</Title>
                 <BarChart data={barData} className="h-[320px]" />
               </>
             )
           : (
               <>
-                <Title className="text-center mb-4">Distribuição por Setor (%)</Title>
+                <Title className="text-center mb-4">Distribuição (%)</Title>
                 <DonutChart data={sectorData} className="h-[320px]" />
               </>
             )}

@@ -9,7 +9,7 @@ export default async function Posts() {
       title: "Análise do Mercado de Carbono em 2025",
       excerpt: "Overview dos principais desenvolvimentos no mercado voluntário de carbono...",
       author: "Maria Santos",
-      date: "2026-02-15",
+      date: "2026-06-08",
       likes: 24,
       comments: 8,
     },
