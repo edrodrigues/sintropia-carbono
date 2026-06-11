@@ -889,14 +889,17 @@
     },
     "Dashboard": {
         "pageTitle": "My Page",
+        "title": "Dashboard",
         "pageSubtitle": "Your professional profile in the environmental markets network",
         "profile": {
             "username": "User",
             "noUsername": "no username",
             "karma": "Karma",
-            "nextLevel": "to next level"
+            "nextLevel": "to next level",
+            "viewProfile": "View Profile"
         },
         "stats": {
+            "karma": "Karma",
             "posts": "Posts",
             "published": "published",
             "comments": "Comments",
@@ -914,6 +917,13 @@
         "gamification": {
             "title": "How Gamification Works",
             "description": "Karma is your reputation in the community. The more quality contributions, the more points you earn!",
+            "progress": "Progress",
+            "toNext": "to next level",
+            "howToEarn": "How to earn Karma",
+            "rankingTitle": "Your Position",
+            "globalRanking": "Global Ranking",
+            "rankingDesc": "Increase your Karma by actively participating in the community and inviting new members.",
+            "viewLeaderboard": "View Leaderboard",
             "actions": {
                 "createPost": "Create a post",
                 "comment": "Comment on someone else's post",
@@ -926,6 +936,14 @@
             "badgesTitle": "Badges by Karma Level:",
             "yourRanking": "Your current ranking:",
             "viewRanking": "View full ranking →"
+        },
+        "badges": {
+            "novato": "Rookie",
+            "iniciante": "Beginner",
+            "aprendiz": "Apprentice",
+            "contribuidor": "Contributor",
+            "especialista": "Specialist",
+            "master": "Master"
         },
         "achievements": {
             "title": "Achievements",

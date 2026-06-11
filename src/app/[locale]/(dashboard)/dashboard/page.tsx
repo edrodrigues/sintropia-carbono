@@ -116,6 +116,7 @@ export default async function DashboardPage() {
   const tGamification = await getTranslations("Dashboard.gamification");
   const tAchievements = await getTranslations("Dashboard.achievements");
   const tContribute = await getTranslations("Dashboard.contribute");
+  const tBadges = await getTranslations("Dashboard.badges");
 
   const {
     data: { user },
@@ -154,32 +155,32 @@ export default async function DashboardPage() {
   // Badges logic with SVG icons
   const getBadge = (karma: number) => {
     if (karma >= 1000) return {
-      name: "Master",
+      name: tBadges("master"),
       icon: <CrownIcon className="w-10 h-10 sm:w-12 sm:h-12 text-yellow-500" />,
       nextLevel: 5000,
     };
     if (karma >= 500) return {
-      name: "Especialista",
+      name: tBadges("especialista"),
       icon: <DiamondIcon className="w-10 h-10 sm:w-12 sm:h-12 text-blue-500" />,
       nextLevel: 1000,
     };
     if (karma >= 100) return {
-      name: "Contribuidor",
+      name: tBadges("contribuidor"),
       icon: <StarIcon className="w-10 h-10 sm:w-12 sm:h-12 text-amber-400" />,
       nextLevel: 500,
     };
     if (karma >= 50) return {
-      name: "Aprendiz",
+      name: tBadges("aprendiz"),
       icon: <LeafIcon className="w-10 h-10 sm:w-12 sm:h-12 text-green-500" />,
       nextLevel: 100,
     };
     if (karma >= 10) return {
-      name: "Iniciante",
+      name: tBadges("iniciante"),
       icon: <SeedlingIcon className="w-10 h-10 sm:w-12 sm:h-12 text-green-400" />,
       nextLevel: 50,
     };
     return {
-      name: "Novato",
+      name: tBadges("novato"),
       icon: <EggIcon className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400" />,
       nextLevel: 10,
     };
