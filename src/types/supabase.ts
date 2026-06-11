@@ -372,6 +372,11 @@ export interface Database {
           updated_at: string | null;
           user_type: string | null;
           username: string;
+          headline: string | null;
+          expertise_areas: string[] | null;
+          certifications: string[] | null;
+          years_of_experience: number | null;
+          available_for_consulting: boolean | null;
         };
         Insert: {
           avatar_url?: string | null;
@@ -388,6 +393,11 @@ export interface Database {
           updated_at?: string | null;
           user_type?: string | null;
           username: string;
+          headline?: string | null;
+          expertise_areas?: string[] | null;
+          certifications?: string[] | null;
+          years_of_experience?: number | null;
+          available_for_consulting?: boolean | null;
         };
         Update: {
           avatar_url?: string | null;
@@ -404,6 +414,11 @@ export interface Database {
           updated_at?: string | null;
           user_type?: string | null;
           username?: string;
+          headline?: string | null;
+          expertise_areas?: string[] | null;
+          certifications?: string[] | null;
+          years_of_experience?: number | null;
+          available_for_consulting?: boolean | null;
         };
         Relationships: [
           {

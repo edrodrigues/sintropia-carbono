@@ -14,6 +14,11 @@ export interface Profile {
   user_type: string | null;
   linkedin_url: string | null;
   twitter_url: string | null;
+  headline: string | null;
+  expertise_areas: string[] | null;
+  certifications: string[] | null;
+  years_of_experience: number | null;
+  available_for_consulting: boolean | null;
   created_at: string | null;
   updated_at: string | null;
 }

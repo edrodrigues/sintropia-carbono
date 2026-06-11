@@ -1,27 +1,27 @@
 {
     "Index": {
-        "title": "Democratizando dados de créditos de carbono e energia renovável.",
+        "title": "A rede para profissionais que transformam os mercados ambientais.",
         "hero": {
-            "badge": "Inteligência de mercado ao vivo",
-            "subtitle": "Plataformas globais cobram $15/mês por esses dados. Nós fornecemos rankings, preços e tendências em tempo real para o mercado global — completamente grátis.",
-            "promo": "Plataformas globais cobram $249/mês por esses dados. Nós fornecemos rankings, preços e tendências em tempo real para o mercado — completamente grátis.",
-            "cta": "Comece Grátis",
-            "ctaTitle": "Pronto para começar?",
-            "ctaDesc": "Junte-se a centenas de empresas e especialistas que já estão moldando o futuro do mercado de carbono e energia renovável."
+            "badge": "Rede profissional + inteligência de mercado",
+            "subtitle": "Dados de mercado, insights de especialistas e uma rede profissional para carbono, energia renovável, ESG e sustentabilidade. Grátis para participar.",
+            "promo": "Dados de mercado, insights de especialistas e uma rede profissional para carbono, energia renovável, ESG e sustentabilidade. Grátis para participar.",
+            "cta": "Entre Grátis",
+            "ctaTitle": "Pronto para se conectar?",
+            "ctaDesc": "Junte-se a centenas de profissionais, analistas e empresas que já estão moldando o futuro dos mercados ambientais."
         },
         "features": {
-            "title": "Por que escolher a Sintropia?",
+            "title": "Por que a Sintropia?",
             "brazilianData": {
-                "title": "Dados Globais",
-                "desc": "Acesse o banco de dados mais completo de ativos ambientais do mundo."
+                "title": "Dados de Mercado",
+                "desc": "Acesso gratuito a rankings, preços e tendências de créditos de carbono e I-REC — com dados ESG em expansão."
             },
             "marketIntelligence": {
-                "title": "Inteligência de Mercado",
-                "desc": "Preços, volume e tendências em tempo real para I-RECs e créditos de carbono."
+                "title": "Rede Profissional",
+                "desc": "Conecte-se, compartilhe insights e construa sua reputação entre profissionais do mercado ambiental."
             },
             "activeCommunity": {
-                "title": "Comunidade Ativa",
-                "desc": "Conecte-se com especialistas, analistas e traders do mercado ambiental."
+                "title": "Conhecimento & Insights",
+                "desc": "Discussões de especialistas, acompanhamento regulatório e inteligência colaborativa sobre mercados ambientais."
             },
             "openApi": {
                 "title": "API Aberta (Em Breve)",
@@ -70,7 +70,7 @@
         "certificadoras": "Certificadoras",
         "energy": "Energia",
         "carbon": "Carbono",
-        "community": "Comunidade",
+        "network": "Rede",
         "marketBrazil": "Mercado Brasil",
         "marketWorld": "Mercado Global",
         "prices": "Preços",
@@ -128,7 +128,7 @@
         "loginTitle": "Sintropia",
         "loginSubtitle": "Acesse sua conta",
         "registerTitle": "Junte-se ao Sintropia",
-        "registerSubtitle": "Dados de carbono e energia, completamente grátis.",
+        "registerSubtitle": "Entre na rede profissional de mercados ambientais.",
         "emailLabel": "E-mail",
         "passwordLabel": "Senha",
         "confirmPasswordLabel": "Confirmar Senha",
@@ -164,7 +164,7 @@
         "special": "1 caractere especial"
     },
     "Footer": {
-        "tagline": "Democratizando o acesso a dados dos mercados ambientais com transparência, tecnologia e foco no ecossistema brasileiro de baixo carbono.",
+        "tagline": "A rede profissional para mercados ambientais e sustentabilidade. Código aberto. Feito pela comunidade.",
         "energy": "Energia",
         "carbon": "Carbono",
         "community": "Comunidade",
@@ -613,7 +613,7 @@
         "back": "Voltar",
         "heroBadge": "Projeto Colaborativo",
         "heroTitle": "Contribua com o Projeto",
-        "heroDesc": "Sintropia é um projeto colaborativo de código aberto. Sua contribuição ajuda a democratizar o acesso a dados ambientais.",
+        "heroDesc": "Sintropia é um projeto colaborativo de código aberto. Sua contribuição ajuda a fortalecer a rede profissional de mercados ambientais.",
         "github": {
             "title": "Código no GitHub",
             "desc": "Acesse o repositório completo, faça forks, abra issues e envie pull requests.",
@@ -877,7 +877,7 @@
             "title": "Feed de Notícias",
             "subtitle": "Insights e posts da nossa rede de especialistas.",
             "todayFeed": "Feed de Hoje",
-            "shareInsight": "Compartilhe insights e discuta tendências do mercado de carbono.",
+            "shareInsight": "Compartilhe insights e discuta mercados ambientais, ESG e sustentabilidade.",
             "sortTop": "Top",
             "sortNew": "Novos",
             "sortBest": "Melhores",
@@ -887,7 +887,7 @@
         "profiles": {
             "title": "Perfis da Comunidade",
             "subtitle": "Veja todos os perfis da comunidade.",
-            "explore": "Explore os membros da comunidade Sintropia e suas contribuições",
+            "explore": "Descubra profissionais em mercados de carbono, ESG e sustentabilidade.",
             "posts": "Posts",
             "comments": "Comentários",
             "viewActivities": "Ver Atividades →",
@@ -985,7 +985,7 @@
     },
     "Dashboard": {
         "pageTitle": "Minha Página",
-        "pageSubtitle": "Sua jornada na comunidade Sintropia",
+        "pageSubtitle": "Seu perfil profissional na rede de mercados ambientais",
         "profile": {
             "username": "Usuário",
             "noUsername": "sem username",
@@ -1030,7 +1030,7 @@
         },
         "contribute": {
             "title": "Como Contribuir",
-            "description": "Sintropia é um projeto colaborativo de código aberto. Sua contribuição ajuda a tornar o mercado de carbono mais transparente e acessível.",
+            "description": "Sintropia é um projeto colaborativo de código aberto. Sua contribuição ajuda a fortalecer a rede profissional de mercados ambientais.",
             "actions": {
                 "shareKnowledge": {
                     "title": "Compartilhar conhecimento",
@@ -1062,7 +1062,7 @@
         "step1Label": "Identidade",
         "step2Label": "Detalhes",
         "step3Label": "Pronto",
-        "step1TitleNew": "Bem-vindo ao Sintropia!",
+        "step1TitleNew": "Bem-vindo à rede!",
         "step1SubtitleNew": "Conte-nos quem você é para personalizar sua experiência. Seu nome e handle são obrigatórios.",
         "step1TitleReturning": "Vamos finalizar seu perfil",
         "step1SubtitleReturning": "Quase lá! Adicione seu nome e handle para desbloquear todas as funcionalidades.",
@@ -1115,7 +1115,15 @@
         "ranking": "Ranking"
     },
     "ProfileHeader": {
-        "progressLabel": "Progresso para o próximo nível"
+        "progressLabel": "Progresso para o próximo nível",
+    "headline": "Headline / Título Profissional",
+    "headlinePlaceholder": "Ex: Analista de Mercado de Carbono | Especialista ESG",
+    "expertiseAreas": "Áreas de Especialização",
+    "expertiseAreasPlaceholder": "Selecione suas áreas de especialização",
+    "certifications": "Certificações",
+    "certificationsPlaceholder": "Selecione suas certificações",
+    "yearsOfExperience": "Anos de Experiência",
+    "availableForConsulting": "Disponível para Consultoria"
     },
     "Energia": {
         "pageTitle": "Mercado de Energia Renovável",

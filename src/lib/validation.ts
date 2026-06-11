@@ -36,6 +36,11 @@ export const profileUpdateSchema = z.object({
   cargo: z.string().max(100).optional(),
   linkedin_url: z.string().max(500).optional(),
   twitter_url: z.string().max(500).optional(),
+  headline: z.string().max(150).optional(),
+  expertise_areas: z.array(z.string()).max(10).optional(),
+  certifications: z.array(z.string()).max(10).optional(),
+  years_of_experience: z.number().int().min(0).max(70).optional(),
+  available_for_consulting: z.boolean().optional(),
 });
 
 export const banUserSchema = z.object({

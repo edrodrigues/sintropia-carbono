@@ -1,6 +1,8 @@
 # Sintropia
 
-Dashboard colaborativo sobre mercado de carbono, energia renovável e comunidade profissional.
+The professional network for environmental markets and sustainability.
+
+Connecting professionals in carbon markets, renewable energy, ESG, and sustainability with market data, expert insights, and career opportunities.
 
 ## Stack
 

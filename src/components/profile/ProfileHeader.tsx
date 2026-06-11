@@ -21,6 +21,11 @@ interface ProfileHeaderProps {
     avatar_url?: string | null;
     user_type?: string | null;
     created_at?: string | null;
+    headline?: string | null;
+    expertise_areas?: string[] | null;
+    certifications?: string[] | null;
+    years_of_experience?: number | null;
+    available_for_consulting?: boolean | null;
   };
   achievements?: Achievement[];
   isOwnProfile?: boolean;
@@ -72,10 +77,14 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
                 <span>{badge.label}</span>
               </span>
             </div>
-            <p className="text-blue-100 mb-2">
+            <p className="text-blue-100 mb-1">
               @
               {profile.username}
             </p>
+
+            {profile.headline && (
+              <p className="text-blue-200 text-sm font-medium mb-2">{profile.headline}</p>
+            )}
 
             {profile.bio && (
               <p className="text-blue-50 mb-3 max-w-xl">{profile.bio}</p>
@@ -139,6 +148,43 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
               )}
             </div>
           </div>
+        )}
+      </div>
+
+      {profile.expertise_areas && profile.expertise_areas.length > 0 && (
+        <div className="mb-4">
+          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Áreas de Especialização</h3>
+          <div className="flex flex-wrap gap-2">
+            {profile.expertise_areas.map(area => (
+              <span key={area} className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 text-xs font-medium border border-emerald-200 dark:border-emerald-800">
+                {area}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {profile.certifications && profile.certifications.length > 0 && (
+        <div className="mb-4">
+          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Certificações</h3>
+          <div className="flex flex-wrap gap-2">
+            {profile.certifications.map(cert => (
+              <span key={cert} className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800">
+                {cert}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="mb-4 flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
+        {profile.years_of_experience != null && (
+          <span>📅 {profile.years_of_experience} anos de experiência</span>
+        )}
+        {profile.available_for_consulting && (
+          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 text-xs font-medium border border-amber-200 dark:border-amber-800">
+            ✅ Disponível para consultoria
+          </span>
         )}
       </div>
 

@@ -22,6 +22,11 @@ export async function updateProfile(formData: FormData) {
     cargo: ((formData.get("cargo") as string)?.trim()) || undefined,
     linkedin_url: ((formData.get("linkedin_url") as string)?.trim()) || undefined,
     twitter_url: ((formData.get("twitter_url") as string)?.trim()) || undefined,
+    headline: ((formData.get("headline") as string)?.trim()) || undefined,
+    expertise_areas: formData.get("expertise_areas") ? JSON.parse(formData.get("expertise_areas") as string) : undefined,
+    certifications: formData.get("certifications") ? JSON.parse(formData.get("certifications") as string) : undefined,
+    years_of_experience: formData.get("years_of_experience") ? Number(formData.get("years_of_experience")) : undefined,
+    available_for_consulting: formData.get("available_for_consulting") === "true" || undefined,
   };
 
   const parsed = profileUpdateSchema.safeParse(raw);
@@ -29,7 +34,7 @@ export async function updateProfile(formData: FormData) {
     return { error: parsed.error.issues[0]?.message || "Dados inválidos" };
   }
 
-  const { username, display_name, bio, user_type, organization, cargo, linkedin_url, twitter_url } = parsed.data;
+  const { username, display_name, bio, user_type, organization, cargo, linkedin_url, twitter_url, headline, expertise_areas, certifications, years_of_experience, available_for_consulting } = parsed.data;
 
   // Check if profile exists
   const { data: existingProfile }: any = await supabase
@@ -53,6 +58,11 @@ export async function updateProfile(formData: FormData) {
     cargo: cargo || null,
     linkedin_url: linkedin_url || null,
     twitter_url: twitter_url || null,
+    headline: headline || null,
+    expertise_areas: expertise_areas || null,
+    certifications: certifications || null,
+    years_of_experience: years_of_experience || null,
+    available_for_consulting: available_for_consulting || false,
     updated_at: new Date().toISOString(),
   };
 

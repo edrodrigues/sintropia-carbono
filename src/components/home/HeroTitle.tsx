@@ -10,11 +10,11 @@ export function HeroTitle({ title, locale }: HeroTitleProps) {
     <span dangerouslySetInnerHTML={{
       __html: locale === "pt"
         ? title
-          .replace("créditos de carbono", "<span class=\"text-emerald-500 underline decoration-emerald-200 underline-offset-4 lg:underline-offset-8\">créditos de carbono</span>")
-          .replace("energia renovável", "<span class=\"text-emerald-500 underline decoration-emerald-200 underline-offset-4 lg:underline-offset-8\">energia renovável</span>")
+          .replace("mercados ambientais", "<span class=\"text-emerald-500 underline decoration-emerald-200 underline-offset-4 lg:underline-offset-8\">mercados ambientais</span>")
+          .replace("sustentabilidade", "<span class=\"text-emerald-500 underline decoration-emerald-200 underline-offset-4 lg:underline-offset-8\">sustentabilidade</span>")
         : title
-          .replace("carbon credit", "<span class=\"text-emerald-500 underline decoration-emerald-200 underline-offset-4 lg:underline-offset-8\">carbon credit</span>")
-          .replace("renewable energy", "<span class=\"text-emerald-500 underline decoration-emerald-200 underline-offset-4 lg:underline-offset-8\">renewable energy</span>"),
+          .replace("environmental markets", "<span class=\"text-emerald-500 underline decoration-emerald-200 underline-offset-4 lg:underline-offset-8\">environmental markets</span>")
+          .replace("sustainability", "<span class=\"text-emerald-500 underline decoration-emerald-200 underline-offset-4 lg:underline-offset-8\">sustainability</span>"),
     }}
     />
   );

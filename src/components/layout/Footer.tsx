@@ -71,7 +71,7 @@ export function Footer() {
 
           {/* Comunidade & Empresa */}
           <div>
-            <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-300">{tNav("community")}</h4>
+            <h4 className="font-bold text-sm uppercase tracking-wider mb-6 text-slate-300">{tNav("network")}</h4>
             <ul className="flex flex-col gap-4 mb-8">
               <li><Link href="/feed" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav("newsFeed")}</Link></li>
               <li><Link href="/leaderboard" className="text-slate-400 text-[13px] hover:text-emerald-400 transition-colors">{tNav("ranking")}</Link></li>

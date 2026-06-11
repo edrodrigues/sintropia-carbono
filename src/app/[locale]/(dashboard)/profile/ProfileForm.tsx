@@ -13,6 +13,11 @@ interface ProfileFormProps {
     cargo?: string | null;
     linkedin_url?: string | null;
     twitter_url?: string | null;
+    headline?: string | null;
+    expertise_areas?: string[] | null;
+    certifications?: string[] | null;
+    years_of_experience?: number | null;
+    available_for_consulting?: boolean | null;
   } | null;
   email: string;
 }
@@ -28,7 +33,42 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
     cargo: profile?.cargo || "",
     linkedin_url: profile?.linkedin_url || "",
     twitter_url: profile?.twitter_url || "",
+    headline: profile?.headline || "",
+    expertise_areas: profile?.expertise_areas || [],
+    certifications: profile?.certifications || [],
+    years_of_experience: profile?.years_of_experience || null,
+    available_for_consulting: profile?.available_for_consulting || false,
   });
+
+  const EXPERTISE_OPTIONS = [
+    "Carbon Markets", "Renewable Energy", "ESG Reporting", "Climate Policy",
+    "Biodiversity", "Social Impact", "Corporate Governance", "Sustainable Finance",
+    "Energy Efficiency", "Water Management", "Circular Economy", "Supply Chain",
+  ];
+
+  const CERTIFICATION_OPTIONS = [
+    "GRI Certified", "SASB FSA Credential", "CFA ESG Investing",
+    "ISSP Sustainability Professional", "LEED AP", "BREEAM Assessor",
+    "ISO 14001 Lead Auditor", "CDP Accredited Provider",
+  ];
+
+  function toggleExpertise(area: string) {
+    setFormData(prev => ({
+      ...prev,
+      expertise_areas: prev.expertise_areas?.includes(area)
+        ? prev.expertise_areas.filter(a => a !== area)
+        : [...(prev.expertise_areas || []), area],
+    }));
+  }
+
+  function toggleCertification(cert: string) {
+    setFormData(prev => ({
+      ...prev,
+      certifications: prev.certifications?.includes(cert)
+        ? prev.certifications.filter(c => c !== cert)
+        : [...(prev.certifications || []), cert],
+    }));
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -206,6 +246,110 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
             placeholder="https://x.com/seu-usuario"
             className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
           />
+        </div>
+      </div>
+
+      {/* Professional Fields Section */}
+      <div>
+        <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4 pb-2 border-b border-gray-100 dark:border-gray-800">
+          Perfil Profissional
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2 md:col-span-2">
+            <label htmlFor="headline" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+              Headline / Título Profissional
+              <span className="text-gray-300 font-normal ml-1">(máx. 150)</span>
+            </label>
+            <input
+              id="headline"
+              name="headline"
+              type="text"
+              value={formData.headline || ""}
+              onChange={e => setFormData({ ...formData, headline: e.target.value })}
+              placeholder="Ex: Carbon Markets Analyst | ESG Specialist"
+              maxLength={150}
+              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+            />
+          </div>
+
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+              Áreas de Especialização
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {EXPERTISE_OPTIONS.map(area => (
+                <button
+                  key={area}
+                  type="button"
+                  onClick={() => toggleExpertise(area)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                    formData.expertise_areas?.includes(area)
+                      ? "bg-emerald-100 text-emerald-800 border-2 border-emerald-400 dark:bg-emerald-900/30 dark:text-emerald-300"
+                      : "bg-gray-100 text-gray-600 border-2 border-gray-200 hover:border-emerald-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700"
+                  }`}
+                >
+                  {area}
+                </button>
+              ))}
+            </div>
+            <input type="hidden" name="expertise_areas" value={JSON.stringify(formData.expertise_areas)} />
+          </div>
+
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+              Certificações
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {CERTIFICATION_OPTIONS.map(cert => (
+                <button
+                  key={cert}
+                  type="button"
+                  onClick={() => toggleCertification(cert)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                    formData.certifications?.includes(cert)
+                      ? "bg-blue-100 text-blue-800 border-2 border-blue-400 dark:bg-blue-900/30 dark:text-blue-300"
+                      : "bg-gray-100 text-gray-600 border-2 border-gray-200 hover:border-blue-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700"
+                  }`}
+                >
+                  {cert}
+                </button>
+              ))}
+            </div>
+            <input type="hidden" name="certifications" value={JSON.stringify(formData.certifications)} />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="years_of_experience" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+              Anos de Experiência
+            </label>
+            <input
+              id="years_of_experience"
+              name="years_of_experience"
+              type="number"
+              min={0}
+              max={70}
+              value={formData.years_of_experience ?? ""}
+              onChange={e => setFormData({ ...formData, years_of_experience: e.target.value ? Number(e.target.value) : null })}
+              placeholder="ex: 5"
+              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+            />
+          </div>
+
+          <div className="space-y-2 flex items-end">
+            <label className="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-all w-full">
+              <input
+                type="checkbox"
+                name="available_for_consulting"
+                checked={formData.available_for_consulting}
+                onChange={e => setFormData({ ...formData, available_for_consulting: e.target.checked })}
+                className="w-5 h-5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+              />
+              <div>
+                <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Disponível para Consultoria</span>
+                <p className="text-xs text-gray-400">Mostrar que você está aberto a oportunidades de consultoria</p>
+              </div>
+            </label>
+          </div>
         </div>
       </div>
 

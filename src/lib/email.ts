@@ -166,7 +166,7 @@ function buildEmail(title: string, content: string, ctaLink?: string, ctaText?: 
   ${cta}
   <div class="footer">
     <p>Projeto Open Source e Feito com ❤️ em Recife/Pernambuco.</p>
-    <p><a href="${APP_URL}">Acesse a Sintropia</a></p>
+    <p><a href="${APP_URL}">Acesse a Rede Sintropia</a></p>
   </div>
 </div>
   `.trim();
@@ -174,16 +174,16 @@ function buildEmail(title: string, content: string, ctaLink?: string, ctaText?: 
 
 // Dia 0: E-mail de Boas-vindas
 export async function sendDripEmail1_Welcome(email: string, name: string) {
-  const title = "Bem-vindo(a) à Sintropia 🌿";
+  const title = "Bem-vindo(a) à rede Sintropia 🌿";
   const content = `
     <p>Olá ${name},</p>
-    <p>Obrigado por se juntar à comunidade Sintropia. Estamos muito animados em tê-lo conosco!</p>
+    <p>Obrigado por se juntar à rede profissional de mercados ambientais. Estamos muito animados em tê-lo conosco!</p>
     <p>Com sua conta, você pode:</p>
     <ul>
       <li>Acompanhar preços de carbono e créditos IREC em tempo real</li>
       <li>Conectar-se com outros profissionais do mercado</li>
       <li>Compartilhar conteúdo e participar de discussões</li>
-      <li>Explorar oportunidades de negócio</li>
+      <li>Construir sua reputação na rede</li>
     </ul>
   `;
   const html = buildEmail(title, content, APP_URL, "Começar agora");
@@ -237,11 +237,11 @@ export async function sendDripEmail3_IREC(email: string, name: string) {
 
 // Dia 6: Aba Comunidade e Karma
 export async function sendDripEmail4_Community(email: string, name: string) {
-  const title = "Conheça a aba Comunidade na Sintropia 🚀";
+  const title = "Conheça a Rede Profissional Sintropia 🚀";
   const content = `
     <p>Olá ${name},</p>
-    <p>A Comunidade é o diferencial! Não é só sobre preços e dados — é sobre pessoas que acreditam em um futuro mais sustentável.</p>
-    <h3>O que você encontra na aba Comunidade:</h3>
+    <p>A Rede é o diferencial! Não é só sobre preços e dados — é sobre profissionais que acreditam em um futuro mais sustentável.</p>
+    <h3>O que você encontra na Rede:</h3>
     <ul>
       <li><strong>Feed de Postagens:</strong> Compartilhe notícias, análises e insights sobre o mercado</li>
       <li><strong>Discussões:</strong> Conecte-se com profissionais e empresas do setor</li>
@@ -298,10 +298,10 @@ export async function sendNotificationEmail(
 
 // E-mail de Incentivo ao Completar o Perfil
 export async function sendProfileCompletionEmail(email: string, name: string) {
-  const title = "Destaque-se na Comunidade Sintropia! 🌿";
+  const title = "Destaque-se na Rede Sintropia! 🌿";
   const content = `
     <p>Olá ${name},</p>
-    <p>Notamos que seu perfil ainda está em fase inicial. Na Sintropia, acreditamos que a transparência e o networking são fundamentais para fortalecer o mercado de carbono e energias renováveis.</p>
+    <p>Notamos que seu perfil ainda está em fase inicial. Na Sintropia, acreditamos que a transparência e o networking são fundamentais para fortalecer os mercados ambientais.</p>
     
     <h3>Por que completar seu perfil?</h3>
     <ul>

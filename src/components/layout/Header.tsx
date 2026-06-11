@@ -114,7 +114,7 @@ export function Header() {
       ],
     },
     {
-      label: tNav("community"),
+      label: tNav("network"),
       href: "/feed",
       subItems: [
         { label: tNav("newsFeed"), href: "/feed", desc: tNav("communityDesc.newsFeed") },

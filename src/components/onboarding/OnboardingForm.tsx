@@ -48,7 +48,24 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
     cargo: profile?.cargo || "",
     linkedin_url: profile?.linkedin_url || "",
     twitter_url: profile?.twitter_url || "",
+    headline: (profile as any)?.headline || "",
+    expertise_areas: (profile as any)?.expertise_areas || [],
   });
+
+  const EXPERTISE_OPTIONS = [
+    "Carbon Markets", "Renewable Energy", "ESG Reporting", "Climate Policy",
+    "Biodiversity", "Social Impact", "Corporate Governance", "Sustainable Finance",
+    "Energy Efficiency", "Water Management", "Circular Economy", "Supply Chain",
+  ];
+
+  function toggleExpertise(area: string) {
+    setStep2Data(prev => ({
+      ...prev,
+      expertise_areas: prev.expertise_areas.includes(area)
+        ? prev.expertise_areas.filter((a: string) => a !== area)
+        : [...prev.expertise_areas, area],
+    }));
+  }
 
   const stepLabels = [t("step1Label"), t("step2Label"), t("step3Label")];
 
@@ -69,6 +86,8 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
     form.set("cargo", step2Data.cargo);
     form.set("linkedin_url", step2Data.linkedin_url);
     form.set("twitter_url", step2Data.twitter_url);
+    form.set("headline", step2Data.headline);
+    form.set("expertise_areas", JSON.stringify(step2Data.expertise_areas));
 
     const result = await updateProfile(form);
     setLoading(false);
@@ -95,6 +114,8 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
     form.set("cargo", step2Data.cargo);
     form.set("linkedin_url", step2Data.linkedin_url);
     form.set("twitter_url", step2Data.twitter_url);
+    form.set("headline", step2Data.headline);
+    form.set("expertise_areas", JSON.stringify(step2Data.expertise_areas));
 
     const result = await updateProfile(form);
     setLoading(false);
@@ -195,6 +216,44 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
               maxLength={100}
               className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
             />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="onb-headline" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+              Headline / Título Profissional
+            </label>
+            <input
+              id="onb-headline"
+              name="headline"
+              type="text"
+              value={step2Data.headline}
+              onChange={e => setStep2Data({ ...step2Data, headline: e.target.value })}
+              placeholder="Ex: Carbon Markets Analyst | ESG Specialist"
+              maxLength={150}
+              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+              Áreas de Especialização
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {EXPERTISE_OPTIONS.map(area => (
+                <button
+                  key={area}
+                  type="button"
+                  onClick={() => toggleExpertise(area)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                    step2Data.expertise_areas.includes(area)
+                      ? "bg-emerald-100 text-emerald-800 border-2 border-emerald-400 dark:bg-emerald-900/30 dark:text-emerald-300"
+                      : "bg-gray-100 text-gray-600 border-2 border-gray-200 hover:border-emerald-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700"
+                  }`}
+                >
+                  {area}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="space-y-2">

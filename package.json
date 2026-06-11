@@ -1,6 +1,7 @@
 {
   "name": "sintropia-carbono",
   "version": "0.1.0",
+  "description": "The professional network for environmental markets and sustainability. Connecting professionals in carbon, renewable energy, ESG, and sustainability.",
   "private": true,
   "scripts": {
     "dev": "next dev",
