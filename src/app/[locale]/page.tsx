@@ -55,7 +55,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <div className="flex-1 relative hidden lg:block">
             <div className="bg-white rounded-2xl shadow-premium-lg border border-slate-100 p-4 transform rotate-1 hover:rotate-0 transition-all duration-700 overflow-hidden">
               <Image
-                src="/images/social-network-hero.png"
+                src="/images/social-network-hero.jpg"
                 alt="Rede social que conecta profissionais, empresas, dados e conhecimento aberto"
                 width={560}
                 height={400}
