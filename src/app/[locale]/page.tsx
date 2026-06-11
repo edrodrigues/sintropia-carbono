@@ -52,25 +52,63 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </div>
 
           <div className="flex-1 relative hidden lg:block">
-            <div className="bg-white rounded-2xl shadow-premium-lg border border-slate-100 p-8 transform rotate-1 hover:rotate-0 transition-all duration-700">
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h4 className="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-1">{tIndex("stats.indexSREC")}</h4>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-3xl font-bold text-forest-green">+12.4%</span>
-                    <span className="text-xs text-sintropia-green font-medium">{tIndex("stats.vsLastMonth")}</span>
-                  </div>
-                </div>
-                <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
-                  <span className="text-sintropia-green font-bold">📊</span>
-                </div>
-              </div>
-              <div className="h-48 w-full bg-slate-50 rounded-xl relative overflow-hidden flex items-end gap-1 px-4">
-                {[45, 60, 48, 75, 55, 90, 65, 80, 70, 95, 85].map((h, i) => (
-                  <div key={i} className="flex-1 bg-emerald-400/20 rounded-t-[2px] border-t border-emerald-400/40" style={{ height: `${h}%` }}></div>
-                ))}
-                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-emerald-500/10 to-transparent"></div>
-              </div>
+            <div className="bg-white rounded-2xl shadow-premium-lg border border-slate-100 p-6 transform rotate-1 hover:rotate-0 transition-all duration-700">
+              <svg viewBox="0 0 400 300" className="w-full h-auto" aria-hidden="true">
+                {/* Connection lines */}
+                <line x1="80" y1="60" x2="200" y2="40" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+                <line x1="80" y1="60" x2="140" y2="150" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+                <line x1="80" y1="60" x2="60" y2="200" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+                <line x1="200" y1="40" x2="320" y2="80" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+                <line x1="200" y1="40" x2="140" y2="150" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+                <line x1="200" y1="40" x2="300" y2="160" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+                <line x1="140" y1="150" x2="60" y2="200" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+                <line x1="140" y1="150" x2="300" y2="160" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+                <line x1="140" y1="150" x2="200" y2="250" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+                <line x1="320" y1="80" x2="300" y2="160" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+                <line x1="60" y1="200" x2="200" y2="250" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+                <line x1="300" y1="160" x2="200" y2="250" stroke="#15803d" strokeWidth="1.5" opacity="0.2"/>
+
+                {/* Central node - Sintropia network hub */}
+                <circle cx="140" cy="150" r="32" fill="#15803d" opacity="0.9"/>
+                <circle cx="140" cy="150" r="36" fill="none" stroke="#15803d" strokeWidth="2" opacity="0.3"/>
+                <text x="140" y="156" textAnchor="middle" className="text-white text-[14px] font-bold" fill="white" fontWeight="bold">S</text>
+
+                {/* Person nodes */}
+                <circle cx="80" cy="60" r="22" fill="#10b981"/>
+                <circle cx="80" cy="60" r="25" fill="none" stroke="#10b981" strokeWidth="1.5" opacity="0.4"/>
+                <path d="M80 52 C84 52, 87 55, 87 59 C87 63, 84 66, 80 66 C76 66, 73 63, 73 59 C73 55, 76 52, 80 52 Z M80 68 C75 68, 70 70, 70 73 L90 73 C90 70, 85 68, 80 68 Z" fill="white" opacity="0.9"/>
+
+                {/* Company node */}
+                <circle cx="200" cy="40" r="20" fill="#34d399"/>
+                <rect x="191" y="33" width="18" height="14" rx="1" fill="white" opacity="0.9"/>
+                <rect x="193" y="36" width="4" height="4" fill="#34d399"/>
+                <rect x="199" y="36" width="4" height="4" fill="#34d399"/>
+                <rect x="205" y="36" width="4" height="4" fill="#34d399"/>
+                <rect x="191" y="42" width="18" height="2" fill="#34d399"/>
+
+                {/* Data node */}
+                <circle cx="320" cy="80" r="20" fill="#059669"/>
+                <rect x="311" y="73" width="18" height="14" rx="2" fill="white" opacity="0.9"/>
+                <line x1="314" y1="77" x2="326" y2="77" stroke="#059669" strokeWidth="1.5"/>
+                <line x1="314" y1="81" x2="326" y2="81" stroke="#059669" strokeWidth="1.5"/>
+                <line x1="314" y1="85" x2="322" y2="85" stroke="#059669" strokeWidth="1.5"/>
+
+                {/* Knowledge node */}
+                <circle cx="60" cy="200" r="22" fill="#6ee7b7"/>
+                <path d="M50 200 L60 195 L70 200 L60 205 Z M60 195 L60 180 L70 185 L60 195 Z" fill="#15803d" opacity="0.8"/>
+
+                {/* Open API node */}
+                <circle cx="300" cy="160" r="20" fill="#a7f3d0"/>
+                <text x="300" y="166" textAnchor="middle" className="text-[10px] font-bold" fill="#15803d" fontWeight="bold">&lt;/&gt;</text>
+
+                {/* Insight node */}
+                <circle cx="200" cy="250" r="20" fill="#047857"/>
+                <circle cx="200" cy="245" r="8" fill="white" opacity="0.9"/>
+                <circle cx="200" cy="245" r="3" fill="#047857"/>
+                <line x1="200" y1="253" x2="200" y2="262" stroke="white" strokeWidth="2" opacity="0.9"/>
+                <line x1="200" y1="262" x2="195" y2="265" stroke="white" strokeWidth="1.5" opacity="0.7"/>
+                <line x1="200" y1="262" x2="205" y2="265" stroke="white" strokeWidth="1.5" opacity="0.7"/>
+              </svg>
             </div>
           </div>
         </section>
