@@ -26,7 +26,7 @@ export async function updateProfile(formData: FormData) {
     expertise_areas: formData.get("expertise_areas") ? JSON.parse(formData.get("expertise_areas") as string) : undefined,
     certifications: formData.get("certifications") ? JSON.parse(formData.get("certifications") as string) : undefined,
     years_of_experience: formData.get("years_of_experience") ? Number(formData.get("years_of_experience")) : undefined,
-    available_for_consulting: formData.get("available_for_consulting") === "true" || undefined,
+    available_for_consulting: formData.get("available_for_consulting") === "on" ? true : undefined,
   };
 
   const parsed = profileUpdateSchema.safeParse(raw);
@@ -39,7 +39,7 @@ export async function updateProfile(formData: FormData) {
   // Check if profile exists
   const { data: existingProfile }: any = await supabase
     .from("profiles")
-    .select("id, username, referral_reward_claimed, referred_by")
+    .select("id, username")
     .eq("id", user.id)
     .single();
 
@@ -69,7 +69,6 @@ export async function updateProfile(formData: FormData) {
   let error;
 
   if (existingProfile) {
-    // Update existing profile
     const result = await supabase
       .from("profiles")
       .update(updates)
@@ -78,7 +77,6 @@ export async function updateProfile(formData: FormData) {
     error = result.error;
   }
   else {
-    // Insert new profile
     const result = await supabase
       .from("profiles")
       .insert(updates)
@@ -99,10 +97,15 @@ export async function updateProfile(formData: FormData) {
     return { error: `Erro ao salvar: ${error.message}` };
   }
 
-  // Check for referral reward
-  if (existingProfile?.referred_by && !existingProfile.referral_reward_claimed) {
-    // If profile is now complete (has username and display name)
-    if (updates.username && updates.display_name) {
+  // Check for referral reward (profile must have username + display_name after save)
+  if (updates.username && updates.display_name) {
+    const { data: referralInfo } = await supabase
+      .from("profiles")
+      .select("referred_by, referral_reward_claimed")
+      .eq("id", user.id)
+      .single();
+
+    if (referralInfo?.referred_by && !referralInfo.referral_reward_claimed) {
       const { data: claimResult, error: claimError } = await supabase
         .rpc("claim_referral_reward", { p_user_id: user.id });
 

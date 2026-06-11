@@ -34,14 +34,14 @@ export default async function MyProfilePage() {
     redirect("/login");
   }
 
-  const { data: profile }: any = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", user.id)
     .single();
 
-  if (!profile) {
-    redirect("/profile");
+  if (!profile || profileError) {
+    redirect("/onboarding");
   }
 
   const { data: posts } = await supabase
@@ -65,11 +65,15 @@ export default async function MyProfilePage() {
     .eq("is_deleted", false);
 
   const userPostIds = posts?.map((p: any) => p.id) || [];
-  const { count: upvotesReceived } = await supabase
-    .from("votes")
-    .select("id", { count: "exact", head: true })
-    .in("target_id", userPostIds.length > 0 ? userPostIds : [""])
-    .eq("vote_type", 1);
+  let upvotesReceived = 0;
+  if (userPostIds.length > 0) {
+    const { count } = await supabase
+      .from("votes")
+      .select("id", { count: "exact", head: true })
+      .in("target_id", userPostIds)
+      .eq("vote_type", 1);
+    upvotesReceived = count || 0;
+  }
 
   const { count: higherKarmaCount } = await supabase
     .from("profiles")

@@ -23,11 +23,15 @@ export default async function EditProfilePage() {
     redirect("/login");
   }
 
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", user.id)
     .single();
+
+  if (!profile || profileError) {
+    redirect("/onboarding");
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
