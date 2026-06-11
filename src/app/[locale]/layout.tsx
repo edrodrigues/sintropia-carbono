@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       type: "website",
       images: [
         {
-          url: "/images/og-image.png",
+          url: `${siteUrl}/images/og-image.png`,
           width: 1200,
           height: 630,
           alt: "Sintropia — The network for professionals shaping environmental markets.",
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       description: currentDescription,
       site: "@sintropyspace",
       creator: "@sintropyspace",
-      images: ["/images/og-image.png"],
+      images: [`${siteUrl}/images/og-image.png`],
     },
     other: {
       "talentapp:project_verification": "f100710936df5570a88ceb25e02b14efc229cb21e050252347870eeaccaa0abfa02864bd87d792570b51f49d1d79d5c72fd3b08bf88164ac379c9cbc9a0de066",

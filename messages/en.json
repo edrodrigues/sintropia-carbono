@@ -7,7 +7,8 @@
             "promo": "Market data, expert insights, and a professional network for carbon, renewable energy, ESG, and sustainability. Free to join.",
             "cta": "Join Free",
             "ctaTitle": "Ready to connect?",
-            "ctaDesc": "Join hundreds of professionals, analysts, and companies already shaping the future of environmental markets."
+            "ctaDesc": "Join hundreds of professionals, analysts, and companies already shaping the future of environmental markets.",
+            "secondaryCta": "Explore Feed"
         },
         "features": {
             "title": "Why Sintropia?",
@@ -54,6 +55,13 @@
             "viewAchievements": "View All Achievements",
             "loginToFollow": "Log in to track your favorite assets, post in the community, and earn points.",
             "loginRegister": "Log In / Register"
+        },
+        "feed": {
+            "title": "Community Feed",
+            "new": "Recent",
+            "popular": "Popular",
+            "empty": "No posts found.",
+            "viewAll": "View all in Feed"
         },
         "stats": {
             "indexSREC": "S-REC Index (Weekly)",

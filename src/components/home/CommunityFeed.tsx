@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { FeedPostCard } from "@/components/posts/FeedPostCard";
 import { PostWithRelations } from "@/types";
@@ -10,6 +11,7 @@ export function CommunityFeed() {
   const [posts, setPosts] = useState<PostWithRelations[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState<"new" | "top">("new");
+  const t = useTranslations("Index.feed");
   const router = useRouter();
   const supabase = createClient();
 
@@ -44,21 +46,21 @@ export function CommunityFeed() {
   return (
     <div className="flex-[2]">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 sm:mb-10">
-        <h2 className="text-2xl sm:text-3xl font-bold text-forest-green">Feed da Comunidade</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-forest-green">{t("title")}</h2>
         <div className="flex bg-slate-100 p-1 rounded-xl w-fit">
           <button
             onClick={() => setSortBy("new")}
             className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${sortBy === "new" ? "bg-forest-green text-white shadow-sm" : "text-slate-500 hover:text-slate-900"
             }`}
           >
-            Recentes
+            {t("new")}
           </button>
           <button
             onClick={() => setSortBy("top")}
             className={`px-4 py-2 text-xs font-bold rounded-lg transition-all ${sortBy === "top" ? "bg-forest-green text-white shadow-sm" : "text-slate-500 hover:text-slate-900"
             }`}
           >
-            Populares
+            {t("popular")}
           </button>
         </div>
       </div>
@@ -88,7 +90,7 @@ export function CommunityFeed() {
               )
             : (
                 <div className="p-12 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                  <p className="text-slate-400 font-medium">Nenhum post encontrado.</p>
+                  <p className="text-slate-400 font-medium">{t("empty")}</p>
                 </div>
               )}
       </div>

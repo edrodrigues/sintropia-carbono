@@ -7,7 +7,8 @@
             "promo": "Dados de mercado, insights de especialistas e uma rede profissional para carbono, energia renovável, ESG e sustentabilidade. Grátis para participar.",
             "cta": "Entre Grátis",
             "ctaTitle": "Pronto para se conectar?",
-            "ctaDesc": "Junte-se a centenas de profissionais, analistas e empresas que já estão moldando o futuro dos mercados ambientais."
+            "ctaDesc": "Junte-se a centenas de profissionais, analistas e empresas que já estão moldando o futuro dos mercados ambientais.",
+            "secondaryCta": "Explorar Feed"
         },
         "features": {
             "title": "Por que a Sintropia?",
@@ -54,6 +55,13 @@
             "viewAchievements": "Ver Todas as Conquistas",
             "loginToFollow": "Faça login para acompanhar seus ativos favoritos, postar na comunidade e ganhar pontos.",
             "loginRegister": "Entrar / Registrar"
+        },
+        "feed": {
+            "title": "Feed da Comunidade",
+            "new": "Recentes",
+            "popular": "Populares",
+            "empty": "Nenhum post encontrado.",
+            "viewAll": "Ver tudo no Feed"
         },
         "stats": {
             "indexSREC": "Índice S-REC (Semanal)",

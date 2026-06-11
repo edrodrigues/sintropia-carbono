@@ -3,6 +3,8 @@ import { Footer } from "@/components/layout/Footer";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import { HeroTitle } from "@/components/home/HeroTitle";
+import { CommunityFeed } from "@/components/home/CommunityFeed";
+import { FeaturesSection } from "@/components/home/FeaturesSection";
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -12,8 +14,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
     { title: tIndex("categories.items.carbonBrazil"), bgImg: "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=600&auto=format&fit=crop", active: true, href: "/carbono/ranking-brasil" },
     { title: tIndex("categories.items.energyBrazil"), bgImg: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?q=80&w=600&auto=format&fit=crop", href: "/energia/ranking-brasil" },
     { title: tIndex("categories.items.carbonWorld"), bgImg: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop", href: "/carbono/ranking-mundo" },
-    { title: tIndex("categories.items.energyWorld"), bgImg: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=600&auto=format&fit=crop", href: "/energia/ranking-mundo" },
-    { title: tIndex("categories.items.carbonProjects"), bgImg: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=600&auto=format&fit=crop", href: "/carbono/projetos" },
   ];
 
   return (
@@ -40,6 +40,13 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               >
                 {tIndex("hero.cta")}
                 <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+              </Link>
+              <Link
+                href="/feed"
+                className="text-slate-700 hover:text-forest-green font-bold text-sm lg:text-base flex items-center gap-2 border-b-2 border-transparent hover:border-forest-green transition-all"
+              >
+                {tIndex("hero.secondaryCta")}
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
               </Link>
             </div>
           </div>
@@ -68,9 +75,28 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </div>
         </section>
 
-        {/* Explore Categories - MOVED UP AND HIGHLIGHTED */}
+        {/* Community Feed Section */}
         <section className="bg-slate-50 border-y border-slate-100 py-16 lg:py-24">
-          <div className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16">
+          <div className="max-w-7xl mx-auto px-4 lg:px-8">
+            <CommunityFeed />
+            <div className="text-center mt-10">
+              <Link
+                href="/feed"
+                className="inline-flex items-center gap-2 text-forest-green font-bold border-b-2 border-forest-green pb-1 hover:text-emerald-700 hover:border-emerald-700 transition-colors"
+              >
+                {tIndex("feed.viewAll")}
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <FeaturesSection locale={locale} />
+
+        {/* Explore Categories Section */}
+        <section className="bg-slate-50 border-y border-slate-100 py-16 lg:py-24">
+          <div className="max-w-7xl mx-auto px-4 lg:px-8">
             <div className="flex flex-col sm:flex-row justify-between items-end gap-4 mb-8 lg:mb-12">
               <div>
                 <h2 className="text-2xl lg:text-3xl font-bold text-forest-green mb-2 lg:mb-3">{tIndex("categories.title")}</h2>
@@ -82,10 +108,9 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3 lg:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4">
               {categories.map((c, i) => (
                 <Link key={i} href={c.href || "#"} className="relative aspect-[4/5] rounded-2xl overflow-hidden group cursor-pointer block shadow-premium hover:shadow-premium-lg transition-all">
-                  {/* Background Image */}
                   <div
                     className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-700"
                     style={{ backgroundImage: `url('${c.bgImg}')` }}
@@ -93,10 +118,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                     aria-label={`Imagem de fundo para ${c.title}`}
                   >
                   </div>
-                  {/* Dark Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
 
-                  {/* Content */}
                   <div className="absolute inset-x-0 bottom-0 p-5 flex flex-col gap-3">
                     {c.active && (
                       <span className="w-fit bg-sintropia-green text-[10px] uppercase font-black text-white px-2.5 py-1 rounded tracking-widest shadow-md">{tIndex("categories.trending")}</span>
@@ -111,7 +134,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         </section>
 
         {/* Call to Action - Bottom */}
-        <section className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 py-16 lg:py-24 text-center">
+        <section className="max-w-7xl mx-auto px-4 lg:px-8 py-16 lg:py-24 text-center">
           <h2 className="text-2xl lg:text-3xl font-bold text-forest-green mb-6">{tIndex("hero.ctaTitle") || "Pronto para começar?"}</h2>
           <p className="text-slate-600 mb-10 max-w-2xl mx-auto">{tIndex("hero.ctaDesc") || "Junte-se a centenas de empresas e especialistas que já estão moldando o futuro do mercado de carbono e energia renovável."}</p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
