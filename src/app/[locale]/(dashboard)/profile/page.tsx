@@ -111,12 +111,12 @@ export default async function MyProfilePage() {
       <StatsDashboard stats={stats} />
 
       <div className="mb-8">
-        <InviteSection referralCode={profile.referral_code || ""} />
+        <InviteSection referralCode={(profile as { referral_code?: string | null }).referral_code || ""} />
       </div>
 
       {/* Floating Invite Card - Compact variant for sidebar awareness */}
       <div className="mb-8 max-w-md">
-        <FloatingInviteCard referralCode={profile.referral_code || ""} variant="compact" />
+        <FloatingInviteCard referralCode={(profile as { referral_code?: string | null }).referral_code || ""} variant="compact" />
       </div>
 
       <div className="flex items-center justify-between mb-4">
