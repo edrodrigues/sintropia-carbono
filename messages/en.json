@@ -808,6 +808,8 @@
                 "beginner": "Beginner",
                 "newbie": "Newbie"
             },
+            "allTypes": "All types",
+            "filterByType": "Filter by profile type",
             "userTypes": {
                 "company": "Company",
                 "ong": "NGO",

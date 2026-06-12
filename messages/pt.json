@@ -913,6 +913,8 @@
                 "beginner": "Iniciante",
                 "newbie": "Novato"
             },
+            "allTypes": "Todos os tipos",
+            "filterByType": "Filtrar por tipo de perfil",
             "userTypes": {
                 "company": "Empresa",
                 "ong": "ONG",

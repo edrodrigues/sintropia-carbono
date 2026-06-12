@@ -8,7 +8,10 @@ import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { StatsDashboard } from "@/components/profile/StatsDashboard";
 import { calculateAchievements } from "@/lib/achievements";
 import { decodeHtmlServer } from "@/lib/utils/sanitize";
+import type { Database } from "@/types/supabase";
 import Link from "next/link";
+
+type Post = Database["public"]["Tables"]["posts"]["Row"];
 
 interface PageProps {
   params: Promise<{ locale: string; username: string }>;
@@ -18,15 +21,36 @@ export default async function PublicProfilePage(props: PageProps) {
   const params = await props.params;
   const { locale, username } = params;
   const t = await getTranslations({ locale, namespace: "Perfil" });
-  const supabase = await createClient();
+  let supabase;
+  try {
+    supabase = await createClient();
+  } catch {
+    supabase = null;
+  }
 
-  const { data: { user: currentUser } } = await supabase.auth.getUser();
+  let currentUser;
+  try {
+    const { data: { user } } = supabase
+      ? await supabase.auth.getUser()
+      : { data: { user: null } };
+    currentUser = user;
+  } catch {
+    currentUser = null;
+  }
 
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("username", username)
-    .single();
+  let profile;
+  try {
+    const { data } = supabase
+      ? await supabase
+        .from("profiles")
+        .select("*")
+        .eq("username", username)
+        .maybeSingle()
+      : { data: null };
+    profile = data;
+  } catch {
+    profile = null;
+  }
 
   if (!profile || profile.role === "banned") {
     notFound();
@@ -34,56 +58,55 @@ export default async function PublicProfilePage(props: PageProps) {
 
   const isOwnProfile = currentUser?.id === profile.id;
 
-  const { data: posts } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("author_id", profile.id)
-    .eq("is_deleted", false)
-    .order("created_at", { ascending: false })
-    .limit(10);
+  let posts: Post[] = [];
+  try {
+    const { data } = supabase
+      ? await supabase
+        .from("posts")
+        .select("*")
+        .eq("author_id", profile.id)
+        .eq("is_deleted", false)
+        .order("created_at", { ascending: false })
+        .limit(10)
+      : { data: null };
+    posts = (data as Post[]) || [];
+  } catch {
+    posts = [];
+  }
 
-  const { count: postCount } = await supabase
-    .from("posts")
-    .select("id", { count: "exact", head: true })
-    .eq("author_id", profile.id)
-    .eq("is_deleted", false);
-
-  const { count: commentCount } = await supabase
-    .from("comments")
-    .select("id", { count: "exact", head: true })
-    .eq("author_id", profile.id)
-    .eq("is_deleted", false);
-
-  const userPostIds = posts?.map(p => p.id) || [];
-  const { count: upvotesReceived } = await supabase
-    .from("votes")
-    .select("id", { count: "exact", head: true })
-    .in("target_id", userPostIds.length > 0 ? userPostIds : [""])
-    .eq("vote_type", 1);
-
-  const { count: higherKarmaCount } = await supabase
-    .from("profiles")
-    .select("id", { count: "exact", head: true })
-    .neq("role", "banned")
-    .gt("karma", profile?.karma ?? 0);
+  const emptyCount = { count: 0 };
+  const [postCountRes, commentCountRes, upvotesRes, rankingRes] = await Promise.all([
+    supabase
+      ? supabase.from("posts").select("id", { count: "exact", head: true }).eq("author_id", profile.id).eq("is_deleted", false)
+      : emptyCount,
+    supabase
+      ? supabase.from("comments").select("id", { count: "exact", head: true }).eq("author_id", profile.id).eq("is_deleted", false)
+      : emptyCount,
+    supabase
+      ? supabase.from("votes").select("id", { count: "exact", head: true }).in("target_id", posts.map(p => p.id).length > 0 ? posts.map(p => p.id) : [""]).eq("vote_type", 1)
+      : emptyCount,
+    supabase
+      ? supabase.from("profiles").select("id", { count: "exact", head: true }).neq("role", "banned").gt("karma", profile.karma ?? 0)
+      : emptyCount,
+  ]);
 
   const stats = {
-    posts: postCount || 0,
-    comments: commentCount || 0,
-    upvotes: upvotesReceived || 0,
-    ranking: higherKarmaCount !== null ? higherKarmaCount + 1 : 1,
+    posts: postCountRes.count || 0,
+    comments: commentCountRes.count || 0,
+    upvotes: upvotesRes.count || 0,
+    ranking: rankingRes.count !== null ? rankingRes.count + 1 : 1,
   };
 
   const achievements = calculateAchievements({
-    karma: profile?.karma ?? undefined,
-    linkedin_url: profile?.linkedin_url ?? undefined,
-    created_at: profile?.created_at ?? undefined,
+    karma: profile.karma ?? undefined,
+    linkedin_url: profile.linkedin_url ?? undefined,
+    created_at: profile.created_at ?? undefined,
   }, {
-    postCount: postCount || 0,
-    commentCount: commentCount || 0,
-    upvotesReceived: upvotesReceived || 0,
-    hasLinkedIn: !!profile?.linkedin_url,
-    createdAt: profile?.created_at ?? new Date().toISOString(),
+    postCount: stats.posts,
+    commentCount: stats.comments,
+    upvotesReceived: stats.upvotes,
+    hasLinkedIn: !!profile.linkedin_url,
+    createdAt: profile.created_at ?? new Date().toISOString(),
   });
 
   return (

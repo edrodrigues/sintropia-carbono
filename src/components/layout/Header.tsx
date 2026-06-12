@@ -1,9 +1,11 @@
 "use client";
 
 import { Link, usePathname, useRouter } from "@/i18n/routing";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/types/supabase";
 import { User } from "@supabase/supabase-js";
 import { Profile } from "@/types";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
@@ -19,30 +21,28 @@ export function Header() {
   const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState<number | null>(null);
+  const supabaseRef = useRef<SupabaseClient<Database> | null>(null);
 
   const tNav = useTranslations("Navigation");
   const tHeader = useTranslations("Header");
 
-  const supabase = useMemo(() => {
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      return null;
+      setTimeout(() => setLoading(false), 0);
+      return;
     }
 
-    return createClient();
-  }, []);
+    const sb = createClient();
+    supabaseRef.current = sb;
 
-  useEffect(() => {
     const getUser = async () => {
-      if (!supabase) {
-        setLoading(false);
-        return;
-      }
-
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { user } } = await sb.auth.getUser();
       setUser(user);
 
       if (user) {
-        const { data: profile } = await supabase
+        const { data: profile } = await sb
           .from("profiles")
           .select("*")
           .eq("id", user.id)
@@ -53,20 +53,20 @@ export function Header() {
       setLoading(false);
     };
 
-    getUser();
+    const timeoutId = setTimeout(() => getUser(), 0);
 
-    if (!supabase) {
-      return;
-    }
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } } = sb.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null);
       },
     );
 
-    return () => subscription.unsubscribe();
-  }, [supabase]);
+    return () => {
+      clearTimeout(timeoutId);
+      subscription.unsubscribe();
+      supabaseRef.current = null;
+    };
+  }, []);
 
   // Handle body scroll locking
   useEffect(() => {
@@ -82,11 +82,12 @@ export function Header() {
   }, [mobileMenuOpen]);
 
   const handleLogout = async () => {
-    if (!supabase) {
+    const sb = supabaseRef.current;
+    if (!sb) {
       return;
     }
 
-    await supabase.auth.signOut();
+    await sb.auth.signOut();
     router.refresh();
   };
 

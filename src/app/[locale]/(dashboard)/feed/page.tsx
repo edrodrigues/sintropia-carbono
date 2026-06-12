@@ -17,31 +17,48 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export const dynamic = "force-dynamic";
 
 export default async function FeedPage() {
-  const supabase = await createClient();
-
-  const { data: posts } = await supabase
-    .from("posts")
-    .select(`
-      *,
-      author:profiles!inner(username, avatar_url, karma, linkedin_url, user_type, role)
-    `)
-    .eq("is_deleted", false)
-    .neq("author.role", "banned")
-    .order("created_at", { ascending: false })
-    .limit(20);
-
-  // Get current user and their referral code
-  const { data: { user } } = await supabase.auth.getUser();
-  let referralCode = "";
-
-  if (user) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", user.id)
-      .single();
-    referralCode = (profile as { referral_code?: string })?.referral_code || "";
+  let supabase;
+  try {
+    supabase = await createClient();
+  } catch {
+    supabase = null;
   }
 
-  return <FeedClient initialPosts={(posts || []) as PostWithRelations[]} referralCode={referralCode} />;
+  let posts: PostWithRelations[] = [];
+  try {
+    const { data } = supabase
+      ? await supabase
+        .from("posts")
+        .select(`
+            *,
+            author:profiles!inner(username, avatar_url, karma, linkedin_url, user_type, role)
+          `)
+        .eq("is_deleted", false)
+        .neq("author.role", "banned")
+        .order("created_at", { ascending: false })
+        .limit(20)
+      : { data: null };
+    posts = (data as PostWithRelations[]) || [];
+  } catch {
+    posts = [];
+  }
+
+  let referralCode = "";
+  try {
+    const { data: { user } } = supabase
+      ? await supabase.auth.getUser()
+      : { data: { user: null } };
+    if (user) {
+      const { data: profile } = await supabase!
+        .from("profiles")
+        .select("referral_code")
+        .eq("id", user.id)
+        .maybeSingle();
+      referralCode = (profile as { referral_code?: string })?.referral_code || "";
+    }
+  } catch {
+    referralCode = "";
+  }
+
+  return <FeedClient initialPosts={posts} referralCode={referralCode} />;
 }
