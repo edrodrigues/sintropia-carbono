@@ -420,7 +420,7 @@ export default async function CarbonoPage({
       </main>
       <Footer />
 
-      {/* JSON-LD Structured Data for SEO */}
+      {/* JSON-LD Structured Data for GEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -430,6 +430,7 @@ export default async function CarbonoPage({
               {
                 "@type": "Dataset",
                 "@id": "https://sintropia.space/carbono#dataset",
+                "inLanguage": locale,
                 "name": locale === "pt" ? "Rankings e Dados do Mercado de Carbono" : locale === "en" ? "Carbon Market Rankings and Data" : "Rankings y Datos del Mercado de Carbono",
                 "description": locale === "pt"
                   ? "Conjunto de dados abrangente sobre o mercado de créditos de carbono, incluindo rankings das principais empresas e projetos do Brasil e do mundo, volumes de compensação, preços por tonelada de CO2 e análise por setor de atuação."
@@ -454,6 +455,12 @@ export default async function CarbonoPage({
                   },
                 },
                 "license": "https://creativecommons.org/licenses/by/4.0/",
+                "citation": [
+                  { "@type": "CreativeWork", "name": "Verra Registry", "url": "https://verra.org" },
+                  { "@type": "CreativeWork", "name": "Gold Standard", "url": "https://goldstandard.org" },
+                  { "@type": "CreativeWork", "name": "ACR (American Carbon Registry)", "url": "https://americancarbonregistry.org" },
+                  { "@type": "CreativeWork", "name": "CAR (Climate Action Reserve)", "url": "https://climateactionreserve.org" },
+                ],
                 "distribution": {
                   "@type": "DataDownload",
                   "contentUrl": "https://sintropia.space/dados/dados.md",
@@ -468,6 +475,60 @@ export default async function CarbonoPage({
                   locale === "pt" ? "Volume de Créditos de Carbono" : locale === "en" ? "Carbon Credit Volume" : "Volumen de Créditos de Carbono",
                   locale === "pt" ? "Preço por tCO2e" : locale === "en" ? "Price per tCO2e" : "Precio por tCO2e",
                   locale === "pt" ? "Ranking de Projetos" : locale === "en" ? "Project Ranking" : "Ranking de Proyectos",
+                ],
+              },
+              {
+                "@type": "FAQPage",
+                "inLanguage": locale,
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": locale === "pt"
+                      ? "O que são créditos de carbono?"
+                      : locale === "en"
+                        ? "What are carbon credits?"
+                        : "¿Qué son los créditos de carbono?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": locale === "pt"
+                        ? "Créditos de carbono são certificados que representam a remoção ou evitação de 1 tonelada de CO2 equivalente da atmosfera. Empresas compram esses créditos para compensar emissões que não conseguem eliminar, alcançando neutralidade carbônica."
+                        : locale === "en"
+                          ? "Carbon credits are certificates representing the removal or avoidance of 1 tonne of CO2 equivalent from the atmosphere. Companies purchase these credits to offset emissions they cannot eliminate, achieving carbon neutrality."
+                          : "Los créditos de carbono son certificados que representan la remoción o evitación de 1 tonelada de CO2 equivalente de la atmósfera. Las empresas compran estos créditos para compensar emisiones que no pueden eliminar, alcanzando neutralidad de carbono.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    "name": locale === "pt"
+                      ? "Como funciona o mercado de carbono?"
+                      : locale === "en"
+                        ? "How does the carbon market work?"
+                        : "¿Cómo funciona el mercado de carbono?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": locale === "pt"
+                        ? "O mercado de carbono pode ser regulado (compliance) ou voluntário. No regulado, empresas obrigadas por lei a reduzir emissões compram créditos. No voluntário, empresas adquirem créditos para metas ESG. Projetos de reflorestamento, energia renovável e captura de metano geram os créditos."
+                        : locale === "en"
+                          ? "The carbon market can be compliance or voluntary. In compliance markets, companies legally required to reduce emissions purchase credits. In voluntary markets, companies acquire credits for ESG goals. Reforestation, renewable energy, and methane capture projects generate the credits."
+                          : "El mercado de carbono puede ser regulado (cumplimiento) o voluntario. En el regulado, empresas obligadas por ley a reducir emisiones compran créditos. En el voluntario, empresas adquieren créditos para metas ESG. Proyectos de reforestación, energía renovable y captura de metano generan los créditos.",
+                    },
+                  },
+                  {
+                    "@type": "Question",
+                    "name": locale === "pt"
+                      ? "Quais são os principais certificadores?"
+                      : locale === "en"
+                        ? "Who are the main certifiers?"
+                        : "¿Quiénes son los principales certificadores?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": locale === "pt"
+                        ? "Verra (VCS) e Gold Standard são os maiores certificadores globais. No Brasil, o RenovaBio regula o mercado de biocombustíveis. ACR (American Carbon Registry) e CAR (Climate Action Reserve) também atuam no mercado voluntário americano."
+                        : locale === "en"
+                          ? "Verra (VCS) and Gold Standard are the largest global certifiers. In Brazil, RenovaBio regulates the biofuel market. ACR (American Carbon Registry) and CAR (Climate Action Reserve) also operate in the American voluntary market."
+                          : "Verra (VCS) y Gold Standard son los mayores certificadores globales. En Brasil, RenovaBio regula el mercado de biocombustibles. ACR (American Carbon Registry) y CAR (Climate Action Reserve) también operan en el mercado voluntario americano.",
+                    },
+                  },
                 ],
               },
             ],

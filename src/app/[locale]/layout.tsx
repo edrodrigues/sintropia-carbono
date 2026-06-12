@@ -147,6 +147,7 @@ export default async function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "Organization",
+                "inLanguage": locale,
                 "name": "Sintropia",
                 "url": "https://sintropia.space",
                 "description": "A rede profissional para mercados ambientais e sustentabilidade. Dados abertos, comunidade colaborativa.",
@@ -169,6 +170,7 @@ export default async function RootLayout({
               __html: JSON.stringify({
                 "@context": "https://schema.org",
                 "@type": "WebSite",
+                "inLanguage": locale,
                 "name": "Sintropia",
                 "url": "https://sintropia.space",
                 "description": "A rede profissional para mercados ambientais e sustentabilidade.",

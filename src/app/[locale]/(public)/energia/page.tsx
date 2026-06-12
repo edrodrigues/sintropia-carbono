@@ -420,7 +420,7 @@ export default async function EnergiaPage({
       </main>
       <Footer />
 
-      {/* JSON-LD Structured Data for SEO */}
+      {/* JSON-LD Structured Data for GEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -430,6 +430,7 @@ export default async function EnergiaPage({
               {
                 "@type": "Dataset",
                 "@id": "https://sintropia.space/energia#dataset",
+                "inLanguage": locale,
                 "name": locale === "pt" ? "Rankings e Dados do Mercado I-REC" : locale === "en" ? "I-REC Market Rankings and Data" : "Rankings y Datos del Mercado I-REC",
                 "description": locale === "pt"
                   ? "Conjunto de dados abrangente sobre o mercado de certificados de energia renovável I-REC, incluindo rankings das principais empresas do Brasil e do mundo, volumes de comercialização, preços por região e análise setorial."
@@ -454,6 +455,11 @@ export default async function EnergiaPage({
                   },
                 },
                 "license": "https://creativecommons.org/licenses/by/4.0/",
+                "citation": [
+                  { "@type": "CreativeWork", "name": "I-REC Standard", "url": "https://www.irecstandard.org" },
+                  { "@type": "CreativeWork", "name": "I-TRACK Foundation", "url": "https://trackingstandard.org" },
+                  { "@type": "CreativeWork", "name": "CCEE Brasil", "url": "https://ccee.org.br" },
+                ],
                 "distribution": {
                   "@type": "DataDownload",
                   "contentUrl": "https://sintropia.space/dados/dados.md",

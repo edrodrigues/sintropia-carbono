@@ -252,6 +252,31 @@ export default async function RankingMundoPage({
           sources={dataSources}
           downloadFile={{ name: "dados.md", path: "/dados/dados.md" }}
         />
+
+        {/* JSON-LD Structured Data for GEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "inLanguage": locale,
+              "name": tRanking("mundoTitle"),
+              "description": tRanking("mundoSubtitle"),
+              "itemListOrder": "Descending",
+              "numberOfItems": stakeholders.length,
+              "itemListElement": stakeholders.map((s, i) => ({
+                "@type": "ListItem",
+                "position": i + 1,
+                "item": {
+                  "@type": "Organization",
+                  "name": s.empresa,
+                  "description": `${s.setor || "N/A"} — ${formatVolume(s.volume_2025 || 0)} I-RECs`,
+                },
+              })),
+            }),
+          }}
+        />
       </main>
       <Footer />
     </>
