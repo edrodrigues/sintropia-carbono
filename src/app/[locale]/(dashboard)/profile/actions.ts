@@ -27,6 +27,13 @@ export async function updateProfile(formData: FormData) {
     certifications: formData.get("certifications") ? JSON.parse(formData.get("certifications") as string) : undefined,
     years_of_experience: formData.get("years_of_experience") ? Number(formData.get("years_of_experience")) : undefined,
     available_for_consulting: formData.get("available_for_consulting") === "on" ? true : undefined,
+    company_tagline: ((formData.get("company_tagline") as string)?.trim()) || undefined,
+    company_sector: (formData.get("company_sector") as string) || undefined,
+    company_size: (formData.get("company_size") as string) || undefined,
+    company_cnpj: ((formData.get("company_cnpj") as string)?.trim()) || undefined,
+    company_website: ((formData.get("company_website") as string)?.trim()) || undefined,
+    company_founded_year: formData.get("company_founded_year") ? Number(formData.get("company_founded_year")) : undefined,
+    company_geo_presence: (formData.get("company_geo_presence") as string) || undefined,
   };
 
   const parsed = profileUpdateSchema.safeParse(raw);
@@ -34,7 +41,7 @@ export async function updateProfile(formData: FormData) {
     return { error: parsed.error.issues[0]?.message || "Dados inválidos" };
   }
 
-  const { username, display_name, bio, user_type, organization, cargo, linkedin_url, twitter_url, headline, expertise_areas, certifications, years_of_experience, available_for_consulting } = parsed.data;
+  const { username, display_name, bio, user_type, organization, cargo, linkedin_url, twitter_url, headline, expertise_areas, certifications, years_of_experience, available_for_consulting, company_tagline, company_sector, company_size, company_cnpj, company_website, company_founded_year, company_geo_presence } = parsed.data;
 
   // Check if profile exists
   const { data: existingProfile }: any = await supabase
@@ -63,6 +70,13 @@ export async function updateProfile(formData: FormData) {
     certifications: certifications || null,
     years_of_experience: years_of_experience || null,
     available_for_consulting: available_for_consulting || false,
+    company_tagline: company_tagline || null,
+    company_sector: company_sector || null,
+    company_size: company_size || null,
+    company_cnpj: company_cnpj || null,
+    company_website: company_website || null,
+    company_founded_year: company_founded_year || null,
+    company_geo_presence: company_geo_presence || null,
     updated_at: new Date().toISOString(),
   };
 

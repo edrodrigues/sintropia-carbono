@@ -377,6 +377,13 @@ export interface Database {
           certifications: string[] | null;
           years_of_experience: number | null;
           available_for_consulting: boolean | null;
+          company_tagline: string | null;
+          company_sector: string | null;
+          company_size: string | null;
+          company_cnpj: string | null;
+          company_website: string | null;
+          company_founded_year: number | null;
+          company_geo_presence: string | null;
         };
         Insert: {
           avatar_url?: string | null;
@@ -398,6 +405,13 @@ export interface Database {
           certifications?: string[] | null;
           years_of_experience?: number | null;
           available_for_consulting?: boolean | null;
+          company_tagline?: string | null;
+          company_sector?: string | null;
+          company_size?: string | null;
+          company_cnpj?: string | null;
+          company_website?: string | null;
+          company_founded_year?: number | null;
+          company_geo_presence?: string | null;
         };
         Update: {
           avatar_url?: string | null;

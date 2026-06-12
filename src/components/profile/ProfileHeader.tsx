@@ -26,6 +26,13 @@ interface ProfileHeaderProps {
     certifications?: string[] | null;
     years_of_experience?: number | null;
     available_for_consulting?: boolean | null;
+    company_tagline?: string | null;
+    company_sector?: string | null;
+    company_size?: string | null;
+    company_cnpj?: string | null;
+    company_website?: string | null;
+    company_founded_year?: number | null;
+    company_geo_presence?: string | null;
   };
   achievements?: Achievement[];
   isOwnProfile?: boolean;
@@ -151,42 +158,78 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
         )}
       </div>
 
-      {profile.expertise_areas && profile.expertise_areas.length > 0 && (
-        <div className="mb-4">
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Áreas de Especialização</h3>
+      {profile.user_type === "company" ? (
+        <div className="mb-4 space-y-4">
+          {profile.company_tagline && (
+            <p className="text-gray-600 dark:text-gray-400 text-sm italic">{profile.company_tagline}</p>
+          )}
           <div className="flex flex-wrap gap-2">
-            {profile.expertise_areas.map(area => (
-              <span key={area} className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 text-xs font-medium border border-emerald-200 dark:border-emerald-800">
-                {area}
+            {profile.company_sector && (
+              <span className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800">
+                {profile.company_sector}
               </span>
-            ))}
+            )}
+            {profile.company_size && (
+              <span className="px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 text-xs font-medium border border-purple-200 dark:border-purple-800">
+                {profile.company_size}
+              </span>
+            )}
+            {profile.company_geo_presence && (
+              <span className="px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300 text-xs font-medium border border-teal-200 dark:border-teal-800">
+                {profile.company_geo_presence}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
+            {profile.company_cnpj && <span>📋 CNPJ: {profile.company_cnpj}</span>}
+            {profile.company_website && (
+              <a href={profile.company_website} target="_blank" rel="noopener noreferrer" className="text-premium-blue hover:underline">
+                🌐 {profile.company_website}
+              </a>
+            )}
+            {profile.company_founded_year != null && <span>📅 Fundada em {profile.company_founded_year}</span>}
           </div>
         </div>
-      )}
+      ) : (
+        <>
+          {profile.expertise_areas && profile.expertise_areas.length > 0 && (
+            <div className="mb-4">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Áreas de Especialização</h3>
+              <div className="flex flex-wrap gap-2">
+                {profile.expertise_areas.map(area => (
+                  <span key={area} className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 text-xs font-medium border border-emerald-200 dark:border-emerald-800">
+                    {area}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
-      {profile.certifications && profile.certifications.length > 0 && (
-        <div className="mb-4">
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Certificações</h3>
-          <div className="flex flex-wrap gap-2">
-            {profile.certifications.map(cert => (
-              <span key={cert} className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800">
-                {cert}
+          {profile.certifications && profile.certifications.length > 0 && (
+            <div className="mb-4">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Certificações</h3>
+              <div className="flex flex-wrap gap-2">
+                {profile.certifications.map(cert => (
+                  <span key={cert} className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800">
+                    {cert}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="mb-4 flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
+            {profile.years_of_experience != null && (
+              <span>📅 {profile.years_of_experience} anos de experiência</span>
+            )}
+            {profile.available_for_consulting && (
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 text-xs font-medium border border-amber-200 dark:border-amber-800">
+                ✅ Disponível para consultoria
               </span>
-            ))}
+            )}
           </div>
-        </div>
+        </>
       )}
-
-      <div className="mb-4 flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
-        {profile.years_of_experience != null && (
-          <span>📅 {profile.years_of_experience} anos de experiência</span>
-        )}
-        {profile.available_for_consulting && (
-          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 text-xs font-medium border border-amber-200 dark:border-amber-800">
-            ✅ Disponível para consultoria
-          </span>
-        )}
-      </div>
 
       <div className="mb-6">
         <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">

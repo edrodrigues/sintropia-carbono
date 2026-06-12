@@ -18,13 +18,39 @@ interface ProfileFormProps {
     certifications?: string[] | null;
     years_of_experience?: number | null;
     available_for_consulting?: boolean | null;
+    company_tagline?: string | null;
+    company_sector?: string | null;
+    company_size?: string | null;
+    company_cnpj?: string | null;
+    company_website?: string | null;
+    company_founded_year?: number | null;
+    company_geo_presence?: string | null;
   } | null;
   email: string;
 }
 
+const COMPANY_SECTORS = [
+  "Energia", "Agricultura", "Finanças", "Tecnologia",
+  "Transporte", "Indústria", "Construção", "Mineração",
+  "Resíduos", "Consultoria", "Educação", "Outro",
+];
+
+const COMPANY_SIZES = [
+  { value: "MEI", label: "MEI (Microempreendedor Individual)" },
+  { value: "Pequena", label: "Pequena (até 50 funcionários)" },
+  { value: "Média", label: "Média (50-500 funcionários)" },
+  { value: "Grande", label: "Grande (acima de 500 funcionários)" },
+];
+
+const GEO_PRESENCE_OPTIONS = [
+  "Nacional", "América Latina", "América do Norte",
+  "Europa", "Ásia", "África", "Global",
+];
+
 export default function ProfileForm({ profile, email }: ProfileFormProps) {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [userType, setUserType] = useState(profile?.user_type || "individual");
   const [formData, setFormData] = useState({
     username: profile?.username || "",
     display_name: profile?.display_name || "",
@@ -38,6 +64,13 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
     certifications: profile?.certifications || [],
     years_of_experience: profile?.years_of_experience || null,
     available_for_consulting: profile?.available_for_consulting || false,
+    company_tagline: profile?.company_tagline || "",
+    company_sector: profile?.company_sector || "",
+    company_size: profile?.company_size || "",
+    company_cnpj: profile?.company_cnpj || "",
+    company_website: profile?.company_website || "",
+    company_founded_year: profile?.company_founded_year || null,
+    company_geo_presence: profile?.company_geo_presence || "",
   });
 
   const EXPERTISE_OPTIONS = [
@@ -94,27 +127,27 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
           <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">Tipo de Conta</label>
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
             <label htmlFor="user_type_individual" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-              <input id="user_type_individual" type="radio" name="user_type" value="individual" defaultChecked={!profile?.user_type || profile?.user_type === "individual"} className="hidden" />
+              <input id="user_type_individual" type="radio" name="user_type" value="individual" checked={userType === "individual"} onChange={() => setUserType("individual")} className="hidden" />
               <span className="text-xl">👤</span>
               <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Indivíduo</span>
             </label>
             <label htmlFor="user_type_company" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-              <input id="user_type_company" type="radio" name="user_type" value="company" defaultChecked={profile?.user_type === "company"} className="hidden" />
+              <input id="user_type_company" type="radio" name="user_type" value="company" checked={userType === "company"} onChange={() => setUserType("company")} className="hidden" />
               <span className="text-xl">🏢</span>
               <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Empresa</span>
             </label>
             <label htmlFor="user_type_ong" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-              <input id="user_type_ong" type="radio" name="user_type" value="ong" defaultChecked={profile?.user_type === "ong"} className="hidden" />
+              <input id="user_type_ong" type="radio" name="user_type" value="ong" checked={userType === "ong"} onChange={() => setUserType("ong")} className="hidden" />
               <span className="text-xl">🤝</span>
               <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">ONG</span>
             </label>
             <label htmlFor="user_type_government" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-              <input id="user_type_government" type="radio" name="user_type" value="government" defaultChecked={profile?.user_type === "government"} className="hidden" />
+              <input id="user_type_government" type="radio" name="user_type" value="government" checked={userType === "government"} onChange={() => setUserType("government")} className="hidden" />
               <span className="text-xl">🏛️</span>
               <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Governo</span>
             </label>
             <label htmlFor="user_type_professor" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
-              <input id="user_type_professor" type="radio" name="user_type" value="professor" defaultChecked={profile?.user_type === "professor"} className="hidden" />
+              <input id="user_type_professor" type="radio" name="user_type" value="professor" checked={userType === "professor"} onChange={() => setUserType("professor")} className="hidden" />
               <span className="text-xl">🧑‍🏫</span>
               <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Professor</span>
             </label>
@@ -249,108 +282,233 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
         </div>
       </div>
 
-      {/* Professional Fields Section */}
+      {/* Professional / Company Fields Section */}
       <div>
         <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4 pb-2 border-b border-gray-100 dark:border-gray-800">
-          Perfil Profissional
+          {userType === "company" ? "Perfil da Empresa" : "Perfil Profissional"}
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2 md:col-span-2">
-            <label htmlFor="headline" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
-              Headline / Título Profissional
-              <span className="text-gray-300 font-normal ml-1">(máx. 150)</span>
-            </label>
-            <input
-              id="headline"
-              name="headline"
-              type="text"
-              value={formData.headline || ""}
-              onChange={e => setFormData({ ...formData, headline: e.target.value })}
-              placeholder="Ex: Carbon Markets Analyst | ESG Specialist"
-              maxLength={150}
-              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
-            />
-          </div>
 
-          <div className="space-y-2 md:col-span-2">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
-              Áreas de Especialização
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {EXPERTISE_OPTIONS.map(area => (
-                <button
-                  key={area}
-                  type="button"
-                  onClick={() => toggleExpertise(area)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-                    formData.expertise_areas?.includes(area)
-                      ? "bg-emerald-100 text-emerald-800 border-2 border-emerald-400 dark:bg-emerald-900/30 dark:text-emerald-300"
-                      : "bg-gray-100 text-gray-600 border-2 border-gray-200 hover:border-emerald-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700"
-                  }`}
-                >
-                  {area}
-                </button>
-              ))}
-            </div>
-            <input type="hidden" name="expertise_areas" value={JSON.stringify(formData.expertise_areas)} />
-          </div>
-
-          <div className="space-y-2 md:col-span-2">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
-              Certificações
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {CERTIFICATION_OPTIONS.map(cert => (
-                <button
-                  key={cert}
-                  type="button"
-                  onClick={() => toggleCertification(cert)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
-                    formData.certifications?.includes(cert)
-                      ? "bg-blue-100 text-blue-800 border-2 border-blue-400 dark:bg-blue-900/30 dark:text-blue-300"
-                      : "bg-gray-100 text-gray-600 border-2 border-gray-200 hover:border-blue-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700"
-                  }`}
-                >
-                  {cert}
-                </button>
-              ))}
-            </div>
-            <input type="hidden" name="certifications" value={JSON.stringify(formData.certifications)} />
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="years_of_experience" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
-              Anos de Experiência
-            </label>
-            <input
-              id="years_of_experience"
-              name="years_of_experience"
-              type="number"
-              min={0}
-              max={70}
-              value={formData.years_of_experience ?? ""}
-              onChange={e => setFormData({ ...formData, years_of_experience: e.target.value ? Number(e.target.value) : null })}
-              placeholder="ex: 5"
-              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
-            />
-          </div>
-
-          <div className="space-y-2 flex items-end">
-            <label className="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-all w-full">
+        {userType === "company" ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2 md:col-span-2">
+              <label htmlFor="company_tagline" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                Slogan / Tagline
+                <span className="text-gray-300 font-normal ml-1">(máx. 150)</span>
+              </label>
               <input
-                type="checkbox"
-                name="available_for_consulting"
-                checked={formData.available_for_consulting}
-                onChange={e => setFormData({ ...formData, available_for_consulting: e.target.checked })}
-                className="w-5 h-5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                id="company_tagline"
+                name="company_tagline"
+                type="text"
+                value={formData.company_tagline || ""}
+                onChange={e => setFormData({ ...formData, company_tagline: e.target.value })}
+                placeholder="Ex: Líder em créditos de carbono na América Latina"
+                maxLength={150}
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
               />
-              <div>
-                <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Disponível para Consultoria</span>
-                <p className="text-xs text-gray-400">Mostrar que você está aberto a oportunidades de consultoria</p>
-              </div>
-            </label>
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="company_sector" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                Setor de Atuação
+              </label>
+              <select
+                id="company_sector"
+                name="company_sector"
+                value={formData.company_sector}
+                onChange={e => setFormData({ ...formData, company_sector: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              >
+                <option value="">Selecione um setor</option>
+                {COMPANY_SECTORS.map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="company_size" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                Porte da Empresa
+              </label>
+              <select
+                id="company_size"
+                name="company_size"
+                value={formData.company_size}
+                onChange={e => setFormData({ ...formData, company_size: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              >
+                <option value="">Selecione o porte</option>
+                {COMPANY_SIZES.map(s => (
+                  <option key={s.value} value={s.value}>{s.label}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="company_cnpj" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                CNPJ
+                <span className="text-gray-300 font-normal ml-1">(opcional)</span>
+              </label>
+              <input
+                id="company_cnpj"
+                name="company_cnpj"
+                type="text"
+                value={formData.company_cnpj || ""}
+                onChange={e => setFormData({ ...formData, company_cnpj: e.target.value })}
+                placeholder="00.000.000/0000-00"
+                maxLength={14}
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="company_website" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                Site
+              </label>
+              <input
+                id="company_website"
+                name="company_website"
+                type="url"
+                value={formData.company_website || ""}
+                onChange={e => setFormData({ ...formData, company_website: e.target.value })}
+                placeholder="https://www.exemplo.com"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="company_founded_year" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                Ano de Fundação
+              </label>
+              <input
+                id="company_founded_year"
+                name="company_founded_year"
+                type="number"
+                min={1900}
+                max={2026}
+                value={formData.company_founded_year ?? ""}
+                onChange={e => setFormData({ ...formData, company_founded_year: e.target.value ? Number(e.target.value) : null })}
+                placeholder="ex: 2010"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="company_geo_presence" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                Presença Geográfica
+              </label>
+              <select
+                id="company_geo_presence"
+                name="company_geo_presence"
+                value={formData.company_geo_presence}
+                onChange={e => setFormData({ ...formData, company_geo_presence: e.target.value })}
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              >
+                <option value="">Selecione a abrangência</option>
+                {GEO_PRESENCE_OPTIONS.map(o => (
+                  <option key={o} value={o}>{o}</option>
+                ))}
+              </select>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2 md:col-span-2">
+              <label htmlFor="headline" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                Headline / Título Profissional
+                <span className="text-gray-300 font-normal ml-1">(máx. 150)</span>
+              </label>
+              <input
+                id="headline"
+                name="headline"
+                type="text"
+                value={formData.headline || ""}
+                onChange={e => setFormData({ ...formData, headline: e.target.value })}
+                placeholder="Ex: Carbon Markets Analyst | ESG Specialist"
+                maxLength={150}
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              />
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                Áreas de Especialização
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {EXPERTISE_OPTIONS.map(area => (
+                  <button
+                    key={area}
+                    type="button"
+                    onClick={() => toggleExpertise(area)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      formData.expertise_areas?.includes(area)
+                        ? "bg-emerald-100 text-emerald-800 border-2 border-emerald-400 dark:bg-emerald-900/30 dark:text-emerald-300"
+                        : "bg-gray-100 text-gray-600 border-2 border-gray-200 hover:border-emerald-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700"
+                    }`}
+                  >
+                    {area}
+                  </button>
+                ))}
+              </div>
+              <input type="hidden" name="expertise_areas" value={JSON.stringify(formData.expertise_areas)} />
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                Certificações
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {CERTIFICATION_OPTIONS.map(cert => (
+                  <button
+                    key={cert}
+                    type="button"
+                    onClick={() => toggleCertification(cert)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      formData.certifications?.includes(cert)
+                        ? "bg-blue-100 text-blue-800 border-2 border-blue-400 dark:bg-blue-900/30 dark:text-blue-300"
+                        : "bg-gray-100 text-gray-600 border-2 border-gray-200 hover:border-blue-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-700"
+                    }`}
+                  >
+                    {cert}
+                  </button>
+                ))}
+              </div>
+              <input type="hidden" name="certifications" value={JSON.stringify(formData.certifications)} />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="years_of_experience" className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                Anos de Experiência
+              </label>
+              <input
+                id="years_of_experience"
+                name="years_of_experience"
+                type="number"
+                min={0}
+                max={70}
+                value={formData.years_of_experience ?? ""}
+                onChange={e => setFormData({ ...formData, years_of_experience: e.target.value ? Number(e.target.value) : null })}
+                placeholder="ex: 5"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              />
+            </div>
+
+            <div className="space-y-2 flex items-end">
+              <label className="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-all w-full">
+                <input
+                  type="checkbox"
+                  name="available_for_consulting"
+                  checked={formData.available_for_consulting}
+                  onChange={e => setFormData({ ...formData, available_for_consulting: e.target.checked })}
+                  className="w-5 h-5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                />
+                <div>
+                  <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Disponível para Consultoria</span>
+                  <p className="text-xs text-gray-400">Mostrar que você está aberto a oportunidades de consultoria</p>
+                </div>
+              </label>
+            </div>
+          </div>
+        )}
       </div>
 
       {message && (

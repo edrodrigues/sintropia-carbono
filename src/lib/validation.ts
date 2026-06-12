@@ -41,6 +41,13 @@ export const profileUpdateSchema = z.object({
   certifications: z.array(z.string()).max(10).optional(),
   years_of_experience: z.number().int().min(0).max(70).optional(),
   available_for_consulting: z.boolean().optional(),
+  company_tagline: z.string().max(150).optional(),
+  company_sector: z.string().max(50).optional(),
+  company_size: z.string().max(20).optional(),
+  company_cnpj: z.string().max(14).optional(),
+  company_website: z.string().max(500).optional(),
+  company_founded_year: z.number().int().min(1900).max(2026).optional(),
+  company_geo_presence: z.string().max(50).optional(),
 });
 
 export const banUserSchema = z.object({
