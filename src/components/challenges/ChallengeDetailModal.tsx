@@ -149,7 +149,7 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
               <path d="M12 9v4" /><path d="M12 17h.01" />
               <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
             </svg>
-            <span className="text-white text-sm font-bold uppercase tracking-wider">Desafio Ambiental</span>
+            <span className="text-white text-sm font-bold uppercase tracking-wider">Desafio ESG</span>
           </div>
           <button onClick={onClose} className="text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors" aria-label="Fechar">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

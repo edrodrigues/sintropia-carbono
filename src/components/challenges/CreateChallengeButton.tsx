@@ -33,7 +33,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
           .select("user_type, company_sector")
           .eq("id", user.id)
           .single();
-        setIsCompany(profile?.user_type === "company");
+        setIsCompany(["company", "ong", "government"].includes(profile?.user_type ?? ""));
         if (profile?.company_sector) {
           setCompanySector(profile.company_sector);
         }
@@ -116,8 +116,8 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
       return;
     }
 
-    if (profile?.user_type !== "company") {
-      setError("Apenas perfis do tipo Empresa podem criar desafios.");
+    if (!["company", "ong", "government"].includes(profile?.user_type ?? "")) {
+      setError("Apenas perfis do tipo Empresa, ONG ou Governo podem criar desafios.");
       return;
     }
 
@@ -173,7 +173,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
         className="w-full flex items-center justify-between p-4 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-2xl border border-emerald-200 dark:border-emerald-800 shadow-sm hover:border-emerald-500 transition-all text-emerald-700 dark:text-emerald-300 group"
         aria-label="Criar novo desafio"
       >
-        <span className="font-medium group-hover:text-emerald-600">Sua empresa tem um desafio ambiental? Lance um Desafio!</span>
+        <span className="font-medium group-hover:text-emerald-600">Sua organização tem um desafio ESG? Lance um Desafio!</span>
         <div className="bg-emerald-600 p-2 rounded-xl text-white">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M12 9v4" />
@@ -195,7 +195,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
         >
           <div className="bg-white dark:bg-gray-800 w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Criar Desafio Ambiental</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Criar Desafio ESG</h2>
               <button
                 onClick={() => { setIsOpen(false); setError(null); }}
                 className="text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-full transition-colors"
@@ -260,7 +260,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
                 <textarea
                   value={context}
                   onChange={e => setContext(e.target.value)}
-                  placeholder="Descreva detalhadamente o problema ou desafio ambiental que sua empresa enfrenta..."
+                  placeholder="Descreva detalhadamente o problema ou desafio ESG que sua organização enfrenta..."
                   maxLength={3000}
                   className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 outline-none transition-all h-32 resize-none"
                   required

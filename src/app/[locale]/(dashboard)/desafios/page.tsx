@@ -6,7 +6,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
 
   return {
-    title: locale === "pt" ? "Desafios Ambientais | Sintropia" : "Environmental Challenges | Sintropia",
+    title: locale === "pt" ? "Desafios ESG | Sintropia" : "ESG Challenges | Sintropia",
     robots: {
       index: false,
       follow: false,

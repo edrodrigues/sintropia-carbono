@@ -34,7 +34,7 @@ export function ChallengeCard({ challenge, onOpenDetail }: ChallengeCardProps) {
           <path d="M12 17h.01" />
           <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
         </svg>
-        <span className="text-white text-xs font-bold uppercase tracking-wider">Desafio Ambiental</span>
+        <span className="text-white text-xs font-bold uppercase tracking-wider">Desafio ESG</span>
         {challenge.solution_comment_id && (
           <span className="ml-auto flex items-center gap-1 text-yellow-200 text-xs font-semibold">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none">

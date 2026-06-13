@@ -174,7 +174,6 @@ The project uses **custom-built Tremor-inspired components** (not the npm packag
 ### Gamification
 
 - **Karma system:** Post/comment voting drives user karma score
-- **Streaks:** Daily login tracking in `src/lib/streaks.ts`
 - **Achievements:** Defined in `src/lib/achievements.ts`, displayed via `AchievementBadges`
 - **Leaderboard:** `/leaderboard` page ranks users by karma
 
@@ -229,7 +228,7 @@ CSV files (dados/) → Administrative scripts (scripts/) → Supabase DB
 
 ## Database Schema (Supabase)
 
-Tables: `profiles`, `posts`, `comments`, `votes`, `notifications`, `mod_actions`, `carbono_stakeholders`, `carbono_prices`, `carbono_projetos`, `irec_stakeholders`, `irec_prices`, `energy_stakeholders`, `categories`, `category_follows`, `reports`, `achievements`, `user_achievements`, `user_streaks`, `scripts`, `drip_campaign`, `contacts`, and more.
+Tables: `profiles`, `posts`, `comments`, `votes`, `notifications`, `mod_actions`, `carbono_stakeholders`, `carbono_prices`, `carbono_projetos`, `irec_stakeholders`, `irec_prices`, `energy_stakeholders`, `categories`, `category_follows`, `reports`, `achievements`, `user_achievements`, `scripts`, `drip_campaign`, `contacts`, and more.
 
 Full schema defined via SQL migrations in `supabase/migrations/` (11 migrations).
 

@@ -55,14 +55,6 @@ export const karmaTransactionSchema = z.object({
   post_id: z.string().uuid().optional(),
 });
 
-export const userStreakSchema = z.object({
-  user_id: z.string().uuid(),
-  current_streak: z.number().int().min(0),
-  longest_streak: z.number().int().min(0),
-  last_activity_date: z.string().datetime().optional(),
-  total_days_active: z.number().int().min(0),
-});
-
 export const userAchievementSchema = z.object({
   user_id: z.string().uuid(),
   achievement_id: z.string().min(1).max(100),
@@ -109,7 +101,6 @@ export type ReportInput = z.infer<typeof reportSchema>;
 export type BanInput = z.infer<typeof banSchema>;
 export type WarningInput = z.infer<typeof warningSchema>;
 export type KarmaTransactionInput = z.infer<typeof karmaTransactionSchema>;
-export type UserStreakInput = z.infer<typeof userStreakSchema>;
 export type UserAchievementInput = z.infer<typeof userAchievementSchema>;
 export type CarbonProjectInput = z.infer<typeof carbonProjectSchema>;
 export type CarbonCreditInput = z.infer<typeof carbonCreditSchema>;

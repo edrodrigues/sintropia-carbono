@@ -1,12 +1,3 @@
-export interface UserStreak {
-  user_id: string;
-  current_streak: number | null;
-  longest_streak: number | null;
-  last_activity_date: string | null;
-  total_days_active: number | null;
-  updated_at: string | null;
-}
-
 export interface UserAchievement {
   id: string;
   user_id: string;
@@ -53,24 +44,3 @@ export const RARITY_COLORS: Record<AchievementRarity, { bg: string; border: stri
     text: "text-amber-700 dark:text-amber-300",
   },
 };
-
-export function getStreakBonus(streak: number): number {
-  if (streak <= 0) return 0;
-  if (streak === 1) return 2;
-  if (streak === 2) return 3;
-  if (streak === 3) return 4;
-  if (streak === 4) return 5;
-  if (streak === 5) return 6;
-  if (streak === 6) return 8;
-  if (streak === 7) return 10;
-  return Math.min(10 + (streak - 7), 15);
-}
-
-export function getStreakEmoji(streak: number): string {
-  if (streak === 0) return "💤";
-  if (streak < 3) return "🔥";
-  if (streak < 7) return "🔥🔥";
-  if (streak < 14) return "🔥🔥🔥";
-  if (streak < 30) return "💥";
-  return "🏆";
-}

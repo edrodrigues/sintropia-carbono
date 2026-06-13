@@ -59,9 +59,9 @@ export default function DesafiosClient({ initialChallenges }: { initialChallenge
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Desafios Ambientais</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Desafios ESG</h1>
             <p className="text-gray-600 dark:text-gray-400 mt-1">
-              Empresas compartilham desafios ambientais reais. Contribua com suas ideias e soluções.
+              Organizações compartilham desafios ESG reais. Contribua com suas ideias e soluções.
             </p>
           </div>
         </div>
@@ -115,7 +115,7 @@ export default function DesafiosClient({ initialChallenges }: { initialChallenge
                 Nenhum desafio encontrado
               </h3>
               <p className="text-gray-500">
-                {categoryFilter !== "all" ? "Nenhum desafio nesta categoria ainda." : "Seja o primeiro a compartilhar um desafio ambiental!"}
+                {categoryFilter !== "all" ? "Nenhum desafio nesta categoria ainda." : "Seja o primeiro a compartilhar um desafio ESG!"}
               </p>
             </div>
           )}

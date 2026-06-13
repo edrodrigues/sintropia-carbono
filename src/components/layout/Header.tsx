@@ -129,6 +129,7 @@ export function Header() {
 
   const [activeMenu, setActiveMenu] = useState<number | null>(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showCriarDropdown, setShowCriarDropdown] = useState(false);
 
   const handleKeyDown = (e: React.KeyboardEvent, idx: number) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -142,7 +143,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 w-full" onMouseLeave={() => { setActiveMenu(null); setShowProfileMenu(false); }}>
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 w-full" onMouseLeave={() => { setActiveMenu(null); setShowProfileMenu(false); setShowCriarDropdown(false); }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
@@ -227,21 +228,64 @@ export function Header() {
               </svg>
             </button>
 
-            {/* Post Button */}
-            <Tooltip content={tHeader("newPostTooltip")}>
-              <button
-                onClick={() => router.push(user ? "/feed?create=true" : "/login")}
-                className="flex items-center gap-2 border border-slate-300 rounded-lg px-3 lg:px-4 py-2 hover:bg-slate-50 transition-all active:scale-95 group"
-              >
-                <div className="w-4 h-4 text-slate-900 group-hover:text-forest-green">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
-                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+            {/* Criar Dropdown / Post Button */}
+            {profile && ["company", "ong", "government"].includes(profile.user_type ?? "") ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowCriarDropdown(!showCriarDropdown)}
+                  onMouseEnter={() => setShowCriarDropdown(true)}
+                  className="flex items-center gap-1.5 border border-slate-300 rounded-lg px-3 lg:px-4 py-2 hover:bg-slate-50 transition-all active:scale-95 group"
+                >
+                  <div className="w-4 h-4 text-slate-900 group-hover:text-forest-green">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                      <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </svg>
+                  </div>
+                  <span className="hidden sm:inline text-[13px] font-bold text-slate-900">Criar</span>
+                  <svg className={`w-3 h-3 text-slate-500 transition-transform ${showCriarDropdown ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
                   </svg>
-                </div>
-                <span className="hidden sm:inline text-[13px] font-bold text-slate-900">{tHeader("newPost")}</span>
-              </button>
-            </Tooltip>
+                </button>
+                {showCriarDropdown && (
+                  <>
+                    <div className="fixed inset-0 z-10" onClick={() => setShowCriarDropdown(false)} />
+                    <div
+                      className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-20 overflow-hidden"
+                      onMouseLeave={() => setShowCriarDropdown(false)}
+                    >
+                      <button
+                        onClick={() => { setShowCriarDropdown(false); router.push(user ? "/feed?create=true" : "/login"); }}
+                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-forest-green transition-colors text-left"
+                      >
+                        Post
+                      </button>
+                      <button
+                        onClick={() => { setShowCriarDropdown(false); router.push("/desafios"); }}
+                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-forest-green transition-colors text-left"
+                      >
+                        Desafio
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <Tooltip content={tHeader("newPostTooltip")}>
+                <button
+                  onClick={() => router.push(user ? "/feed?create=true" : "/login")}
+                  className="flex items-center gap-2 border border-slate-300 rounded-lg px-3 lg:px-4 py-2 hover:bg-slate-50 transition-all active:scale-95 group"
+                >
+                  <div className="w-4 h-4 text-slate-900 group-hover:text-forest-green">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                      <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </svg>
+                  </div>
+                  <span className="hidden sm:inline text-[13px] font-bold text-slate-900">{tHeader("newPost")}</span>
+                </button>
+              </Tooltip>
+            )}
 
             {/* Auth / Account */}
             {!loading && (

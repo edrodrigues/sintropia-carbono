@@ -1,5 +1,5 @@
 import type { Achievement } from "@/components/profile/AchievementBadges";
-import type { AchievementRarity } from "@/types/gamification";
+import type { AchievementRarity } from "@/types/achievements";
 
 interface UserStats {
   postCount: number;

@@ -287,7 +287,6 @@ Add/update to all 3 locale files:
 | `src/i18n/routing.ts` | Locale config — no copy |
 | `src/middleware.ts` | Auth logic — no copy |
 | `src/lib/achievements.ts` | Gamification logic — works for any domain |
-| `src/lib/streaks.ts` | Same |
 | `src/lib/mod-actions.ts` | Moderation — domain-agnostic |
 | `src/lib/queries/*` | Data queries — unchanged while data stays as-is |
 | `src/lib/supabase/*` | Infrastructure — no copy |

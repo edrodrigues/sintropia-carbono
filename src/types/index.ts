@@ -11,6 +11,10 @@ export const CHALLENGE_CATEGORIES = [
   "Logística Sustentável",
   "Inovação Verde",
   "Engajamento Socioambiental",
+  "Diversidade & Inclusão",
+  "Direitos Humanos & Trabalho",
+  "Governança & Compliance",
+  "Transparência & Ética",
   "Outro",
 ] as const;
 

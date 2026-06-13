@@ -864,41 +864,6 @@ export type Database = {
           },
         ]
       }
-      user_streaks: {
-        Row: {
-          current_streak: number
-          last_activity_date: string | null
-          longest_streak: number
-          total_days_active: number
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          current_streak?: number
-          last_activity_date?: string | null
-          longest_streak?: number
-          total_days_active?: number
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          current_streak?: number
-          last_activity_date?: string | null
-          longest_streak?: number
-          total_days_active?: number
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_streaks_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       votes: {
         Row: {
           created_at: string | null
@@ -1069,7 +1034,6 @@ export type Database = {
         }[]
       }
       reverse_post_karma: { Args: { p_post_id: string }; Returns: undefined }
-      update_user_streak: { Args: { p_user_id: string }; Returns: Json }
     }
     Enums: {
       user_role: "user" | "moderator" | "admin" | "banned"

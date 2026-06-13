@@ -160,7 +160,7 @@ export default function FeedClient({ initialPosts, referralCode }: { initialPost
             )}
           </div>
           <p className="text-gray-600 dark:text-gray-400">
-            {viewMode === "feed" ? t("shareInsight") : "Empresas compartilham desafios ambientais reais. Contribua com suas ideias."}
+            {viewMode === "feed" ? t("shareInsight") : "Organizações compartilham desafios ESG reais. Contribua com suas ideias."}
           </p>
         </div>
 
@@ -209,7 +209,7 @@ export default function FeedClient({ initialPosts, referralCode }: { initialPost
                   <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700">
                     <div className="text-5xl mb-4">🏔️</div>
                     <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Nenhum desafio encontrado</h3>
-                    <p className="text-gray-500">Seja o primeiro a compartilhar um desafio ambiental!</p>
+                    <p className="text-gray-500">Seja o primeiro a compartilhar um desafio ESG!</p>
                   </div>
                 )}
               </div>
