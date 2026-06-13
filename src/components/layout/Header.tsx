@@ -119,6 +119,7 @@ export function Header() {
       href: "/feed",
       subItems: [
         { label: tNav("newsFeed"), href: "/feed", desc: tNav("communityDesc.newsFeed") },
+        { label: tNav("challenges"), href: "/desafios", desc: tNav("communityDesc.challenges") },
         { label: tNav("communityProfiles"), href: "/profiles", desc: tNav("communityDesc.profiles") },
         { label: tNav("ranking"), href: "/leaderboard", desc: tNav("communityDesc.ranking") },
         { label: tNav("missions"), href: "/conquistas", desc: tNav("communityDesc.missions") },

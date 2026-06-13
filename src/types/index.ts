@@ -1,6 +1,21 @@
 export type UserRole = "user" | "moderator" | "admin" | "banned";
 export type PostCategory = "news" | "discussion" | "question" | "help" | "link";
 
+export const CHALLENGE_CATEGORIES = [
+  "Redução de Emissões",
+  "Gestão de Resíduos",
+  "Eficiência Hídrica",
+  "Eficiência Energética",
+  "Biodiversidade",
+  "Economia Circular",
+  "Logística Sustentável",
+  "Inovação Verde",
+  "Engajamento Socioambiental",
+  "Outro",
+] as const;
+
+export type ChallengeCategory = typeof CHALLENGE_CATEGORIES[number];
+
 export interface Profile {
   id: string;
   username: string;
@@ -59,7 +74,8 @@ export interface PostWithRelations extends Post {
 
 export interface Comment {
   id: string;
-  post_id: string;
+  post_id: string | null;
+  challenge_id: string | null;
   author_id: string;
   content: string;
   karma: number | null;
@@ -67,6 +83,44 @@ export interface Comment {
   is_deleted: boolean | null;
   created_at: string | null;
   updated_at: string | null;
+}
+
+export interface Challenge {
+  id: string;
+  author_id: string;
+  title: string;
+  category: string;
+  sector: string | null;
+  context: string;
+  expected_result: string;
+  reward: string;
+  images: string[];
+  comment_count: number;
+  solution_comment_id: string | null;
+  is_deleted: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ChallengeWithRelations extends Challenge {
+  author: {
+    username: string;
+    avatar_url: string | null;
+    display_name: string | null;
+    karma: number;
+    user_type: string | null;
+    company_tagline: string | null;
+    company_sector: string | null;
+  } | null;
+  comments?: CommentWithRelations[];
+  solution_comment?: {
+    id: string;
+    content: string;
+    author: {
+      username: string;
+      avatar_url: string | null;
+    } | null;
+  } | null;
 }
 
 export interface CommentWithRelations extends Comment {

@@ -20,6 +20,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
   const supabase = createClient();
 
   useEffect(() => {
+     
     const fetchComments = async () => {
       const { data } = await supabase
         .from("comments")

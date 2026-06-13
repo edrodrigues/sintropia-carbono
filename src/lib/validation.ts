@@ -69,3 +69,13 @@ export const deletePostSchema = z.object({
   postId: z.string().uuid("ID de post inválido"),
   reason: z.string().max(500).optional().default(""),
 });
+
+export const challengeSchema = z.object({
+  title: z.string().min(1, "Título é obrigatório").max(200, "Título deve ter no máximo 200 caracteres"),
+  category: z.string().min(1, "Categoria é obrigatória"),
+  sector: z.string().max(50).optional().default(""),
+  context: z.string().min(1, "Contexto é obrigatório").max(3000, "Contexto deve ter no máximo 3000 caracteres"),
+  expected_result: z.string().min(1, "Resultado esperado é obrigatório").max(2000, "Resultado esperado deve ter no máximo 2000 caracteres"),
+  reward: z.string().min(1, "Incentivo/Recompensa é obrigatório").max(1000, "Incentivo deve ter no máximo 1000 caracteres"),
+  images: z.array(z.string()).max(3, "Máximo de 3 imagens").optional().default([]),
+});

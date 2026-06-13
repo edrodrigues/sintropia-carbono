@@ -90,6 +90,7 @@
         "carbonPrices": "Preços",
         "carbonData": "Dados dos Projetos",
         "newsFeed": "Feed de Notícias",
+        "challenges": "Desafios",
         "communityProfiles": "Perfis da Comunidade",
         "ranking": "Ranking de Membros",
         "missions": "Minhas Missões",
@@ -110,6 +111,7 @@
         },
         "communityDesc": {
             "newsFeed": "Insights e posts da nossa rede de especialistas.",
+            "challenges": "Desafios ambientais reais de empresas. Contribua com ideias.",
             "profiles": "Veja todos os perfis da comunidade.",
             "ranking": "Veja quem são os maiores contribuidores.",
             "missions": "Ganhe karma e suba de nível na plataforma."
