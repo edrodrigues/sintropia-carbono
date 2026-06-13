@@ -175,6 +175,51 @@ export type Database = {
         }
         Relationships: []
       }
+      carbon_prices: {
+        Row: {
+          created_at: string | null
+          currency: string | null
+          id: string
+          market_name: string
+          market_type: string
+          observation: string | null
+          price_range: string | null
+          region: string | null
+          trend: string | null
+          unit: string | null
+          update_date: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          market_name: string
+          market_type: string
+          observation?: string | null
+          price_range?: string | null
+          region?: string | null
+          trend?: string | null
+          unit?: string | null
+          update_date?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          market_name?: string
+          market_type?: string
+          observation?: string | null
+          price_range?: string | null
+          region?: string | null
+          trend?: string | null
+          unit?: string | null
+          update_date?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       carbon_stakeholders: {
         Row: {
           created_at: string | null
