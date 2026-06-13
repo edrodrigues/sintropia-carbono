@@ -19,7 +19,7 @@ export async function getUserStreak(userId: string): Promise<UserStreak | null> 
 
   // Note: Streak reset now happens only server-side via update_user_streak function
   // to avoid race conditions and timezone issues
-  return data;
+  return data as unknown as UserStreak | null;
 }
 
 export async function updateStreak(userId: string): Promise<{
@@ -49,7 +49,12 @@ export async function updateStreak(userId: string): Promise<{
     logger.error("Erro ao conceder conquistas", { error: err });
   }
 
-  return data;
+  return data as unknown as {
+    current_streak: number;
+    longest_streak: number;
+    total_days: number;
+    bonus_earned: number;
+  } | null;
 }
 
 interface StreakLeaderboardData extends UserStreak {
