@@ -6,6 +6,8 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+export type UserRole = "user" | "moderator" | "admin" | "banned";
+
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "14.1"
