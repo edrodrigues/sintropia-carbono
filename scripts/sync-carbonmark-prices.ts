@@ -82,8 +82,9 @@ async function run() {
       batch.map((key) => carbonmarkFetch(`/carbonProjects/${encodeURIComponent(key)}`))
     );
     for (let j = 0; j < results.length; j++) {
-      if (results[j].status === "fulfilled") {
-        const proj = results[j].value as CarbonmarkProject;
+      const result = results[j];
+      if (result.status === "fulfilled") {
+        const proj = result.value as CarbonmarkProject;
         projects.set(proj.key, proj);
       } else {
         console.warn(`Failed to fetch project ${batch[j]}`);
