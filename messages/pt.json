@@ -89,6 +89,7 @@
         "carbonSectors": "Setores",
         "carbonPrices": "Preços",
         "carbonData": "Dados dos Projetos",
+        "carbonLiveMarkets": "Mercados ao Vivo",
         "newsFeed": "Feed de Notícias",
         "challenges": "Desafios",
         "communityProfiles": "Perfis da Comunidade",
@@ -107,7 +108,8 @@
             "marketWorld": "Veja quem são os maiores compradores de créditos de carbono no mundo.",
             "sectors": "Distribuição do mercado de carbono por setor econômico.",
             "prices": "Análise comparada e evolução dos preços",
-            "data": "Dados sobre 7700+ Projetos de carbono."
+            "data": "Dados sobre 7700+ Projetos de carbono.",
+            "liveMarkets": "Plataforma de inteligência de mercado com preços consolidados de créditos de carbono e certificados I-REC."
         },
         "communityDesc": {
             "newsFeed": "Insights e posts da nossa rede de especialistas.",
@@ -1234,5 +1236,32 @@
             "brasilVolume": "Volume Brasil",
             "mundoVolume": "Volume Mundo"
         }
+    },
+    "CarbonoLiveMarkets": {
+        "title": "Mercados ao Vivo",
+        "subtitle": "Plataforma de inteligência de mercado para créditos de carbono e certificados I-REC",
+        "comingSoon": "Em Breve",
+        "comingSoonDesc": "Estamos construindo uma plataforma completa de inteligência de mercado para consolidar, organizar e apresentar referências de preço para créditos de carbono voluntários e certificados I-REC.",
+        "whatIs": "O que é o Mercados ao Vivo?",
+        "whatIsDesc": "Uma plataforma que consolida referências de preço de múltiplas fontes de mercado, tornando a descoberta, comparação e acompanhamento de preços mais simples e confiável para decisões de compra, venda e planejamento de sustentabilidade.",
+        "features": "Funcionalidades Planejadas",
+        "featureDashboard": "Dashboard de Mercado",
+        "featureDashboardDesc": "Painel com indicadores de preço e movimentos recentes do mercado de carbono e I-REC.",
+        "featureSearch": "Busca e Filtros",
+        "featureSearchDesc": "Busca avançada por tipo de ativo, geografia, registro, tecnologia, vintage e moeda.",
+        "featureCompare": "Comparador de Preços",
+        "featureCompareDesc": "Comparação lado a lado de referências de mercado com destaque de diferenças materiais.",
+        "featureWatchlist": "Watchlists e Alertas",
+        "featureWatchlistDesc": "Acompanhe ativos de interesse e receba alertas de alteração de preço ou disponibilidade.",
+        "featureExport": "Exportação e API",
+        "featureExportDesc": "Exportação em CSV e acesso programático via API para integração com sistemas internos.",
+        "featureSources": "Múltiplas Fontes",
+        "featureSourcesDesc": "Dados de marketplaces, bolsas, brokers, registros e provedores de inteligência de mercado.",
+        "scope": "Cobertura Inicial",
+        "scopeDesc": "O produto cobrirá créditos de carbono voluntários e certificados I-REC/EAC, com prioridade para Brasil e América Latina, sem limitar a cobertura a esses mercados.",
+        "notIncluded": "Fora do Escopo do MVP",
+        "notIncludedItems": "Não faremos execução de ordens, custódia, transferência ou aposentadoria de créditos, liquidação financeira, cálculo de inventário de emissões ou validação de projetos.",
+        "dataTransparency": "Transparência dos Dados",
+        "dataTransparencyDesc": "Toda referência de preço poderá ser rastreada até sua fonte. Dados indicativos, preços de fechamento, ofertas e negócios realizados serão claramente diferenciados."
     }
 }

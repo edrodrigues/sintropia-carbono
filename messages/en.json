@@ -88,6 +88,7 @@
         "carbonSectors": "Sectors",
         "carbonPrices": "Prices",
         "carbonData": "Project Data",
+        "carbonLiveMarkets": "Live Markets",
         "newsFeed": "News Feed",
         "challenges": "Challenges",
         "communityProfiles": "Community Profiles",
@@ -106,7 +107,8 @@
             "marketWorld": "See who are the biggest carbon credit buyers in the world.",
             "sectors": "Carbon market distribution by economic sector.",
             "prices": "Comparative analysis and price evolution",
-            "data": "Data on 7700+ Carbon projects."
+            "data": "Data on 7700+ Carbon projects.",
+            "liveMarkets": "Market intelligence platform with consolidated carbon credit and I-REC certificate pricing."
         },
         "communityDesc": {
             "newsFeed": "Insights and posts from our network of experts.",
@@ -1210,5 +1212,32 @@
             "button": "Download CSV",
             "tooltip": "Export data as CSV"
         }
+    },
+    "CarbonoLiveMarkets": {
+        "title": "Live Markets",
+        "subtitle": "Market intelligence platform for carbon credits and I-REC certificates",
+        "comingSoon": "Coming Soon",
+        "comingSoonDesc": "We are building a comprehensive market intelligence platform to consolidate, organize, and present pricing references for voluntary carbon credits and I-REC certificates.",
+        "whatIs": "What is Live Markets?",
+        "whatIsDesc": "A platform that consolidates price references from multiple market sources, making discovery, comparison, and tracking of prices simpler and more reliable for purchasing, sales, and sustainability planning decisions.",
+        "features": "Planned Features",
+        "featureDashboard": "Market Dashboard",
+        "featureDashboardDesc": "Panel with price indicators and recent movements in the carbon and I-REC market.",
+        "featureSearch": "Search & Filters",
+        "featureSearchDesc": "Advanced search by asset type, geography, registry, technology, vintage, and currency.",
+        "featureCompare": "Price Comparison",
+        "featureCompareDesc": "Side-by-side comparison of market references with material differences highlighted.",
+        "featureWatchlist": "Watchlists & Alerts",
+        "featureWatchlistDesc": "Track assets of interest and receive alerts on price or availability changes.",
+        "featureExport": "Export & API",
+        "featureExportDesc": "CSV export and programmatic API access for integration with internal systems.",
+        "featureSources": "Multiple Sources",
+        "featureSourcesDesc": "Data from marketplaces, exchanges, brokers, registries, and market intelligence providers.",
+        "scope": "Initial Coverage",
+        "scopeDesc": "The product will cover voluntary carbon credits and I-REC/EAC certificates, prioritizing Brazil and Latin America without limiting coverage to these markets.",
+        "notIncluded": "Out of MVP Scope",
+        "notIncludedItems": "We will not execute orders, custody, transfer or retire credits, financial settlement, emissions inventory calculations, or project validation.",
+        "dataTransparency": "Data Transparency",
+        "dataTransparencyDesc": "Every price reference will be traceable to its source. Indicative data, closing prices, offers, and completed trades will be clearly differentiated."
     }
 }
