@@ -48,7 +48,7 @@ export const getPriceChanges = cache(async () => {
     const { data, error } = await supabase
       .from("v_price_changes")
       .select("*")
-      .order("change_pct", { ascending: false, nullsLast: true });
+      .order("change_pct", { ascending: false, nullsFirst: false });
 
     if (error) {
       logger.error("Erro ao buscar variações de preço", { error });
