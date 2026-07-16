@@ -112,9 +112,9 @@ export function Header() {
         { label: tNav("carbonSectors"), href: "/carbono/setores", desc: tNav("carbonDesc.sectors") },
         { label: tNav("carbonPrices"), href: "/carbono/precos", desc: tNav("carbonDesc.prices") },
         { label: tNav("carbonData"), href: "/carbono/projetos", desc: tNav("carbonDesc.data") },
+        { label: tNav("carbonLiveMarkets"), href: "/carbono/mercados-ao-vivo", desc: tNav("carbonDesc.liveMarkets") },
       ],
     },
-    { label: tNav("carbonLiveMarkets"), href: "/carbono/mercados-ao-vivo" },
     {
       label: tNav("network"),
       href: "/feed",
