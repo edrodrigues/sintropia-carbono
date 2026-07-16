@@ -938,6 +938,281 @@ export type Database = {
           },
         ]
       }
+      alerts: {
+        Row: {
+          asset_id: string | null
+          condition_type: string
+          created_at: string | null
+          frequency: string | null
+          id: string
+          is_active: boolean | null
+          last_triggered_at: string | null
+          name: string
+          threshold_value: number | null
+          user_id: string
+        }
+        Insert: {
+          asset_id?: string | null
+          condition_type: string
+          created_at?: string | null
+          frequency?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_triggered_at?: string | null
+          name: string
+          threshold_value?: number | null
+          user_id: string
+        }
+        Update: {
+          asset_id?: string | null
+          condition_type?: string
+          created_at?: string | null
+          frequency?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_triggered_at?: string | null
+          name?: string
+          threshold_value?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alerts_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "alerts_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "v_market_snapshot"
+            referencedColumns: ["asset_id"]
+          },
+          {
+            foreignKeyName: "alerts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assets: {
+        Row: {
+          asset_type: string
+          country: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          metadata: Json | null
+          methodology: string | null
+          name: string
+          project_category: string | null
+          region: string | null
+          registry: string | null
+          slug: string
+          technology: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          asset_type: string
+          country?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          methodology?: string | null
+          name: string
+          project_category?: string | null
+          region?: string | null
+          registry?: string | null
+          slug: string
+          technology?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          asset_type?: string
+          country?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          methodology?: string | null
+          name?: string
+          project_category?: string | null
+          region?: string | null
+          registry?: string | null
+          slug?: string
+          technology?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      price_references: {
+        Row: {
+          asset_id: string | null
+          created_at: string | null
+          currency: string | null
+          data_source_id: string | null
+          fetched_at: string | null
+          id: string
+          original_data: Json | null
+          price: number | null
+          price_display: string | null
+          price_high: number | null
+          price_low: number | null
+          reference_date: string | null
+          reference_type: string
+          source_identifier: string | null
+          unit: string | null
+          updated_at: string | null
+          vintage_year: number | null
+          volume: number | null
+          volume_unit: string | null
+        }
+        Insert: {
+          asset_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          data_source_id?: string | null
+          fetched_at?: string | null
+          id?: string
+          original_data?: Json | null
+          price?: number | null
+          price_display?: string | null
+          price_high?: number | null
+          price_low?: number | null
+          reference_date?: string | null
+          reference_type: string
+          source_identifier?: string | null
+          unit?: string | null
+          updated_at?: string | null
+          vintage_year?: number | null
+          volume?: number | null
+          volume_unit?: string | null
+        }
+        Update: {
+          asset_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          data_source_id?: string | null
+          fetched_at?: string | null
+          id?: string
+          original_data?: Json | null
+          price?: number | null
+          price_display?: string | null
+          price_high?: number | null
+          price_low?: number | null
+          reference_date?: string | null
+          reference_type?: string
+          source_identifier?: string | null
+          unit?: string | null
+          updated_at?: string | null
+          vintage_year?: number | null
+          volume?: number | null
+          volume_unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "v_market_snapshot"
+            referencedColumns: ["asset_id"]
+          },
+          {
+            foreignKeyName: "price_references_data_source_id_fkey"
+            columns: ["data_source_id"]
+            isOneToOne: false
+            referencedRelation: "data_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      watchlists: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "watchlists_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      watchlist_items: {
+        Row: {
+          asset_id: string
+          created_at: string | null
+          id: string
+          watchlist_id: string
+        }
+        Insert: {
+          asset_id: string
+          created_at?: string | null
+          id?: string
+          watchlist_id: string
+        }
+        Update: {
+          asset_id?: string
+          created_at?: string | null
+          id?: string
+          watchlist_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "watchlist_items_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "watchlist_items_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "v_market_snapshot"
+            referencedColumns: ["asset_id"]
+          },
+          {
+            foreignKeyName: "watchlist_items_watchlist_id_fkey"
+            columns: ["watchlist_id"]
+            isOneToOne: false
+            referencedRelation: "watchlists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       v_carbon_dashboard: {
@@ -993,6 +1268,146 @@ export type Database = {
           last_update: string | null
         }
         Relationships: []
+      }
+      price_series: {
+        Row: {
+          asset_id: string | null
+          avg_price: number | null
+          currency: string | null
+          day: string | null
+          max_price: number | null
+          min_price: number | null
+          reference_type: string | null
+          sample_count: number | null
+          unit: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "v_market_snapshot"
+            referencedColumns: ["asset_id"]
+          },
+        ]
+      }
+      v_market_snapshot: {
+        Row: {
+          asset_id: string | null
+          asset_name: string | null
+          asset_type: string | null
+          country: string | null
+          currency: string | null
+          fetched_at: string | null
+          price: number | null
+          price_display: string | null
+          price_high: number | null
+          price_id: string | null
+          price_low: number | null
+          project_category: string | null
+          reference_date: string | null
+          reference_type: string | null
+          registry: string | null
+          slug: string | null
+          source_name: string | null
+          technology: string | null
+          unit: string | null
+          vintage_year: number | null
+          volume: number | null
+        }
+        Relationships: []
+      }
+      v_price_changes: {
+        Row: {
+          asset_id: string | null
+          asset_name: string | null
+          asset_type: string | null
+          change_pct: number | null
+          country: string | null
+          currency: string | null
+          current_date: string | null
+          current_display: string | null
+          current_price: number | null
+          previous_date: string | null
+          previous_price: number | null
+          slug: string | null
+          technology: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "v_market_snapshot"
+            referencedColumns: ["asset_id"]
+          },
+        ]
+      }
+      v_price_references_latest: {
+        Row: {
+          asset_id: string | null
+          asset_name: string | null
+          asset_slug: string | null
+          asset_type: string | null
+          country: string | null
+          created_at: string | null
+          currency: string | null
+          data_source_id: string | null
+          fetched_at: string | null
+          id: string | null
+          original_data: Json | null
+          price: number | null
+          price_display: string | null
+          price_high: number | null
+          price_low: number | null
+          reference_date: string | null
+          reference_type: string | null
+          source_identifier: string | null
+          source_name: string | null
+          technology: string | null
+          unit: string | null
+          updated_at: string | null
+          vintage_year: number | null
+          volume: number | null
+          volume_unit: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "v_market_snapshot"
+            referencedColumns: ["asset_id"]
+          },
+          {
+            foreignKeyName: "price_references_data_source_id_fkey"
+            columns: ["data_source_id"]
+            isOneToOne: false
+            referencedRelation: "data_sources"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {

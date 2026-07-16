@@ -112,9 +112,9 @@ export function Header() {
         { label: tNav("carbonSectors"), href: "/carbono/setores", desc: tNav("carbonDesc.sectors") },
         { label: tNav("carbonPrices"), href: "/carbono/precos", desc: tNav("carbonDesc.prices") },
         { label: tNav("carbonData"), href: "/carbono/projetos", desc: tNav("carbonDesc.data") },
-        { label: tNav("carbonLiveMarkets"), href: "/carbono/mercados-ao-vivo", desc: tNav("carbonDesc.liveMarkets") },
       ],
     },
+    { label: tNav("carbonLiveMarkets"), href: "/carbono/mercados-ao-vivo" },
     {
       label: tNav("network"),
       href: "/feed",
@@ -173,7 +173,12 @@ export function Header() {
                     : "text-slate-500 hover:text-forest-green hover:bg-slate-50"
                   }`}
                 >
-                  {item.label}
+                  {item.href === "/carbono/mercados-ao-vivo" ? (
+                    <>
+                      <span className="inline-block w-2 h-2 rounded-full bg-green-500 mr-1.5" style={{ animation: "live-pulse 1.2s ease-in-out infinite" }} />
+                      {item.label}
+                    </>
+                  ) : item.label}
                   {item.subItems && (
                     <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${activeMenu === idx ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
@@ -476,12 +481,17 @@ export function Header() {
                           <Link
                             href={item.href}
                             onClick={() => setMobileMenuOpen(false)}
-                            className={`block p-3 rounded-xl transition-colors ${pathname === item.href
+                            className={`flex items-center gap-1.5 p-3 rounded-xl transition-colors ${pathname === item.href
                               ? "text-forest-green bg-emerald-50 font-bold text-sm"
                               : "text-slate-700 hover:bg-slate-50 text-sm font-medium"
                             }`}
                           >
-                            {item.label}
+                            {item.href === "/carbono/mercados-ao-vivo" ? (
+                              <>
+                                <span className="inline-block w-2 h-2 rounded-full bg-green-500" style={{ animation: "live-pulse 1.2s ease-in-out infinite" }} />
+                                {item.label}
+                              </>
+                            ) : item.label}
                           </Link>
                         )}
                   </div>
@@ -546,6 +556,7 @@ export function Header() {
           </div>
         </div>
       )}
+      <style>{`@keyframes live-pulse{0%,100%{opacity:1}50%{opacity:.2}}`}</style>
     </>
   );
 }
