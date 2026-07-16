@@ -1259,6 +1259,25 @@
         "notIncluded": "Fuera del Alcance del MVP",
         "notIncludedItems": "No ejecutaremos órdenes, custodia, transferencia o retiro de créditos, liquidación financiera, cálculos de inventario de emisiones o validación de proyectos.",
         "dataTransparency": "Transparencia de los Datos",
-        "dataTransparencyDesc": "Toda referencia de precio podrá ser rastreada hasta su fuente. Datos indicativos, precios de cierre, ofertas y operaciones realizadas serán claramente diferenciados."
+        "dataTransparencyDesc": "Toda referencia de precio podrá ser rastreada hasta su fuente. Datos indicativos, precios de cierre, ofertas y operaciones realizadas serán claramente diferenciados.",
+        "marketMovements": "Movimientos del Mercado",
+        "allReferences": "Referencias de Precio",
+        "featuredPrices": "Precios Destacados",
+        "recentChanges": "Cambios Recientes",
+        "watchlist": "Watchlist",
+        "alerts": "Alertas",
+        "loginToFollow": "Inicia sesión para seguir tus activos favoritos y recibir notificaciones.",
+        "loginToAlerts": "Inicia sesión para crear alertas de precio y no perderte ninguna oportunidad.",
+        "viewAll": "Ver todos",
+        "noAlerts": "Sin alertas activas",
+        "noWatchlist": "Sin activos en la watchlist",
+        "asset": "Activo",
+        "type": "Tipo",
+        "price": "Precio",
+        "change": "Cambio",
+        "geography": "Geografía",
+        "source": "Fuente",
+        "updated": "Actualizado",
+        "loginRegister": "Iniciar Sesión / Registrarse"
     }
 }

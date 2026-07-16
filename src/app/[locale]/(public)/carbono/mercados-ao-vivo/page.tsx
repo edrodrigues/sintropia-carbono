@@ -1,6 +1,7 @@
 export const revalidate = 3600;
 
 import { Metadata } from "next";
+import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -9,8 +10,9 @@ import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell, Ba
 import { StatsCard } from "@/components/ui/StatsCard";
 import { DataSources } from "@/components/ui/DataSources";
 import { LastUpdated } from "@/components/ui/LastUpdated";
-import { getMarketSummary, getMarketSnapshot, getPriceChanges } from "@/lib/queries/live-markets";
-import { TrendingUp, TrendingDown, DollarSign, BarChart3 } from "lucide-react";
+import { getMarketSummary, getMarketSnapshot, getPriceChanges, getFeaturedPrices, getLatestChanges } from "@/lib/queries/live-markets";
+import { createClient } from "@/lib/supabase/server";
+import { TrendingUp, TrendingDown, DollarSign, BarChart3, AlertTriangle, Info, Eye } from "lucide-react";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -32,24 +34,62 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 function formatPrice(item: { price: number | null; price_low: number | null; price_high: number | null; price_display: string | null; currency: string | null }): string {
   if (item.price_display) return item.price_display;
-  if (item.price !== null) return `${item.currency || "$"}${item.price}`;
+  if (item.price !== null) return `${item.currency || "$"}${Number(item.price)}`;
   if (item.price_low !== null && item.price_high !== null) return `${item.currency || "$"}${item.price_low} - ${item.currency || "$"}${item.price_high}`;
   return "—";
+}
+
+function assetTypeLabel(type: string | null): { label: string; color: "green" | "blue" | "amber" | "gray" } {
+  switch (type) {
+    case "carbon_credit": return { label: "Carbono", color: "green" };
+    case "irec": return { label: "I-REC", color: "blue" };
+    case "go": return { label: "GO", color: "blue" };
+    case "cbio": return { label: "CBIO", color: "amber" };
+    default: return { label: type || "Outro", color: "gray" };
+  }
+}
+
+function referenceTypeBadge(type: string | null): { label: string; color: "green" | "blue" | "gray" | "amber" } {
+  switch (type) {
+    case "trade": return { label: "Negócio realizado", color: "green" };
+    case "bid": return { label: "Bid", color: "blue" };
+    case "ask": return { label: "Ask", color: "blue" };
+    case "closing": return { label: "Fechamento", color: "gray" };
+    case "indicative": return { label: "Indicativo", color: "gray" };
+    case "rfq": return { label: "Sob consulta", color: "amber" };
+    case "range": return { label: "Faixa", color: "amber" };
+    default: return { label: "—", color: "gray" };
+  }
+}
+
+function timeAgo(dateStr: string | null): string {
+  if (!dateStr) return "—";
+  const now = new Date();
+  const ref = new Date(dateStr);
+  const diffMs = now.getTime() - ref.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  if (diffMins < 1) return "agora";
+  if (diffMins < 60) return `${diffMins} min atrás`;
+  const diffHours = Math.floor(diffMins / 60);
+  if (diffHours < 24) return `${diffHours}h atrás`;
+  const diffDays = Math.floor(diffHours / 24);
+  return `${diffDays}d atrás`;
 }
 
 export default async function CarbonoLiveMarketsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "CarbonoLiveMarkets" });
 
-  const [summary, snapshot, changes] = await Promise.all([
+  const [summary, snapshot, changes, featured, latestChanges] = await Promise.all([
     getMarketSummary(),
     getMarketSnapshot(),
     getPriceChanges(),
+    getFeaturedPrices(),
+    getLatestChanges(),
   ]);
 
-  const carbonItems = snapshot.filter((a) => a.asset_type === "carbon_credit");
-  const irecItems = snapshot.filter((a) => a.asset_type === "irec" || a.asset_type === "go");
-  const otherItems = snapshot.filter((a) => a.asset_type === "cbio");
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
   const topMovers = changes.filter((c) => c.change_pct !== null).slice(0, 6);
 
@@ -63,7 +103,7 @@ export default async function CarbonoLiveMarketsPage({ params }: { params: Promi
   return (
     <>
       <Header />
-      <main className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 py-12">
+      <main className="max-w-7xl mx-auto px-4 lg:px-8 py-12">
         <Breadcrumb />
 
         <div className="mb-8">
@@ -78,7 +118,7 @@ export default async function CarbonoLiveMarketsPage({ params }: { params: Promi
         {/* KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatsCard
-            title="Referências de Preço"
+            title={t("allReferences")}
             value={summary.totalAssets}
             subtitle="Ativos com preço disponível"
             icon={<DollarSign className="w-5 h-5" />}
@@ -103,224 +143,297 @@ export default async function CarbonoLiveMarketsPage({ params }: { params: Promi
           />
         </div>
 
-        {/* Market Movements */}
-        {topMovers.length > 0 && (
-          <Card className="mb-8">
-            <div className="p-6">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-                Movimentações de Mercado
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {topMovers.map((m) => (
-                  <div
-                    key={m.asset_id}
-                    className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-100 dark:border-gray-800"
-                  >
-                    <div className="min-w-0">
-                      <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
-                        {m.asset_name}
-                      </p>
-                      <p className="text-xs text-gray-500">{m.asset_type === "carbon_credit" ? "Carbono" : "I-REC"}</p>
-                    </div>
-                    <div className="text-right shrink-0 ml-3">
-                      <p className="text-sm font-mono font-bold">{m.current_display || "—"}</p>
-                      {m.change_pct !== null && (
-                        <p className={`text-xs font-bold ${m.change_pct >= 0 ? "text-green-600" : "text-red-600"}`}>
-                          {m.change_pct >= 0 ? "+" : ""}{m.change_pct.toFixed(1)}%
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
+        {/* Two-column layout: main + sidebar */}
+        <div className="flex flex-col lg:flex-row gap-8">
+
+          {/* Main content */}
+          <div className="flex-1 min-w-0">
+
+            {/* Market Movements */}
+            {topMovers.length > 0 && (
+              <Card className="mb-8">
+                <div className="p-6">
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                    {t("marketMovements")}
+                  </h3>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableHeader>{t("asset")}</TableHeader>
+                        <TableHeader>{t("type")}</TableHeader>
+                        <TableHeader className="text-right">{t("price")}</TableHeader>
+                        <TableHeader className="text-right">{t("change")}</TableHeader>
+                        <TableHeader className="hidden md:table-cell">{t("source")}</TableHeader>
+                        <TableHeader className="hidden md:table-cell">{t("updated")}</TableHeader>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {topMovers.map((m) => {
+                        const type = assetTypeLabel(m.asset_type);
+                        const pct = m.change_pct !== null ? Number(m.change_pct) : null;
+                        return (
+                          <TableRow key={m.asset_id}>
+                            <TableCell>
+                              <span className="font-semibold">{m.asset_name}</span>
+                            </TableCell>
+                            <TableCell>
+                              <Badge color={type.color}>{type.label}</Badge>
+                            </TableCell>
+                            <TableCell className="text-right font-mono font-bold">
+                              {m.current_display || "—"}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              {pct !== null ? (
+                                <span className={`font-mono font-bold ${pct >= 0 ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>
+                                  {pct >= 0 ? "+" : ""}{pct.toFixed(1)}%
+                                </span>
+                              ) : (
+                                <span className="text-gray-400">—</span>
+                              )}
+                            </TableCell>
+                            <TableCell className="hidden md:table-cell text-gray-500 text-xs">
+                              {m.country || m.technology || m.asset_type || "—"}
+                            </TableCell>
+                            <TableCell className="hidden md:table-cell text-gray-500 text-xs">
+                              {m.current_date ? timeAgo(m.current_date) : "—"}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
+              </Card>
+            )}
+
+            {/* All Price References */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8 shadow-sm">
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-emerald-50 to-emerald-100 dark:from-emerald-900/10 dark:to-emerald-800/10">
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {t("allReferences")}
+                </h3>
+                <p className="text-sm text-gray-500 mt-1">{t("subtitle")}</p>
+              </div>
+              <div className="p-6">
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableHeader>{t("asset")}</TableHeader>
+                      <TableHeader>{t("type")}</TableHeader>
+                      <TableHeader className="hidden sm:table-cell">Registro</TableHeader>
+                      <TableHeader className="text-right">{t("price")}</TableHeader>
+                      <TableHeader className="hidden sm:table-cell">{t("geography")}</TableHeader>
+                      <TableHeader className="text-right hidden md:table-cell">{t("updated")}</TableHeader>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {snapshot.map((item) => {
+                      const type = assetTypeLabel(item.asset_type);
+                      const refType = referenceTypeBadge(item.reference_type);
+                      return (
+                        <TableRow key={item.asset_id}>
+                          <TableCell>
+                            <span className="font-semibold">{item.asset_name}</span>
+                          </TableCell>
+                          <TableCell>
+                            <Badge color={type.color}>{type.label}</Badge>
+                          </TableCell>
+                          <TableCell className="hidden sm:table-cell">
+                            <div className="flex flex-col gap-1">
+                              {item.registry && (
+                                <Badge color="gray">{item.registry}</Badge>
+                              )}
+                              <Badge color={refType.color}>{refType.label}</Badge>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
+                              {formatPrice(item)}
+                            </span>
+                            <div className="text-xs text-gray-500">{item.currency || "—"} / {item.unit || "—"}</div>
+                          </TableCell>
+                          <TableCell className="hidden sm:table-cell text-gray-600 text-sm">
+                            {item.country || item.technology || "—"}
+                          </TableCell>
+                          <TableCell className="text-right hidden md:table-cell text-xs text-gray-500">
+                            {item.reference_date || "—"}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
               </div>
             </div>
-          </Card>
-        )}
 
-        {/* Carbon Prices Table */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8 shadow-sm">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-emerald-50 to-emerald-100 dark:from-emerald-900/10 dark:to-emerald-800/10">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Preços de Carbono (Mercado Voluntário)
-            </h3>
-            <p className="text-sm text-gray-500 mt-1">Preços de referência por padrão e metodologia</p>
-          </div>
-          <div className="p-6">
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableHeader>Ativo</TableHeader>
-                  <TableHeader>Registro</TableHeader>
-                  <TableHeader>Categoria</TableHeader>
-                  <TableHeader>Preço</TableHeader>
-                  <TableHeader>Moeda</TableHeader>
-                  <TableHeader>Data</TableHeader>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {carbonItems.map((item) => (
-                  <TableRow key={item.asset_id}>
-                    <TableCell className="font-bold">{item.asset_name}</TableCell>
-                    <TableCell>
-                      {item.registry ? (
-                        <Badge color="gray">{item.registry}</Badge>
-                      ) : (
-                        <span className="text-xs text-gray-400">—</span>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {item.project_category ? (
-                        <span className="text-xs text-gray-600">{item.project_category}</span>
-                      ) : (
-                        <span className="text-xs text-gray-400">—</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="font-mono font-bold text-emerald-600">
-                      {item.price !== null ? formatPrice(item) : (item.price_display || "—")}
-                    </TableCell>
-                    <TableCell className="text-xs text-gray-500">{item.currency || "—"}</TableCell>
-                    <TableCell className="text-xs text-gray-500">{item.reference_date || "—"}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-
-        {/* Compliance Markets */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8 shadow-sm">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Mercados Regulados (Compliance)
-            </h3>
-            <p className="text-sm text-gray-500 mt-1">Preços dos principais sistemas de comércio de emissões</p>
-          </div>
-          <div className="p-6">
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableHeader>Mercado</TableHeader>
-                  <TableHeader>Preço</TableHeader>
-                  <TableHeader>Data</TableHeader>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {snapshot.filter((a) => a.asset_type === "carbon_credit" && a.project_category === "Compliance").map((item) => (
-                  <TableRow key={item.asset_id}>
-                    <TableCell className="font-bold">{item.asset_name}</TableCell>
-                    <TableCell className="font-mono font-bold text-blue-600">{formatPrice(item)}</TableCell>
-                    <TableCell className="text-xs text-gray-500">{item.reference_date || "—"}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-
-        {/* I-REC Prices Table */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8 shadow-sm">
-          <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-emerald-50 dark:from-blue-900/10 dark:to-emerald-900/10">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Preços I-REC / Certificados de Energia
-            </h3>
-            <p className="text-sm text-gray-500 mt-1">Preços de referência por país e tecnologia</p>
-          </div>
-          <div className="p-6">
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableHeader>Ativo</TableHeader>
-                  <TableHeader>País</TableHeader>
-                  <TableHeader>Tecnologia</TableHeader>
-                  <TableHeader>Preço</TableHeader>
-                  <TableHeader>Unidade</TableHeader>
-                  <TableHeader>Data</TableHeader>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {irecItems.map((item) => (
-                  <TableRow key={item.asset_id}>
-                    <TableCell className="font-bold text-sm">{item.asset_name}</TableCell>
-                    <TableCell>
-                      {item.country ? (
-                        <Badge color="gray">{item.country}</Badge>
-                      ) : (
-                        <span className="text-xs text-gray-400">—</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-xs">{item.technology || "—"}</TableCell>
-                    <TableCell className="font-mono font-bold text-premium-blue dark:text-blue-400">
-                      {item.price !== null ? formatPrice(item) : (item.price_display || "—")}
-                    </TableCell>
-                    <TableCell className="text-xs text-gray-500">{item.unit || "MWh"}</TableCell>
-                    <TableCell className="text-xs text-gray-500">{item.reference_date || "—"}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-
-        {/* Other Assets (CBIO) */}
-        {otherItems.length > 0 && (
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8 shadow-sm">
-            <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-900/10 dark:to-yellow-900/10">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Outros Ativos
-              </h3>
+            {/* Scope Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+              <Card>
+                <div className="p-6">
+                  <h4 className="text-lg font-bold text-emerald-700 dark:text-emerald-400 mb-3">
+                    {t("scope")}
+                  </h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {t("scopeDesc")}
+                  </p>
+                </div>
+              </Card>
+              <Card>
+                <div className="p-6">
+                  <h4 className="text-lg font-bold text-gray-700 dark:text-gray-300 mb-3">
+                    {t("notIncluded")}
+                  </h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {t("notIncludedItems")}
+                  </p>
+                </div>
+              </Card>
             </div>
-            <div className="p-6">
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableHeader>Ativo</TableHeader>
-                    <TableHeader>Preço</TableHeader>
-                    <TableHeader>Data</TableHeader>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {otherItems.map((item) => (
-                    <TableRow key={item.asset_id}>
-                      <TableCell className="font-bold">{item.asset_name}</TableCell>
-                      <TableCell className="font-mono font-bold text-amber-600">{formatPrice(item)}</TableCell>
-                      <TableCell className="text-xs text-gray-500">{item.reference_date || "—"}</TableCell>
-                    </TableRow>
+
+            <div className="flex items-center justify-between">
+              <LastUpdated dataFile="mercados-ao-vivo" />
+            </div>
+
+            <DataSources sources={dataSources} />
+          </div>
+
+          {/* Sidebar */}
+          <aside className="w-full lg:w-80 shrink-0 space-y-6">
+
+            {/* Featured Prices */}
+            <Card>
+              <div className="p-5">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wide mb-4 flex items-center gap-2">
+                  <BarChart3 className="w-4 h-4 text-emerald-600" />
+                  {t("featuredPrices")}
+                </h3>
+                <div className="space-y-3">
+                  {featured.map((item) => (
+                    <div key={item.asset_id} className="flex items-center justify-between">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                          {item.asset_name}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {assetTypeLabel(item.asset_type).label} · {item.currency || "$"}
+                        </p>
+                      </div>
+                      <div className="text-right shrink-0 ml-3">
+                        <p className="text-sm font-mono font-bold text-gray-900 dark:text-white">
+                          {formatPrice(item)}
+                        </p>
+                      </div>
+                    </div>
                   ))}
-                </TableBody>
-              </Table>
-            </div>
-          </div>
-        )}
+                  {featured.length === 0 && (
+                    <p className="text-sm text-gray-400">Nenhum preço disponível</p>
+                  )}
+                </div>
+              </div>
+            </Card>
 
-        {/* Scope Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <Card>
-            <div className="p-6">
-              <h4 className="text-lg font-bold text-emerald-700 dark:text-emerald-400 mb-3">
-                {t("scope")}
-              </h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t("scopeDesc")}
-              </p>
-            </div>
-          </Card>
-          <Card>
-            <div className="p-6">
-              <h4 className="text-lg font-bold text-gray-700 dark:text-gray-300 mb-3">
-                {t("notIncluded")}
-              </h4>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t("notIncludedItems")}
-              </p>
-            </div>
-          </Card>
+            {/* Recent Changes */}
+            <Card>
+              <div className="p-5">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wide mb-4 flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-emerald-600" />
+                  {t("recentChanges")}
+                </h3>
+                <div className="space-y-3">
+                  {latestChanges.map((item) => (
+                    <div key={item.asset_id} className="flex items-center justify-between">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                          {item.asset_name}
+                        </p>
+                      </div>
+                      <div className="text-right shrink-0 ml-3">
+                        <p className="text-sm font-mono">{item.current_display || "—"}</p>
+                        <p className={`text-xs font-bold ${(item.change_pct ?? 0) >= 0 ? "text-green-600" : "text-red-600"}`}>
+                          {item.change_pct !== null
+                            ? `${item.change_pct >= 0 ? "+" : ""}${item.change_pct.toFixed(1)}%`
+                            : "—"}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  {latestChanges.length === 0 && (
+                    <p className="text-sm text-gray-400">Nenhuma variação disponível</p>
+                  )}
+                </div>
+              </div>
+            </Card>
+
+            {/* Watchlist (auth gate) */}
+            <Card>
+              <div className="p-5">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wide mb-4 flex items-center gap-2">
+                  <Eye className="w-4 h-4 text-blue-600" />
+                  {t("watchlist")}
+                </h3>
+                {user ? (
+                  <div className="space-y-3">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {t("noWatchlist")}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <Info className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-sm text-blue-800 dark:text-blue-300 font-medium">
+                          {t("loginToFollow")}
+                        </p>
+                        <Link
+                          href={`/${locale}/login`}
+                          className="inline-block mt-2 text-sm font-semibold text-blue-700 dark:text-blue-400 hover:underline"
+                        >
+                          {t("loginRegister")} →
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Card>
+
+            {/* Alerts (auth gate) */}
+            <Card>
+              <div className="p-5">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wide mb-4 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 text-amber-600" />
+                  {t("alerts")}
+                </h3>
+                {user ? (
+                  <div className="space-y-3">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {t("noAlerts")}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <Info className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-sm text-amber-800 dark:text-amber-300 font-medium">
+                          {t("loginToAlerts")}
+                        </p>
+                        <Link
+                          href={`/${locale}/login`}
+                          className="inline-block mt-2 text-sm font-semibold text-amber-700 dark:text-amber-400 hover:underline"
+                        >
+                          {t("loginRegister")} →
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Card>
+
+          </aside>
         </div>
-
-        <div className="mt-6 flex items-center justify-between">
-          <LastUpdated dataFile="mercados-ao-vivo" />
-        </div>
-
-        <DataSources sources={dataSources} />
       </main>
       <Footer />
     </>

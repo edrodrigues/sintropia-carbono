@@ -6,7 +6,6 @@ import type { Database } from "@/types/supabase";
 
 type MarketSnapshot = Database["public"]["Views"]["v_market_snapshot"]["Row"];
 type PriceChange = Database["public"]["Views"]["v_price_changes"]["Row"];
-type PriceSeries = Database["public"]["Views"]["price_series"]["Row"];
 
 export const getMarketSnapshot = cache(async () => {
   return withMonitoring("getMarketSnapshot", async () => {
@@ -58,20 +57,39 @@ export const getPriceChanges = cache(async () => {
   });
 });
 
-export const getPriceSeries = cache(async (assetId: string) => {
-  return withMonitoring(`getPriceSeries(${assetId})`, async () => {
+export const getFeaturedPrices = cache(async () => {
+  return withMonitoring("getFeaturedPrices", async () => {
     const supabase = await createClient();
     const { data, error } = await supabase
-      .from("price_series")
+      .from("v_market_snapshot")
       .select("*")
-      .eq("asset_id", assetId)
-      .order("day", { ascending: true });
+      .not("price", "is", null)
+      .order("reference_date", { ascending: false, nullsFirst: false })
+      .limit(5);
 
     if (error) {
-      logger.error(`Erro ao buscar série de preços para ${assetId}`, { error });
+      logger.error("Erro ao buscar preços em destaque", { error });
       return [];
     }
-    return data as PriceSeries[];
+    return data as MarketSnapshot[];
+  });
+});
+
+export const getLatestChanges = cache(async () => {
+  return withMonitoring("getLatestChanges", async () => {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("v_price_changes")
+      .select("*")
+      .not("change_pct", "is", null)
+      .order("change_pct", { ascending: false, nullsFirst: false })
+      .limit(5);
+
+    if (error) {
+      logger.error("Erro ao buscar variações recentes", { error });
+      return [];
+    }
+    return data as PriceChange[];
   });
 });
 

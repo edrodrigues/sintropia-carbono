@@ -112,7 +112,6 @@ export function Header() {
         { label: tNav("carbonSectors"), href: "/carbono/setores", desc: tNav("carbonDesc.sectors") },
         { label: tNav("carbonPrices"), href: "/carbono/precos", desc: tNav("carbonDesc.prices") },
         { label: tNav("carbonData"), href: "/carbono/projetos", desc: tNav("carbonDesc.data") },
-        { label: tNav("carbonLiveMarkets"), href: "/carbono/mercados-ao-vivo", desc: tNav("carbonDesc.liveMarkets") },
       ],
     },
     {
@@ -125,6 +124,11 @@ export function Header() {
         { label: tNav("ranking"), href: "/leaderboard", desc: tNav("communityDesc.ranking") },
         { label: tNav("missions"), href: "/conquistas", desc: tNav("communityDesc.missions") },
       ],
+    },
+    {
+      label: tNav("carbonLiveMarkets"),
+      href: "/carbono/mercados-ao-vivo",
+      isLive: true,
     },
   ];
 
@@ -173,7 +177,7 @@ export function Header() {
                     : "text-slate-500 hover:text-forest-green hover:bg-slate-50"
                   }`}
                 >
-                  {item.href === "/carbono/mercados-ao-vivo" ? (
+                  {item.isLive ? (
                     <>
                       <span className="inline-block w-2 h-2 rounded-full bg-green-500 mr-1.5" style={{ animation: "live-pulse 1.2s ease-in-out infinite" }} />
                       {item.label}
@@ -486,7 +490,7 @@ export function Header() {
                               : "text-slate-700 hover:bg-slate-50 text-sm font-medium"
                             }`}
                           >
-                            {item.href === "/carbono/mercados-ao-vivo" ? (
+                            {item.isLive ? (
                               <>
                                 <span className="inline-block w-2 h-2 rounded-full bg-green-500" style={{ animation: "live-pulse 1.2s ease-in-out infinite" }} />
                                 {item.label}
