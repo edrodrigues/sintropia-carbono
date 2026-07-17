@@ -2238,6 +2238,7 @@ export type Database = {
           registry: string | null
           slug: string | null
           source_name: string | null
+          source_url: string | null
           technology: string | null
           unit: string | null
           vintage_year: number | null

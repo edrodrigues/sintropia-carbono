@@ -196,7 +196,20 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
                   { label: "Tecnologia", value: asset.technology || "—" },
                   { label: "Vintage", value: asset.vintage_year ? String(asset.vintage_year) : "—" },
                   { label: "Volume", value: asset.volume != null ? `${Number(asset.volume).toLocaleString("pt-BR")}` : "—" },
-                  { label: "Fonte", value: asset.source_name || "—" },
+                  { label: "Fonte", value: asset.source_name ? (
+                    asset.source_url ? (
+                      <a
+                        href={asset.source_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline"
+                      >
+                        {asset.source_name}
+                      </a>
+                    ) : (
+                      asset.source_name
+                    )
+                  ) : "—" },
                   { label: "Categoria", value: asset.project_category || "—" },
                 ].map((attr, idx) => (
                   <div

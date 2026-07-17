@@ -129,7 +129,24 @@ export async function WatchlistTab({
                         <td className="px-4 py-3 text-right">
                           <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</span>
                         </td>
-                        <td className="px-4 py-3 text-xs text-gray-500">{item.source_name || "—"}</td>
+                        <td className="px-4 py-3 text-xs text-gray-500">
+                          {item.source_name ? (
+                            item.source_url ? (
+                              <a
+                                href={item.source_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 hover:underline"
+                              >
+                                {item.source_name}
+                              </a>
+                            ) : (
+                              item.source_name
+                            )
+                          ) : (
+                            "—"
+                          )}
+                        </td>
                         <td className="px-4 py-3 text-xs text-gray-400 font-mono hidden sm:table-cell">{timeAgo(item.reference_date)}</td>
                       </tr>
                     );

@@ -146,7 +146,28 @@ export async function ComparatorTab({
     { label: "Tecnologia", values: items.map((i) => i.technology || "—") },
     { label: "Vintage", values: items.map((i) => i.vintage_year ? String(i.vintage_year) : "—") },
     { label: "Volume", values: items.map((i) => i.volume != null ? `${Number(i.volume).toLocaleString("pt-BR")}` : "—") },
-    { label: "Fonte", values: items.map((i) => i.source_name || "—") },
+    {
+      label: "Fonte",
+      values: items.map((i) =>
+        i.source_name ? (
+          i.source_url ? (
+            <a
+              key={i.asset_id}
+              href={i.source_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:underline"
+            >
+              {i.source_name}
+            </a>
+          ) : (
+            i.source_name
+          )
+        ) : (
+          "—"
+        )
+      ),
+    },
   ];
 
   return (

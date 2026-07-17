@@ -188,7 +188,22 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                       </span>
                     </td>
                     <td className="px-3 py-3 text-xs text-gray-500 hidden md:table-cell">
-                      {item.source_name || "—"}
+                      {item.source_name ? (
+                        item.source_url ? (
+                          <a
+                            href={item.source_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline"
+                          >
+                            {item.source_name}
+                          </a>
+                        ) : (
+                          item.source_name
+                        )
+                      ) : (
+                        "—"
+                      )}
                     </td>
                     <td className="px-3 py-3 text-right text-xs text-gray-400 font-mono hidden md:table-cell">
                       {timeAgo(item.reference_date)}
