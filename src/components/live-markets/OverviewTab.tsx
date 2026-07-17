@@ -1,5 +1,7 @@
 import { getMarketSnapshot, getPriceChanges } from "@/lib/queries/live-markets";
 import { getMarketOverviewStats } from "@/lib/queries/live-markets";
+import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-converter";
+import type { ConversionRates } from "@/lib/services/currency-converter";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
@@ -25,11 +27,26 @@ function referenceBadge(type: string | null) {
   }
 }
 
-function formatPrice(item: SnapshotRow): string {
-  if (item.price_display) return item.price_display;
-  if (item.price !== null) return `${item.currency || "$"}${Number(item.price).toFixed(2)}`;
-  if (item.price_low !== null && item.price_high !== null) return `${item.price_low} - ${item.price_high}`;
+function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRates): string {
+  if (item.price_display && toCurrency === (item.currency || "USD")) return item.price_display;
+  if (item.price !== null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
+  if (item.price_low !== null && item.price_high !== null) {
+    if (rates && item.currency && item.currency !== toCurrency) {
+      const low = convertPrice(Number(item.price_low), item.currency, toCurrency, rates);
+      const high = convertPrice(Number(item.price_high), item.currency, toCurrency, rates);
+      const sym = getCurrencySymbol(toCurrency);
+      return `${sym}${low.toFixed(2)} - ${sym}${high.toFixed(2)}`;
+    }
+    return `${item.price_low} - ${item.price_high}`;
+  }
   return "—";
+}
+
+function convertStatPrice(value: string, toCurrency: string, rates?: ConversionRates): string {
+  if (value === "—" || !value.startsWith("$")) return value;
+  const num = parseFloat(value.replace("$", "").replace(",", "."));
+  if (isNaN(num)) return value;
+  return formatConvertedPrice(num, "USD", toCurrency, rates);
 }
 
 function timeAgo(dateStr: string | null): string {
@@ -46,11 +63,21 @@ function timeAgo(dateStr: string | null): string {
   return `${diffDays}d`;
 }
 
-export async function OverviewTab({ locale: _locale }: { locale: string }) {
-  const [stats, changes, snapshot] = await Promise.all([
-    getMarketOverviewStats(),
-    getPriceChanges(),
-    getMarketSnapshot(),
+export async function OverviewTab({
+  locale: _locale,
+  displayCurrency = "USD",
+  rates,
+}: {
+  locale: string;
+  displayCurrency?: string;
+  rates?: ConversionRates;
+}) {
+  const snapshot = await getMarketSnapshot(true);
+  const recentAssetIds = snapshot.map((a) => a.asset_id).filter(Boolean) as string[];
+  const idParam = recentAssetIds.length > 0 ? recentAssetIds : undefined;
+  const [stats, changes] = await Promise.all([
+    getMarketOverviewStats(idParam),
+    getPriceChanges(idParam),
   ]);
 
   const topMovers = changes.filter((c) => c.change_pct !== null).slice(0, 8);
@@ -68,15 +95,15 @@ export async function OverviewTab({ locale: _locale }: { locale: string }) {
           />
           <KPICard
             label="Créditos Carbono"
-            value={stats.avgCarbonPrice}
-            sub="USD / tCO2e (média)"
+            value={convertStatPrice(stats.avgCarbonPrice, displayCurrency, rates)}
+            sub={`${displayCurrency} / tCO2e (média)`}
             change={stats.carbonChange}
             color="text-emerald-600"
           />
           <KPICard
             label="I-REC"
-            value={stats.avgIrecPrice}
-            sub="USD / MWh (média)"
+            value={convertStatPrice(stats.avgIrecPrice, displayCurrency, rates)}
+            sub={`${displayCurrency} / MWh (média)`}
             change={stats.irecChange}
             color="text-sky-600"
           />
@@ -199,7 +226,7 @@ export async function OverviewTab({ locale: _locale }: { locale: string }) {
                         </div>
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <span className="text-sm font-mono font-bold text-emerald-600">{formatPrice(item)}</span>
+                        <span className="text-sm font-mono font-bold text-emerald-600">{formatPrice(item, displayCurrency, rates)}</span>
                         <span className="block text-[10px] text-gray-400">{item.currency || "—"} / {item.unit || "—"}</span>
                       </td>
                       <td className="px-4 py-3 text-xs text-gray-600 hidden sm:table-cell">
@@ -260,7 +287,7 @@ export async function OverviewTab({ locale: _locale }: { locale: string }) {
                   <p className="text-[10px] text-gray-400">{item.registry || item.country || "—"}</p>
                 </div>
                 <span className="text-xs font-mono font-bold text-gray-900 ml-2 shrink-0">
-                  {formatPrice(item)}
+                  {formatPrice(item, displayCurrency, rates)}
                 </span>
               </div>
             ))}

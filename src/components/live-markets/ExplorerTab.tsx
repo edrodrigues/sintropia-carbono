@@ -4,6 +4,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { FilterPanel } from "./FilterPanel";
 import { ComparisonBar } from "./ComparisonBar";
+import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-converter";
+import type { ConversionRates } from "@/lib/services/currency-converter";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
@@ -18,6 +20,8 @@ interface ExplorerTabProps {
     currencies: { label: string; value: string }[];
     referenceTypes: { label: string; value: string }[];
   };
+  displayCurrency?: string;
+  rates?: ConversionRates;
 }
 
 function referenceBadge(type: string | null) {
@@ -31,10 +35,18 @@ function referenceBadge(type: string | null) {
   }
 }
 
-function formatPrice(item: SnapshotRow): string {
-  if (item.price_display) return item.price_display;
-  if (item.price !== null) return `${item.currency || "$"}${Number(item.price).toFixed(2)}`;
-  if (item.price_low !== null && item.price_high !== null) return `${item.price_low} - ${item.price_high}`;
+function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRates): string {
+  if (item.price_display && toCurrency === (item.currency || "USD")) return item.price_display;
+  if (item.price !== null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
+  if (item.price_low !== null && item.price_high !== null) {
+    if (rates && item.currency && item.currency !== toCurrency) {
+      const low = convertPrice(Number(item.price_low), item.currency, toCurrency, rates);
+      const high = convertPrice(Number(item.price_high), item.currency, toCurrency, rates);
+      const sym = getCurrencySymbol(toCurrency);
+      return `${sym}${low.toFixed(2)} - ${sym}${high.toFixed(2)}`;
+    }
+    return `${item.price_low} - ${item.price_high}`;
+  }
   return "—";
 }
 
@@ -52,7 +64,7 @@ function timeAgo(dateStr: string | null): string {
   return `${diffDays}d`;
 }
 
-export function ExplorerTabInner({ assets, filterOptions }: ExplorerTabProps) {
+export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD", rates }: ExplorerTabProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -160,7 +172,7 @@ export function ExplorerTabInner({ assets, filterOptions }: ExplorerTabProps) {
                       </span>
                     </td>
                     <td className="px-3 py-3 text-right">
-                      <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item)}</span>
+                      <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</span>
                       <span className="block text-[10px] text-gray-400">{item.currency || "—"} / {item.unit || "—"}</span>
                     </td>
                     <td className="px-3 py-3 hidden sm:table-cell">

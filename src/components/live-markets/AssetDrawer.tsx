@@ -3,6 +3,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { X, Star, Bell } from "lucide-react";
 import { PriceBarChart } from "./PriceChart";
+import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-converter";
+import type { ConversionRates } from "@/lib/services/currency-converter";
 import type { PriceSeriesPoint } from "@/lib/queries/price-series";
 import type { Database } from "@/types/supabase";
 
@@ -12,12 +14,22 @@ interface AssetDrawerProps {
   asset: SnapshotRow | null | undefined;
   priceSeries?: PriceSeriesPoint[];
   relatedAssets?: SnapshotRow[];
+  displayCurrency?: string;
+  rates?: ConversionRates;
 }
 
-function formatPrice(item: SnapshotRow): string {
-  if (item.price_display) return item.price_display;
-  if (item.price !== null) return `${item.currency || "$"}${Number(item.price).toFixed(2)}`;
-  if (item.price_low !== null && item.price_high !== null) return `${item.price_low} - ${item.price_high}`;
+function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRates): string {
+  if (item.price_display && toCurrency === (item.currency || "USD")) return item.price_display;
+  if (item.price !== null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
+  if (item.price_low !== null && item.price_high !== null) {
+    if (rates && item.currency && item.currency !== toCurrency) {
+      const low = convertPrice(Number(item.price_low), item.currency, toCurrency, rates);
+      const high = convertPrice(Number(item.price_high), item.currency, toCurrency, rates);
+      const sym = getCurrencySymbol(toCurrency);
+      return `${sym}${low.toFixed(2)} - ${sym}${high.toFixed(2)}`;
+    }
+    return `${item.price_low} - ${item.price_high}`;
+  }
   return "—";
 }
 
@@ -40,7 +52,7 @@ function referenceLabel(type: string | null): string {
   return map[type || ""] || "—";
 }
 
-export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [] }: AssetDrawerProps) {
+export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displayCurrency = "USD", rates }: AssetDrawerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -92,8 +104,8 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [] }: Ass
                   {referenceLabel(asset.reference_type)}
                 </span>
               </div>
-              <p className="text-4xl font-mono font-bold text-gray-900">{formatPrice(asset)}</p>
-              <p className="text-sm text-gray-500 mt-1">{asset.currency || "—"} / {asset.unit || "—"}</p>
+              <p className="text-4xl font-mono font-bold text-gray-900">{formatPrice(asset, displayCurrency, rates)}</p>
+              <p className="text-sm text-gray-500 mt-1">{displayCurrency} / {asset.unit || "—"}</p>
               <p className="text-xs text-gray-400 mt-2">
                 Atualizado {asset.reference_date || "—"}
               </p>
@@ -145,7 +157,7 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [] }: Ass
                       <p className="text-[11px] text-gray-400">{ra.registry || ra.country || "—"}</p>
                     </div>
                     <span className="text-sm font-mono font-bold text-gray-900 ml-3 shrink-0">
-                      {formatPrice(ra)}
+                      {formatPrice(ra, displayCurrency, rates)}
                     </span>
                   </div>
                 ))}

@@ -2,13 +2,15 @@ import Link from "next/link";
 import { getMarketSnapshot } from "@/lib/queries/live-markets";
 import { createClient } from "@/lib/supabase/server";
 import { Info, Bell, Eye, AlertTriangle } from "lucide-react";
+import { formatConvertedPrice } from "@/lib/services/currency-converter";
+import type { ConversionRates } from "@/lib/services/currency-converter";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
 
-function formatPrice(item: SnapshotRow): string {
-  if (item.price_display) return item.price_display;
-  if (item.price !== null) return `${item.currency || "$"}${Number(item.price).toFixed(2)}`;
+function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRates): string {
+  if (item.price_display && toCurrency === (item.currency || "USD")) return item.price_display;
+  if (item.price !== null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
   return "—";
 }
 
@@ -65,11 +67,19 @@ const iconBg = {
   error: "bg-red-50",
 };
 
-export async function WatchlistTab({ locale = "pt" }: { locale?: string }) {
+export async function WatchlistTab({
+  locale = "pt",
+  displayCurrency = "USD",
+  rates,
+}: {
+  locale?: string;
+  displayCurrency?: string;
+  rates?: ConversionRates;
+}) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const snapshot = await getMarketSnapshot();
+  const snapshot = await getMarketSnapshot(true);
   const watchlistAssets = snapshot.filter((a) => a.price !== null).slice(0, 5);
 
   return (
@@ -108,7 +118,7 @@ export async function WatchlistTab({ locale = "pt" }: { locale?: string }) {
                         </span>
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item)}</span>
+                        <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</span>
                       </td>
                       <td className="px-4 py-3 text-xs text-gray-500">{item.source_name || "—"}</td>
                       <td className="px-4 py-3 text-xs text-gray-400 font-mono hidden sm:table-cell">{timeAgo(item.reference_date)}</td>

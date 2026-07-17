@@ -7,14 +7,19 @@ import type { Database } from "@/types/supabase";
 type MarketSnapshot = Database["public"]["Views"]["v_market_snapshot"]["Row"];
 type PriceChange = Database["public"]["Views"]["v_price_changes"]["Row"];
 
-export const getMarketSnapshot = cache(async () => {
+export const getMarketSnapshot = cache(async (recentOnly?: boolean) => {
   return withMonitoring("getMarketSnapshot", async () => {
     const supabase = await createClient();
-    const { data, error } = await supabase
+    let query = supabase
       .from("v_market_snapshot")
       .select("*")
       .order("asset_type", { ascending: true })
       .order("asset_name", { ascending: true });
+    if (recentOnly) {
+      query = query.gte("fetched_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString());
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       logger.error("Erro ao buscar snapshot do mercado", { error });
@@ -41,13 +46,18 @@ export const getMarketByType = cache(async (assetType: string) => {
   });
 });
 
-export const getPriceChanges = cache(async () => {
+export const getPriceChanges = cache(async (assetIds?: string[]) => {
   return withMonitoring("getPriceChanges", async () => {
     const supabase = await createClient();
-    const { data, error } = await supabase
+    let query = supabase
       .from("v_price_changes")
       .select("*")
       .order("change_pct", { ascending: false, nullsFirst: false });
+    if (assetIds && assetIds.length > 0) {
+      query = query.in("asset_id", assetIds);
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       logger.error("Erro ao buscar variações de preço", { error });
@@ -140,6 +150,7 @@ export interface MarketFilters {
   currency?: string;
   referenceType?: string;
   search?: string;
+  recentOnly?: boolean;
 }
 
 export const getMarketByFilters = cache(async (filters: MarketFilters) => {
@@ -160,6 +171,9 @@ export const getMarketByFilters = cache(async (filters: MarketFilters) => {
     if (filters.search) {
       query = query.or(`asset_name.ilike.%${filters.search}%,country.ilike.%${filters.search}%,registry.ilike.%${filters.search}%,technology.ilike.%${filters.search}%`);
     }
+    if (filters.recentOnly) {
+      query = query.gte("fetched_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString());
+    }
 
     const { data, error } = await query;
 
@@ -171,15 +185,20 @@ export const getMarketByFilters = cache(async (filters: MarketFilters) => {
   });
 });
 
-export const getMarketByAssetIds = cache(async (assetIds: string[]) => {
+export const getMarketByAssetIds = cache(async (assetIds: string[], recentOnly?: boolean) => {
   return withMonitoring("getMarketByAssetIds", async () => {
     if (assetIds.length === 0) return [];
     const supabase = await createClient();
-    const { data, error } = await supabase
+    let query = supabase
       .from("v_market_snapshot")
       .select("*")
       .in("asset_id", assetIds)
       .order("asset_name", { ascending: true });
+    if (recentOnly) {
+      query = query.gte("fetched_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString());
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       logger.error("Erro ao buscar mercado por IDs", { error });
@@ -189,34 +208,43 @@ export const getMarketByAssetIds = cache(async (assetIds: string[]) => {
   });
 });
 
-export const getDistinctFilterValues = cache(async (column: string) => {
+export const getDistinctFilterValues = cache(async (column: string, recentOnly?: boolean) => {
   return withMonitoring(`getDistinctFilterValues(${column})`, async () => {
     const supabase = await createClient();
-    const { data, error } = await supabase
+    let query = supabase
       .from("v_market_snapshot")
       .select(column)
       .not(column, "is", null)
       .order(column, { ascending: true });
+    if (recentOnly) {
+      query = query.gte("fetched_at", new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString());
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       logger.error(`Erro ao buscar valores distintos de ${column}`, { error });
       return [];
     }
 
-     
     const rows = (data ?? []) as any[];
     const unique = [...new Set(rows.map((r) => String(r[column] ?? "")))];
     return unique.filter(Boolean);
   });
 });
 
-export const getMarketOverviewStats = cache(async () => {
+export const getMarketOverviewStats = cache(async (assetIds?: string[]) => {
   return withMonitoring("getMarketOverviewStats", async () => {
     const supabase = await createClient();
 
-    const { data: snapshot, error: snapshotErr } = await supabase
+    let snapshotQuery = supabase
       .from("v_market_snapshot")
       .select("*");
+    if (assetIds && assetIds.length > 0) {
+      snapshotQuery = snapshotQuery.in("asset_id", assetIds);
+    }
+
+    const { data: snapshot, error: snapshotErr } = await snapshotQuery;
 
     if (snapshotErr) {
       logger.error("Erro ao buscar snapshot", { error: snapshotErr });
@@ -243,10 +271,14 @@ export const getMarketOverviewStats = cache(async () => {
         ? irecPrices.reduce((s, a) => s + Number(a.price!), 0) / irecPrices.length
         : null;
 
-    const { data: changes } = await supabase
+    let changeQuery = supabase
       .from("v_price_changes")
       .select("asset_type, change_pct")
       .not("change_pct", "is", null);
+    if (assetIds && assetIds.length > 0) {
+      changeQuery = changeQuery.in("asset_id", assetIds);
+    }
+    const { data: changes } = await changeQuery;
 
     const changeRows = (changes ?? []) as { asset_type: string | null; change_pct: number | null }[];
 

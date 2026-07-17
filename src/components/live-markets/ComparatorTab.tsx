@@ -1,13 +1,23 @@
 import { getMarketByAssetIds, getMarketSnapshot } from "@/lib/queries/live-markets";
 import { Info } from "lucide-react";
+import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-converter";
+import type { ConversionRates } from "@/lib/services/currency-converter";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
 
-function formatPrice(item: SnapshotRow): string {
-  if (item.price_display) return item.price_display;
-  if (item.price !== null) return `${item.currency || "$"}${Number(item.price).toFixed(2)}`;
-  if (item.price_low !== null && item.price_high !== null) return `${item.price_low} - ${item.price_high}`;
+function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRates): string {
+  if (item.price_display && toCurrency === (item.currency || "USD")) return item.price_display;
+  if (item.price !== null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
+  if (item.price_low !== null && item.price_high !== null) {
+    if (rates && item.currency && item.currency !== toCurrency) {
+      const low = convertPrice(Number(item.price_low), item.currency, toCurrency, rates);
+      const high = convertPrice(Number(item.price_high), item.currency, toCurrency, rates);
+      const sym = getCurrencySymbol(toCurrency);
+      return `${sym}${low.toFixed(2)} - ${sym}${high.toFixed(2)}`;
+    }
+    return `${item.price_low} - ${item.price_high}`;
+  }
   return "—";
 }
 
@@ -65,16 +75,20 @@ interface ComparisonRow {
 export async function ComparatorTab({
   selectedIds,
   locale: _locale,
+  displayCurrency = "USD",
+  rates,
 }: {
   selectedIds: string[];
   locale?: string;
+  displayCurrency?: string;
+  rates?: ConversionRates;
 }) {
   let items: SnapshotRow[] = [];
 
   if (selectedIds.length > 0) {
-    items = await getMarketByAssetIds(selectedIds);
+    items = await getMarketByAssetIds(selectedIds, true);
   } else {
-    const snapshot = await getMarketSnapshot();
+    const snapshot = await getMarketSnapshot(true);
     items = snapshot.filter((a) => a.price !== null).slice(0, 3);
   }
 
@@ -98,14 +112,14 @@ export async function ComparatorTab({
       highlight: true,
       values: items.map((i) => (
         <span key={i.asset_id} className="font-mono font-bold text-lg">
-          {formatPrice(i)}
+          {formatPrice(i, displayCurrency, rates)}
         </span>
       )),
     },
     {
       label: "Moeda / unidade",
       highlight: hasDifferentCurrencies || hasDifferentUnits,
-      values: items.map((i) => `${i.currency || "—"} / ${i.unit || "—"}`),
+      values: items.map((i) => `${displayCurrency} / ${i.unit || "—"}`),
     },
     {
       label: "Tipo de referência",
@@ -145,8 +159,8 @@ export async function ComparatorTab({
               Referência {idx + 1}
             </p>
             <p className="text-sm font-semibold text-gray-900 mb-2">{item.asset_name}</p>
-            <p className="text-2xl font-mono font-bold text-gray-900">{formatPrice(item)}</p>
-            <p className="text-xs text-gray-400 mb-2">{item.currency || "—"} / {item.unit || "—"}</p>
+            <p className="text-2xl font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</p>
+            <p className="text-xs text-gray-400 mb-2">{displayCurrency} / {item.unit || "—"}</p>
             <span className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full ${referenceColor(item.reference_type)}`}>
               {referenceLabel(item.reference_type)}
             </span>
