@@ -1,8 +1,10 @@
 import Link from "next/link";
-import { getMarketSnapshot } from "@/lib/queries/live-markets";
+import { getMarketByAssetIds } from "@/lib/queries/live-markets";
 import { createClient } from "@/lib/supabase/server";
 import { Info, Bell, Eye, AlertTriangle } from "lucide-react";
 import { formatConvertedPrice } from "@/lib/services/currency-utils";
+import { getUserAlerts, getUserWatchlist, getUserMarketNotifications } from "@/lib/queries/user-market-data";
+import { AlertToggle } from "./AlertToggle";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
@@ -36,36 +38,23 @@ function timeAgo(dateStr: string | null): string {
   return `${diffDays} dias atrás`;
 }
 
-const SAMPLE_ALERTS = [
-  { id: "1", name: "EUA Dec-26 acima de €12.50", condition: "Preço > €12.50/tCO₂", active: true, icon: "warn" as const },
-  { id: "2", name: "I-REC Brasil — novo dado disponível", condition: "Qualquer novo preço", active: true, icon: "info" as const },
-  { id: "3", name: "VCU REDD+ — variação > 5%", condition: "Mudança > 5% em 7d", active: false, icon: "warn" as const },
-  { id: "4", name: "Fonte CBL Markets indisponível", condition: "Falha de atualização > 24h", active: true, icon: "error" as const },
-];
+function alertIcon(conditionType: string) {
+  if (conditionType.includes("price") || conditionType.includes("above") || conditionType.includes("below")) {
+    return { icon: <AlertTriangle className="w-4 h-4 text-amber-600" aria-hidden="true" />, bg: "bg-amber-50" };
+  }
+  if (conditionType.includes("new") || conditionType.includes("update")) {
+    return { icon: <Info className="w-4 h-4 text-sky-600" aria-hidden="true" />, bg: "bg-sky-50" };
+  }
+  return { icon: <Info className="w-4 h-4 text-gray-600" aria-hidden="true" />, bg: "bg-gray-50" };
+}
 
-const SAMPLE_HISTORY = [
-  { color: "bg-amber-500", text: "EUA Dec-26 atingiu €12.52 — acima do limite de €12.50", time: "Hoje, 14:32" },
-  { color: "bg-sky-500", text: "I-REC Brasil — novo preço publicado: $1.82/MWh", time: "Hoje, 13:15" },
-  { color: "bg-red-600", text: "CBL Markets — fonte indisponível há 26 horas", time: "Ontem, 12:00" },
-  { color: "bg-emerald-500", text: "I-REC China — dado atualizado: $0.95/MWh (+1,1%)", time: "14 Jul, 09:45" },
-  { color: "bg-amber-500", text: "GS Gold Standard — dado não atualizado há 48h", time: "13 Jul, 16:20" },
-];
-
-const iconMap = {
-  warn: <AlertTriangle className="w-4 h-4 text-amber-600" aria-hidden="true" />,
-  info: <Info className="w-4 h-4 text-sky-600" aria-hidden="true" />,
-  error: (
-    <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-    </svg>
-  ),
-};
-
-const iconBg = {
-  warn: "bg-amber-50",
-  info: "bg-sky-50",
-  error: "bg-red-50",
-};
+function notificationColor(type: string | null) {
+  switch (type) {
+    case "achievement": return "bg-amber-500";
+    case "system": return "bg-sky-500";
+    default: return "bg-gray-400";
+  }
+}
 
 export async function WatchlistTab({
   locale = "pt",
@@ -79,8 +68,27 @@ export async function WatchlistTab({
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const snapshot = await getMarketSnapshot(true);
-  const watchlistAssets = snapshot.filter((a) => a.price !== null).slice(0, 5);
+  let watchlistAssets: SnapshotRow[] = [];
+  let alerts: { id: string; name: string; condition_type: string; is_active: boolean | null }[] = [];
+  let notifications: { id?: string; title: string; message: string; type: string | null; created_at: string | null }[] = [];
+
+  if (user) {
+    const [watchlistItems, userAlerts, userNotifications] = await Promise.all([
+      getUserWatchlist(user.id),
+      getUserAlerts(user.id),
+      getUserMarketNotifications(user.id, 10),
+    ]);
+
+    if (watchlistItems.length > 0) {
+      const assetIds = watchlistItems.map((item) => item.asset_id).filter(Boolean) as string[];
+      if (assetIds.length > 0) {
+        watchlistAssets = await getMarketByAssetIds(assetIds, true);
+      }
+    }
+
+    alerts = userAlerts;
+    notifications = userNotifications;
+  }
 
   return (
     <div className="space-y-6">
@@ -93,41 +101,55 @@ export async function WatchlistTab({
           <span className="text-xs text-gray-400">{watchlistAssets.length} ativos</span>
         </div>
         {user ? (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-100 bg-gray-50/50">
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Ativo</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Tipo</th>
-                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Preço atual</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Fonte</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Última atualização</th>
-                </tr>
-              </thead>
-              <tbody>
-                {watchlistAssets.map((item) => {
-                  const type = assetTypeLabel(item.asset_type);
-                  return (
-                    <tr key={item.asset_id} className="border-b border-gray-50 hover:bg-sky-50/50 transition-colors">
-                      <td className="px-4 py-3">
-                        <span className="text-sm font-semibold text-gray-900">{item.asset_name}</span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full ${type.color}`}>
-                          {type.label}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</span>
-                      </td>
-                      <td className="px-4 py-3 text-xs text-gray-500">{item.source_name || "—"}</td>
-                      <td className="px-4 py-3 text-xs text-gray-400 font-mono hidden sm:table-cell">{timeAgo(item.reference_date)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          watchlistAssets.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-gray-100 bg-gray-50/50">
+                    <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Ativo</th>
+                    <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Tipo</th>
+                    <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Preço atual</th>
+                    <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Fonte</th>
+                    <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Última atualização</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {watchlistAssets.map((item) => {
+                    const type = assetTypeLabel(item.asset_type);
+                    return (
+                      <tr key={item.asset_id} className="border-b border-gray-50 hover:bg-sky-50/50 transition-colors">
+                        <td className="px-4 py-3">
+                          <span className="text-sm font-semibold text-gray-900">{item.asset_name}</span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full ${type.color}`}>
+                            {type.label}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</span>
+                        </td>
+                        <td className="px-4 py-3 text-xs text-gray-500">{item.source_name || "—"}</td>
+                        <td className="px-4 py-3 text-xs text-gray-400 font-mono hidden sm:table-cell">{timeAgo(item.reference_date)}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="px-6 py-8">
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                  <Eye className="w-6 h-6 text-gray-400" aria-hidden="true" />
+                </div>
+                <p className="text-sm text-gray-500 font-medium">Sua watchlist está vazia</p>
+                <p className="text-xs text-gray-400 text-center max-w-sm">
+                  Explore os preços de mercado e adicione ativos à sua lista de acompanhamento
+                </p>
+              </div>
+            </div>
+          )
         ) : (
           <div className="px-6 py-8">
             <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 flex gap-3 items-start">
@@ -154,57 +176,114 @@ export async function WatchlistTab({
             <Bell className="w-4 h-4 text-gray-400" aria-hidden="true" />
             Alertas ativos
           </h3>
-          <span className="text-xs text-gray-400">{SAMPLE_ALERTS.length} alertas</span>
+          <span className="text-xs text-gray-400">{alerts.length} alertas</span>
         </div>
-        <div className="divide-y divide-gray-50">
-          {SAMPLE_ALERTS.map((alert) => (
-            <div key={alert.id} className="px-6 py-3.5 flex items-center gap-3 hover:bg-gray-50/50">
-              <div className={`w-10 h-10 rounded-lg ${iconBg[alert.icon]} flex items-center justify-center shrink-0`}>
-                {iconMap[alert.icon]}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900">{alert.name}</p>
-                <p className="text-[11px] text-gray-400 mt-0.5">{alert.condition}</p>
-              </div>
-              <div className="flex items-center gap-2.5 shrink-0">
-                <span className={`inline-flex px-2 py-0.5 text-[10px] font-semibold rounded-full ${alert.active ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
-                  {alert.active ? "Ativo" : "Pausado"}
-                </span>
-                <button
-                  type="button"
-                  role="switch"
-                  aria-checked={alert.active}
-                  aria-label={`${alert.active ? "Desativar" : "Ativar"} alerta: ${alert.name}`}
-                  className={`w-11 h-6 rounded-full relative cursor-pointer transition-colors min-w-[44px] min-h-[24px] ${
-                    alert.active ? "bg-emerald-500" : "bg-gray-300"
-                  }`}
-                >
-                  <span
-                    className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
-                      alert.active ? "translate-x-5" : ""
-                    }`}
-                    aria-hidden="true"
-                  />
-                </button>
+        {user ? (
+          alerts.length > 0 ? (
+            <div className="divide-y divide-gray-50">
+              {alerts.map((alert) => {
+                const { icon, bg } = alertIcon(alert.condition_type);
+                return (
+                  <div key={alert.id} className="px-6 py-3.5 flex items-center gap-3 hover:bg-gray-50/50">
+                    <div className={`w-10 h-10 rounded-lg ${bg} flex items-center justify-center shrink-0`}>
+                      {icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900">{alert.name}</p>
+                      <p className="text-[11px] text-gray-400 mt-0.5">{alert.condition_type}</p>
+                    </div>
+                    <div className="flex items-center gap-2.5 shrink-0">
+                      <span className={`inline-flex px-2 py-0.5 text-[10px] font-semibold rounded-full ${alert.is_active ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
+                        {alert.is_active ? "Ativo" : "Pausado"}
+                      </span>
+                      <AlertToggle
+                        alertId={alert.id}
+                        alertName={alert.name}
+                        initialActive={alert.is_active ?? false}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="px-6 py-8">
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                  <Bell className="w-6 h-6 text-gray-400" aria-hidden="true" />
+                </div>
+                <p className="text-sm text-gray-500 font-medium">Nenhum alerta configurado</p>
+                <p className="text-xs text-gray-400 text-center max-w-sm">
+                  Crie alertas de preço para ser notificado quando um ativo atingir seu valor desejado
+                </p>
               </div>
             </div>
-          ))}
-        </div>
+          )
+        ) : (
+          <div className="px-6 py-8">
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                <Bell className="w-6 h-6 text-gray-400" aria-hidden="true" />
+              </div>
+              <p className="text-sm text-gray-500 font-medium">Faça login para configurar alertas</p>
+              <p className="text-xs text-gray-400 text-center max-w-sm">
+                Receba notificações quando os preços dos ativos que você acompanha mudarem
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100">
           <h3 className="text-base font-semibold text-gray-900">Histórico de notificações</h3>
         </div>
-        <ol className="divide-y divide-gray-50">
-          {SAMPLE_HISTORY.map((item, idx) => (
-            <li key={idx} className="px-6 py-3 flex items-start gap-3">
-              <div className={`w-2 h-2 rounded-full ${item.color} mt-1.5 shrink-0`} aria-hidden="true" />
-              <p className="text-sm text-gray-700 flex-1">{item.text}</p>
-              <time className="text-xs text-gray-400 whitespace-nowrap shrink-0">{item.time}</time>
-            </li>
-          ))}
-        </ol>
+        {user ? (
+          notifications.length > 0 ? (
+            <ol className="divide-y divide-gray-50">
+              {notifications.map((item, idx) => (
+                <li key={item.id || idx} className="px-6 py-3 flex items-start gap-3">
+                  <div className={`w-2 h-2 rounded-full ${notificationColor(item.type)} mt-1.5 shrink-0`} aria-hidden="true" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900">{item.title}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{item.message}</p>
+                  </div>
+                  <time className="text-xs text-gray-400 whitespace-nowrap shrink-0" dateTime={item.created_at || undefined}>
+                    {item.created_at ? timeAgo(item.created_at) : "—"}
+                  </time>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <div className="px-6 py-8">
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                  <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  </svg>
+                </div>
+                <p className="text-sm text-gray-500 font-medium">Nenhuma notificação ainda</p>
+                <p className="text-xs text-gray-400 text-center max-w-sm">
+                  As notificações de atualizações de preços e alertas aparecerão aqui
+                </p>
+              </div>
+            </div>
+          )
+        ) : (
+          <div className="px-6 py-8">
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+              </div>
+              <p className="text-sm text-gray-500 font-medium">Faça login para ver notificações</p>
+              <p className="text-xs text-gray-400 text-center max-w-sm">
+                Configure alertas e receba notificações sobre mudanças nos preços do mercado
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
 import { getMarketSnapshot, getPriceChanges } from "@/lib/queries/live-markets";
 import { getMarketOverviewStats } from "@/lib/queries/live-markets";
 import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-utils";
+import { createClient } from "@/lib/supabase/server";
+import { getUserMarketNotifications } from "@/lib/queries/user-market-data";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
@@ -84,12 +86,16 @@ export async function OverviewTab({
   displayCurrency?: string;
   rates?: ConversionRates;
 }) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   const snapshot = await getMarketSnapshot(true);
   const recentAssetIds = snapshot.map((a) => a.asset_id).filter(Boolean) as string[];
   const idParam = recentAssetIds.length > 0 ? recentAssetIds : undefined;
-  const [stats, changes] = await Promise.all([
+  const [stats, changes, notifications] = await Promise.all([
     getMarketOverviewStats(idParam),
     getPriceChanges(idParam),
+    user ? getUserMarketNotifications(user.id, 5) : Promise.resolve([]),
   ]);
 
   const topMovers = changes.filter((c) => c.change_pct !== null).slice(0, 8);
@@ -284,30 +290,42 @@ export async function OverviewTab({
           <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
             <h4 className="text-sm font-semibold text-gray-900">Alertas</h4>
           </div>
-          <div className="px-4 py-3 space-y-3">
-            <div className="flex items-start gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center shrink-0 mt-0.5">
-                <svg className="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+          {notifications.length > 0 ? (
+            <div className="px-4 py-3 space-y-3">
+              {notifications.slice(0, 3).map((notification) => (
+                <div key={notification.id} className="flex items-start gap-2.5">
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${
+                    notification.type === "achievement" ? "bg-amber-50" : "bg-sky-50"
+                  }`}>
+                    {notification.type === "achievement" ? (
+                      <svg className="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    ) : (
+                      <svg className="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-medium text-gray-800 truncate">{notification.title}</p>
+                    <p className="text-[10px] text-gray-400 mt-0.5">{notification.created_at ? timeAgo(notification.created_at) : "—"}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="px-4 py-6">
+              <div className="flex flex-col items-center gap-2">
+                <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
-              </div>
-              <div>
-                <p className="text-xs font-medium text-gray-800">EUA Carbon acima de €12.50</p>
-                <p className="text-[10px] text-gray-400 mt-0.5">2 horas atrás</p>
+                <p className="text-[11px] text-gray-400 text-center">
+                  {user ? "Nenhum alerta recente" : "Faça login para ver alertas"}
+                </p>
               </div>
             </div>
-            <div className="flex items-start gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-sky-50 flex items-center justify-center shrink-0 mt-0.5">
-                <svg className="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-xs font-medium text-gray-800">Novo dado I-REC disponível</p>
-                <p className="text-[10px] text-gray-400 mt-0.5">5 horas atrás</p>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
 
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
