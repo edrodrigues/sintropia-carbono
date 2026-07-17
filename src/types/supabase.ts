@@ -1,4 +1,4 @@
-export type Json =
+﻿export type Json =
   | string
   | number
   | boolean
@@ -6,14 +6,247 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type UserRole = "user" | "moderator" | "admin" | "banned";
-
 export type Database = {
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "14.1"
   }
   public: {
     Tables: {
+      alerts: {
+        Row: {
+          asset_id: string | null
+          channel: string | null
+          condition_type: string
+          created_at: string | null
+          frequency: string | null
+          id: string
+          is_active: boolean | null
+          last_triggered_at: string | null
+          name: string
+          threshold_value: number | null
+          user_id: string
+        }
+        Insert: {
+          asset_id?: string | null
+          channel?: string | null
+          condition_type: string
+          created_at?: string | null
+          frequency?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_triggered_at?: string | null
+          name: string
+          threshold_value?: number | null
+          user_id: string
+        }
+        Update: {
+          asset_id?: string | null
+          channel?: string | null
+          condition_type?: string
+          created_at?: string | null
+          frequency?: string | null
+          id?: string
+          is_active?: boolean | null
+          last_triggered_at?: string | null
+          name?: string
+          threshold_value?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alerts_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "alerts_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "v_normalized_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "alerts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      api_keys: {
+        Row: {
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          is_active: boolean | null
+          key_hash: string
+          key_prefix: string
+          last_used_at: string | null
+          name: string
+          permissions: Json | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          key_hash: string
+          key_prefix: string
+          last_used_at?: string | null
+          name: string
+          permissions?: Json | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          key_hash?: string
+          key_prefix?: string
+          last_used_at?: string | null
+          name?: string
+          permissions?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      assets: {
+        Row: {
+          asset_type: string
+          cad_trust_project_id: string | null
+          country: string | null
+          created_at: string | null
+          description: string | null
+          external_id: string | null
+          id: string
+          is_active: boolean | null
+          metadata: Json | null
+          methodology: string | null
+          name: string
+          project_category: string | null
+          provider: string | null
+          region: string | null
+          registry: string | null
+          slug: string
+          technology: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          asset_type: string
+          cad_trust_project_id?: string | null
+          country?: string | null
+          created_at?: string | null
+          description?: string | null
+          external_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          methodology?: string | null
+          name: string
+          project_category?: string | null
+          provider?: string | null
+          region?: string | null
+          registry?: string | null
+          slug: string
+          technology?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          asset_type?: string
+          cad_trust_project_id?: string | null
+          country?: string | null
+          created_at?: string | null
+          description?: string | null
+          external_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          metadata?: Json | null
+          methodology?: string | null
+          name?: string
+          project_category?: string | null
+          provider?: string | null
+          region?: string | null
+          registry?: string | null
+          slug?: string
+          technology?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assets_cad_trust_project_id_fkey"
+            columns: ["cad_trust_project_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_log: {
+        Row: {
+          action: string
+          created_at: string | null
+          details: Json | null
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          ip_address: unknown
+          organization_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          ip_address?: unknown
+          organization_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          details?: Json | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          ip_address?: unknown
+          organization_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_log_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "audit_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       bans: {
         Row: {
           created_at: string | null
@@ -52,6 +285,616 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cad_trust_co_benefits: {
+        Row: {
+          cad_trust_project_id: string
+          co_benefit_id: string
+          created_at: string | null
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          cad_trust_project_id: string
+          co_benefit_id: string
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+        }
+        Update: {
+          cad_trust_project_id?: string
+          co_benefit_id?: string
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cad_trust_co_benefits_cad_trust_project_id_fkey"
+            columns: ["cad_trust_project_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cad_trust_issuances: {
+        Row: {
+          cad_trust_project_id: string
+          created_at: string | null
+          id: string
+          issuance_date: string | null
+          issuance_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          cad_trust_project_id: string
+          created_at?: string | null
+          id?: string
+          issuance_date?: string | null
+          issuance_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          cad_trust_project_id?: string
+          created_at?: string | null
+          id?: string
+          issuance_date?: string | null
+          issuance_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cad_trust_issuances_cad_trust_project_id_fkey"
+            columns: ["cad_trust_project_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cad_trust_labels: {
+        Row: {
+          cad_trust_project_id: string
+          created_at: string | null
+          id: string
+          label_date: string | null
+          label_link: string | null
+          label_name: string
+          label_type: string
+          updated_at: string | null
+        }
+        Insert: {
+          cad_trust_project_id: string
+          created_at?: string | null
+          id?: string
+          label_date?: string | null
+          label_link?: string | null
+          label_name: string
+          label_type: string
+          updated_at?: string | null
+        }
+        Update: {
+          cad_trust_project_id?: string
+          created_at?: string | null
+          id?: string
+          label_date?: string | null
+          label_link?: string | null
+          label_name?: string
+          label_type?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cad_trust_labels_cad_trust_project_id_fkey"
+            columns: ["cad_trust_project_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cad_trust_locations: {
+        Row: {
+          cad_trust_project_id: string
+          country: string
+          created_at: string | null
+          geographic_identifier: string | null
+          id: string
+          in_country_region: string | null
+          map_file_link: string | null
+          map_type: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          cad_trust_project_id: string
+          country: string
+          created_at?: string | null
+          geographic_identifier?: string | null
+          id?: string
+          in_country_region?: string | null
+          map_file_link?: string | null
+          map_type?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          cad_trust_project_id?: string
+          country?: string
+          created_at?: string | null
+          geographic_identifier?: string | null
+          id?: string
+          in_country_region?: string | null
+          map_file_link?: string | null
+          map_type?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cad_trust_locations_cad_trust_project_id_fkey"
+            columns: ["cad_trust_project_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cad_trust_methodologies: {
+        Row: {
+          created_at: string | null
+          id: string
+          methodology_code: string
+          methodology_date: string | null
+          methodology_link: string | null
+          methodology_name: string
+          methodology_type: string | null
+          methodology_version: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          methodology_code: string
+          methodology_date?: string | null
+          methodology_link?: string | null
+          methodology_name: string
+          methodology_type?: string | null
+          methodology_version?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          methodology_code?: string
+          methodology_date?: string | null
+          methodology_link?: string | null
+          methodology_name?: string
+          methodology_type?: string | null
+          methodology_version?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      cad_trust_programs: {
+        Row: {
+          created_at: string | null
+          id: string
+          program_description: string | null
+          program_name: string
+          program_registry: string
+          program_registry_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          program_description?: string | null
+          program_name: string
+          program_registry: string
+          program_registry_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          program_description?: string | null
+          program_name?: string
+          program_registry?: string
+          program_registry_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      cad_trust_project_methodologies: {
+        Row: {
+          cad_trust_methodology_id: string
+          cad_trust_project_id: string
+          created_at: string | null
+          id: string
+          project_methodology_date: string | null
+          project_methodology_description: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          cad_trust_methodology_id: string
+          cad_trust_project_id: string
+          created_at?: string | null
+          id?: string
+          project_methodology_date?: string | null
+          project_methodology_description?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          cad_trust_methodology_id?: string
+          cad_trust_project_id?: string
+          created_at?: string | null
+          id?: string
+          project_methodology_date?: string | null
+          project_methodology_description?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cad_trust_project_methodologies_cad_trust_methodology_id_fkey"
+            columns: ["cad_trust_methodology_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_methodologies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cad_trust_project_methodologies_cad_trust_project_id_fkey"
+            columns: ["cad_trust_project_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cad_trust_projects: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          first_issuance_at: string | null
+          first_retirement_at: string | null
+          id: string
+          is_compliance: boolean | null
+          issued: number | null
+          listed_at: string | null
+          org_uid: string
+          project_crediting_program: string | null
+          project_description: string | null
+          project_id: string
+          project_link: string | null
+          project_name: string
+          project_registry_name: string
+          project_sector: string | null
+          project_status: string
+          project_status_date: string | null
+          project_subtype: string | null
+          project_type: string | null
+          project_type_source: string | null
+          project_unit_metric: string | null
+          proponent: string | null
+          protocol: string | null
+          retired: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          first_issuance_at?: string | null
+          first_retirement_at?: string | null
+          id?: string
+          is_compliance?: boolean | null
+          issued?: number | null
+          listed_at?: string | null
+          org_uid: string
+          project_crediting_program?: string | null
+          project_description?: string | null
+          project_id: string
+          project_link?: string | null
+          project_name: string
+          project_registry_name: string
+          project_sector?: string | null
+          project_status?: string
+          project_status_date?: string | null
+          project_subtype?: string | null
+          project_type?: string | null
+          project_type_source?: string | null
+          project_unit_metric?: string | null
+          proponent?: string | null
+          protocol?: string | null
+          retired?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          first_issuance_at?: string | null
+          first_retirement_at?: string | null
+          id?: string
+          is_compliance?: boolean | null
+          issued?: number | null
+          listed_at?: string | null
+          org_uid?: string
+          project_crediting_program?: string | null
+          project_description?: string | null
+          project_id?: string
+          project_link?: string | null
+          project_name?: string
+          project_registry_name?: string
+          project_sector?: string | null
+          project_status?: string
+          project_status_date?: string | null
+          project_subtype?: string | null
+          project_type?: string | null
+          project_type_source?: string | null
+          project_unit_metric?: string | null
+          proponent?: string | null
+          protocol?: string | null
+          retired?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      cad_trust_ratings: {
+        Row: {
+          cad_trust_project_id: string
+          created_at: string | null
+          id: string
+          rating_link: string | null
+          rating_name: string
+          rating_type: string | null
+          rating_value: string
+          updated_at: string | null
+        }
+        Insert: {
+          cad_trust_project_id: string
+          created_at?: string | null
+          id?: string
+          rating_link?: string | null
+          rating_name: string
+          rating_type?: string | null
+          rating_value: string
+          updated_at?: string | null
+        }
+        Update: {
+          cad_trust_project_id?: string
+          created_at?: string | null
+          id?: string
+          rating_link?: string | null
+          rating_name?: string
+          rating_type?: string | null
+          rating_value?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cad_trust_ratings_cad_trust_project_id_fkey"
+            columns: ["cad_trust_project_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cad_trust_stakeholders: {
+        Row: {
+          cad_trust_project_id: string
+          created_at: string | null
+          id: string
+          stakeholder_link: string | null
+          stakeholder_name: string
+          stakeholder_type: string
+          updated_at: string | null
+        }
+        Insert: {
+          cad_trust_project_id: string
+          created_at?: string | null
+          id?: string
+          stakeholder_link?: string | null
+          stakeholder_name: string
+          stakeholder_type: string
+          updated_at?: string | null
+        }
+        Update: {
+          cad_trust_project_id?: string
+          created_at?: string | null
+          id?: string
+          stakeholder_link?: string | null
+          stakeholder_name?: string
+          stakeholder_type?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cad_trust_stakeholders_cad_trust_project_id_fkey"
+            columns: ["cad_trust_project_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cad_trust_units: {
+        Row: {
+          cad_trust_issuance_id: string
+          created_at: string | null
+          id: string
+          marketplace: string | null
+          marketplace_identifier: string | null
+          marketplace_link: string | null
+          org_uid: string
+          unit_count: number | null
+          unit_current_owner: string | null
+          unit_end_block: string | null
+          unit_itmos_reference_id: string | null
+          unit_link: string | null
+          unit_metric: string | null
+          unit_retirement_beneficiary: string | null
+          unit_retirement_detail: string | null
+          unit_serial_id: string
+          unit_start_block: string | null
+          unit_status: string | null
+          unit_status_date: string | null
+          unit_status_reason: string | null
+          unit_type: string | null
+          unit_vintage_year: number
+          updated_at: string | null
+        }
+        Insert: {
+          cad_trust_issuance_id: string
+          created_at?: string | null
+          id?: string
+          marketplace?: string | null
+          marketplace_identifier?: string | null
+          marketplace_link?: string | null
+          org_uid: string
+          unit_count?: number | null
+          unit_current_owner?: string | null
+          unit_end_block?: string | null
+          unit_itmos_reference_id?: string | null
+          unit_link?: string | null
+          unit_metric?: string | null
+          unit_retirement_beneficiary?: string | null
+          unit_retirement_detail?: string | null
+          unit_serial_id: string
+          unit_start_block?: string | null
+          unit_status?: string | null
+          unit_status_date?: string | null
+          unit_status_reason?: string | null
+          unit_type?: string | null
+          unit_vintage_year: number
+          updated_at?: string | null
+        }
+        Update: {
+          cad_trust_issuance_id?: string
+          created_at?: string | null
+          id?: string
+          marketplace?: string | null
+          marketplace_identifier?: string | null
+          marketplace_link?: string | null
+          org_uid?: string
+          unit_count?: number | null
+          unit_current_owner?: string | null
+          unit_end_block?: string | null
+          unit_itmos_reference_id?: string | null
+          unit_link?: string | null
+          unit_metric?: string | null
+          unit_retirement_beneficiary?: string | null
+          unit_retirement_detail?: string | null
+          unit_serial_id?: string
+          unit_start_block?: string | null
+          unit_status?: string | null
+          unit_status_date?: string | null
+          unit_status_reason?: string | null
+          unit_type?: string | null
+          unit_vintage_year?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cad_trust_units_cad_trust_issuance_id_fkey"
+            columns: ["cad_trust_issuance_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_issuances"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cad_trust_validations: {
+        Row: {
+          cad_trust_project_id: string
+          created_at: string | null
+          crediting_period_end_date: string | null
+          crediting_period_start_date: string | null
+          id: string
+          updated_at: string | null
+          validation_body: string | null
+          validation_date: string | null
+          validation_id: string | null
+          validation_type: string | null
+        }
+        Insert: {
+          cad_trust_project_id: string
+          created_at?: string | null
+          crediting_period_end_date?: string | null
+          crediting_period_start_date?: string | null
+          id?: string
+          updated_at?: string | null
+          validation_body?: string | null
+          validation_date?: string | null
+          validation_id?: string | null
+          validation_type?: string | null
+        }
+        Update: {
+          cad_trust_project_id?: string
+          created_at?: string | null
+          crediting_period_end_date?: string | null
+          crediting_period_start_date?: string | null
+          id?: string
+          updated_at?: string | null
+          validation_body?: string | null
+          validation_date?: string | null
+          validation_id?: string | null
+          validation_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cad_trust_validations_cad_trust_project_id_fkey"
+            columns: ["cad_trust_project_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      cad_trust_verifications: {
+        Row: {
+          cad_trust_project_id: string
+          cad_trust_validation_id: string | null
+          created_at: string | null
+          id: string
+          updated_at: string | null
+          verification_body: string
+          verification_end_date: string | null
+          verification_start_date: string | null
+        }
+        Insert: {
+          cad_trust_project_id: string
+          cad_trust_validation_id?: string | null
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+          verification_body: string
+          verification_end_date?: string | null
+          verification_start_date?: string | null
+        }
+        Update: {
+          cad_trust_project_id?: string
+          cad_trust_validation_id?: string | null
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+          verification_body?: string
+          verification_end_date?: string | null
+          verification_start_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cad_trust_verifications_cad_trust_project_id_fkey"
+            columns: ["cad_trust_project_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "cad_trust_verifications_cad_trust_validation_id_fkey"
+            columns: ["cad_trust_validation_id"]
+            isOneToOne: false
+            referencedRelation: "cad_trust_validations"
             referencedColumns: ["id"]
           },
         ]
@@ -108,6 +951,51 @@ export type Database = {
             referencedColumns: ["project_id"]
           },
         ]
+      }
+      carbon_prices: {
+        Row: {
+          created_at: string | null
+          currency: string | null
+          id: string
+          market_name: string
+          market_type: string
+          observation: string | null
+          price_range: string | null
+          region: string | null
+          trend: string | null
+          unit: string | null
+          update_date: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          market_name: string
+          market_type: string
+          observation?: string | null
+          price_range?: string | null
+          region?: string | null
+          trend?: string | null
+          unit?: string | null
+          update_date?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          market_name?: string
+          market_type?: string
+          observation?: string | null
+          price_range?: string | null
+          region?: string | null
+          trend?: string | null
+          unit?: string | null
+          update_date?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       carbon_projects: {
         Row: {
@@ -172,51 +1060,6 @@ export type Database = {
           registry?: string | null
           retired?: number | null
           status?: string | null
-        }
-        Relationships: []
-      }
-      carbon_prices: {
-        Row: {
-          created_at: string | null
-          currency: string | null
-          id: string
-          market_name: string
-          market_type: string
-          observation: string | null
-          price_range: string | null
-          region: string | null
-          trend: string | null
-          unit: string | null
-          update_date: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          currency?: string | null
-          id?: string
-          market_name: string
-          market_type: string
-          observation?: string | null
-          price_range?: string | null
-          region?: string | null
-          trend?: string | null
-          unit?: string | null
-          update_date?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          currency?: string | null
-          id?: string
-          market_name?: string
-          market_type?: string
-          observation?: string | null
-          price_range?: string | null
-          region?: string | null
-          trend?: string | null
-          unit?: string | null
-          update_date?: string | null
-          updated_at?: string | null
         }
         Relationships: []
       }
@@ -422,6 +1265,38 @@ export type Database = {
         }
         Relationships: []
       }
+      fotos: {
+        Row: {
+          created_at: string | null
+          id: string
+          ordem: number
+          presente_id: string
+          url: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          ordem: number
+          presente_id: string
+          url: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          ordem?: number
+          presente_id?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fotos_presente_id_fkey"
+            columns: ["presente_id"]
+            isOneToOne: false
+            referencedRelation: "presentes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       irec_prices: {
         Row: {
           category: string
@@ -554,6 +1429,44 @@ export type Database = {
           },
         ]
       }
+      musicas: {
+        Row: {
+          created_at: string | null
+          id: string
+          presente_id: string
+          prompt: string | null
+          status: string
+          updated_at: string | null
+          url_audio: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          presente_id: string
+          prompt?: string | null
+          status?: string
+          updated_at?: string | null
+          url_audio?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          presente_id?: string
+          prompt?: string | null
+          status?: string
+          updated_at?: string | null
+          url_audio?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "musicas_presente_id_fkey"
+            columns: ["presente_id"]
+            isOneToOne: false
+            referencedRelation: "presentes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           created_at: string | null
@@ -594,6 +1507,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      organizations: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          plan: string | null
+          slug: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          plan?: string | null
+          slug: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          plan?: string | null
+          slug?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       post_deletions: {
         Row: {
@@ -690,6 +1630,148 @@ export type Database = {
           },
         ]
       }
+      presentes: {
+        Row: {
+          created_at: string | null
+          descricao_relacao: string | null
+          estilo_musical: string | null
+          expires_at: string | null
+          id: string
+          link: string | null
+          nome_homenageado: string
+          ocasiao: string
+          slug: string
+          status: string
+          thumbnail_url: string | null
+          updated_at: string | null
+          usuario_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          descricao_relacao?: string | null
+          estilo_musical?: string | null
+          expires_at?: string | null
+          id?: string
+          link?: string | null
+          nome_homenageado: string
+          ocasiao: string
+          slug: string
+          status?: string
+          thumbnail_url?: string | null
+          updated_at?: string | null
+          usuario_id: string
+        }
+        Update: {
+          created_at?: string | null
+          descricao_relacao?: string | null
+          estilo_musical?: string | null
+          expires_at?: string | null
+          id?: string
+          link?: string | null
+          nome_homenageado?: string
+          ocasiao?: string
+          slug?: string
+          status?: string
+          thumbnail_url?: string | null
+          updated_at?: string | null
+          usuario_id?: string
+        }
+        Relationships: []
+      }
+      price_references: {
+        Row: {
+          asset_id: string | null
+          created_at: string | null
+          currency: string | null
+          data_source_id: string | null
+          fetched_at: string | null
+          id: string
+          local_currency: string | null
+          local_price: number | null
+          original_data: Json | null
+          price: number | null
+          price_display: string | null
+          price_high: number | null
+          price_low: number | null
+          reference_date: string | null
+          reference_type: string
+          source_identifier: string | null
+          unit: string | null
+          updated_at: string | null
+          vintage_year: number | null
+          volume: number | null
+          volume_unit: string | null
+        }
+        Insert: {
+          asset_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          data_source_id?: string | null
+          fetched_at?: string | null
+          id?: string
+          local_currency?: string | null
+          local_price?: number | null
+          original_data?: Json | null
+          price?: number | null
+          price_display?: string | null
+          price_high?: number | null
+          price_low?: number | null
+          reference_date?: string | null
+          reference_type: string
+          source_identifier?: string | null
+          unit?: string | null
+          updated_at?: string | null
+          vintage_year?: number | null
+          volume?: number | null
+          volume_unit?: string | null
+        }
+        Update: {
+          asset_id?: string | null
+          created_at?: string | null
+          currency?: string | null
+          data_source_id?: string | null
+          fetched_at?: string | null
+          id?: string
+          local_currency?: string | null
+          local_price?: number | null
+          original_data?: Json | null
+          price?: number | null
+          price_display?: string | null
+          price_high?: number | null
+          price_low?: number | null
+          reference_date?: string | null
+          reference_type?: string
+          source_identifier?: string | null
+          unit?: string | null
+          updated_at?: string | null
+          vintage_year?: number | null
+          volume?: number | null
+          volume_unit?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "v_normalized_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "price_references_data_source_id_fkey"
+            columns: ["data_source_id"]
+            isOneToOne: false
+            referencedRelation: "data_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           available_for_consulting: boolean | null
@@ -712,6 +1794,7 @@ export type Database = {
           karma: number | null
           linkedin_url: string | null
           organization: string | null
+          organization_id: string | null
           referral_code: string | null
           referral_reward_claimed: boolean | null
           referred_by: string | null
@@ -743,6 +1826,7 @@ export type Database = {
           karma?: number | null
           linkedin_url?: string | null
           organization?: string | null
+          organization_id?: string | null
           referral_code?: string | null
           referral_reward_claimed?: boolean | null
           referred_by?: string | null
@@ -774,6 +1858,7 @@ export type Database = {
           karma?: number | null
           linkedin_url?: string | null
           organization?: string | null
+          organization_id?: string | null
           referral_code?: string | null
           referral_reward_claimed?: boolean | null
           referred_by?: string | null
@@ -785,6 +1870,13 @@ export type Database = {
           years_of_experience?: number | null
         }
         Relationships: [
+          {
+            foreignKeyName: "profiles_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "profiles_referred_by_fkey"
             columns: ["referred_by"]
@@ -826,6 +1918,38 @@ export type Database = {
           {
             foreignKeyName: "reports_reporter_id_fkey"
             columns: ["reporter_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      saved_searches: {
+        Row: {
+          created_at: string | null
+          filters: Json
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          filters: Json
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          filters?: Json
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_searches_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -938,205 +2062,45 @@ export type Database = {
           },
         ]
       }
-      alerts: {
+      watchlist_items: {
         Row: {
-          asset_id: string | null
-          condition_type: string
+          asset_id: string
           created_at: string | null
-          frequency: string | null
           id: string
-          is_active: boolean | null
-          last_triggered_at: string | null
-          name: string
-          threshold_value: number | null
-          user_id: string
+          watchlist_id: string
         }
         Insert: {
-          asset_id?: string | null
-          condition_type: string
+          asset_id: string
           created_at?: string | null
-          frequency?: string | null
           id?: string
-          is_active?: boolean | null
-          last_triggered_at?: string | null
-          name: string
-          threshold_value?: number | null
-          user_id: string
+          watchlist_id: string
         }
         Update: {
-          asset_id?: string | null
-          condition_type?: string
+          asset_id?: string
           created_at?: string | null
-          frequency?: string | null
           id?: string
-          is_active?: boolean | null
-          last_triggered_at?: string | null
-          name?: string
-          threshold_value?: number | null
-          user_id?: string
+          watchlist_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "alerts_asset_id_fkey"
+            foreignKeyName: "watchlist_items_asset_id_fkey"
             columns: ["asset_id"]
             isOneToOne: false
             referencedRelation: "assets"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "alerts_asset_id_fkey"
+            foreignKeyName: "watchlist_items_asset_id_fkey"
             columns: ["asset_id"]
             isOneToOne: false
-            referencedRelation: "v_market_snapshot"
-            referencedColumns: ["asset_id"]
-          },
-          {
-            foreignKeyName: "alerts_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      assets: {
-        Row: {
-          asset_type: string
-          country: string | null
-          created_at: string | null
-          description: string | null
-          id: string
-          is_active: boolean | null
-          metadata: Json | null
-          methodology: string | null
-          name: string
-          project_category: string | null
-          region: string | null
-          registry: string | null
-          slug: string
-          technology: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          asset_type: string
-          country?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          is_active?: boolean | null
-          metadata?: Json | null
-          methodology?: string | null
-          name: string
-          project_category?: string | null
-          region?: string | null
-          registry?: string | null
-          slug: string
-          technology?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          asset_type?: string
-          country?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          is_active?: boolean | null
-          metadata?: Json | null
-          methodology?: string | null
-          name?: string
-          project_category?: string | null
-          region?: string | null
-          registry?: string | null
-          slug?: string
-          technology?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      price_references: {
-        Row: {
-          asset_id: string | null
-          created_at: string | null
-          currency: string | null
-          data_source_id: string | null
-          fetched_at: string | null
-          id: string
-          original_data: Json | null
-          price: number | null
-          price_display: string | null
-          price_high: number | null
-          price_low: number | null
-          reference_date: string | null
-          reference_type: string
-          source_identifier: string | null
-          unit: string | null
-          updated_at: string | null
-          vintage_year: number | null
-          volume: number | null
-          volume_unit: string | null
-        }
-        Insert: {
-          asset_id?: string | null
-          created_at?: string | null
-          currency?: string | null
-          data_source_id?: string | null
-          fetched_at?: string | null
-          id?: string
-          original_data?: Json | null
-          price?: number | null
-          price_display?: string | null
-          price_high?: number | null
-          price_low?: number | null
-          reference_date?: string | null
-          reference_type: string
-          source_identifier?: string | null
-          unit?: string | null
-          updated_at?: string | null
-          vintage_year?: number | null
-          volume?: number | null
-          volume_unit?: string | null
-        }
-        Update: {
-          asset_id?: string | null
-          created_at?: string | null
-          currency?: string | null
-          data_source_id?: string | null
-          fetched_at?: string | null
-          id?: string
-          original_data?: Json | null
-          price?: number | null
-          price_display?: string | null
-          price_high?: number | null
-          price_low?: number | null
-          reference_date?: string | null
-          reference_type?: string
-          source_identifier?: string | null
-          unit?: string | null
-          updated_at?: string | null
-          vintage_year?: number | null
-          volume?: number | null
-          volume_unit?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "price_references_asset_id_fkey"
-            columns: ["asset_id"]
-            isOneToOne: false
-            referencedRelation: "assets"
+            referencedRelation: "v_normalized_assets"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "price_references_asset_id_fkey"
-            columns: ["asset_id"]
+            foreignKeyName: "watchlist_items_watchlist_id_fkey"
+            columns: ["watchlist_id"]
             isOneToOne: false
-            referencedRelation: "v_market_snapshot"
-            referencedColumns: ["asset_id"]
-          },
-          {
-            foreignKeyName: "price_references_data_source_id_fkey"
-            columns: ["data_source_id"]
-            isOneToOne: false
-            referencedRelation: "data_sources"
+            referencedRelation: "watchlists"
             referencedColumns: ["id"]
           },
         ]
@@ -1170,51 +2134,37 @@ export type Database = {
           },
         ]
       }
-      watchlist_items: {
+    }
+    Views: {
+      price_series: {
         Row: {
-          asset_id: string
-          created_at: string | null
-          id: string
-          watchlist_id: string
-        }
-        Insert: {
-          asset_id: string
-          created_at?: string | null
-          id?: string
-          watchlist_id: string
-        }
-        Update: {
-          asset_id?: string
-          created_at?: string | null
-          id?: string
-          watchlist_id?: string
+          asset_id: string | null
+          avg_price: number | null
+          currency: string | null
+          day: string | null
+          max_price: number | null
+          min_price: number | null
+          reference_type: string | null
+          sample_count: number | null
+          unit: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "watchlist_items_asset_id_fkey"
+            foreignKeyName: "price_references_asset_id_fkey"
             columns: ["asset_id"]
             isOneToOne: false
             referencedRelation: "assets"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "watchlist_items_asset_id_fkey"
+            foreignKeyName: "price_references_asset_id_fkey"
             columns: ["asset_id"]
             isOneToOne: false
-            referencedRelation: "v_market_snapshot"
-            referencedColumns: ["asset_id"]
-          },
-          {
-            foreignKeyName: "watchlist_items_watchlist_id_fkey"
-            columns: ["watchlist_id"]
-            isOneToOne: false
-            referencedRelation: "watchlists"
+            referencedRelation: "v_normalized_assets"
             referencedColumns: ["id"]
           },
         ]
       }
-    }
-    Views: {
       v_carbon_dashboard: {
         Row: {
           crescimento_medio: number | null
@@ -1269,35 +2219,6 @@ export type Database = {
         }
         Relationships: []
       }
-      price_series: {
-        Row: {
-          asset_id: string | null
-          avg_price: number | null
-          currency: string | null
-          day: string | null
-          max_price: number | null
-          min_price: number | null
-          reference_type: string | null
-          sample_count: number | null
-          unit: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "price_references_asset_id_fkey"
-            columns: ["asset_id"]
-            isOneToOne: false
-            referencedRelation: "assets"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "price_references_asset_id_fkey"
-            columns: ["asset_id"]
-            isOneToOne: false
-            referencedRelation: "v_market_snapshot"
-            referencedColumns: ["asset_id"]
-          },
-        ]
-      }
       v_market_snapshot: {
         Row: {
           asset_id: string | null
@@ -1321,6 +2242,60 @@ export type Database = {
           unit: string | null
           vintage_year: number | null
           volume: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "price_references_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "v_normalized_assets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      v_normalized_assets: {
+        Row: {
+          asset_type: string | null
+          base_price_usd: number | null
+          country_of_origin: string | null
+          currency: string | null
+          description: string | null
+          external_id: string | null
+          fetched_at: string | null
+          id: string | null
+          is_active: boolean | null
+          is_ccp_aligned: boolean | null
+          last_updated: string | null
+          legacy_country: string | null
+          legacy_registry: string | null
+          liquidity_available: number | null
+          local_currency: string | null
+          local_price: number | null
+          methodology: string | null
+          name: string | null
+          price_display: string | null
+          price_high: number | null
+          price_low: number | null
+          price_vintage_year: number | null
+          project_category: string | null
+          provider: string | null
+          rating_bezero: string | null
+          rating_sylvera: string | null
+          reference_date: string | null
+          reference_type: string | null
+          registry: string | null
+          slug: string | null
+          source_name: string | null
+          technology: string | null
+          unit: string | null
+          vintage: number | null
         }
         Relationships: []
       }
@@ -1352,8 +2327,8 @@ export type Database = {
             foreignKeyName: "price_references_asset_id_fkey"
             columns: ["asset_id"]
             isOneToOne: false
-            referencedRelation: "v_market_snapshot"
-            referencedColumns: ["asset_id"]
+            referencedRelation: "v_normalized_assets"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -1397,8 +2372,8 @@ export type Database = {
             foreignKeyName: "price_references_asset_id_fkey"
             columns: ["asset_id"]
             isOneToOne: false
-            referencedRelation: "v_market_snapshot"
-            referencedColumns: ["asset_id"]
+            referencedRelation: "v_normalized_assets"
+            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "price_references_data_source_id_fkey"
@@ -1448,6 +2423,8 @@ export type Database = {
           user_type: string
         }[]
       }
+      prune_old_references: { Args: never; Returns: undefined }
+      refresh_price_series: { Args: never; Returns: undefined }
       reverse_post_karma: { Args: { p_post_id: string }; Returns: undefined }
     }
     Enums: {
@@ -1583,3 +2560,4 @@ export const Constants = {
     },
   },
 } as const
+

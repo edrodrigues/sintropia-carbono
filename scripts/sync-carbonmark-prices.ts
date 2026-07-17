@@ -130,6 +130,8 @@ async function run() {
         methodology,
         description: proj.name,
         is_active: proj.hasSupply,
+        provider: "carbonmark",
+        external_id: projectKey,
         metadata: {
           projectID: proj.projectID,
           key: proj.key,

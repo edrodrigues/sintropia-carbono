@@ -79,6 +79,8 @@ serve(async (_req) => {
             project_category: category,
             methodology,
             is_active: proj.hasSupply,
+            provider: "carbonmark",
+            external_id: proj.key,
             metadata: {
               projectID: proj.projectID,
               key: proj.key,
