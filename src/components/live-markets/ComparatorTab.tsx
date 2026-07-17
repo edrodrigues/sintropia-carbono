@@ -1,7 +1,7 @@
 import { getMarketByAssetIds, getMarketSnapshot } from "@/lib/queries/live-markets";
 import { Info } from "lucide-react";
-import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-converter";
-import type { ConversionRates } from "@/lib/services/currency-converter";
+import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-utils";
+import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];

@@ -1,7 +1,7 @@
 import { getMarketSnapshot, getPriceChanges } from "@/lib/queries/live-markets";
 import { getMarketOverviewStats } from "@/lib/queries/live-markets";
-import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-converter";
-import type { ConversionRates } from "@/lib/services/currency-converter";
+import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-utils";
+import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];

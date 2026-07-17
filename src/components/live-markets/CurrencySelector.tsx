@@ -2,14 +2,9 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
+import { getDisplayCurrencies } from "@/lib/services/currency-utils";
 
-const CURRENCIES = [
-  { value: "USD", label: "USD ($)" },
-  { value: "BRL", label: "BRL (R$)" },
-  { value: "EUR", label: "EUR (€)" },
-  { value: "GBP", label: "GBP (£)" },
-  { value: "ARS", label: "ARS (ARS$)" },
-];
+const CURRENCIES = getDisplayCurrencies();
 
 export function CurrencySelector() {
   const router = useRouter();

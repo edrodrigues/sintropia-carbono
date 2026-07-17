@@ -2,8 +2,8 @@ import Link from "next/link";
 import { getMarketSnapshot } from "@/lib/queries/live-markets";
 import { createClient } from "@/lib/supabase/server";
 import { Info, Bell, Eye, AlertTriangle } from "lucide-react";
-import { formatConvertedPrice } from "@/lib/services/currency-converter";
-import type { ConversionRates } from "@/lib/services/currency-converter";
+import { formatConvertedPrice } from "@/lib/services/currency-utils";
+import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];

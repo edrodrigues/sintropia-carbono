@@ -3,8 +3,8 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { X, Star, Bell } from "lucide-react";
 import { PriceBarChart } from "./PriceChart";
-import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-converter";
-import type { ConversionRates } from "@/lib/services/currency-converter";
+import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-utils";
+import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { PriceSeriesPoint } from "@/lib/queries/price-series";
 import type { Database } from "@/types/supabase";
 
