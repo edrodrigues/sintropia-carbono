@@ -31,8 +31,8 @@ export function convertPrice(
   const toRate = rates[toCurrency];
   if (!fromRate || !toRate) return price;
 
-  const priceInBrl = price / fromRate;
-  return priceInBrl * toRate;
+  const priceInBrl = price * fromRate;
+  return priceInBrl / toRate;
 }
 
 /**

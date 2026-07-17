@@ -5,6 +5,7 @@ import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
+type PriceChangeRow = Database["public"]["Views"]["v_price_changes"]["Row"];
 
 function assetTypeLabel(type: string | null) {
   switch (type) {
@@ -42,11 +43,22 @@ function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRa
   return "—";
 }
 
-function convertStatPrice(value: string, toCurrency: string, rates?: ConversionRates): string {
-  if (value === "—" || !value.startsWith("$")) return value;
-  const num = parseFloat(value.replace("$", "").replace(",", "."));
-  if (isNaN(num)) return value;
-  return formatConvertedPrice(num, "USD", toCurrency, rates);
+function formatAvgPrice(
+  byCurr: Record<string, { avg: number; count: number }> | undefined,
+  toCurrency: string,
+  rates?: ConversionRates,
+): string {
+  if (!byCurr || Object.keys(byCurr).length === 0) return "—";
+  let totalCount = 0;
+  let weightedSum = 0;
+  for (const [fromCurr, { avg, count }] of Object.entries(byCurr)) {
+    const converted = convertPrice(avg, fromCurr, toCurrency, rates);
+    weightedSum += converted * count;
+    totalCount += count;
+  }
+  const weightedAvg = weightedSum / totalCount;
+  const sym = getCurrencySymbol(toCurrency);
+  return `${sym}${weightedAvg.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 4 })}`;
 }
 
 function timeAgo(dateStr: string | null): string {
@@ -95,14 +107,14 @@ export async function OverviewTab({
           />
           <KPICard
             label="Créditos Carbono"
-            value={convertStatPrice(stats.avgCarbonPrice, displayCurrency, rates)}
+            value={formatAvgPrice((stats as any).avgCarbonByCurr, displayCurrency, rates)}
             sub={`${displayCurrency} / tCO2e (média)`}
             change={stats.carbonChange}
             color="text-emerald-600"
           />
           <KPICard
             label="I-REC"
-            value={convertStatPrice(stats.avgIrecPrice, displayCurrency, rates)}
+            value={formatAvgPrice((stats as any).avgIrecByCurr, displayCurrency, rates)}
             sub={`${displayCurrency} / MWh (média)`}
             change={stats.irecChange}
             color="text-sky-600"
@@ -150,7 +162,7 @@ export async function OverviewTab({
                         </span>
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <span className="text-sm font-mono font-bold text-gray-900">{m.current_display || "—"}</span>
+                        <span className="text-sm font-mono font-bold text-gray-900">{formatConvertedPrice(m.current_price, m.currency, displayCurrency, rates)}</span>
                       </td>
                       <td className="px-4 py-3 text-right">
                         {pct !== null ? (

@@ -259,17 +259,31 @@ export const getMarketOverviewStats = cache(async (assetIds?: string[]) => {
     }
 
     const items = (snapshot ?? []) as MarketSnapshot[];
-    const carbonPrices = items.filter(a => a.asset_type === "carbon_credit" && a.price !== null);
-    const irecPrices = items.filter(a => a.asset_type === "irec" && a.price !== null);
+    const carbonPrices = items.filter(a => a.asset_type === "carbon_credit" && a.price !== null && a.currency);
+    const irecPrices = items.filter(a => a.asset_type === "irec" && a.price !== null && a.currency);
 
-    const avgCarbon =
-      carbonPrices.length > 0
-        ? carbonPrices.reduce((s, a) => s + Number(a.price!), 0) / carbonPrices.length
+    function avgPerCurrency(prices: (typeof items), assetType: string): [Record<string, { avg: number; count: number }>, number | null] {
+      const byCurr: Record<string, { sum: number; count: number }> = {};
+      let overallCount = 0;
+      for (const a of prices) {
+        const c = a.currency!;
+        byCurr[c] = byCurr[c] || { sum: 0, count: 0 };
+        byCurr[c].sum += Number(a.price!);
+        byCurr[c].count += 1;
+        overallCount++;
+      }
+      const avgByCurr: Record<string, { avg: number; count: number }> = {};
+      for (const [c, v] of Object.entries(byCurr)) {
+        avgByCurr[c] = { avg: v.sum / v.count, count: v.count };
+      }
+      const overall = overallCount > 0
+        ? Object.values(byCurr).reduce((s, v) => s + v.sum, 0) / overallCount
         : null;
-    const avgIrec =
-      irecPrices.length > 0
-        ? irecPrices.reduce((s, a) => s + Number(a.price!), 0) / irecPrices.length
-        : null;
+      return [avgByCurr, overall];
+    }
+
+    const [avgCarbonByCurr] = avgPerCurrency(carbonPrices, "carbon_credit");
+    const [avgIrecByCurr] = avgPerCurrency(irecPrices, "irec");
 
     let changeQuery = supabase
       .from("v_price_changes")
@@ -299,8 +313,10 @@ export const getMarketOverviewStats = cache(async (assetIds?: string[]) => {
 
     return {
       totalAssets: items.filter(a => a.price !== null || a.price_display !== null).length,
-      avgCarbonPrice: avgCarbon ? `$${avgCarbon.toFixed(2)}` : "—",
-      avgIrecPrice: avgIrec ? `$${avgIrec.toFixed(3)}` : "—",
+      avgCarbonPrice: "—",
+      avgCarbonByCurr,
+      avgIrecPrice: "—",
+      avgIrecByCurr,
       carbonChange: avgCarbonChange,
       irecChange: avgIrecChange,
       lastUpdate,
