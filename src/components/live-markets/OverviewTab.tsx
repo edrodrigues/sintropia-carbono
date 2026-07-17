@@ -184,8 +184,16 @@ export async function OverviewTab({
                 })}
                 {topMovers.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-400">
-                      Nenhuma movimentação disponível
+                    <td colSpan={6} className="px-4 py-12 text-center">
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                          <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                          </svg>
+                        </div>
+                        <p className="text-sm text-gray-500 font-medium">Nenhuma movimentação disponível</p>
+                        <p className="text-xs text-gray-400">Os dados de movimentação do mercado aparecerão aqui quando houver atualizações</p>
+                      </div>
                     </td>
                   </tr>
                 )}
@@ -250,6 +258,21 @@ export async function OverviewTab({
                     </tr>
                   );
                 })}
+                {allAssets.length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="px-4 py-12 text-center">
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                          <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        <p className="text-sm text-gray-500 font-medium">Nenhuma referência de preço disponível</p>
+                        <p className="text-xs text-gray-400">As referências de mercado serão exibidas aqui quando os dados estiverem disponíveis</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

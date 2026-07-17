@@ -52,10 +52,10 @@ const SAMPLE_HISTORY = [
 ];
 
 const iconMap = {
-  warn: <AlertTriangle className="w-4 h-4 text-amber-600" />,
-  info: <Info className="w-4 h-4 text-sky-600" />,
+  warn: <AlertTriangle className="w-4 h-4 text-amber-600" aria-hidden="true" />,
+  info: <Info className="w-4 h-4 text-sky-600" aria-hidden="true" />,
   error: (
-    <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
     </svg>
   ),
@@ -87,7 +87,7 @@ export async function WatchlistTab({
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
           <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
-            <Eye className="w-4 h-4 text-gray-400" />
+            <Eye className="w-4 h-4 text-gray-400" aria-hidden="true" />
             Watchlist
           </h3>
           <span className="text-xs text-gray-400">{watchlistAssets.length} ativos</span>
@@ -131,7 +131,7 @@ export async function WatchlistTab({
         ) : (
           <div className="px-6 py-8">
             <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 flex gap-3 items-start">
-              <Info className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
+              <Info className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" aria-hidden="true" />
               <div>
                 <p className="text-sm text-sky-800 font-medium">
                   Faça login para acompanhar seus ativos favoritos e receber notificações.
@@ -151,7 +151,7 @@ export async function WatchlistTab({
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
           <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">
-            <Bell className="w-4 h-4 text-gray-400" />
+            <Bell className="w-4 h-4 text-gray-400" aria-hidden="true" />
             Alertas ativos
           </h3>
           <span className="text-xs text-gray-400">{SAMPLE_ALERTS.length} alertas</span>
@@ -159,7 +159,7 @@ export async function WatchlistTab({
         <div className="divide-y divide-gray-50">
           {SAMPLE_ALERTS.map((alert) => (
             <div key={alert.id} className="px-6 py-3.5 flex items-center gap-3 hover:bg-gray-50/50">
-              <div className={`w-8 h-8 rounded-lg ${iconBg[alert.icon]} flex items-center justify-center shrink-0`}>
+              <div className={`w-10 h-10 rounded-lg ${iconBg[alert.icon]} flex items-center justify-center shrink-0`}>
                 {iconMap[alert.icon]}
               </div>
               <div className="flex-1 min-w-0">
@@ -170,9 +170,22 @@ export async function WatchlistTab({
                 <span className={`inline-flex px-2 py-0.5 text-[10px] font-semibold rounded-full ${alert.active ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
                   {alert.active ? "Ativo" : "Pausado"}
                 </span>
-                <div className={`w-9 h-5 rounded-full relative cursor-pointer transition-colors ${alert.active ? "bg-emerald-500" : "bg-gray-300"}`}>
-                  <div className={`w-4 h-4 rounded-full bg-white shadow absolute top-0.5 transition-all ${alert.active ? "left-[18px]" : "left-0.5"}`} />
-                </div>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={alert.active}
+                  aria-label={`${alert.active ? "Desativar" : "Ativar"} alerta: ${alert.name}`}
+                  className={`w-11 h-6 rounded-full relative cursor-pointer transition-colors min-w-[44px] min-h-[24px] ${
+                    alert.active ? "bg-emerald-500" : "bg-gray-300"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                      alert.active ? "translate-x-5" : ""
+                    }`}
+                    aria-hidden="true"
+                  />
+                </button>
               </div>
             </div>
           ))}
@@ -183,15 +196,15 @@ export async function WatchlistTab({
         <div className="px-6 py-4 border-b border-gray-100">
           <h3 className="text-base font-semibold text-gray-900">Histórico de notificações</h3>
         </div>
-        <div className="divide-y divide-gray-50">
+        <ol className="divide-y divide-gray-50">
           {SAMPLE_HISTORY.map((item, idx) => (
-            <div key={idx} className="px-6 py-3 flex items-start gap-3">
-              <div className={`w-2 h-2 rounded-full ${item.color} mt-1.5 shrink-0`} />
+            <li key={idx} className="px-6 py-3 flex items-start gap-3">
+              <div className={`w-2 h-2 rounded-full ${item.color} mt-1.5 shrink-0`} aria-hidden="true" />
               <p className="text-sm text-gray-700 flex-1">{item.text}</p>
-              <span className="text-xs text-gray-400 whitespace-nowrap shrink-0">{item.time}</span>
-            </div>
+              <time className="text-xs text-gray-400 whitespace-nowrap shrink-0">{item.time}</time>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </div>
   );

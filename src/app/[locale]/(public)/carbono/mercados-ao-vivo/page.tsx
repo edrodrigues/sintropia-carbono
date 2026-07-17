@@ -129,7 +129,7 @@ export default async function CarbonoLiveMarketsPage({
   return (
     <>
       <Header />
-      <main className="max-w-7xl mx-auto px-4 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 lg:px-8 py-8" aria-label="Live Markets">
         <Breadcrumb />
 
         <div className="mb-6">
@@ -148,7 +148,7 @@ export default async function CarbonoLiveMarketsPage({
 
         <LiveMarketsTabs activeTab={activeTab} locale={locale} />
 
-        <div className="mt-6">
+        <div className="mt-6" role="tabpanel" id={`panel-${activeTab}`} aria-labelledby={`tab-${activeTab}`}>
           {activeTab === "overview" && (
             <OverviewTab locale={locale} displayCurrency={displayCurrency} rates={rates} />
           )}

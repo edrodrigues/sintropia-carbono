@@ -25,7 +25,11 @@ export function ComparisonBar({ selectedIds, onClearSelection }: ComparisonBarPr
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-20">
+    <div
+      role="toolbar"
+      aria-label="Comparison actions"
+      className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-20"
+    >
       <div className="max-w-7xl mx-auto px-4 lg:px-8 py-3 flex items-center justify-between">
         <span className="text-sm text-gray-700">
           <strong className="text-blue-700">{count}</strong> itens selecionados para comparar
@@ -33,16 +37,17 @@ export function ComparisonBar({ selectedIds, onClearSelection }: ComparisonBarPr
         <div className="flex gap-2">
           <button
             onClick={onClearSelection}
-            className="inline-flex items-center gap-1 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg border border-gray-300"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg border border-gray-300 cursor-pointer min-h-[44px]"
+            aria-label="Clear selection"
           >
-            <X className="w-3.5 h-3.5" />
+            <X className="w-4 h-4" aria-hidden="true" />
             Limpar
           </button>
           <button
             onClick={goCompare}
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg cursor-pointer min-h-[44px]"
           >
-            <ArrowLeftRight className="w-4 h-4" />
+            <ArrowLeftRight className="w-4 h-4" aria-hidden="true" />
             Comparar referências
           </button>
         </div>

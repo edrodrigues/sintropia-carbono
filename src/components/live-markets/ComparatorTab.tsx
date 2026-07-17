@@ -95,7 +95,15 @@ export async function ComparatorTab({
   if (items.length === 0) {
     return (
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-8 text-center">
-        <p className="text-gray-400 text-sm">Selecione ativos na aba &quot;Explorar preços&quot; para comparar.</p>
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center">
+            <svg className="w-7 h-7 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+          </div>
+          <p className="text-sm text-gray-500 font-medium">Nenhuma referência selecionada</p>
+          <p className="text-xs text-gray-400 max-w-sm">Selecione ativos na aba &quot;Explorar preços&quot; para comparar preços e atributos lado a lado</p>
+        </div>
       </div>
     );
   }

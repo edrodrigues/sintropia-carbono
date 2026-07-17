@@ -105,7 +105,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
   const isAllSelected = assets.length > 0 && assets.every((a) => selectedIds.includes(a.asset_id ?? ""));
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-20">
       <FilterPanel filterOptions={filterOptions} />
 
       <div className="flex items-center justify-between text-xs text-gray-500">
@@ -114,7 +114,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
         </span>
         <button
           onClick={isAllSelected ? clearSelection : selectAll}
-          className="text-blue-600 hover:underline font-medium"
+          className="text-blue-600 hover:underline font-medium cursor-pointer min-h-[44px] px-2 py-1"
         >
           {isAllSelected ? "Desmarcar todas" : "Selecionar todas"}
         </button>
@@ -126,12 +126,15 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
             <thead>
               <tr className="border-b border-gray-100 bg-gray-50/50">
                 <th className="w-10 px-3 py-2.5">
-                  <input
-                    type="checkbox"
-                    checked={isAllSelected}
-                    onChange={selectAll}
-                    className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                  />
+                  <label className="flex items-center justify-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={isAllSelected}
+                      onChange={selectAll}
+                      className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                      aria-label="Select all assets"
+                    />
+                  </label>
                 </th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Ativo</th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Tipo de preço</th>
@@ -148,21 +151,25 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                 return (
                   <tr
                     key={item.asset_id}
-                    className={`border-b border-gray-50 hover:bg-sky-50/50 transition-colors cursor-pointer ${
-                      isSelected ? "bg-blue-50/30" : ""
+                    className={`border-b border-gray-50 transition-colors ${
+                      isSelected ? "bg-blue-50/30" : "hover:bg-sky-50/50"
                     }`}
-                    onClick={() => item.asset_id && toggleSelect(item.asset_id)}
                   >
                     <td className="px-3 py-3">
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={() => item.asset_id && toggleSelect(item.asset_id)}
-                        onClick={(e) => e.stopPropagation()}
-                        className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                      />
+                      <label className="flex items-center justify-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => item.asset_id && toggleSelect(item.asset_id)}
+                          className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                          aria-label={`Select ${item.asset_name}`}
+                        />
+                      </label>
                     </td>
-                    <td className="px-3 py-3">
+                    <td
+                      className="px-3 py-3 cursor-pointer"
+                      onClick={() => item.asset_id && toggleSelect(item.asset_id)}
+                    >
                       <span className="text-sm font-semibold text-gray-900">{item.asset_name}</span>
                       <span className="block text-[11px] text-gray-400">{item.asset_type === "carbon_credit" ? "Carbono" : item.asset_type === "irec" ? "I-REC" : item.asset_type}</span>
                     </td>
@@ -191,8 +198,16 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
               })}
               {assets.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-4 py-12 text-center text-sm text-gray-400">
-                    Nenhuma referência encontrada com os filtros selecionados
+                  <td colSpan={7} className="px-4 py-12 text-center">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                        <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </div>
+                      <p className="text-sm text-gray-500 font-medium">Nenhuma referência encontrada</p>
+                      <p className="text-xs text-gray-400">Tente ajustar os filtros ou buscar por outros termos</p>
+                    </div>
                   </td>
                 </tr>
               )}
