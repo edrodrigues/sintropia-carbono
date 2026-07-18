@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { FilterPanel } from "./FilterPanel";
 import { ComparisonBar } from "./ComparisonBar";
+import { CadTrustScore } from "./CadTrustScore";
 import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-utils";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
@@ -138,6 +139,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                 </th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Ativo</th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Tipo de preço</th>
+                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Score</th>
                 <th className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Preço</th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Atributos</th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Fonte</th>
@@ -150,7 +152,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                 const isSelected = selectedIds.includes(item.asset_id ?? "");
                 return (
                   <tr
-                    key={item.asset_id}
+                    key={item.price_id}
                     className={`border-b border-gray-50 transition-colors ${
                       isSelected ? "bg-blue-50/30" : "hover:bg-sky-50/50"
                     }`}
@@ -177,6 +179,14 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                       <span className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full ${ref.color}`}>
                         {ref.label}
                       </span>
+                    </td>
+                    <td className="px-3 py-3 hidden sm:table-cell">
+                      <CadTrustScore
+                        ratingBezero={item.rating_bezero}
+                        ratingSylvera={item.rating_sylvera}
+                        isCcpAligned={item.is_ccp_aligned}
+                        variant="compact"
+                      />
                     </td>
                     <td className="px-3 py-3 text-right">
                       <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</span>
@@ -213,7 +223,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
               })}
               {assets.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-4 py-12 text-center">
+                  <td colSpan={8} className="px-4 py-12 text-center">
                     <div className="flex flex-col items-center gap-3">
                       <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
                         <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

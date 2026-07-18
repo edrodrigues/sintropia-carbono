@@ -101,7 +101,7 @@ serve(async (_req) => {
         for (const pp of projectPrices) {
           const vintage = pp.listing?.creditId?.vintage ?? pp.klimaprotocol?.creditId?.vintage ?? null;
           const refType = pp.type === "listing" ? "carbonmark_listing" : "carbonmark_pool";
-          const { error: prErr } = await supabase.from("price_references").insert({
+          const { error: prErr } = await supabase.from("price_references").upsert({
             asset_id: asset.id,
             price: pp.purchasePrice,
             price_display: `$${pp.purchasePrice.toFixed(2)}`,
@@ -116,7 +116,7 @@ serve(async (_req) => {
             source_identifier: pp.sourceId,
             original_data: pp,
             fetched_at: new Date().toISOString(),
-          });
+          }, { onConflict: "asset_id,source_identifier" });
           if (!prErr) priceCount++;
         }
       }

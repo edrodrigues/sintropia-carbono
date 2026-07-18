@@ -3,6 +3,7 @@ import { getMarketOverviewStats } from "@/lib/queries/live-markets";
 import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-utils";
 import { createClient } from "@/lib/supabase/server";
 import { getUserMarketNotifications } from "@/lib/queries/user-market-data";
+import { CadTrustScore } from "./CadTrustScore";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
@@ -101,6 +102,17 @@ export async function OverviewTab({
   const topMovers = changes.filter((c) => c.change_pct !== null).slice(0, 8);
   const allAssets = snapshot.filter((a) => a.price !== null).slice(0, 20);
 
+  const scoreMap = new Map<string, { rating_bezero: string | null; rating_sylvera: string | null; is_ccp_aligned: boolean | null }>();
+  for (const s of snapshot) {
+    if (s.asset_id) {
+      scoreMap.set(s.asset_id, {
+        rating_bezero: s.rating_bezero,
+        rating_sylvera: s.rating_sylvera,
+        is_ccp_aligned: s.is_ccp_aligned,
+      });
+    }
+  }
+
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       <div className="flex-1 min-w-0 space-y-6">
@@ -146,6 +158,7 @@ export async function OverviewTab({
                 <tr className="border-b border-gray-100 bg-gray-50/50">
                   <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Ativo</th>
                   <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Tipo</th>
+                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Score</th>
                   <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Preço</th>
                   <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Variação</th>
                   <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Fonte</th>
@@ -166,6 +179,14 @@ export async function OverviewTab({
                         <span className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full ${type.color}`}>
                           {type.label}
                         </span>
+                      </td>
+                      <td className="px-4 py-3 hidden md:table-cell">
+                        <CadTrustScore
+                          ratingBezero={scoreMap.get(m.asset_id ?? "")?.rating_bezero}
+                          ratingSylvera={scoreMap.get(m.asset_id ?? "")?.rating_sylvera}
+                          isCcpAligned={scoreMap.get(m.asset_id ?? "")?.is_ccp_aligned}
+                          variant="compact"
+                        />
                       </td>
                       <td className="px-4 py-3 text-right">
                         <span className="text-sm font-mono font-bold text-gray-900">{formatConvertedPrice(m.current_price, m.currency, displayCurrency, rates)}</span>
@@ -190,7 +211,7 @@ export async function OverviewTab({
                 })}
                 {topMovers.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="px-4 py-12 text-center">
+                    <td colSpan={7} className="px-4 py-12 text-center">
                       <div className="flex flex-col items-center gap-3">
                         <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
                           <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -220,6 +241,7 @@ export async function OverviewTab({
                   <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Ativo</th>
                   <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Tipo</th>
                   <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Registro</th>
+                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Score</th>
                   <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Preço</th>
                   <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Geografia</th>
                   <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Atualizado</th>
@@ -251,6 +273,14 @@ export async function OverviewTab({
                           </span>
                         </div>
                       </td>
+                      <td className="px-4 py-3 hidden sm:table-cell">
+                        <CadTrustScore
+                          ratingBezero={item.rating_bezero}
+                          ratingSylvera={item.rating_sylvera}
+                          isCcpAligned={item.is_ccp_aligned}
+                          variant="compact"
+                        />
+                      </td>
                       <td className="px-4 py-3 text-right">
                         <span className="text-sm font-mono font-bold text-emerald-600">{formatPrice(item, displayCurrency, rates)}</span>
                         <span className="block text-[10px] text-gray-400">{item.currency || "—"} / {item.unit || "—"}</span>
@@ -266,7 +296,7 @@ export async function OverviewTab({
                 })}
                 {allAssets.length === 0 && (
                   <tr>
-                    <td colSpan={6} className="px-4 py-12 text-center">
+                    <td colSpan={7} className="px-4 py-12 text-center">
                       <div className="flex flex-col items-center gap-3">
                         <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
                           <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

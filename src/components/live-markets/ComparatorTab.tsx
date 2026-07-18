@@ -1,6 +1,7 @@
 import { getMarketByAssetIds, getMarketSnapshot } from "@/lib/queries/live-markets";
 import { Info } from "lucide-react";
 import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-utils";
+import { CadTrustScore } from "./CadTrustScore";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
@@ -115,6 +116,17 @@ export async function ComparatorTab({
   const rows: ComparisonRow[] = [
     { label: "Tipo de ativo", values: items.map((i) => typeLabel(i.asset_type)) },
     { label: "Registro / programa", values: items.map((i) => i.registry || "—") },
+    {
+      label: "Score CAD Trust",
+      values: items.map((i) => (
+        <CadTrustScore
+          key={i.asset_id}
+          ratingBezero={i.rating_bezero}
+          ratingSylvera={i.rating_sylvera}
+          isCcpAligned={i.is_ccp_aligned}
+        />
+      )),
+    },
     {
       label: "Preço",
       highlight: true,

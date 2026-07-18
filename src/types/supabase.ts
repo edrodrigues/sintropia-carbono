@@ -1,4 +1,4 @@
-﻿export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -2227,12 +2227,15 @@ export type Database = {
           country: string | null
           currency: string | null
           fetched_at: string | null
+          is_ccp_aligned: boolean | null
           price: number | null
           price_display: string | null
           price_high: number | null
           price_id: string | null
           price_low: number | null
           project_category: string | null
+          rating_bezero: string | null
+          rating_sylvera: string | null
           reference_date: string | null
           reference_type: string | null
           registry: string | null
@@ -2561,4 +2564,3 @@ export const Constants = {
     },
   },
 } as const
-

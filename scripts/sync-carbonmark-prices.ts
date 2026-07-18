@@ -160,7 +160,7 @@ async function run() {
 
       const { error: prErr } = await supabase
         .from("price_references")
-        .insert({
+        .upsert({
           asset_id: asset.id,
           price: pp.purchasePrice,
           price_display: `$${pp.purchasePrice.toFixed(2)}`,
@@ -175,7 +175,7 @@ async function run() {
           source_identifier: pp.sourceId,
           original_data: pp as any,
           fetched_at: new Date().toISOString(),
-        });
+        }, { onConflict: "asset_id,source_identifier" });
 
       if (prErr) {
         console.warn(`Price insert failed for ${projectKey} v${vintage}: ${prErr.message}`);

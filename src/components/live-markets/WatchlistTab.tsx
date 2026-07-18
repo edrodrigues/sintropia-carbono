@@ -5,6 +5,7 @@ import { Info, Bell, Eye, AlertTriangle } from "lucide-react";
 import { formatConvertedPrice } from "@/lib/services/currency-utils";
 import { getUserAlerts, getUserWatchlist, getUserMarketNotifications } from "@/lib/queries/user-market-data";
 import { AlertToggle } from "./AlertToggle";
+import { CadTrustScore } from "./CadTrustScore";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
@@ -108,6 +109,7 @@ export async function WatchlistTab({
                   <tr className="border-b border-gray-100 bg-gray-50/50">
                     <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Ativo</th>
                     <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Tipo</th>
+                    <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Score</th>
                     <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Preço atual</th>
                     <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Fonte</th>
                     <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Última atualização</th>
@@ -125,6 +127,14 @@ export async function WatchlistTab({
                           <span className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full ${type.color}`}>
                             {type.label}
                           </span>
+                        </td>
+                        <td className="px-4 py-3 hidden sm:table-cell">
+                          <CadTrustScore
+                            ratingBezero={item.rating_bezero}
+                            ratingSylvera={item.rating_sylvera}
+                            isCcpAligned={item.is_ccp_aligned}
+                            variant="compact"
+                          />
                         </td>
                         <td className="px-4 py-3 text-right">
                           <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</span>
