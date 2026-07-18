@@ -28,13 +28,13 @@ export function AlertToggle({
       aria-label={`${initialActive ? "Desativar" : "Ativar"} alerta: ${alertName}`}
       disabled={isPending}
       onClick={handleToggle}
-      className={`w-11 h-6 rounded-full relative cursor-pointer transition-colors min-w-[44px] min-h-[24px] disabled:opacity-50 ${
+      className={`w-11 h-7 rounded-full relative cursor-pointer transition-colors min-w-[44px] min-h-[44px] disabled:opacity-50 flex items-center ${
         initialActive ? "bg-emerald-500" : "bg-gray-300"
       }`}
     >
       <span
-        className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
-          initialActive ? "translate-x-5" : ""
+        className={`absolute top-1 left-1 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+          initialActive ? "translate-x-4" : ""
         }`}
         aria-hidden="true"
       />

@@ -2,42 +2,14 @@ import Link from "next/link";
 import { getMarketByAssetIds } from "@/lib/queries/live-markets";
 import { createClient } from "@/lib/supabase/server";
 import { Info, Bell, Eye, AlertTriangle } from "lucide-react";
-import { formatConvertedPrice } from "@/lib/services/currency-utils";
 import { getUserAlerts, getUserWatchlist, getUserMarketNotifications } from "@/lib/queries/user-market-data";
 import { AlertToggle } from "./AlertToggle";
 import { CadTrustScore } from "./CadTrustScore";
+import { formatPrice, timeAgo, assetTypeLabel } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
-
-function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRates): string {
-  if (item.price_display && toCurrency === (item.currency || "USD")) return item.price_display;
-  if (item.price !== null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
-  return "—";
-}
-
-function assetTypeLabel(type: string | null) {
-  switch (type) {
-    case "carbon_credit": return { label: "Carbono", color: "bg-emerald-50 text-emerald-700" };
-    case "irec": return { label: "I-REC", color: "bg-sky-50 text-sky-700" };
-    default: return { label: type || "Outro", color: "bg-gray-100 text-gray-600" };
-  }
-}
-
-function timeAgo(dateStr: string | null): string {
-  if (!dateStr) return "—";
-  const now = new Date();
-  const ref = new Date(dateStr);
-  const diffMs = now.getTime() - ref.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  if (diffMins < 1) return "agora";
-  if (diffMins < 60) return `${diffMins} min atrás`;
-  const diffHours = Math.floor(diffMins / 60);
-  if (diffHours < 24) return `${diffHours}h atrás`;
-  const diffDays = Math.floor(diffHours / 24);
-  return `${diffDays} dias atrás`;
-}
 
 function alertIcon(conditionType: string) {
   if (conditionType.includes("price") || conditionType.includes("above") || conditionType.includes("below")) {
@@ -99,7 +71,7 @@ export async function WatchlistTab({
             <Eye className="w-4 h-4 text-gray-400" aria-hidden="true" />
             Watchlist
           </h3>
-          <span className="text-xs text-gray-400">{watchlistAssets.length} ativos</span>
+          <span className="text-xs text-gray-500">{watchlistAssets.length} ativos</span>
         </div>
         {user ? (
           watchlistAssets.length > 0 ? (
@@ -157,7 +129,7 @@ export async function WatchlistTab({
                             "—"
                           )}
                         </td>
-                        <td className="px-4 py-3 text-xs text-gray-400 font-mono hidden sm:table-cell">{timeAgo(item.reference_date)}</td>
+                        <td className="px-4 py-3 text-xs text-gray-500 font-mono hidden sm:table-cell">{timeAgo(item.reference_date)}</td>
                       </tr>
                     );
                   })}
@@ -171,7 +143,7 @@ export async function WatchlistTab({
                   <Eye className="w-6 h-6 text-gray-400" aria-hidden="true" />
                 </div>
                 <p className="text-sm text-gray-500 font-medium">Sua watchlist está vazia</p>
-                <p className="text-xs text-gray-400 text-center max-w-sm">
+                <p className="text-xs text-gray-500 text-center max-w-sm">
                   Explore os preços de mercado e adicione ativos à sua lista de acompanhamento
                 </p>
               </div>
@@ -180,7 +152,7 @@ export async function WatchlistTab({
         ) : (
           <div className="px-6 py-8">
             <div className="bg-sky-50 border border-sky-200 rounded-xl p-4 flex gap-3 items-start">
-              <Info className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" aria-hidden="true" />
+              <Info className="w-4 h-4 text-sky-600 shrink-0 mt-0.5" />
               <div>
                 <p className="text-sm text-sky-800 font-medium">
                   Faça login para acompanhar seus ativos favoritos e receber notificações.
@@ -203,7 +175,7 @@ export async function WatchlistTab({
             <Bell className="w-4 h-4 text-gray-400" aria-hidden="true" />
             Alertas ativos
           </h3>
-          <span className="text-xs text-gray-400">{alerts.length} alertas</span>
+          <span className="text-xs text-gray-500">{alerts.length} alertas</span>
         </div>
         {user ? (
           alerts.length > 0 ? (
@@ -217,7 +189,7 @@ export async function WatchlistTab({
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900">{alert.name}</p>
-                      <p className="text-[11px] text-gray-400 mt-0.5">{alert.condition_type}</p>
+                      <p className="text-[11px] text-gray-500 mt-0.5">{alert.condition_type}</p>
                     </div>
                     <div className="flex items-center gap-2.5 shrink-0">
                       <span className={`inline-flex px-2 py-0.5 text-[10px] font-semibold rounded-full ${alert.is_active ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>
@@ -240,7 +212,7 @@ export async function WatchlistTab({
                   <Bell className="w-6 h-6 text-gray-400" aria-hidden="true" />
                 </div>
                 <p className="text-sm text-gray-500 font-medium">Nenhum alerta configurado</p>
-                <p className="text-xs text-gray-400 text-center max-w-sm">
+                <p className="text-xs text-gray-500 text-center max-w-sm">
                   Crie alertas de preço para ser notificado quando um ativo atingir seu valor desejado
                 </p>
               </div>
@@ -253,7 +225,7 @@ export async function WatchlistTab({
                 <Bell className="w-6 h-6 text-gray-400" aria-hidden="true" />
               </div>
               <p className="text-sm text-gray-500 font-medium">Faça login para configurar alertas</p>
-              <p className="text-xs text-gray-400 text-center max-w-sm">
+              <p className="text-xs text-gray-500 text-center max-w-sm">
                 Receba notificações quando os preços dos ativos que você acompanha mudarem
               </p>
             </div>
@@ -275,7 +247,7 @@ export async function WatchlistTab({
                     <p className="text-sm font-medium text-gray-900">{item.title}</p>
                     <p className="text-xs text-gray-500 mt-0.5">{item.message}</p>
                   </div>
-                  <time className="text-xs text-gray-400 whitespace-nowrap shrink-0" dateTime={item.created_at || undefined}>
+                  <time className="text-xs text-gray-500 whitespace-nowrap shrink-0" dateTime={item.created_at || undefined}>
                     {item.created_at ? timeAgo(item.created_at) : "—"}
                   </time>
                 </li>
@@ -290,7 +262,7 @@ export async function WatchlistTab({
                   </svg>
                 </div>
                 <p className="text-sm text-gray-500 font-medium">Nenhuma notificação ainda</p>
-                <p className="text-xs text-gray-400 text-center max-w-sm">
+                <p className="text-xs text-gray-500 text-center max-w-sm">
                   As notificações de atualizações de preços e alertas aparecerão aqui
                 </p>
               </div>
@@ -305,7 +277,7 @@ export async function WatchlistTab({
                 </svg>
               </div>
               <p className="text-sm text-gray-500 font-medium">Faça login para ver notificações</p>
-              <p className="text-xs text-gray-400 text-center max-w-sm">
+              <p className="text-xs text-gray-500 text-center max-w-sm">
                 Configure alertas e receba notificações sobre mudanças nos preços do mercado
               </p>
             </div>

@@ -1,96 +1,27 @@
-import { getMarketSnapshot, getPriceChanges } from "@/lib/queries/live-markets";
-import { getMarketOverviewStats } from "@/lib/queries/live-markets";
-import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-utils";
+import { getPriceChanges, getMarketOverviewStats } from "@/lib/queries/live-markets";
 import { createClient } from "@/lib/supabase/server";
 import { getUserMarketNotifications } from "@/lib/queries/user-market-data";
 import { CadTrustScore } from "./CadTrustScore";
+import { formatPrice, formatAvgPrice, timeAgo, assetTypeLabel, referenceBadge } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
-type PriceChangeRow = Database["public"]["Views"]["v_price_changes"]["Row"];
-
-function assetTypeLabel(type: string | null) {
-  switch (type) {
-    case "carbon_credit": return { label: "Carbono", color: "bg-emerald-50 text-emerald-700" };
-    case "irec": return { label: "I-REC", color: "bg-sky-50 text-sky-700" };
-    case "go": return { label: "GO", color: "bg-sky-50 text-sky-700" };
-    case "cbio": return { label: "CBIO", color: "bg-amber-50 text-amber-700" };
-    default: return { label: type || "Outro", color: "bg-gray-100 text-gray-600" };
-  }
-}
-
-function referenceBadge(type: string | null) {
-  switch (type) {
-    case "trade": return { label: "Negócio realizado", color: "bg-emerald-50 text-emerald-700" };
-    case "bid": return { label: "Bid", color: "bg-sky-50 text-sky-700" };
-    case "ask": return { label: "Ask", color: "bg-sky-50 text-sky-700" };
-    case "closing": return { label: "Fechamento", color: "bg-gray-100 text-gray-600" };
-    case "indicative": return { label: "Indicativo", color: "bg-gray-100 text-gray-600" };
-    default: return { label: "—", color: "bg-gray-100 text-gray-600" };
-  }
-}
-
-function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRates): string {
-  if (item.price_display && toCurrency === (item.currency || "USD")) return item.price_display;
-  if (item.price !== null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
-  if (item.price_low !== null && item.price_high !== null) {
-    if (rates && item.currency && item.currency !== toCurrency) {
-      const low = convertPrice(Number(item.price_low), item.currency, toCurrency, rates);
-      const high = convertPrice(Number(item.price_high), item.currency, toCurrency, rates);
-      const sym = getCurrencySymbol(toCurrency);
-      return `${sym}${low.toFixed(2)} - ${sym}${high.toFixed(2)}`;
-    }
-    return `${item.price_low} - ${item.price_high}`;
-  }
-  return "—";
-}
-
-function formatAvgPrice(
-  byCurr: Record<string, { avg: number; count: number }> | undefined,
-  toCurrency: string,
-  rates?: ConversionRates,
-): string {
-  if (!byCurr || Object.keys(byCurr).length === 0) return "—";
-  let totalCount = 0;
-  let weightedSum = 0;
-  for (const [fromCurr, { avg, count }] of Object.entries(byCurr)) {
-    const converted = convertPrice(avg, fromCurr, toCurrency, rates);
-    weightedSum += converted * count;
-    totalCount += count;
-  }
-  const weightedAvg = weightedSum / totalCount;
-  const sym = getCurrencySymbol(toCurrency);
-  return `${sym}${weightedAvg.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 4 })}`;
-}
-
-function timeAgo(dateStr: string | null): string {
-  if (!dateStr) return "—";
-  const now = new Date();
-  const ref = new Date(dateStr);
-  const diffMs = now.getTime() - ref.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  if (diffMins < 1) return "agora";
-  if (diffMins < 60) return `${diffMins} min`;
-  const diffHours = Math.floor(diffMins / 60);
-  if (diffHours < 24) return `${diffHours}h`;
-  const diffDays = Math.floor(diffHours / 24);
-  return `${diffDays}d`;
-}
 
 export async function OverviewTab({
   locale: _locale,
   displayCurrency = "USD",
   rates,
+  snapshot,
 }: {
   locale: string;
   displayCurrency?: string;
   rates?: ConversionRates;
+  snapshot: SnapshotRow[];
 }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const snapshot = await getMarketSnapshot(true);
   const recentAssetIds = snapshot.map((a) => a.asset_id).filter(Boolean) as string[];
   const idParam = recentAssetIds.length > 0 ? recentAssetIds : undefined;
   const [stats, changes, notifications] = await Promise.all([
@@ -173,7 +104,7 @@ export async function OverviewTab({
                     <tr key={m.asset_id} className="border-b border-gray-50 hover:bg-sky-50/50 transition-colors">
                       <td className="px-4 py-3">
                         <span className="text-sm font-semibold text-gray-900">{m.asset_name}</span>
-                        <span className="block text-[11px] text-gray-400">{m.country || m.technology || ""}</span>
+                        <span className="block text-[11px] text-gray-500">{m.country || m.technology || ""}</span>
                       </td>
                       <td className="px-4 py-3">
                         <span className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full ${type.color}`}>
@@ -189,21 +120,24 @@ export async function OverviewTab({
                         />
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <span className="text-sm font-mono font-bold text-gray-900">{formatConvertedPrice(m.current_price, m.currency, displayCurrency, rates)}</span>
+                        <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(m, displayCurrency, rates)}</span>
                       </td>
                       <td className="px-4 py-3 text-right">
                         {pct !== null ? (
-                          <span className={`text-sm font-mono font-bold ${pct >= 0 ? "text-emerald-700" : "text-red-700"}`}>
+                          <span className={`inline-flex items-center gap-0.5 text-sm font-mono font-bold ${pct >= 0 ? "text-emerald-700" : "text-red-700"}`}>
+                            <svg className={`w-3.5 h-3.5 ${pct >= 0 ? "" : "rotate-180"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M7 17l9.2-9.2M17 17V7H7" />
+                            </svg>
                             {pct >= 0 ? "+" : ""}{pct.toFixed(1)}%
                           </span>
                         ) : (
-                          <span className="text-gray-400">—</span>
+                          <span className="text-gray-500">—</span>
                         )}
                       </td>
                       <td className="px-4 py-3 text-xs text-gray-500 hidden md:table-cell">
                         {m.country || m.technology || "—"}
                       </td>
-                      <td className="px-4 py-3 text-right text-xs text-gray-400 font-mono hidden md:table-cell">
+                      <td className="px-4 py-3 text-right text-xs text-gray-500 font-mono hidden md:table-cell">
                         {m.current_date ? timeAgo(m.current_date) : "—"}
                       </td>
                     </tr>
@@ -219,7 +153,7 @@ export async function OverviewTab({
                           </svg>
                         </div>
                         <p className="text-sm text-gray-500 font-medium">Nenhuma movimentação disponível</p>
-                        <p className="text-xs text-gray-400">Os dados de movimentação do mercado aparecerão aqui quando houver atualizações</p>
+                        <p className="text-xs text-gray-500">Os dados de movimentação do mercado aparecerão aqui quando houver atualizações</p>
                       </div>
                     </td>
                   </tr>
@@ -283,12 +217,12 @@ export async function OverviewTab({
                       </td>
                       <td className="px-4 py-3 text-right">
                         <span className="text-sm font-mono font-bold text-emerald-600">{formatPrice(item, displayCurrency, rates)}</span>
-                        <span className="block text-[10px] text-gray-400">{item.currency || "—"} / {item.unit || "—"}</span>
+                        <span className="block text-[10px] text-gray-500">{item.currency || "—"} / {item.unit || "—"}</span>
                       </td>
                       <td className="px-4 py-3 text-xs text-gray-600 hidden sm:table-cell">
                         {item.country || item.technology || "—"}
                       </td>
-                      <td className="px-4 py-3 text-right text-xs text-gray-400 font-mono hidden md:table-cell">
+                      <td className="px-4 py-3 text-right text-xs text-gray-500 font-mono hidden md:table-cell">
                         {item.reference_date || "—"}
                       </td>
                     </tr>
@@ -304,7 +238,7 @@ export async function OverviewTab({
                           </svg>
                         </div>
                         <p className="text-sm text-gray-500 font-medium">Nenhuma referência de preço disponível</p>
-                        <p className="text-xs text-gray-400">As referências de mercado serão exibidas aqui quando os dados estiverem disponíveis</p>
+                        <p className="text-xs text-gray-500">As referências de mercado serão exibidas aqui quando os dados estiverem disponíveis</p>
                       </div>
                     </td>
                   </tr>
@@ -315,7 +249,7 @@ export async function OverviewTab({
         </div>
       </div>
 
-      <aside className="w-full lg:w-72 shrink-0 space-y-4">
+      <aside className="w-full lg:w-72 shrink-0 space-y-4 lg:sticky lg:top-24 lg:self-start">
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm">
           <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
             <h4 className="text-sm font-semibold text-gray-900">Alertas</h4>
@@ -339,7 +273,7 @@ export async function OverviewTab({
                   </div>
                   <div className="min-w-0">
                     <p className="text-xs font-medium text-gray-800 truncate">{notification.title}</p>
-                    <p className="text-[10px] text-gray-400 mt-0.5">{notification.created_at ? timeAgo(notification.created_at) : "—"}</p>
+                    <p className="text-[10px] text-gray-500 mt-0.5">{notification.created_at ? timeAgo(notification.created_at) : "—"}</p>
                   </div>
                 </div>
               ))}
@@ -350,7 +284,7 @@ export async function OverviewTab({
                 <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
-                <p className="text-[11px] text-gray-400 text-center">
+                <p className="text-[11px] text-gray-500 text-center">
                   {user ? "Nenhum alerta recente" : "Faça login para ver alertas"}
                 </p>
               </div>
@@ -367,7 +301,7 @@ export async function OverviewTab({
               <div key={item.asset_id} className="flex items-center justify-between">
                 <div className="min-w-0">
                   <p className="text-xs font-semibold text-gray-900 truncate">{item.asset_name}</p>
-                  <p className="text-[10px] text-gray-400">{item.registry || item.country || "—"}</p>
+                  <p className="text-[10px] text-gray-500">{item.registry || item.country || "—"}</p>
                 </div>
                 <span className="text-xs font-mono font-bold text-gray-900 ml-2 shrink-0">
                   {formatPrice(item, displayCurrency, rates)}
@@ -396,14 +330,17 @@ function KPICard({
 }) {
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-      <p className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide mb-2">{label}</p>
+      <h3 className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide mb-2">{label}</h3>
       <p className={`text-2xl font-bold font-mono ${color || "text-gray-900"}`}>{value}</p>
       {change !== null && change !== undefined && (
-        <p className={`text-xs font-semibold mt-1 ${change >= 0 ? "text-emerald-700" : "text-red-700"}`}>
-          {change >= 0 ? "↑" : "↓"} {change >= 0 ? "+" : ""}{change.toFixed(1)}% média
+        <p className={`inline-flex items-center gap-0.5 text-xs font-semibold mt-1 ${change >= 0 ? "text-emerald-700" : "text-red-700"}`}>
+          <svg className={`w-3 h-3 ${change >= 0 ? "" : "rotate-180"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M7 17l9.2-9.2M17 17V7H7" />
+          </svg>
+          {change >= 0 ? "+" : ""}{change.toFixed(1)}% média
         </p>
       )}
-      {sub && <p className="text-[11px] text-gray-400 mt-1">{sub}</p>}
+      {sub && <p className="text-[11px] text-gray-500 mt-1">{sub}</p>}
     </div>
   );
 }

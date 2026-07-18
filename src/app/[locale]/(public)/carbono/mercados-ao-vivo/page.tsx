@@ -21,6 +21,7 @@ import { getPriceSeries } from "@/lib/queries/price-series";
 import { fetchAllRates } from "@/lib/services/currency-converter";
 import { DataSources } from "@/components/ui/DataSources";
 import { LastUpdated } from "@/components/ui/LastUpdated";
+import { getLatestReferenceDate } from "@/lib/utils/market-helpers";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -63,7 +64,6 @@ export default async function CarbonoLiveMarketsPage({
   const displayCurrency = typeof sp.displayCurrency === "string" ? sp.displayCurrency : "USD";
   const rates = await fetchAllRates();
 
-  // Read filter params for the Explorer tab
   const explorerFilters = {
     assetType: typeof sp.assetType === "string" ? sp.assetType : undefined,
     geography: typeof sp.geography === "string" ? sp.geography : undefined,
@@ -78,7 +78,7 @@ export default async function CarbonoLiveMarketsPage({
 
   let drawerAsset: (typeof snapshot)[number] | undefined = undefined;
   let drawerSeries: Awaited<ReturnType<typeof getPriceSeries>> = [];
-  let drawerRelated: (typeof snapshot)[number][] = [];
+  let drawerRelated: (typeof snapshot)[] = [];
 
   if (assetSlug) {
     drawerAsset = snapshot.find(
@@ -103,28 +103,27 @@ export default async function CarbonoLiveMarketsPage({
     { name: "BloombergNEF", url: "https://about.bnef.com" },
   ];
 
+  const [assetTypes, geographies, registries, technologies, currencies, referenceTypes] = await Promise.all([
+    getDistinctFilterValues("asset_type", true),
+    getDistinctFilterValues("country", true),
+    getDistinctFilterValues("registry", true),
+    getDistinctFilterValues("technology", true),
+    getDistinctFilterValues("currency", true),
+    getDistinctFilterValues("reference_type", true),
+  ]);
+
   const filterOptions = {
-    assetTypes: await getDistinctFilterValues("asset_type", true).then((vals) =>
-      vals.map((v) => ({ label: v, value: v }))
-    ),
-    geographies: await getDistinctFilterValues("country", true).then((vals) =>
-      vals.map((v) => ({ label: v, value: v }))
-    ),
-    registries: await getDistinctFilterValues("registry", true).then((vals) =>
-      vals.map((v) => ({ label: v, value: v }))
-    ),
-    technologies: await getDistinctFilterValues("technology", true).then((vals) =>
-      vals.map((v) => ({ label: v, value: v }))
-    ),
-    currencies: await getDistinctFilterValues("currency", true).then((vals) =>
-      vals.map((v) => ({ label: v, value: v }))
-    ),
-    referenceTypes: await getDistinctFilterValues("reference_type", true).then((vals) =>
-      vals.map((v) => ({ label: v, value: v }))
-    ),
+    assetTypes: assetTypes.map((v) => ({ label: v, value: v })),
+    geographies: geographies.map((v) => ({ label: v, value: v })),
+    registries: registries.map((v) => ({ label: v, value: v })),
+    technologies: technologies.map((v) => ({ label: v, value: v })),
+    currencies: currencies.map((v) => ({ label: v, value: v })),
+    referenceTypes: referenceTypes.map((v) => ({ label: v, value: v })),
   };
 
   const selectedIds = selectedIdsRaw.split(",").filter(Boolean);
+
+  const lastReferenceDate = getLatestReferenceDate(snapshot);
 
   return (
     <>
@@ -150,7 +149,12 @@ export default async function CarbonoLiveMarketsPage({
 
         <div className="mt-6" role="tabpanel" id={`panel-${activeTab}`} aria-labelledby={`tab-${activeTab}`}>
           {activeTab === "overview" && (
-            <OverviewTab locale={locale} displayCurrency={displayCurrency} rates={rates} />
+            <OverviewTab
+              locale={locale}
+              displayCurrency={displayCurrency}
+              rates={rates}
+              snapshot={snapshot}
+            />
           )}
 
           {activeTab === "explorer" && (
@@ -177,7 +181,7 @@ export default async function CarbonoLiveMarketsPage({
         </div>
 
         <div className="mt-8 flex items-center justify-between">
-          <LastUpdated dataFile="mercados-ao-vivo" />
+          <LastUpdated lastDate={lastReferenceDate} />
         </div>
 
         <div className="mt-4">

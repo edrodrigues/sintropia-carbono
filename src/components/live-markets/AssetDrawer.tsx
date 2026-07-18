@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useCallback } from "react";
 import { X, Star, Bell } from "lucide-react";
 import { PriceBarChart } from "./PriceChart";
-import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-utils";
+import { formatPrice, assetTypeLabel, referenceLabel } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { PriceSeriesPoint } from "@/lib/queries/price-series";
 import type { Database } from "@/types/supabase";
@@ -17,40 +17,6 @@ interface AssetDrawerProps {
   relatedAssets?: SnapshotRow[];
   displayCurrency?: string;
   rates?: ConversionRates;
-}
-
-function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRates): string {
-  if (item.price_display && toCurrency === (item.currency || "USD")) return item.price_display;
-  if (item.price !== null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
-  if (item.price_low !== null && item.price_high !== null) {
-    if (rates && item.currency && item.currency !== toCurrency) {
-      const low = convertPrice(Number(item.price_low), item.currency, toCurrency, rates);
-      const high = convertPrice(Number(item.price_high), item.currency, toCurrency, rates);
-      const sym = getCurrencySymbol(toCurrency);
-      return `${sym}${low.toFixed(2)} - ${sym}${high.toFixed(2)}`;
-    }
-    return `${item.price_low} - ${item.price_high}`;
-  }
-  return "—";
-}
-
-function assetTypeLabel(type: string | null) {
-  switch (type) {
-    case "carbon_credit": return { label: "Carbono", color: "bg-emerald-50 text-emerald-700" };
-    case "irec": return { label: "I-REC", color: "bg-sky-50 text-sky-700" };
-    default: return { label: type || "Outro", color: "bg-gray-100 text-gray-600" };
-  }
-}
-
-function referenceLabel(type: string | null): string {
-  const map: Record<string, string> = {
-    trade: "Negócio realizado",
-    bid: "Bid",
-    ask: "Ask",
-    closing: "Fechamento",
-    indicative: "Indicativo",
-  };
-  return map[type || ""] || "—";
 }
 
 function getFocusableElements(container: HTMLElement): HTMLElement[] {
@@ -78,12 +44,19 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
 
   useEffect(() => {
     if (open) {
+      document.body.style.overflow = "hidden";
       previousFocusRef.current = document.activeElement as HTMLElement;
       setTimeout(() => closeButtonRef.current?.focus(), 100);
-    } else if (previousFocusRef.current) {
-      previousFocusRef.current.focus();
-      previousFocusRef.current = null;
+    } else {
+      document.body.style.overflow = "";
+      if (previousFocusRef.current) {
+        previousFocusRef.current.focus();
+        previousFocusRef.current = null;
+      }
     }
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   useEffect(() => {
@@ -172,7 +145,7 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
               </div>
               <p className="text-4xl font-mono font-bold text-gray-900">{formatPrice(asset, displayCurrency, rates)}</p>
               <p className="text-sm text-gray-500 mt-1">{displayCurrency} / {asset.unit || "—"}</p>
-              <p className="text-xs text-gray-400 mt-2">
+              <p className="text-xs text-gray-500 mt-2">
                 Atualizado {asset.reference_date || "—"}
               </p>
             </div>
@@ -218,7 +191,7 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
                       idx < 6 ? "border-b border-gray-100" : ""
                     }`}
                   >
-                    <dt className="text-[10px] font-semibold text-gray-400 uppercase tracking-wide">{attr.label}</dt>
+                    <dt className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide">{attr.label}</dt>
                     <dd className="text-sm font-medium text-gray-900 mt-0.5">{attr.value}</dd>
                   </div>
                 ))}
@@ -235,7 +208,7 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
                   >
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-gray-900 truncate">{ra.asset_name}</p>
-                      <p className="text-[11px] text-gray-400">{ra.registry || ra.country || "—"}</p>
+                      <p className="text-[11px] text-gray-500">{ra.registry || ra.country || "—"}</p>
                     </div>
                     <span className="text-sm font-mono font-bold text-gray-900 ml-3 shrink-0">
                       {formatPrice(ra, displayCurrency, rates)}
@@ -243,7 +216,7 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
                   </div>
                 ))}
                 {relatedAssets.length === 0 && (
-                  <p className="text-xs text-gray-400">Nenhuma referência relacionada</p>
+                  <p className="text-xs text-gray-500">Nenhuma referência relacionada</p>
                 )}
               </div>
             </div>

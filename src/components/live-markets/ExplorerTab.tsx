@@ -5,7 +5,7 @@ import { useCallback, useMemo } from "react";
 import { FilterPanel } from "./FilterPanel";
 import { ComparisonBar } from "./ComparisonBar";
 import { CadTrustScore } from "./CadTrustScore";
-import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-utils";
+import { formatPrice, timeAgo, referenceBadge } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
@@ -23,46 +23,6 @@ interface ExplorerTabProps {
   };
   displayCurrency?: string;
   rates?: ConversionRates;
-}
-
-function referenceBadge(type: string | null) {
-  switch (type) {
-    case "trade": return { label: "Negócio realizado", color: "bg-emerald-50 text-emerald-700" };
-    case "bid": return { label: "Bid", color: "bg-sky-50 text-sky-700" };
-    case "ask": return { label: "Ask", color: "bg-sky-50 text-sky-700" };
-    case "closing": return { label: "Fechamento", color: "bg-gray-100 text-gray-600" };
-    case "indicative": return { label: "Indicativo", color: "bg-gray-100 text-gray-600" };
-    default: return { label: "—", color: "bg-gray-100 text-gray-600" };
-  }
-}
-
-function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRates): string {
-  if (item.price_display && toCurrency === (item.currency || "USD")) return item.price_display;
-  if (item.price !== null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
-  if (item.price_low !== null && item.price_high !== null) {
-    if (rates && item.currency && item.currency !== toCurrency) {
-      const low = convertPrice(Number(item.price_low), item.currency, toCurrency, rates);
-      const high = convertPrice(Number(item.price_high), item.currency, toCurrency, rates);
-      const sym = getCurrencySymbol(toCurrency);
-      return `${sym}${low.toFixed(2)} - ${sym}${high.toFixed(2)}`;
-    }
-    return `${item.price_low} - ${item.price_high}`;
-  }
-  return "—";
-}
-
-function timeAgo(dateStr: string | null): string {
-  if (!dateStr) return "—";
-  const now = new Date();
-  const ref = new Date(dateStr);
-  const diffMs = now.getTime() - ref.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  if (diffMins < 1) return "agora";
-  if (diffMins < 60) return `${diffMins} min`;
-  const diffHours = Math.floor(diffMins / 60);
-  if (diffHours < 24) return `${diffHours}h`;
-  const diffDays = Math.floor(diffHours / 24);
-  return `${diffDays}d`;
 }
 
 export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD", rates }: ExplorerTabProps) {
@@ -153,11 +113,12 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                 return (
                   <tr
                     key={item.price_id}
-                    className={`border-b border-gray-50 transition-colors ${
+                    className={`border-b border-gray-50 transition-colors cursor-pointer ${
                       isSelected ? "bg-blue-50/30" : "hover:bg-sky-50/50"
                     }`}
+                    onClick={() => item.asset_id && toggleSelect(item.asset_id)}
                   >
-                    <td className="px-3 py-3">
+                    <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
                       <label className="flex items-center justify-center cursor-pointer">
                         <input
                           type="checkbox"
@@ -168,12 +129,9 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                         />
                       </label>
                     </td>
-                    <td
-                      className="px-3 py-3 cursor-pointer"
-                      onClick={() => item.asset_id && toggleSelect(item.asset_id)}
-                    >
+                    <td className="px-3 py-3">
                       <span className="text-sm font-semibold text-gray-900">{item.asset_name}</span>
-                      <span className="block text-[11px] text-gray-400">{item.asset_type === "carbon_credit" ? "Carbono" : item.asset_type === "irec" ? "I-REC" : item.asset_type}</span>
+                      <span className="block text-[11px] text-gray-500">{item.asset_type === "carbon_credit" ? "Carbono" : item.asset_type === "irec" ? "I-REC" : item.asset_type}</span>
                     </td>
                     <td className="px-3 py-3">
                       <span className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full ${ref.color}`}>
@@ -190,7 +148,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                     </td>
                     <td className="px-3 py-3 text-right">
                       <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</span>
-                      <span className="block text-[10px] text-gray-400">{item.currency || "—"} / {item.unit || "—"}</span>
+                      <span className="block text-[10px] text-gray-500">{item.currency || "—"} / {item.unit || "—"}</span>
                     </td>
                     <td className="px-3 py-3 hidden sm:table-cell">
                       <span className="text-[11px] text-gray-500">
@@ -205,6 +163,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline"
+                            onClick={(e) => e.stopPropagation()}
                           >
                             {item.source_name}
                           </a>
@@ -215,7 +174,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                         "—"
                       )}
                     </td>
-                    <td className="px-3 py-3 text-right text-xs text-gray-400 font-mono hidden md:table-cell">
+                    <td className="px-3 py-3 text-right text-xs text-gray-500 font-mono hidden md:table-cell">
                       {timeAgo(item.reference_date)}
                     </td>
                   </tr>
@@ -231,7 +190,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                         </svg>
                       </div>
                       <p className="text-sm text-gray-500 font-medium">Nenhuma referência encontrada</p>
-                      <p className="text-xs text-gray-400">Tente ajustar os filtros ou buscar por outros termos</p>
+                      <p className="text-xs text-gray-500">Tente ajustar os filtros ou buscar por outros termos</p>
                     </div>
                   </td>
                 </tr>

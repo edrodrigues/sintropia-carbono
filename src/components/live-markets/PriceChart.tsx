@@ -187,6 +187,22 @@ interface PriceBarChartProps {
   currency?: string;
 }
 
+function BarTooltip({ active, payload, label, currency }: { active?: boolean; payload?: TooltipPayloadItem[]; label?: string; currency?: string }) {
+  if (!active || !payload?.length) return null;
+  const value = payload[0]?.value;
+  const sym = getCurrencySymbol(currency || "USD");
+  return (
+    <div className="bg-white px-3 py-2 rounded-lg shadow-lg border border-gray-200">
+      <p className="text-xs font-medium text-gray-500 mb-1">{label}</p>
+      {value != null && (
+        <p className="text-sm font-mono font-bold text-gray-900">
+          {sym}{Number(value).toFixed(2)}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export function PriceBarChart({ data, height = 260, currency = "USD" }: PriceBarChartProps) {
   const sym = getCurrencySymbol(currency);
 
@@ -228,7 +244,7 @@ export function PriceBarChart({ data, height = 260, currency = "USD" }: PriceBar
             width={55}
             tickFormatter={(v: number) => `${sym}${v.toFixed(2)}`}
           />
-          <Tooltip />
+          <Tooltip content={<BarTooltip currency={currency} />} />
           <Bar dataKey="value" fill="#10b981" radius={[3, 3, 0, 0]} maxBarSize={40} name="Preço" />
         </ComposedChart>
       </ResponsiveContainer>

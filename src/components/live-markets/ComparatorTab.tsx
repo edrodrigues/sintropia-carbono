@@ -1,71 +1,11 @@
 import { getMarketByAssetIds, getMarketSnapshot } from "@/lib/queries/live-markets";
 import { Info } from "lucide-react";
-import { convertPrice, getCurrencySymbol, formatConvertedPrice } from "@/lib/services/currency-utils";
+import { formatPrice, timeAgo, referenceLabel, referenceColor, typeLabel } from "@/lib/utils/market-helpers";
 import { CadTrustScore } from "./CadTrustScore";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
-
-function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRates): string {
-  if (item.price_display && toCurrency === (item.currency || "USD")) return item.price_display;
-  if (item.price !== null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
-  if (item.price_low !== null && item.price_high !== null) {
-    if (rates && item.currency && item.currency !== toCurrency) {
-      const low = convertPrice(Number(item.price_low), item.currency, toCurrency, rates);
-      const high = convertPrice(Number(item.price_high), item.currency, toCurrency, rates);
-      const sym = getCurrencySymbol(toCurrency);
-      return `${sym}${low.toFixed(2)} - ${sym}${high.toFixed(2)}`;
-    }
-    return `${item.price_low} - ${item.price_high}`;
-  }
-  return "—";
-}
-
-function referenceLabel(type: string | null): string {
-  const map: Record<string, string> = {
-    trade: "Negócio realizado",
-    bid: "Bid",
-    ask: "Ask",
-    closing: "Fechamento",
-    indicative: "Indicativo",
-    rfq: "Sob consulta",
-    range: "Faixa",
-  };
-  return map[type || ""] || "—";
-}
-
-function referenceColor(type: string | null): string {
-  switch (type) {
-    case "trade": return "bg-emerald-50 text-emerald-700";
-    case "bid": case "ask": return "bg-sky-50 text-sky-700";
-    default: return "bg-gray-100 text-gray-600";
-  }
-}
-
-function typeLabel(type: string | null): string {
-  const map: Record<string, string> = {
-    carbon_credit: "Carbono (crédito)",
-    irec: "I-REC",
-    go: "GO (Garantia de Origem)",
-    cbio: "CBIO",
-  };
-  return map[type || ""] || type || "—";
-}
-
-function timeAgo(dateStr: string | null): string {
-  if (!dateStr) return "—";
-  const now = new Date();
-  const ref = new Date(dateStr);
-  const diffMs = now.getTime() - ref.getTime();
-  const diffMins = Math.floor(diffMs / 60000);
-  if (diffMins < 1) return "agora";
-  if (diffMins < 60) return `${diffMins} min atrás`;
-  const diffHours = Math.floor(diffMins / 60);
-  if (diffHours < 24) return `${diffHours}h atrás`;
-  const diffDays = Math.floor(diffHours / 24);
-  return `${diffDays}d atrás`;
-}
 
 interface ComparisonRow {
   label: string;
@@ -103,7 +43,7 @@ export async function ComparatorTab({
             </svg>
           </div>
           <p className="text-sm text-gray-500 font-medium">Nenhuma referência selecionada</p>
-          <p className="text-xs text-gray-400 max-w-sm">Selecione ativos na aba &quot;Explorar preços&quot; para comparar preços e atributos lado a lado</p>
+          <p className="text-xs text-gray-500 max-w-sm">Selecione ativos na aba &quot;Explorar preços&quot; para comparar preços e atributos lado a lado</p>
         </div>
       </div>
     );
@@ -201,7 +141,7 @@ export async function ComparatorTab({
             </p>
             <p className="text-sm font-semibold text-gray-900 mb-2">{item.asset_name}</p>
             <p className="text-2xl font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</p>
-            <p className="text-xs text-gray-400 mb-2">{displayCurrency} / {item.unit || "—"}</p>
+            <p className="text-xs text-gray-500 mb-2">{displayCurrency} / {item.unit || "—"}</p>
             <span className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full ${referenceColor(item.reference_type)}`}>
               {referenceLabel(item.reference_type)}
             </span>
@@ -257,10 +197,10 @@ export async function ComparatorTab({
       </div>
 
       <div className="flex items-center justify-end gap-2">
-        <button className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+        <button className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer min-h-[44px]">
           Exportar CSV
         </button>
-        <button className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg">
+        <button className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg cursor-pointer min-h-[44px]">
           Criar alerta
         </button>
       </div>
