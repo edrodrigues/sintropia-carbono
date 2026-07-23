@@ -7,6 +7,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { PrivyProvider } from "@/components/providers/PrivyProvider";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -119,14 +120,16 @@ export default async function RootLayout({
     <html lang={locale as (typeof routing.locales)[number]} className={`${GeistSans.className} ${inter.variable} light antialiased dark:bg-gray-950`}>
       <body className="antialiased font-sans bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
         <NextIntlClientProvider messages={messages}>
-          <StrictModeFix />
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-forest-green focus:text-white focus:rounded-lg focus:font-bold focus:outline-none focus:ring-2 focus:ring-emerald-300"
-          >
-            Pular para o conteúdo principal
-          </a>
-          {children}
+          <PrivyProvider appId={process.env.NEXT_PRIVY_ID!}>
+            <StrictModeFix />
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-forest-green focus:text-white focus:rounded-lg focus:font-bold focus:outline-none focus:ring-2 focus:ring-emerald-300"
+            >
+              Pular para o conteúdo principal
+            </a>
+            {children}
+          </PrivyProvider>
 
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-BC4PP7XDM6"

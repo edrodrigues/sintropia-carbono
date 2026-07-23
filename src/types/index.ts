@@ -45,6 +45,7 @@ export interface Profile {
   company_website: string | null;
   company_founded_year: number | null;
   company_geo_presence: string | null;
+  wallet_address: string | null;
   created_at: string | null;
   updated_at: string | null;
 }

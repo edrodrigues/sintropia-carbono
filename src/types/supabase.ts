@@ -720,6 +720,7 @@ export type Database = {
           updated_at: string | null
           user_type: string | null
           username: string
+          wallet_address: string | null
           years_of_experience: number | null
         }
         Insert: {
@@ -751,6 +752,7 @@ export type Database = {
           updated_at?: string | null
           user_type?: string | null
           username: string
+          wallet_address?: string | null
           years_of_experience?: number | null
         }
         Update: {
@@ -782,6 +784,7 @@ export type Database = {
           updated_at?: string | null
           user_type?: string | null
           username?: string
+          wallet_address?: string | null
           years_of_experience?: number | null
         }
         Relationships: [
