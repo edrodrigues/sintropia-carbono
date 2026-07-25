@@ -2606,7 +2606,6 @@ export type Database = {
           country: string | null
           currency: string | null
           current_date: string | null
-          current_display: string | null
           current_price: number | null
           previous_date: string | null
           previous_price: number | null

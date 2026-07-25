@@ -1,6 +1,6 @@
-import { getPriceChanges, getMarketOverviewStats } from "@/lib/queries/live-markets";
+import { getPriceChanges, getMarketOverviewStats, getMarketByAssetIds } from "@/lib/queries/live-markets";
 import { createClient } from "@/lib/supabase/server";
-import { getUserMarketNotifications } from "@/lib/queries/user-market-data";
+import { getUserMarketNotifications, getUserWatchlist } from "@/lib/queries/user-market-data";
 import { getTranslations } from "next-intl/server";
 import { CadTrustScore } from "./CadTrustScore";
 import { formatPrice, formatAvgPrice, timeAgo, assetTypeLabel, referenceBadge } from "@/lib/utils/market-helpers";
@@ -26,10 +26,16 @@ export async function OverviewTab({
 
   const recentAssetIds = snapshot.map((a) => a.asset_id).filter(Boolean) as string[];
   const idParam = recentAssetIds.length > 0 ? recentAssetIds : undefined;
-  const [stats, changes, notifications] = await Promise.all([
+  const [stats, changes, notifications, watchlistAssets] = await Promise.all([
     getMarketOverviewStats(idParam),
     getPriceChanges(idParam),
     user ? getUserMarketNotifications(user.id, 5) : Promise.resolve([]),
+    user
+      ? getUserWatchlist(user.id).then((items) => {
+        const ids = items.map((i) => i.asset_id).filter(Boolean) as string[];
+        return ids.length > 0 ? getMarketByAssetIds(ids, true) : [];
+      })
+      : Promise.resolve([]),
   ]);
 
   const topMovers = changes.filter((c) => c.change_pct !== null).slice(0, 8);
@@ -122,7 +128,7 @@ export async function OverviewTab({
                         />
                       </td>
                       <td className="px-4 py-3 text-right">
-                        <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(m, displayCurrency, rates)}</span>
+                        <span className="text-sm font-mono font-bold text-gray-900">{formatPrice({ price: m.current_price, currency: m.currency }, displayCurrency, rates)}</span>
                       </td>
                       <td className="px-4 py-3 text-right">
                         {pct !== null ? (
@@ -298,19 +304,33 @@ export async function OverviewTab({
           <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
             <h4 className="text-sm font-semibold text-gray-900">Watchlist</h4>
           </div>
-          <div className="px-4 py-3 space-y-3">
-            {snapshot.slice(0, 4).map((item) => (
-              <div key={item.asset_id} className="flex items-center justify-between">
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold text-gray-900 truncate">{item.asset_name}</p>
-                  <p className="text-[10px] text-gray-500">{item.registry || item.country || "—"}</p>
+          {watchlistAssets.length > 0 ? (
+            <div className="px-4 py-3 space-y-3">
+              {watchlistAssets.slice(0, 4).map((item) => (
+                <div key={item.asset_id} className="flex items-center justify-between">
+                  <div className="min-w-0">
+                    <p className="text-xs font-semibold text-gray-900 truncate">{item.asset_name}</p>
+                    <p className="text-[10px] text-gray-500">{item.registry || item.country || "—"}</p>
+                  </div>
+                  <span className="text-xs font-mono font-bold text-gray-900 ml-2 shrink-0">
+                    {formatPrice(item, displayCurrency, rates)}
+                  </span>
                 </div>
-                <span className="text-xs font-mono font-bold text-gray-900 ml-2 shrink-0">
-                  {formatPrice(item, displayCurrency, rates)}
-                </span>
+              ))}
+            </div>
+          ) : (
+            <div className="px-4 py-6">
+              <div className="flex flex-col items-center gap-2">
+                <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                <p className="text-[11px] text-gray-500 text-center">
+                  {user ? "Sua watchlist está vazia" : "Faça login para ver sua watchlist"}
+                </p>
               </div>
-            ))}
-          </div>
+            </div>
+          )}
         </div>
       </aside>
     </div>

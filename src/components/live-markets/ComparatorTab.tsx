@@ -1,4 +1,4 @@
-import { getMarketByAssetIds, getMarketSnapshot } from "@/lib/queries/live-markets";
+import { getMarketByAssetIds } from "@/lib/queries/live-markets";
 import { Info } from "lucide-react";
 import { formatPrice, timeAgo, referenceLabel, referenceColor, typeLabel } from "@/lib/utils/market-helpers";
 import { CadTrustScore } from "./CadTrustScore";
@@ -28,9 +28,6 @@ export async function ComparatorTab({
 
   if (selectedIds.length > 0) {
     items = await getMarketByAssetIds(selectedIds, true);
-  } else {
-    const snapshot = await getMarketSnapshot(true);
-    items = snapshot.filter((a) => a.price !== null).slice(0, 3);
   }
 
   if (items.length === 0) {

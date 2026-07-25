@@ -152,7 +152,7 @@ export function Header() {
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 w-full" onMouseLeave={() => { setActiveMenu(null); setShowProfileMenu(false); setShowCriarDropdown(false); }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group" aria-label="Sintropia">
+          <Link href="/" className="flex items-center gap-2 group lg:mr-6" aria-label="Sintropia">
             <Logo size={34} className="lg:scale-110 lg:origin-left" />
           </Link>
 
