@@ -37,18 +37,22 @@ export function formatAvgPrice(
   return `${sym}${weightedAvg.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 4 })}`;
 }
 
-export function timeAgo(dateStr: string | null): string {
+export interface TimeAgoTranslator {
+  (key: "time_now" | "time_min" | "time_hour" | "time_day", values?: Record<string, string | number | Date>): string;
+}
+
+export function timeAgo(dateStr: string | null, t?: TimeAgoTranslator): string {
   if (!dateStr) return "—";
   const now = new Date();
   const ref = new Date(dateStr);
   const diffMs = now.getTime() - ref.getTime();
   const diffMins = Math.floor(diffMs / 60000);
-  if (diffMins < 1) return "agora";
-  if (diffMins < 60) return `${diffMins} min`;
+  if (diffMins < 1) return t ? t("time_now") : "agora";
+  if (diffMins < 60) return t ? t("time_min", { n: diffMins }) : `${diffMins} min`;
   const diffHours = Math.floor(diffMins / 60);
-  if (diffHours < 24) return `${diffHours}h`;
+  if (diffHours < 24) return t ? t("time_hour", { n: diffHours }) : `${diffHours}h`;
   const diffDays = Math.floor(diffHours / 24);
-  return `${diffDays}d`;
+  return t ? t("time_day", { n: diffDays }) : `${diffDays}d`;
 }
 
 export function assetTypeLabel(type: string | null): { label: string; color: string } {

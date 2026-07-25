@@ -1,6 +1,7 @@
 import { getPriceChanges, getMarketOverviewStats } from "@/lib/queries/live-markets";
 import { createClient } from "@/lib/supabase/server";
 import { getUserMarketNotifications } from "@/lib/queries/user-market-data";
+import { getTranslations } from "next-intl/server";
 import { CadTrustScore } from "./CadTrustScore";
 import { formatPrice, formatAvgPrice, timeAgo, assetTypeLabel, referenceBadge } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
@@ -9,7 +10,7 @@ import type { Database } from "@/types/supabase";
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
 
 export async function OverviewTab({
-  locale: _locale,
+  locale,
   displayCurrency = "USD",
   rates,
   snapshot,
@@ -21,6 +22,7 @@ export async function OverviewTab({
 }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+  const t = await getTranslations({ locale, namespace: "CarbonoLiveMarkets" });
 
   const recentAssetIds = snapshot.map((a) => a.asset_id).filter(Boolean) as string[];
   const idParam = recentAssetIds.length > 0 ? recentAssetIds : undefined;
@@ -87,13 +89,13 @@ export async function OverviewTab({
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/50">
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Ativo</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Tipo</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Score</th>
-                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Preço</th>
-                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Variação</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Fonte</th>
-                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Atualizado</th>
+                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("asset")}</th>
+                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("type")}</th>
+                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("score")}</th>
+                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("price")}</th>
+                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("change")}</th>
+                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("source")}</th>
+                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("updated")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -138,7 +140,7 @@ export async function OverviewTab({
                         {m.country || m.technology || "—"}
                       </td>
                       <td className="px-4 py-3 text-right text-xs text-gray-500 font-mono hidden md:table-cell">
-                        {m.current_date ? timeAgo(m.current_date) : "—"}
+                        {m.current_date ? timeAgo(m.current_date, t) : "—"}
                       </td>
                     </tr>
                   );
@@ -172,13 +174,13 @@ export async function OverviewTab({
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-100 bg-gray-50/50">
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Ativo</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Tipo</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Registro</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Score</th>
-                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Preço</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Geografia</th>
-                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Atualizado</th>
+                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("asset")}</th>
+                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("type")}</th>
+                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("registry")}</th>
+                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("score")}</th>
+                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("price")}</th>
+                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("geography")}</th>
+                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("updated")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -223,7 +225,7 @@ export async function OverviewTab({
                         {item.country || item.technology || "—"}
                       </td>
                       <td className="px-4 py-3 text-right text-xs text-gray-500 font-mono hidden md:table-cell">
-                        {item.reference_date || "—"}
+                        {timeAgo(item.reference_date, t)}
                       </td>
                     </tr>
                   );
@@ -273,7 +275,7 @@ export async function OverviewTab({
                   </div>
                   <div className="min-w-0">
                     <p className="text-xs font-medium text-gray-800 truncate">{notification.title}</p>
-                    <p className="text-[10px] text-gray-500 mt-0.5">{notification.created_at ? timeAgo(notification.created_at) : "—"}</p>
+                    <p className="text-[10px] text-gray-500 mt-0.5">{notification.created_at ? timeAgo(notification.created_at, t) : "—"}</p>
                   </div>
                 </div>
               ))}

@@ -2,9 +2,10 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { X, Star, Bell } from "lucide-react";
 import { PriceBarChart } from "./PriceChart";
-import { formatPrice, assetTypeLabel, referenceLabel } from "@/lib/utils/market-helpers";
+import { formatPrice, timeAgo, assetTypeLabel, referenceLabel } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { PriceSeriesPoint } from "@/lib/queries/price-series";
 import type { Database } from "@/types/supabase";
@@ -30,6 +31,7 @@ function getFocusableElements(container: HTMLElement): HTMLElement[] {
 export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displayCurrency = "USD", rates }: AssetDrawerProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations("CarbonoLiveMarkets");
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
@@ -146,7 +148,7 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
               <p className="text-4xl font-mono font-bold text-gray-900">{formatPrice(asset, displayCurrency, rates)}</p>
               <p className="text-sm text-gray-500 mt-1">{displayCurrency} / {asset.unit || "—"}</p>
               <p className="text-xs text-gray-500 mt-2">
-                Atualizado {asset.reference_date || "—"}
+                {t("updated")} {timeAgo(asset.reference_date, t)}
               </p>
             </div>
 

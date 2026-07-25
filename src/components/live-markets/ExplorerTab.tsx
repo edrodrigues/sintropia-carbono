@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { FilterPanel } from "./FilterPanel";
 import { ComparisonBar } from "./ComparisonBar";
 import { CadTrustScore } from "./CadTrustScore";
@@ -28,6 +29,7 @@ interface ExplorerTabProps {
 export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD", rates }: ExplorerTabProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations("CarbonoLiveMarkets");
 
   const selectedIds = useMemo(() => {
     const sel = searchParams.get("sel");
@@ -97,13 +99,13 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                     />
                   </label>
                 </th>
-                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Ativo</th>
-                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Tipo de preço</th>
-                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Score</th>
-                <th className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">Preço</th>
-                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">Atributos</th>
-                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Fonte</th>
-                <th className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Atualizado</th>
+                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("asset")}</th>
+                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("price_type")}</th>
+                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("score")}</th>
+                <th className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("price")}</th>
+                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("attributes")}</th>
+                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("source")}</th>
+                <th className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("updated")}</th>
               </tr>
             </thead>
             <tbody>
@@ -175,7 +177,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                       )}
                     </td>
                     <td className="px-3 py-3 text-right text-xs text-gray-500 font-mono hidden md:table-cell">
-                      {timeAgo(item.reference_date)}
+                      {timeAgo(item.reference_date, t)}
                     </td>
                   </tr>
                 );
