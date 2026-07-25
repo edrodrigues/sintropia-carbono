@@ -10,7 +10,7 @@ const TABS: { id: TabId; label: string; icon: React.ElementType }[] = [
   { id: "overview", label: "Visão geral", icon: LayoutGrid },
   { id: "explorer", label: "Explorar preços", icon: Search },
   { id: "comparator", label: "Comparador", icon: ArrowLeftRight },
-  { id: "listagens", label: "Listagens", icon: Store },
+  { id: "listagens", label: "Listagens Sintropia", icon: Store },
   { id: "watchlist", label: "Watchlist", icon: Star },
 ];
 
@@ -18,7 +18,15 @@ const TABS_EN: { id: TabId; label: string; icon: React.ElementType }[] = [
   { id: "overview", label: "Overview", icon: LayoutGrid },
   { id: "explorer", label: "Explore prices", icon: Search },
   { id: "comparator", label: "Comparator", icon: ArrowLeftRight },
-  { id: "listagens", label: "Listings", icon: Store },
+  { id: "listagens", label: "Sintropia Listings", icon: Store },
+  { id: "watchlist", label: "Watchlist", icon: Star },
+];
+
+const TABS_ES: { id: TabId; label: string; icon: React.ElementType }[] = [
+  { id: "overview", label: "Vista general", icon: LayoutGrid },
+  { id: "explorer", label: "Explorar precios", icon: Search },
+  { id: "comparator", label: "Comparador", icon: ArrowLeftRight },
+  { id: "listagens", label: "Listados Sintropia", icon: Store },
   { id: "watchlist", label: "Watchlist", icon: Star },
 ];
 
@@ -32,7 +40,7 @@ export function LiveMarketsTabs({ activeTab, locale = "pt" }: LiveMarketsTabsPro
   const searchParams = useSearchParams();
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const tabs = locale === "en" ? TABS_EN : TABS;
+  const tabs = locale === "en" ? TABS_EN : locale === "es" ? TABS_ES : TABS;
 
   const switchTab = useCallback(
     (tabId: TabId) => {
