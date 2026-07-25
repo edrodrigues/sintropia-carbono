@@ -65,6 +65,17 @@ export const CO_BENEFIT_OPTIONS = [
   "Biodiversity", "Community", "Gender equity", "CCB Gold",
 ] as const;
 
+export const DOCUMENTATION_OPTIONS = [
+  "PDD",
+  "Validation report",
+  "Verification report",
+  "Community consent",
+  "Land tenure docs",
+  "Monitoring report",
+] as const;
+
+export const RATING_GRADES = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-"] as const;
+
 export const RATING_AGENCIES = ["sylvera", "bezero", "renoster"] as const;
 
 export const CONTRACT_TYPE_OPTIONS = [
@@ -74,6 +85,13 @@ export const CONTRACT_TYPE_OPTIONS = [
 export const DELIVERY_TERM_OPTIONS = [
   "Spot", "Forward Q1 2027", "Forward Q2 2027", "Forward Q3 2027", "Forward Q4 2027",
   "Q4 2026", "Q1 2026",
+] as const;
+
+export const EVALUATION_CRITERIA_OPTIONS = [
+  { value: "quality", label: { pt: "Qualidade / ratings", en: "Quality / ratings", es: "Calidad / ratings" } },
+  { value: "price", label: { pt: "Preço", en: "Price", es: "Precio" } },
+  { value: "co_benefits", label: { pt: "Co-benefícios", en: "Co-benefits", es: "Cobeneficios" } },
+  { value: "track_record", label: { pt: "Histórico / experiência", en: "Track record / experience", es: "Historial / experiencia" } },
 ] as const;
 
 export const PURCHASE_PURPOSE_OPTIONS = [

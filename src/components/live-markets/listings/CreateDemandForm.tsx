@@ -8,6 +8,7 @@ import {
   ASSET_TYPE_OPTIONS, UNIT_OPTIONS, REGISTRY_OPTIONS, METHODOLOGY_OPTIONS,
   CCP_REQUIREMENT_OPTIONS, RESPONSE_FORMAT_OPTIONS, COUNTRY_OPTIONS,
   CO_BENEFIT_OPTIONS, PURCHASE_PURPOSE_OPTIONS, ANNUAL_BUDGET_OPTIONS,
+  EVALUATION_CRITERIA_OPTIONS, RATING_AGENCIES, RATING_GRADES,
 } from "@/lib/utils/market-listing-options";
 import type { BuyerProfileRow } from "@/lib/queries/market-listings";
 
@@ -53,6 +54,17 @@ export function CreateDemandForm({ locale, existingBuyerProfile }: Props) {
     prefer_deal_room: false,
   });
 
+  const [evalCriteria, setEvalCriteria] = useState<Record<string, number>>({
+    quality: 40,
+    price: 30,
+    co_benefits: 15,
+    track_record: 15,
+  });
+
+  const [minRatings, setMinRatings] = useState<Record<string, string>>({});
+  const [showEvalCriteria, setShowEvalCriteria] = useState(false);
+  const [showMinRatings, setShowMinRatings] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -91,6 +103,8 @@ export function CreateDemandForm({ locale, existingBuyerProfile }: Props) {
       response_format: form.response_format || undefined,
       registries: form.registries,
       prefer_deal_room: form.prefer_deal_room,
+      evaluation_criteria: showEvalCriteria ? evalCriteria : undefined,
+      min_ratings: showMinRatings ? minRatings : undefined,
     };
 
     setLoading(true);
@@ -272,6 +286,51 @@ export function CreateDemandForm({ locale, existingBuyerProfile }: Props) {
           </label>
           {form.open_to_multi_year_offtake && (
             <input type="number" className={`${inputCls} w-28`} value={form.offtake_until_year} onChange={(e) => setForm((f) => ({ ...f, offtake_until_year: e.target.value }))} placeholder="até 2029" />
+          )}
+        </div>
+
+        <div className="border-t border-slate-100 pt-4">
+          <button type="button" onClick={() => setShowEvalCriteria((v) => !v)}
+            className="text-xs font-bold text-deep-forest hover:underline flex items-center gap-1">
+            {showEvalCriteria ? "−" : "+"} {t("evaluationCriteria")}
+          </button>
+          {showEvalCriteria && (
+            <div className="mt-3 space-y-3">
+              <p className="text-xs text-slate-500">{t("evaluationCriteriaHelp")}</p>
+              {EVALUATION_CRITERIA_OPTIONS.map((c) => (
+                <div key={c.value} className="flex items-center gap-3">
+                  <span className="text-xs w-40 text-slate-700">{labels(c)}</span>
+                  <input type="number" min={0} max={100}
+                    className={`${inputCls} w-20`}
+                    value={evalCriteria[c.value] ?? 0}
+                    onChange={(e) => setEvalCriteria((prev) => ({ ...prev, [c.value]: Math.min(100, Math.max(0, Number(e.target.value))) }))} />
+                  <span className="text-xs text-slate-400">%</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="border-t border-slate-100 pt-4">
+          <button type="button" onClick={() => setShowMinRatings((v) => !v)}
+            className="text-xs font-bold text-deep-forest hover:underline flex items-center gap-1">
+            {showMinRatings ? "−" : "+"} {t("minRatings")}
+          </button>
+          {showMinRatings && (
+            <div className="mt-3 space-y-3">
+              <p className="text-xs text-slate-500">{t("minRatingsHelp")}</p>
+              {RATING_AGENCIES.map((agency) => (
+                <div key={agency} className="flex items-center gap-3">
+                  <span className="text-xs w-40 text-slate-700 capitalize">{agency}</span>
+                  <select className={`${inputCls} w-32`}
+                    value={minRatings[agency] ?? ""}
+                    onChange={(e) => setMinRatings((prev) => ({ ...prev, [agency]: e.target.value }))}>
+                    <option value="">—</option>
+                    {RATING_GRADES.map((g) => <option key={g} value={g}>{g}</option>)}
+                  </select>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </section>

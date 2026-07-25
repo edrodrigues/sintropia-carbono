@@ -187,7 +187,8 @@ CREATE TRIGGER trg_market_listings_updated_at
 -- ---------------------------------------------------------------
 -- 4. View: market_listings + author profile snapshot
 -- ---------------------------------------------------------------
-CREATE OR REPLACE VIEW v_market_listings AS
+CREATE OR REPLACE VIEW v_market_listings
+WITH (security_invoker = true) AS
 SELECT
   l.*,
   p.username    AS author_username,

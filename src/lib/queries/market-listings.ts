@@ -1,61 +1,11 @@
 import { createClient } from "@/lib/supabase/server";
 import { logger } from "@/lib/utils/logger";
+import type { Database } from "@/types/supabase";
 
-// Tables/view created by 20260725000000_market_listings.sql are not yet in
-// generated types (supabase.ts). Cast the typed client to any locally.
-type AnyClient = {
-  from: (relation: string) => any;
-};
+type DbMarketListing = Database["public"]["Tables"]["market_listings"]["Row"];
+type DbBuyerProfile = Database["public"]["Tables"]["buyer_profiles"]["Row"];
 
-export type MarketListingRow = {
-  id: string;
-  author_id: string;
-  buyer_profile_id: string | null;
-  side: "supply" | "demand";
-  status: string;
-  asset_type: string;
-  volume: number | null;
-  unit: string | null;
-  delivery_term: string | null;
-  registry: string | null;
-  project_registry_id: string | null;
-  project_name: string | null;
-  vintage: number | null;
-  origin_country: string | null;
-  price_amount: number | null;
-  price_currency: string | null;
-  price_on_request: boolean | null;
-  methodology: string | null;
-  ccp_status: string | null;
-  ratings: Record<string, unknown> | null;
-  co_benefits: string[] | null;
-  ccee_origem: string | null;
-  min_transaction_size: number | null;
-  documentation: string[] | null;
-  media_urls: string[] | null;
-  contract_type: string | null;
-  registries: string[] | null;
-  volume_min: number | null;
-  volume_max: number | null;
-  vintage_from: number | null;
-  vintage_to: number | null;
-  methodologies: string[] | null;
-  regions: string[] | null;
-  price_min: number | null;
-  price_max: number | null;
-  ccp_requirement: string | null;
-  certifications: string[] | null;
-  min_ratings: Record<string, unknown> | null;
-  co_benefit_prefs: string[] | null;
-  needs_extra_dd: boolean | null;
-  open_to_multi_year_offtake: boolean | null;
-  offtake_until_year: number | null;
-  proposal_deadline: string | null;
-  response_format: string | null;
-  evaluation_criteria: Record<string, unknown> | null;
-  prefer_deal_room: boolean | null;
-  completeness_score: number | null;
-  expires_at: string | null;
+export type MarketListingRow = Omit<DbMarketListing, "created_at" | "updated_at"> & {
   created_at: string;
   updated_at: string;
   author_username: string | null;
@@ -75,7 +25,7 @@ export interface ListingFilters {
 }
 
 export async function getActiveListings(filters: ListingFilters = {}): Promise<MarketListingRow[]> {
-  const supabase = (await createClient()) as unknown as AnyClient;
+  const supabase = await createClient();
   let query = supabase
     .from("v_market_listings")
     .select("*")
@@ -89,10 +39,12 @@ export async function getActiveListings(filters: ListingFilters = {}): Promise<M
     query = query.eq("asset_type", filters.asset_type);
   }
   if (filters.registry) {
-    query = query.or(`registry.ilike.%${filters.registry}%,registries.cs.{${filters.registry}}`);
+    const esc = filters.registry.replace(/"/g, '\\"');
+    query = query.or(`registry.ilike.%${filters.registry}%,registries.cs.{"${esc}"}`);
   }
   if (filters.country) {
-    query = query.or(`origin_country.ilike.%${filters.country}%,regions.cs.{${filters.country}}`);
+    const esc = filters.country.replace(/"/g, '\\"');
+    query = query.or(`origin_country.ilike.%${filters.country}%,regions.cs.{"${esc}"}`);
   }
   if (filters.search) {
     query = query.or(`project_name.ilike.%${filters.search}%,project_registry_id.ilike.%${filters.search}%`);
@@ -103,11 +55,11 @@ export async function getActiveListings(filters: ListingFilters = {}): Promise<M
     logger.error("Erro ao buscar market listings", { error });
     return [];
   }
-  return data as unknown as MarketListingRow[];
+  return (data ?? []) as unknown as MarketListingRow[];
 }
 
 export async function getListingById(id: string): Promise<MarketListingRow | null> {
-  const supabase = (await createClient()) as unknown as AnyClient;
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("v_market_listings")
     .select("*")
@@ -121,7 +73,7 @@ export async function getListingById(id: string): Promise<MarketListingRow | nul
 }
 
 export async function getMyListings(userId: string): Promise<MarketListingRow[]> {
-  const supabase = (await createClient()) as unknown as AnyClient;
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("v_market_listings")
     .select("*")
@@ -131,20 +83,13 @@ export async function getMyListings(userId: string): Promise<MarketListingRow[]>
     logger.error("Erro ao buscar minhas listings", { error, userId });
     return [];
   }
-  return data as unknown as MarketListingRow[];
+  return (data ?? []) as unknown as MarketListingRow[];
 }
 
-export interface BuyerProfileRow {
-  user_id: string;
-  company_name: string | null;
-  buyer_country: string | null;
-  purchase_purpose: string[] | null;
-  bought_br_credits_before: boolean | null;
-  annual_budget_range: string | null;
-}
+export type BuyerProfileRow = DbBuyerProfile;
 
 export async function getBuyerProfile(userId: string): Promise<BuyerProfileRow | null> {
-  const supabase = (await createClient()) as unknown as AnyClient;
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("buyer_profiles")
     .select("*")
@@ -154,5 +99,5 @@ export async function getBuyerProfile(userId: string): Promise<BuyerProfileRow |
     logger.error("Erro ao buscar buyer profile", { error, userId });
     return null;
   }
-  return (data as unknown as BuyerProfileRow) ?? null;
+  return (data as BuyerProfileRow) ?? null;
 }

@@ -289,6 +289,47 @@ export type Database = {
           },
         ]
       }
+      buyer_profiles: {
+        Row: {
+          annual_budget_range: string | null
+          bought_br_credits_before: boolean | null
+          buyer_country: string | null
+          company_name: string | null
+          created_at: string | null
+          purchase_purpose: string[] | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          annual_budget_range?: string | null
+          bought_br_credits_before?: boolean | null
+          buyer_country?: string | null
+          company_name?: string | null
+          created_at?: string | null
+          purchase_purpose?: string[] | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          annual_budget_range?: string | null
+          bought_br_credits_before?: boolean | null
+          buyer_country?: string | null
+          company_name?: string | null
+          created_at?: string | null
+          purchase_purpose?: string[] | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "buyer_profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       cad_trust_co_benefits: {
         Row: {
           cad_trust_project_id: string
@@ -1429,6 +1470,180 @@ export type Database = {
           },
         ]
       }
+      market_listings: {
+        Row: {
+          asset_type: string
+          author_id: string
+          buyer_profile_id: string | null
+          ccee_origem: string | null
+          ccp_requirement: string | null
+          ccp_status: string | null
+          certifications: string[] | null
+          co_benefit_prefs: string[] | null
+          co_benefits: string[] | null
+          completeness_score: number | null
+          contract_type: string | null
+          created_at: string | null
+          delivery_term: string | null
+          documentation: string[] | null
+          evaluation_criteria: Json | null
+          expires_at: string | null
+          id: string
+          media_urls: string[] | null
+          methodologies: string[] | null
+          methodology: string | null
+          min_ratings: Json | null
+          min_transaction_size: number | null
+          needs_extra_dd: boolean | null
+          offtake_until_year: number | null
+          open_to_multi_year_offtake: boolean | null
+          origin_country: string | null
+          prefer_deal_room: boolean | null
+          price_amount: number | null
+          price_currency: string | null
+          price_max: number | null
+          price_min: number | null
+          price_on_request: boolean | null
+          project_name: string | null
+          project_registry_id: string | null
+          proposal_deadline: string | null
+          ratings: Json | null
+          regions: string[] | null
+          registries: string[] | null
+          registry: string | null
+          response_format: string | null
+          side: string
+          status: string
+          unit: string | null
+          updated_at: string | null
+          vintage: number | null
+          vintage_from: number | null
+          vintage_to: number | null
+          volume: number | null
+          volume_max: number | null
+          volume_min: number | null
+        }
+        Insert: {
+          asset_type: string
+          author_id: string
+          buyer_profile_id?: string | null
+          ccee_origem?: string | null
+          ccp_requirement?: string | null
+          ccp_status?: string | null
+          certifications?: string[] | null
+          co_benefit_prefs?: string[] | null
+          co_benefits?: string[] | null
+          completeness_score?: number | null
+          contract_type?: string | null
+          created_at?: string | null
+          delivery_term?: string | null
+          documentation?: string[] | null
+          evaluation_criteria?: Json | null
+          expires_at?: string | null
+          id?: string
+          media_urls?: string[] | null
+          methodologies?: string[] | null
+          methodology?: string | null
+          min_ratings?: Json | null
+          min_transaction_size?: number | null
+          needs_extra_dd?: boolean | null
+          offtake_until_year?: number | null
+          open_to_multi_year_offtake?: boolean | null
+          origin_country?: string | null
+          prefer_deal_room?: boolean | null
+          price_amount?: number | null
+          price_currency?: string | null
+          price_max?: number | null
+          price_min?: number | null
+          price_on_request?: boolean | null
+          project_name?: string | null
+          project_registry_id?: string | null
+          proposal_deadline?: string | null
+          ratings?: Json | null
+          regions?: string[] | null
+          registries?: string[] | null
+          registry?: string | null
+          response_format?: string | null
+          side: string
+          status?: string
+          unit?: string | null
+          updated_at?: string | null
+          vintage?: number | null
+          vintage_from?: number | null
+          vintage_to?: number | null
+          volume?: number | null
+          volume_max?: number | null
+          volume_min?: number | null
+        }
+        Update: {
+          asset_type?: string
+          author_id?: string
+          buyer_profile_id?: string | null
+          ccee_origem?: string | null
+          ccp_requirement?: string | null
+          ccp_status?: string | null
+          certifications?: string[] | null
+          co_benefit_prefs?: string[] | null
+          co_benefits?: string[] | null
+          completeness_score?: number | null
+          contract_type?: string | null
+          created_at?: string | null
+          delivery_term?: string | null
+          documentation?: string[] | null
+          evaluation_criteria?: Json | null
+          expires_at?: string | null
+          id?: string
+          media_urls?: string[] | null
+          methodologies?: string[] | null
+          methodology?: string | null
+          min_ratings?: Json | null
+          min_transaction_size?: number | null
+          needs_extra_dd?: boolean | null
+          offtake_until_year?: number | null
+          open_to_multi_year_offtake?: boolean | null
+          origin_country?: string | null
+          prefer_deal_room?: boolean | null
+          price_amount?: number | null
+          price_currency?: string | null
+          price_max?: number | null
+          price_min?: number | null
+          price_on_request?: boolean | null
+          project_name?: string | null
+          project_registry_id?: string | null
+          proposal_deadline?: string | null
+          ratings?: Json | null
+          regions?: string[] | null
+          registries?: string[] | null
+          registry?: string | null
+          response_format?: string | null
+          side?: string
+          status?: string
+          unit?: string | null
+          updated_at?: string | null
+          vintage?: number | null
+          vintage_from?: number | null
+          vintage_to?: number | null
+          volume?: number | null
+          volume_max?: number | null
+          volume_min?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "market_listings_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "market_listings_buyer_profile_id_fkey"
+            columns: ["buyer_profile_id"]
+            isOneToOne: false
+            referencedRelation: "buyer_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       musicas: {
         Row: {
           created_at: string | null
@@ -1803,6 +2018,7 @@ export type Database = {
           updated_at: string | null
           user_type: string | null
           username: string
+          wallet_address: string | null
           years_of_experience: number | null
         }
         Insert: {
@@ -1835,6 +2051,7 @@ export type Database = {
           updated_at?: string | null
           user_type?: string | null
           username: string
+          wallet_address?: string | null
           years_of_experience?: number | null
         }
         Update: {
@@ -1867,6 +2084,7 @@ export type Database = {
           updated_at?: string | null
           user_type?: string | null
           username?: string
+          wallet_address?: string | null
           years_of_experience?: number | null
         }
         Relationships: [
@@ -2218,6 +2436,82 @@ export type Database = {
           last_update: string | null
         }
         Relationships: []
+      }
+      v_market_listings: {
+        Row: {
+          asset_type: string | null
+          author_avatar_url: string | null
+          author_display_name: string | null
+          author_id: string | null
+          author_karma: number | null
+          author_role: Database["public"]["Enums"]["user_role"] | null
+          author_user_type: string | null
+          author_username: string | null
+          buyer_profile_id: string | null
+          ccee_origem: string | null
+          ccp_requirement: string | null
+          ccp_status: string | null
+          certifications: string[] | null
+          co_benefit_prefs: string[] | null
+          co_benefits: string[] | null
+          completeness_score: number | null
+          contract_type: string | null
+          created_at: string | null
+          delivery_term: string | null
+          documentation: string[] | null
+          evaluation_criteria: Json | null
+          expires_at: string | null
+          id: string | null
+          media_urls: string[] | null
+          methodologies: string[] | null
+          methodology: string | null
+          min_ratings: Json | null
+          min_transaction_size: number | null
+          needs_extra_dd: boolean | null
+          offtake_until_year: number | null
+          open_to_multi_year_offtake: boolean | null
+          origin_country: string | null
+          prefer_deal_room: boolean | null
+          price_amount: number | null
+          price_currency: string | null
+          price_max: number | null
+          price_min: number | null
+          price_on_request: boolean | null
+          project_name: string | null
+          project_registry_id: string | null
+          proposal_deadline: string | null
+          ratings: Json | null
+          regions: string[] | null
+          registries: string[] | null
+          registry: string | null
+          response_format: string | null
+          side: string | null
+          status: string | null
+          unit: string | null
+          updated_at: string | null
+          vintage: number | null
+          vintage_from: number | null
+          vintage_to: number | null
+          volume: number | null
+          volume_max: number | null
+          volume_min: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "market_listings_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "market_listings_buyer_profile_id_fkey"
+            columns: ["buyer_profile_id"]
+            isOneToOne: false
+            referencedRelation: "buyer_profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
       }
       v_market_snapshot: {
         Row: {

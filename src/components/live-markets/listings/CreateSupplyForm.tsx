@@ -8,7 +8,7 @@ import {
   ASSET_TYPE_OPTIONS, UNIT_OPTIONS, REGISTRY_OPTIONS, METHODOLOGY_OPTIONS,
   CCP_STATUS_OPTIONS, CCEE_ORIGEM_OPTIONS, COUNTRY_OPTIONS,
   CO_BENEFIT_OPTIONS, CONTRACT_TYPE_OPTIONS, DELIVERY_TERM_OPTIONS,
-  RATING_AGENCIES,
+  RATING_AGENCIES, DOCUMENTATION_OPTIONS,
 } from "@/lib/utils/market-listing-options";
 
 interface Props { locale: string; }
@@ -82,7 +82,9 @@ export function CreateSupplyForm({ locale }: Props) {
       min_transaction_size: form.min_transaction_size ? Number(form.min_transaction_size) : undefined,
       co_benefits: form.co_benefits.length ? form.co_benefits : undefined,
       documentation: form.documentation.length ? form.documentation : undefined,
-      media_urls: form.media_urls ? form.media_urls.split(",").map((s) => s.trim()).filter(Boolean) : undefined,
+      media_urls: form.media_urls
+        ? form.media_urls.split(",").map((s) => s.trim()).filter(Boolean).map((u) => { try { return new URL(u).toString(); } catch { return null; } }).filter(Boolean) as string[]
+        : undefined,
       contract_type: form.contract_type || undefined,
     };
     if (form.sylvera || form.bezero || form.renoster) {
@@ -230,6 +232,18 @@ export function CreateSupplyForm({ locale }: Props) {
                 onClick={() => setForm((f) => ({ ...f, co_benefits: toggleArray(f.co_benefits, cb) }))}
                 className={`px-2.5 py-1 rounded-full text-xs border transition ${form.co_benefits.includes(cb) ? "bg-deep-forest text-white border-deep-forest" : "bg-white text-slate-600 border-slate-200"}`}>
                 {cb}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <label className={labelCls}>{t("documentation")}</label>
+          <div className="flex flex-wrap gap-2">
+            {DOCUMENTATION_OPTIONS.map((doc) => (
+              <button type="button" key={doc}
+                onClick={() => setForm((f) => ({ ...f, documentation: toggleArray(f.documentation, doc) }))}
+                className={`px-2.5 py-1 rounded-full text-xs border transition ${form.documentation.includes(doc) ? "bg-deep-forest text-white border-deep-forest" : "bg-white text-slate-600 border-slate-200"}`}>
+                {doc}
               </button>
             ))}
           </div>

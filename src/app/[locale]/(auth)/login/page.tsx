@@ -22,6 +22,7 @@ export default async function LoginPage(props: {
 }) {
   const searchParams = await props.searchParams;
   const t = await getTranslations("Auth");
+  const next = typeof searchParams.next === "string" ? searchParams.next : "";
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
@@ -37,6 +38,7 @@ export default async function LoginPage(props: {
         </div>
 
         <form className="mt-8 space-y-6">
+          <input type="hidden" name="next" value={next} />
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="mb-4">
               <label htmlFor="email-address" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">

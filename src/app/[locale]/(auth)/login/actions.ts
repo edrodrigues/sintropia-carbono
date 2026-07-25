@@ -29,6 +29,15 @@ async function getRateLimitKey(type: string): Promise<string> {
   return `auth:${type}:${ip}`;
 }
 
+function safeNextPath(raw: unknown, locale: string): string {
+  if (typeof raw !== "string") return `/${locale}`;
+  const trimmed = raw.trim();
+  if (!trimmed.startsWith("/") || trimmed.startsWith("//")) return `/${locale}`;
+  const decoded = decodeURIComponent(trimmed);
+  if (!/^\/[A-Za-z0-9\-._~:/?#\[\]@!$&'()*+,;=%]*$/.test(decoded)) return `/${locale}`;
+  return decoded;
+}
+
 export async function login(formData: FormData) {
   const locale = await getLocale();
   const supabase = await createClient();
@@ -41,7 +50,8 @@ export async function login(formData: FormData) {
   const parsed = loginSchema.safeParse(raw);
   if (!parsed.success) {
     const msg = parsed.error.issues[0]?.message || "Dados inválidos";
-    redirect(`/${locale}/login?error=${encodeURIComponent(msg)}`);
+    const next = safeNextPath(formData.get("next"), locale);
+    redirect(`/${locale}/login?error=${encodeURIComponent(msg)}&next=${encodeURIComponent(next)}`);
   }
 
   const rateKey = await getRateLimitKey("login");
@@ -62,7 +72,7 @@ export async function login(formData: FormData) {
     redirect(`/${locale}/login?error=${encodeURIComponent(error.message)}`);
   }
 
-  redirect(`/${locale}`);
+  redirect(safeNextPath(formData.get("next"), locale));
 }
 
 export async function signup(formData: FormData) {

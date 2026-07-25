@@ -221,7 +221,12 @@
         "trustVolume": "Volume",
         "close": "Fechar",
         "yes": "Sim",
-        "no": "Não"
+        "no": "Não",
+        "documentation": "Documentação",
+        "evaluationCriteria": "Critérios de avaliação",
+        "evaluationCriteriaHelp": "Como as propostas serão avaliadas (peso percentual)",
+        "minRatings": "Rating mínimo por agência",
+        "minRatingsHelp": "Rating mínimo desejado de cada agência"
     },
     "Auth": {
         "loginTitle": "Sintropia",

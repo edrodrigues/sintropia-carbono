@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { logger } from "@/lib/utils/logger";
+import type { Json } from "@/types/supabase";
 import {
   supplyListingSchema,
   demandListingSchema,
@@ -10,17 +11,10 @@ import {
   computeListingCompleteness,
 } from "@/lib/validation/market-listings";
 
-// market_listings / buyer_profiles tables are created by a recent migration
-// not yet reflected in generated Supabase types — operate on an untyped client.
-type AnyClient = {
-  from: (relation: string) => any;
-  auth: { getUser: () => Promise<{ data: { user: { id: string } | null } }> };
-};
-
 type ActionResult = { error: string } | { success: true; id: string };
 
 export async function createSupplyListing(raw: Record<string, unknown>): Promise<ActionResult> {
-  const supabase = (await createClient()) as unknown as AnyClient;
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Faça login para criar uma listagem." };
   const userId = user.id;
@@ -29,35 +23,35 @@ export async function createSupplyListing(raw: Record<string, unknown>): Promise
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message || "Dados inválidos" };
   }
-  const data: any = { ...parsed.data, side: "supply" };
-  data.completeness_score = computeListingCompleteness("supply", parsed.data);
+  const d = parsed.data;
+  const completeness_score = computeListingCompleteness("supply", parsed.data);
 
   const insert = {
     author_id: userId,
-    side: "supply",
-    status: "active",
-    asset_type: data.asset_type,
-    registry: data.registry,
-    project_registry_id: data.project_registry_id,
-    project_name: data.project_name,
-    vintage: data.vintage,
-    volume: data.volume,
-    unit: data.unit,
-    origin_country: data.origin_country,
-    delivery_term: data.delivery_term,
-    price_amount: data.price_amount ?? null,
-    price_currency: data.price_currency ?? "USD",
-    price_on_request: data.price_on_request ?? false,
-    methodology: data.methodology ?? null,
-    ccp_status: data.ccp_status ?? null,
-    ratings: data.ratings ?? null,
-    co_benefits: data.co_benefits ?? [],
-    ccee_origem: data.ccee_origem ?? null,
-    min_transaction_size: data.min_transaction_size ?? null,
-    documentation: data.documentation ?? [],
-    media_urls: data.media_urls ?? [],
-    contract_type: data.contract_type ?? null,
-    completeness_score: data.completeness_score,
+    side: "supply" as const,
+    status: "active" as const,
+    asset_type: d.asset_type,
+    registry: d.registry,
+    project_registry_id: d.project_registry_id,
+    project_name: d.project_name,
+    vintage: d.vintage,
+    volume: d.volume,
+    unit: d.unit,
+    origin_country: d.origin_country,
+    delivery_term: d.delivery_term,
+    price_amount: d.price_amount ?? null,
+    price_currency: d.price_currency ?? "USD",
+    price_on_request: d.price_on_request ?? false,
+    methodology: d.methodology ?? null,
+    ccp_status: d.ccp_status ?? null,
+    ratings: (d.ratings ?? null) as Json,
+    co_benefits: d.co_benefits ?? [],
+    ccee_origem: d.ccee_origem ?? null,
+    min_transaction_size: d.min_transaction_size ?? null,
+    documentation: d.documentation ?? [],
+    media_urls: d.media_urls ?? [],
+    contract_type: d.contract_type ?? null,
+    completeness_score,
   };
 
   const { data: inserted, error } = await supabase
@@ -79,7 +73,7 @@ export async function createSupplyListing(raw: Record<string, unknown>): Promise
 }
 
 export async function createDemandListing(raw: Record<string, unknown>): Promise<ActionResult> {
-  const supabase = (await createClient()) as unknown as AnyClient;
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Faça login para criar uma listagem." };
   const userId = user.id;
@@ -88,8 +82,8 @@ export async function createDemandListing(raw: Record<string, unknown>): Promise
   if (!parsed.success) {
     return { error: parsed.error.issues[0]?.message || "Dados inválidos" };
   }
-  const data: any = { ...parsed.data, side: "demand" };
-  data.completeness_score = computeListingCompleteness("demand", parsed.data);
+  const d = parsed.data;
+  const completeness_score = computeListingCompleteness("demand", parsed.data);
 
   let buyer_profile_id: string | null = null;
   const { data: bp } = await supabase
@@ -102,33 +96,33 @@ export async function createDemandListing(raw: Record<string, unknown>): Promise
   const insert = {
     author_id: userId,
     buyer_profile_id,
-    side: "demand",
-    status: "active",
-    asset_type: data.asset_type,
-    volume: data.volume ?? null,
-    unit: data.unit,
-    delivery_term: data.delivery_term ?? null,
-    registries: data.registries ?? [],
-    volume_min: data.volume_min ?? null,
-    volume_max: data.volume_max ?? null,
-    vintage_from: data.vintage_from ?? null,
-    vintage_to: data.vintage_to ?? null,
-    methodologies: data.methodologies ?? [],
-    regions: data.regions ?? [],
-    price_min: data.price_min ?? null,
-    price_max: data.price_max ?? null,
-    ccp_requirement: data.ccp_requirement ?? null,
-    certifications: data.certifications ?? [],
-    min_ratings: data.min_ratings ?? null,
-    co_benefit_prefs: data.co_benefit_prefs ?? [],
-    needs_extra_dd: data.needs_extra_dd ?? null,
-    open_to_multi_year_offtake: data.open_to_multi_year_offtake ?? null,
-    offtake_until_year: data.offtake_until_year ?? null,
-    proposal_deadline: data.proposal_deadline ?? null,
-    response_format: data.response_format ?? null,
-    evaluation_criteria: data.evaluation_criteria ?? null,
-    prefer_deal_room: data.prefer_deal_room ?? null,
-    completeness_score: data.completeness_score,
+    side: "demand" as const,
+    status: "active" as const,
+    asset_type: d.asset_type,
+    volume: d.volume ?? null,
+    unit: d.unit,
+    delivery_term: d.delivery_term ?? null,
+    registries: d.registries ?? [],
+    volume_min: d.volume_min ?? null,
+    volume_max: d.volume_max ?? null,
+    vintage_from: d.vintage_from ?? null,
+    vintage_to: d.vintage_to ?? null,
+    methodologies: d.methodologies ?? [],
+    regions: d.regions ?? [],
+    price_min: d.price_min ?? null,
+    price_max: d.price_max ?? null,
+    ccp_requirement: d.ccp_requirement ?? null,
+    certifications: d.certifications ?? [],
+    min_ratings: (d.min_ratings ?? null) as Json,
+    co_benefit_prefs: d.co_benefit_prefs ?? [],
+    needs_extra_dd: d.needs_extra_dd ?? null,
+    open_to_multi_year_offtake: d.open_to_multi_year_offtake ?? null,
+    offtake_until_year: d.offtake_until_year ?? null,
+    proposal_deadline: d.proposal_deadline ?? null,
+    response_format: d.response_format ?? null,
+    evaluation_criteria: (d.evaluation_criteria ?? null) as Json,
+    prefer_deal_room: d.prefer_deal_room ?? null,
+    completeness_score,
   };
 
   const { data: inserted, error } = await supabase
@@ -150,7 +144,7 @@ export async function createDemandListing(raw: Record<string, unknown>): Promise
 }
 
 export async function upsertBuyerProfile(raw: Record<string, unknown>) {
-  const supabase = (await createClient()) as unknown as AnyClient;
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Faça login para atualizar seu perfil." };
   const userId = user.id;
@@ -179,7 +173,7 @@ export async function upsertBuyerProfile(raw: Record<string, unknown>) {
 }
 
 export async function updateListingStatus(listingId: string, status: "active" | "paused" | "closed") {
-  const supabase = (await createClient()) as unknown as AnyClient;
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Faça login." };
   const userId = user.id;
@@ -199,7 +193,7 @@ export async function updateListingStatus(listingId: string, status: "active" | 
 }
 
 export async function deleteListing(listingId: string) {
-  const supabase = (await createClient()) as unknown as AnyClient;
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: "Faça login." };
   const userId = user.id;
