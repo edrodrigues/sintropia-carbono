@@ -125,7 +125,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="md:col-span-2 space-y-2">
           <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">Tipo de Conta</label>
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
             <label htmlFor="user_type_individual" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-deep-forest has-[:checked]:bg-mint-tint dark:has-[:checked]:bg-deep-forest/20">
               <input id="user_type_individual" type="radio" name="user_type" value="individual" checked={userType === "individual"} onChange={() => setUserType("individual")} className="hidden" />
               <span className="text-xl">👤</span>
@@ -150,6 +150,11 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
               <input id="user_type_professor" type="radio" name="user_type" value="professor" checked={userType === "professor"} onChange={() => setUserType("professor")} className="hidden" />
               <span className="text-xl">🧑‍🏫</span>
               <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Professor</span>
+            </label>
+            <label htmlFor="user_type_broker" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-deep-forest has-[:checked]:bg-mint-tint dark:has-[:checked]:bg-deep-forest/20">
+              <input id="user_type_broker" type="radio" name="user_type" value="broker" checked={userType === "broker"} onChange={() => setUserType("broker")} className="hidden" />
+              <span className="text-xl">📈</span>
+              <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Broker</span>
             </label>
           </div>
         </div>

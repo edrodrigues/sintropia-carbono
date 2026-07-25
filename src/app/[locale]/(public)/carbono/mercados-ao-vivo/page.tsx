@@ -10,6 +10,7 @@ import { OverviewTab } from "@/components/live-markets/OverviewTab";
 import { ExplorerTabInner } from "@/components/live-markets/ExplorerTab";
 import { ComparatorTab } from "@/components/live-markets/ComparatorTab";
 import { WatchlistTab } from "@/components/live-markets/WatchlistTab";
+import { ListingsTabInner } from "@/components/live-markets/listings/ListingsTab";
 import { AssetDrawer } from "@/components/live-markets/AssetDrawer";
 import { CurrencySelector } from "@/components/live-markets/CurrencySelector";
 import {
@@ -17,6 +18,7 @@ import {
   getMarketByFilters,
   getDistinctFilterValues,
 } from "@/lib/queries/live-markets";
+import { getActiveListings } from "@/lib/queries/market-listings";
 import { getPriceSeries } from "@/lib/queries/price-series";
 import { fetchAllRates } from "@/lib/services/currency-converter";
 import { DataSources } from "@/components/ui/DataSources";
@@ -41,7 +43,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-type TabId = "overview" | "explorer" | "comparator" | "watchlist";
+type TabId = "overview" | "explorer" | "comparator" | "watchlist" | "listagens";
 
 export default async function CarbonoLiveMarketsPage({
   params,
@@ -58,7 +60,7 @@ export default async function CarbonoLiveMarketsPage({
   const assetSlug = typeof sp.asset === "string" ? sp.asset : null;
   const selectedIdsRaw = typeof sp.sel === "string" ? sp.sel : "";
 
-  const validTabs: TabId[] = ["overview", "explorer", "comparator", "watchlist"];
+  const validTabs: TabId[] = ["overview", "explorer", "comparator", "watchlist", "listagens"];
   const activeTab = validTabs.includes(tab) ? tab : "overview";
 
   const displayCurrency = typeof sp.displayCurrency === "string" ? sp.displayCurrency : "USD";
@@ -123,6 +125,15 @@ export default async function CarbonoLiveMarketsPage({
 
   const selectedIds = selectedIdsRaw.split(",").filter(Boolean);
 
+  const listingFilters = {
+    side: (typeof sp.side === "string" ? (sp.side as "supply" | "demand" | "all") : "all"),
+    asset_type: typeof sp.assetType === "string" ? (sp.assetType as "carbon_credit" | "irec" | "both") : undefined,
+    registry: typeof sp.registry === "string" ? sp.registry : undefined,
+    country: typeof sp.country === "string" ? sp.country : undefined,
+    search: typeof sp.search === "string" ? sp.search : undefined,
+  };
+  const listings = activeTab === "listagens" ? await getActiveListings(listingFilters) : [];
+
   const lastReferenceDate = getLatestReferenceDate(snapshot);
 
   return (
@@ -177,6 +188,10 @@ export default async function CarbonoLiveMarketsPage({
 
           {activeTab === "watchlist" && (
             <WatchlistTab locale={locale} displayCurrency={displayCurrency} rates={rates} />
+          )}
+
+          {activeTab === "listagens" && (
+            <ListingsTabInner listings={listings} locale={locale} />
           )}
         </div>
 

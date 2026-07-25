@@ -48,7 +48,8 @@ export function ProfilesClient({
       case "company": return `🏢 ${t("userTypes.company")}`;
       case "ong": return `🤝 ${t("userTypes.ong")}`;
       case "government": return `🏛️ ${t("userTypes.government")}`;
-      case "professor": return `🧑‍🏫 ${t("userTypes.professor")}`;
+      case "professor": return `🧑🏫 ${t("userTypes.professor")}`;
+      case "broker": return `📈 ${t("userTypes.broker")}`;
       default: return `👤 ${t("userTypes.individual")}`;
     }
   };
@@ -59,6 +60,7 @@ export function ProfilesClient({
     { value: "ong", label: `🤝 ${t("userTypes.ong")}` },
     { value: "government", label: `🏛️ ${t("userTypes.government")}` },
     { value: "professor", label: `🧑‍🏫 ${t("userTypes.professor")}` },
+    { value: "broker", label: `📈 ${t("userTypes.broker")}` },
   ];
 
   return (

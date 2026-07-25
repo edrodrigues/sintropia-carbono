@@ -27,6 +27,7 @@ const USER_TYPES = [
   { value: "ong", icon: "🤝" },
   { value: "government", icon: "🏛️" },
   { value: "professor", icon: "🧑‍🏫" },
+  { value: "broker", icon: "📈" },
 ] as const;
 
 export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
@@ -332,7 +333,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
           <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
             {t("accountTypeLabel")}
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
             {USER_TYPES.map(type => (
               <label
                 key={type.value}

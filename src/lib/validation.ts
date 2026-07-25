@@ -16,7 +16,7 @@ export const signupSchema = z.object({
   password: passwordSchema,
   name: z.string().max(100).optional().default(""),
   username: usernameSchema.optional().default(""),
-  user_type: z.enum(["individual", "company", "ong", "government", "professor"]).optional().default("individual"),
+  user_type: z.enum(["individual", "company", "ong", "government", "professor", "broker"]).optional().default("individual"),
 });
 
 export const resetPasswordSchema = z.object({
@@ -31,7 +31,7 @@ export const profileUpdateSchema = z.object({
   username: usernameSchema.optional(),
   display_name: z.string().max(50, "Nome deve ter no máximo 50 caracteres").optional(),
   bio: z.string().max(1000, "Bio deve ter no máximo 1000 caracteres").optional(),
-  user_type: z.enum(["individual", "company", "ong", "government", "professor"]).optional(),
+  user_type: z.enum(["individual", "company", "ong", "government", "professor", "broker"]).optional(),
   organization: z.string().max(100).optional(),
   cargo: z.string().max(100).optional(),
   linkedin_url: z.string().max(500).optional(),

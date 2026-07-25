@@ -237,7 +237,7 @@ export function Header() {
             </button>
 
             {/* Criar Dropdown / Post Button */}
-            {profile && ["company", "ong", "government"].includes(profile.user_type ?? "") ? (
+            {user ? (
               <div className="relative">
                 <button
                   onClick={() => setShowCriarDropdown(!showCriarDropdown)}
@@ -250,7 +250,7 @@ export function Header() {
                       <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
                     </svg>
                   </div>
-                  <span className="hidden sm:inline text-[13px] font-bold text-slate-900">Criar</span>
+                  <span className="hidden sm:inline text-[13px] font-bold text-slate-900">{tHeader("criar")}</span>
                   <svg className={`w-3 h-3 text-slate-500 transition-transform ${showCriarDropdown ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
                   </svg>
@@ -259,20 +259,35 @@ export function Header() {
                   <>
                     <div className="fixed inset-0 z-10" onClick={() => setShowCriarDropdown(false)} />
                     <div
-                      className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-20 overflow-hidden"
+                      className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-200 py-2 z-20 overflow-hidden"
                       onMouseLeave={() => setShowCriarDropdown(false)}
                     >
                       <button
-                        onClick={() => { setShowCriarDropdown(false); router.push(user ? "/feed?create=true" : "/login"); }}
+                        onClick={() => { setShowCriarDropdown(false); router.push("/feed?create=true"); }}
                         className="flex items-center gap-3 w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-deep-forest transition-colors text-left"
                       >
-                        Post
+                        {tHeader("criarPost")}
+                      </button>
+                      {profile && ["company", "ong", "government"].includes(profile.user_type ?? "") && (
+                        <button
+                          onClick={() => { setShowCriarDropdown(false); router.push("/desafios"); }}
+                          className="flex items-center gap-3 w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-deep-forest transition-colors text-left"
+                        >
+                          {tHeader("criarDesafio")}
+                        </button>
+                      )}
+                      <div className="my-1 border-t border-slate-100" />
+                      <button
+                        onClick={() => { setShowCriarDropdown(false); router.push("/carbono/mercados-ao-vivo/criar/oferta"); }}
+                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-deep-forest transition-colors text-left"
+                      >
+                        {tHeader("criarOferta")}
                       </button>
                       <button
-                        onClick={() => { setShowCriarDropdown(false); router.push("/desafios"); }}
+                        onClick={() => { setShowCriarDropdown(false); router.push("/carbono/mercados-ao-vivo/criar/demanda"); }}
                         className="flex items-center gap-3 w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-deep-forest transition-colors text-left"
                       >
-                        Desafio
+                        {tHeader("criarDemanda")}
                       </button>
                     </div>
                   </>
@@ -281,7 +296,7 @@ export function Header() {
             ) : (
               <Tooltip content={tHeader("newPostTooltip")}>
                 <button
-                  onClick={() => router.push(user ? "/feed?create=true" : "/login")}
+                  onClick={() => router.push("/login")}
                   className="flex items-center gap-2 border border-slate-300 rounded-lg px-3 lg:px-4 py-2 hover:bg-slate-50 transition-all active:scale-95 group"
                 >
                   <div className="w-4 h-4 text-slate-900 group-hover:text-deep-forest">

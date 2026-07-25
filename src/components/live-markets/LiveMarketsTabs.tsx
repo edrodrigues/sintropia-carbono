@@ -2,14 +2,15 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef, useCallback } from "react";
-import { LayoutGrid, Search, ArrowLeftRight, Star } from "lucide-react";
+import { LayoutGrid, Search, ArrowLeftRight, Star, Store } from "lucide-react";
 
-type TabId = "overview" | "explorer" | "comparator" | "watchlist";
+type TabId = "overview" | "explorer" | "comparator" | "watchlist" | "listagens";
 
 const TABS: { id: TabId; label: string; icon: React.ElementType }[] = [
   { id: "overview", label: "Visão geral", icon: LayoutGrid },
   { id: "explorer", label: "Explorar preços", icon: Search },
   { id: "comparator", label: "Comparador", icon: ArrowLeftRight },
+  { id: "listagens", label: "Listagens", icon: Store },
   { id: "watchlist", label: "Watchlist", icon: Star },
 ];
 
@@ -17,6 +18,7 @@ const TABS_EN: { id: TabId; label: string; icon: React.ElementType }[] = [
   { id: "overview", label: "Overview", icon: LayoutGrid },
   { id: "explorer", label: "Explore prices", icon: Search },
   { id: "comparator", label: "Comparator", icon: ArrowLeftRight },
+  { id: "listagens", label: "Listings", icon: Store },
   { id: "watchlist", label: "Watchlist", icon: Star },
 ];
 
