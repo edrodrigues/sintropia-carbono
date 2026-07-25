@@ -165,7 +165,7 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
           )}
           <div className="flex flex-wrap gap-2">
             {profile.company_sector && (
-              <span className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800">
+              <span className="px-3 py-1 rounded-full bg-mint-tint dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800">
                 {profile.company_sector}
               </span>
             )}
@@ -183,7 +183,7 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
           <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
             {profile.company_cnpj && <span>📋 CNPJ: {profile.company_cnpj}</span>}
             {profile.company_website && (
-              <a href={profile.company_website} target="_blank" rel="noopener noreferrer" className="text-premium-blue hover:underline">
+              <a href={profile.company_website} target="_blank" rel="noopener noreferrer" className="text-deep-forest hover:underline">
                 🌐 {profile.company_website}
               </a>
             )}
@@ -210,7 +210,7 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
               <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Certificações</h3>
               <div className="flex flex-wrap gap-2">
                 {profile.certifications.map(cert => (
-                  <span key={cert} className="px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800">
+                  <span key={cert} className="px-3 py-1 rounded-full bg-mint-tint dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800">
                     {cert}
                   </span>
                 ))}

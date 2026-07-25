@@ -44,7 +44,7 @@ export function GoogleButton({ text = "Google", errorRedirect = "/login" }: Goog
       type="button"
       disabled={loading}
       aria-label={loading ? "Entrando com Google, aguarde" : `Entrar com ${text}`}
-      className="group relative w-full flex justify-center items-center gap-3 py-3 px-4 border border-gray-300 dark:border-gray-700 text-sm font-bold rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#1e40af] focus:ring-offset-2"
+      className="group relative w-full flex justify-center items-center gap-3 py-3 px-4 border border-gray-300 dark:border-gray-700 text-sm font-bold rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#0a382c] focus:ring-offset-2"
     >
       {loading
         ? (

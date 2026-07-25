@@ -116,7 +116,7 @@ export function FilterPanel({ filterOptions }: FilterPanelProps) {
           value={localSearch}
           onChange={(e) => handleSearchChange(e.target.value)}
           placeholder="Buscar ativo, registro, país ou fonte..."
-          className="w-full h-11 pl-9 pr-4 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full h-11 pl-9 pr-4 text-sm border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-deep-forest focus:border-transparent"
         />
       </div>
 
@@ -166,7 +166,7 @@ export function FilterPanel({ filterOptions }: FilterPanelProps) {
             <span
               key={f.key}
               role="listitem"
-              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-blue-50 border border-blue-200 text-blue-700 rounded-full"
+              className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-mint-tint border border-blue-200 text-blue-700 rounded-full"
             >
               {f.label}
               <button
@@ -217,9 +217,9 @@ function FilterDropdown({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         aria-label={`${label}${value ? `: ${value}` : ""}`}
-        className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium border rounded-lg cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[40px] ${
+        className={`inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium border rounded-lg cursor-pointer bg-white focus:outline-none focus:ring-2 focus:ring-deep-forest min-h-[40px] ${
           value
-            ? "border-blue-300 bg-blue-50 text-blue-700"
+            ? "border-blue-300 bg-mint-tint text-blue-700"
             : "border-gray-300 text-gray-600 hover:border-gray-400"
         }`}
       >

@@ -231,7 +231,7 @@ export default async function CarbonoPage({
               </Link>
               <Link
                 href={`/${locale}/carbono/ranking-mundo`}
-                className="flex items-center gap-3 p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                className="flex items-center gap-3 p-4 rounded-lg bg-mint-tint dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
               >
                 <RiGlobalLine className="w-5 h-5 text-blue-600" />
                 <span className="font-medium text-blue-800 dark:text-blue-300">
@@ -249,7 +249,7 @@ export default async function CarbonoPage({
               </Link>
               <Link
                 href={`/${locale}/carbono/projetos`}
-                className="flex items-center gap-3 p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                className="flex items-center gap-3 p-4 rounded-lg bg-mint-tint dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
               >
                 <RiFileList3Line className="w-5 h-5 text-blue-600" />
                 <span className="font-medium text-blue-800 dark:text-blue-300">

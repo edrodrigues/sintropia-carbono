@@ -33,7 +33,7 @@ export function VoteButtons({
         .eq("user_id", user.id)
         .eq("target_id", targetId)
         .eq("target_type", targetType)
-        .single();
+        .maybeSingle();
 
       if (data) {
         setUserVote(data.vote_type);
@@ -88,8 +88,8 @@ export function VoteButtons({
       <button
         onClick={() => handleVote(1)}
         aria-label={userVote === 1 ? "Remover upvote" : "Votar positivo"}
-        className={`p-1 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 ${userVote === 1
-          ? "text-blue-600 bg-blue-50 dark:bg-blue-900/20"
+        className={`p-1 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-1 ${userVote === 1
+          ? "text-blue-600 bg-mint-tint dark:bg-blue-900/20"
           : "text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
         }`}
       >

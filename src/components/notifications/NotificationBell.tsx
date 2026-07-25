@@ -97,7 +97,7 @@ export function NotificationBell({ userId }: NotificationBellProps) {
       {/* Bell Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="relative p-2 text-slate-600 hover:text-forest-green hover:bg-slate-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-2"
+        className="relative p-2 text-slate-600 hover:text-deep-forest hover:bg-slate-50 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-2"
         aria-label={`Notificações${unreadCount > 0 ? ` (${unreadCount} não lidas)` : ""}`}
         aria-expanded={isOpen}
         aria-haspopup="true"
@@ -135,7 +135,7 @@ export function NotificationBell({ userId }: NotificationBellProps) {
             {unreadCount > 0 && (
               <button
                 onClick={handleMarkAllAsRead}
-                className="text-xs font-medium text-forest-green hover:text-emerald-700 transition-colors"
+                className="text-xs font-medium text-deep-forest hover:text-emerald-700 transition-colors"
               >
                 Marcar todas como lidas
               </button>
@@ -146,7 +146,7 @@ export function NotificationBell({ userId }: NotificationBellProps) {
           <div className="max-h-[400px] overflow-y-auto">
             {loading ? (
               <div className="flex items-center justify-center py-8">
-                <div className="animate-spin rounded-full h-6 w-6 border-2 border-forest-green border-t-transparent"></div>
+                <div className="animate-spin rounded-full h-6 w-6 border-2 border-deep-forest border-t-transparent"></div>
               </div>
             ) : notifications.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-8 px-4 text-center">
@@ -192,7 +192,7 @@ export function NotificationBell({ userId }: NotificationBellProps) {
                     {!notification.is_read && (
                       <button
                         onClick={e => handleMarkAsRead(e, notification.id)}
-                        className="flex-shrink-0 w-2 h-2 rounded-full bg-forest-green hover:bg-emerald-600 transition-colors"
+                        className="flex-shrink-0 w-2 h-2 rounded-full bg-deep-forest hover:bg-emerald-600 transition-colors"
                         aria-label="Marcar como lida"
                         title="Marcar como lida"
                       />
@@ -208,7 +208,7 @@ export function NotificationBell({ userId }: NotificationBellProps) {
             <Link
               href="/dashboard"
               onClick={() => setIsOpen(false)}
-              className="block text-center text-xs font-medium text-slate-600 hover:text-forest-green transition-colors py-1"
+              className="block text-center text-xs font-medium text-slate-600 hover:text-deep-forest transition-colors py-1"
             >
               Ver todas as notificações
             </Link>

@@ -137,7 +137,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
         <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 rounded-lg text-sm border border-yellow-100 dark:border-yellow-800">
           Você precisa estar logado para comentar.
           {" "}
-          <Link href="/login" className="underline font-semibold text-[#1e40af] dark:text-blue-400">Faça login</Link>
+          <Link href="/login" className="underline font-semibold text-[#0a382c] dark:text-electric-emerald">Faça login</Link>
         </div>
       )}
 
@@ -153,7 +153,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
           onChange={e => setContent(e.target.value)}
           placeholder="O que você acha disso?"
           maxLength={1000}
-          className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none h-24"
+          className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all resize-none h-24"
         />
         <div className="flex justify-between items-center mt-2">
           <span className="text-xs text-gray-400">
@@ -163,7 +163,7 @@ export function CommentSection({ postId }: CommentSectionProps) {
           <button
             type="submit"
             disabled={loading || !content.trim()}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors"
+            className="px-6 py-2 bg-blue-600 hover:bg-charcoal-ink disabled:opacity-50 text-white font-semibold rounded-lg transition-colors"
           >
             {loading ? "Enviando..." : "Comentar"}
           </button>

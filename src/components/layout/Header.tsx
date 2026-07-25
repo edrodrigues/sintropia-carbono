@@ -10,6 +10,7 @@ import { User } from "@supabase/supabase-js";
 import { Profile } from "@/types";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { Tooltip } from "@/components/ui/Tooltip";
+import { Logo } from "@/components/ui/Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 export function Header() {
@@ -151,11 +152,8 @@ export function Header() {
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 w-full" onMouseLeave={() => { setActiveMenu(null); setShowProfileMenu(false); setShowCriarDropdown(false); }}>
         <div className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-lg bg-forest-green flex items-center justify-center shadow-premium group-hover:bg-emerald-700 transition-colors">
-              <span className="text-white text-lg lg:text-xl">🌱</span>
-            </div>
-            <span className="font-bold text-xl lg:text-2xl tracking-tight text-forest-green">SINTROPIA</span>
+          <Link href="/" className="flex items-center gap-2 group" aria-label="Sintropia">
+            <Logo size={34} className="lg:scale-110 lg:origin-left" />
           </Link>
 
           {/* Navigation */}
@@ -172,9 +170,9 @@ export function Header() {
                   aria-expanded={item.subItems ? activeMenu === idx : undefined}
                   aria-haspopup={item.subItems ? "true" : undefined}
                   onKeyDown={e => item.subItems && handleKeyDown(e, idx)}
-                  className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold tracking-wide transition-all rounded-lg focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-2 ${pathname === item.href || (item.subItems?.some(s => pathname === s.href))
-                    ? "text-forest-green bg-emerald-50/50"
-                    : "text-slate-500 hover:text-forest-green hover:bg-slate-50"
+                  className={`flex items-center gap-1.5 px-4 py-2 text-[13px] font-bold tracking-wide transition-all rounded-lg focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-2 ${pathname === item.href || (item.subItems?.some(s => pathname === s.href))
+                    ? "text-deep-forest bg-emerald-50/50"
+                    : "text-slate-500 hover:text-deep-forest hover:bg-slate-50"
                   }`}
                 >
                   {item.isLive ? (
@@ -202,9 +200,9 @@ export function Header() {
                           key={sub.href}
                           href={sub.href}
                           role="menuitem"
-                          className="flex flex-col gap-0.5 p-3 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors group/sub"
+                          className="flex flex-col gap-0.5 p-3 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-deep-forest transition-colors group/sub"
                         >
-                          <span className="text-[13px] font-bold text-slate-900 group-hover/sub:text-forest-green group-focus/sub:text-forest-green transition-colors">{sub.label}</span>
+                          <span className="text-[13px] font-bold text-slate-900 group-hover/sub:text-deep-forest group-focus/sub:text-deep-forest transition-colors">{sub.label}</span>
                           {sub.desc && <span className="text-[11px] text-slate-400 font-medium leading-tight">{sub.desc}</span>}
                         </Link>
                       ))}
@@ -229,7 +227,7 @@ export function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="lg:hidden p-2 text-slate-600 hover:text-forest-green hover:bg-slate-50 rounded-lg transition-colors"
+              className="lg:hidden p-2 text-slate-600 hover:text-deep-forest hover:bg-slate-50 rounded-lg transition-colors"
               aria-label="Abrir menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -246,7 +244,7 @@ export function Header() {
                   onMouseEnter={() => setShowCriarDropdown(true)}
                   className="flex items-center gap-1.5 border border-slate-300 rounded-lg px-3 lg:px-4 py-2 hover:bg-slate-50 transition-all active:scale-95 group"
                 >
-                  <div className="w-4 h-4 text-slate-900 group-hover:text-forest-green">
+                  <div className="w-4 h-4 text-slate-900 group-hover:text-deep-forest">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
                       <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
@@ -266,13 +264,13 @@ export function Header() {
                     >
                       <button
                         onClick={() => { setShowCriarDropdown(false); router.push(user ? "/feed?create=true" : "/login"); }}
-                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-forest-green transition-colors text-left"
+                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-deep-forest transition-colors text-left"
                       >
                         Post
                       </button>
                       <button
                         onClick={() => { setShowCriarDropdown(false); router.push("/desafios"); }}
-                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-forest-green transition-colors text-left"
+                        className="flex items-center gap-3 w-full px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-deep-forest transition-colors text-left"
                       >
                         Desafio
                       </button>
@@ -286,7 +284,7 @@ export function Header() {
                   onClick={() => router.push(user ? "/feed?create=true" : "/login")}
                   className="flex items-center gap-2 border border-slate-300 rounded-lg px-3 lg:px-4 py-2 hover:bg-slate-50 transition-all active:scale-95 group"
                 >
-                  <div className="w-4 h-4 text-slate-900 group-hover:text-forest-green">
+                  <div className="w-4 h-4 text-slate-900 group-hover:text-deep-forest">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
                       <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
@@ -305,7 +303,7 @@ export function Header() {
                     href="/dashboard"
                     aria-expanded={showProfileMenu}
                     aria-haspopup="true"
-                    className="bg-forest-green hover:bg-emerald-900 text-white rounded-lg px-6 py-2 text-[13px] font-bold shadow-premium transition-all active:scale-95 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-2"
+                    className="bg-deep-forest hover:bg-emerald-900 text-white rounded-lg px-6 py-2 text-[13px] font-bold shadow-premium transition-all active:scale-95 flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-2"
                   >
                     {tHeader("dashboard")}
                     <svg className={`w-3.5 h-3.5 transition-transform duration-300 ${showProfileMenu ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -327,7 +325,7 @@ export function Header() {
                                 <Link
                                   href="/mod"
                                   role="menuitem"
-                                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
+                                  className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-deep-forest transition-colors text-[13px] font-bold text-slate-700 hover:text-deep-forest"
                                 >
                                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                                   {tHeader("moderation")}
@@ -336,7 +334,7 @@ export function Header() {
                                   <Link
                                     href="/admin/scripts"
                                     role="menuitem"
-                                    className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
+                                    className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-deep-forest transition-colors text-[13px] font-bold text-slate-700 hover:text-deep-forest"
                                   >
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                                     {tHeader("adminScripts")}
@@ -349,7 +347,7 @@ export function Header() {
                         <Link
                           href="/dashboard"
                           role="menuitem"
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-deep-forest transition-colors text-[13px] font-bold text-slate-700 hover:text-deep-forest"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                           {tHeader("myPanel")}
@@ -357,7 +355,7 @@ export function Header() {
                         <Link
                           href={`/u/${profile?.username}`}
                           role="menuitem"
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-deep-forest transition-colors text-[13px] font-bold text-slate-700 hover:text-deep-forest"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                           {tHeader("myProfile")}
@@ -365,7 +363,7 @@ export function Header() {
                         <Link
                           href="/profile/edit"
                           role="menuitem"
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-deep-forest transition-colors text-[13px] font-bold text-slate-700 hover:text-deep-forest"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
                           {tHeader("editProfile")}
@@ -373,7 +371,7 @@ export function Header() {
                         <Link
                           href="/conquistas"
                           role="menuitem"
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-forest-green transition-colors text-[13px] font-bold text-slate-700 hover:text-forest-green"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 focus:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-deep-forest transition-colors text-[13px] font-bold text-slate-700 hover:text-deep-forest"
                         >
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" /></svg>
                           {tHeader("achievements")}
@@ -394,7 +392,7 @@ export function Header() {
               ) : (
                 <Link
                   href="/login"
-                  className="bg-forest-green hover:bg-emerald-900 text-white rounded-lg px-6 py-2 text-[13px] font-bold shadow-premium transition-all active:scale-95"
+                  className="bg-deep-forest hover:bg-emerald-900 text-white rounded-lg px-6 py-2 text-[13px] font-bold shadow-premium transition-all active:scale-95"
                 >
                   {tHeader("login")}
                 </Link>
@@ -418,13 +416,10 @@ export function Header() {
             <div className="p-4 border-b border-slate-100 flex items-center justify-between shrink-0">
               <Link
                 href="/"
-                className="flex items-center gap-2"
+                aria-label="Sintropia"
                 onClick={() => { setMobileMenuOpen(false); setActiveSubmenu(null); }}
               >
-                <div className="w-8 h-8 rounded-lg bg-forest-green flex items-center justify-center">
-                  <span className="text-white text-lg">🌱</span>
-                </div>
-                <span className="font-bold text-lg tracking-tight text-forest-green">SINTROPIA</span>
+                <Logo size={32} />
               </Link>
               <button
                 onClick={() => { setMobileMenuOpen(false); setActiveSubmenu(null); }}
@@ -472,7 +467,7 @@ export function Header() {
                                     key={sub.href}
                                     href={sub.href}
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className="block p-3 rounded-lg text-slate-600 hover:text-forest-green hover:bg-emerald-50 transition-colors text-sm"
+                                    className="block p-3 rounded-lg text-slate-600 hover:text-deep-forest hover:bg-emerald-50 transition-colors text-sm"
                                   >
                                     {sub.label}
                                   </Link>
@@ -486,7 +481,7 @@ export function Header() {
                             href={item.href}
                             onClick={() => setMobileMenuOpen(false)}
                             className={`flex items-center gap-1.5 p-3 rounded-xl transition-colors ${pathname === item.href
-                              ? "text-forest-green bg-emerald-50 font-bold text-sm"
+                              ? "text-deep-forest bg-emerald-50 font-bold text-sm"
                               : "text-slate-700 hover:bg-slate-50 text-sm font-medium"
                             }`}
                           >
@@ -509,7 +504,7 @@ export function Header() {
                     ? (
                         <div className="space-y-3">
                           <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
-                            <div className="w-10 h-10 rounded-full bg-forest-green flex items-center justify-center text-white font-bold">
+                            <div className="w-10 h-10 rounded-full bg-deep-forest flex items-center justify-center text-white font-bold">
                               {(profile?.display_name || user.email || "U")[0].toUpperCase()}
                             </div>
                             <div className="flex-1 min-w-0">
@@ -548,7 +543,7 @@ export function Header() {
                           <Link
                             href="/register"
                             onClick={() => setMobileMenuOpen(false)}
-                            className="block w-full p-3 text-center bg-forest-green text-white rounded-xl text-sm font-bold hover:bg-emerald-900 transition-colors"
+                            className="block w-full p-3 text-center bg-deep-forest text-white rounded-xl text-sm font-bold hover:bg-emerald-900 transition-colors"
                           >
                             {tHeader("register")}
                           </Link>

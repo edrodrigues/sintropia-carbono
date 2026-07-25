@@ -18,7 +18,7 @@ Sintropia is a professional social network and market data platform for environm
 | Styling | Tailwind CSS v4 |
 | Charts | Recharts 3.7 |
 | Icons | Remixicon + Lucide React |
-| Font | Geist Sans + Inter |
+| Font | Inter (headings + body) |
 | Database | Supabase (PostgreSQL) |
 | Auth | Supabase Auth (email + Google OAuth) |
 | i18n | next-intl 4 (pt, en, es) |
@@ -91,13 +91,35 @@ api/                               # API routes
 
 ### Brand Colors
 
+Defined in `src/app/globals.css` (`@theme` block).
+
 | Token | Hex | Usage |
 |-------|-----|-------|
-| `forest-green` | `#064e3b` | Primary CTAs, headings, brand elements |
-| `sintropia-green` | `#10b981` | Accent, interactive states, links |
-| `accent-lime` | `#84cc16` | Secondary accent |
-| `premium-blue` | `#1e40af` | Premium/highlight elements |
-| `bg-light` | `#f8fafc` | Page background |
+| `deep-forest` | `#0A382C` | Headers, primary buttons, brand elements |
+| `sage-green` | `#A8C3A0` | Backgrounds, highlights |
+| `electric-emerald` | `#0CF570` | Accent, interactive states, logo mark |
+| `charcoal-ink` | `#23282D` | Dark backgrounds, neutral dark text |
+| `mint-tint` | `#DDF5E6` | Light page background tint |
+
+### Logo
+
+- **Mark:** Geometric sprout (two leaves + stem) in Electric Emerald on a Deep Forest rounded-square tile; wordmark "SINTROPIA" in bold.
+- **Concept:** Merging growth, network, and data. Style: clean, geometric, professional.
+- **Component:** `src/components/ui/Logo.tsx` (`Logo` tile + wordmark, `LogoMark` standalone SVG).
+- **Usage:** Navigation bars, dark/light backgrounds (footer uses `dark` variant), favicon (`public/favicon.svg`).
+
+### Typography
+
+- **Family:** Inter (single family for headings and body), loaded via `next/font/google` as `--font-inter`, mapped to Tailwind `--font-sans`.
+- **Headings:** Bold, 32pt/48pt scale (`text-3xl`/`text-5xl`), `text-deep-forest`.
+- **Body:** Inter Regular/Medium, 16pt/24pt.
+- **Data:** `tabular-nums` on metrics, stat cards, and numeric table cells.
+
+### Photography & Visual Style
+
+- **Style:** Authentic, hopeful, analytical.
+- **Mood:** Forward-thinking, collaborative, professional.
+- **Subjects:** Real people in renewable-energy/agro contexts, network/data overlays on landscapes, growth metaphors (seedlings).
 
 ### Component Primitives
 
@@ -121,8 +143,8 @@ The project uses **custom-built Tremor-inspired components** (not the npm packag
 ### Visual Patterns
 
 - **Cards:** `bg-white rounded-xl border border-gray-200 p-6 shadow-sm` (consistent across all sections)
-- **Buttons:** Forest green `bg-forest-green` for primary, ghost/outline for secondary
-- **Charts:** Recharts with consistent color schemes defined in `src/lib/utils.ts`
+- **Buttons:** Deep forest `bg-deep-forest` for primary, ghost/outline for secondary
+- **Charts:** Recharts with a centralized brand palette (`brandChartPalette` in `src/lib/utils.ts`), anchored on deep forest / electric emerald / sage / charcoal
 - **Glass effect:** `bg-white/70 backdrop-blur-md` (`.glass` utility class)
 - **Animations:** 12 custom keyframe animations (dialog overlays, slide-in drawers, accordion, fade)
 - **Dark mode:** Supported via `.dark` class variant with `dark:` Tailwind prefixes

@@ -41,7 +41,7 @@ export default async function ResetPasswordPage(props: {
               name="password"
               type="password"
               required
-              className="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1e40af] focus:border-transparent sm:text-sm dark:bg-gray-800 transition-all"
+              className="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0a382c] focus:border-transparent sm:text-sm dark:bg-gray-800 transition-all"
               placeholder="••••••••"
             />
           </div>
@@ -57,7 +57,7 @@ export default async function ResetPasswordPage(props: {
           <div className="flex flex-col gap-4">
             <button
               formAction={updatePassword}
-              className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-[#1e40af] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all shadow-lg shadow-blue-500/25 active:scale-95"
+              className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-[#0a382c] hover:bg-charcoal-ink focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-deep-forest transition-all shadow-lg shadow-deep-forest/25 active:scale-95"
             >
               Atualizar Senha
             </button>

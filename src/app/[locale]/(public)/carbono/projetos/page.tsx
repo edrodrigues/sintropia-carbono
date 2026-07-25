@@ -38,7 +38,7 @@ export default async function CarbonoProjetosPage({ params }: { params: Promise<
       <main className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 py-12">
         <Breadcrumb />
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-[#059669] mb-2 dark:text-emerald-400">
+          <h2 className="text-4xl font-bold text-[#0a382c] mb-2 dark:text-emerald-400">
             {t("title")}
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
@@ -59,7 +59,7 @@ export default async function CarbonoProjetosPage({ params }: { params: Promise<
             </p>
             <ul className="list-disc pl-5 space-y-2 text-sm">
               <li>
-                <strong className="text-blue-600 dark:text-blue-400">VCS</strong>
+                <strong className="text-blue-600 dark:text-electric-emerald">VCS</strong>
                 {" "}
                 -
                 {" "}

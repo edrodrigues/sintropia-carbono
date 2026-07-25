@@ -245,7 +245,7 @@ export function PriceBarChart({ data, height = 260, currency = "USD" }: PriceBar
             tickFormatter={(v: number) => `${sym}${v.toFixed(2)}`}
           />
           <Tooltip content={<BarTooltip currency={currency} />} />
-          <Bar dataKey="value" fill="#10b981" radius={[3, 3, 0, 0]} maxBarSize={40} name="Preço" />
+          <Bar dataKey="value" fill="#0a382c" radius={[3, 3, 0, 0]} maxBarSize={40} name="Preço" />
         </ComposedChart>
       </ResponsiveContainer>
     </div>

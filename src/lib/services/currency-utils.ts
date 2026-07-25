@@ -40,7 +40,7 @@ export function convertPrice(
  */
 export function formatConvertedPrice(
   priceValue: number | null,
-  fromCurrency: string | null,
+  fromCurrency: string | null | undefined,
   toCurrency: string,
   rates?: ConversionRates,
 ): string {

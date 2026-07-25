@@ -61,7 +61,7 @@ export function InviteSection({ referralCode }: InviteSectionProps) {
               ? "bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed"
               : copied
                 ? "bg-green-600 text-white"
-                : "bg-[#1e40af] text-white hover:bg-blue-700 shadow-lg shadow-blue-500/25"
+                : "bg-[#0a382c] text-white hover:bg-charcoal-ink shadow-lg shadow-deep-forest/25"
           }`}
         >
           {copied ? (t("copied") || "Copiado!") : (t("copyLink") || "Copiar Link")}

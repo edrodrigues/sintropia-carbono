@@ -161,7 +161,7 @@ export default async function EnergiaPage({
             <span className="font-medium">11 de Março de 2026</span>
           </div>
           {/* Unit Explanation */}
-          <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800/30">
+          <div className="p-4 bg-mint-tint dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800/30">
             <p className="text-sm text-blue-800 dark:text-blue-200">
               <strong>Unidade:</strong>
               {" "}
@@ -233,7 +233,7 @@ export default async function EnergiaPage({
               </Link>
               <Link
                 href={`/${locale}/energia/ranking-mundo`}
-                className="flex items-center gap-3 p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                className="flex items-center gap-3 p-4 rounded-lg bg-mint-tint dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
               >
                 <RiGlobalLine className="w-5 h-5 text-blue-600" />
                 <span className="font-medium text-blue-800 dark:text-blue-300">
@@ -251,7 +251,7 @@ export default async function EnergiaPage({
               </Link>
               <Link
                 href={`/${locale}/irec-precos`}
-                className="flex items-center gap-3 p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                className="flex items-center gap-3 p-4 rounded-lg bg-mint-tint dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
               >
                 <RiPriceTag3Line className="w-5 h-5 text-blue-600" />
                 <span className="font-medium text-blue-800 dark:text-blue-300">

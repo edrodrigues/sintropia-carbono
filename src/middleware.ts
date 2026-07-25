@@ -29,6 +29,12 @@ export async function middleware(request: NextRequest) {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseAnonKey) {
+    console.error("[middleware] Supabase environment variables not configured");
+    if (isDashboardPath(request.nextUrl.pathname)) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${routing.defaultLocale}`;
+      return NextResponse.redirect(url);
+    }
     return intlMiddleware(request);
   }
 

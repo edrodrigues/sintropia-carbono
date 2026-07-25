@@ -109,7 +109,7 @@ export function VolumeBarChart({
           <Bar
             dataKey="vol2025"
             name={label2025}
-            fill="#059669"
+            fill="#0a382c"
             radius={[4, 4, 0, 0]}
             maxBarSize={40}
           />
@@ -117,7 +117,7 @@ export function VolumeBarChart({
             <Bar
               dataKey="vol2026"
               name={label2026}
-              fill="#1e40af"
+              fill="#0a382c"
               radius={[4, 4, 0, 0]}
               maxBarSize={40}
             />

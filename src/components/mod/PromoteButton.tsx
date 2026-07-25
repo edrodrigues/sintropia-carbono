@@ -50,7 +50,7 @@ export function PromoteButton({ userId, currentRole }: PromoteButtonProps) {
       <button
         onClick={handlePromote}
         disabled={loading}
-        className="px-2 py-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs font-bold rounded-lg transition-colors"
+        className="px-2 py-1 bg-blue-600 hover:bg-charcoal-ink disabled:opacity-50 text-white text-xs font-bold rounded-lg transition-colors"
       >
         {loading ? "..." : "Promover"}
       </button>

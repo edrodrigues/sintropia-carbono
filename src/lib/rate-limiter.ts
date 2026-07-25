@@ -9,22 +9,16 @@ interface RateLimitEntry {
 
 const store = new Map<string, RateLimitEntry>();
 
-const WINDOW_MS = 60 * 1000; // 1 minute window
-const MAX_REQUESTS = 5; // 5 attempts per window
+const WINDOW_MS = 60 * 1000;
+const MAX_REQUESTS = 5;
+
+const CLEANUP_INTERVAL_MS = 60 * 1000;
 
 function getClientIp(): string {
-  // In a serverless environment, get IP from headers
-  // This is a best-effort extraction
-  try {
-    const headers = process.env.NODE_ENV === "development"
-      ? undefined
-      : undefined;
-    // Headers are not available in server actions easily,
-    // so we use a synthetic identifier
-    return "global";
-  } catch {
-    return "unknown";
+  if (typeof globalThis !== "undefined" && typeof (globalThis as Record<string, unknown>).Request === "undefined") {
+    return "server";
   }
+  return "unknown";
 }
 
 export function checkRateLimit(key: string): {
@@ -50,7 +44,7 @@ export function checkRateLimit(key: string): {
 }
 
 // Clean up expired entries periodically
-if (typeof setInterval !== "undefined") {
+if (typeof setInterval !== "undefined" && typeof globalThis !== "undefined") {
   setInterval(() => {
     const now = Date.now();
     for (const [key, entry] of store.entries()) {
@@ -58,5 +52,5 @@ if (typeof setInterval !== "undefined") {
         store.delete(key);
       }
     }
-  }, 60 * 1000);
+  }, CLEANUP_INTERVAL_MS);
 }

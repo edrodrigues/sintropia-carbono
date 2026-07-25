@@ -200,7 +200,7 @@ export async function ComparatorTab({
         <button className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer min-h-[44px]">
           Exportar CSV
         </button>
-        <button className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg cursor-pointer min-h-[44px]">
+        <button className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-charcoal-ink rounded-lg cursor-pointer min-h-[44px]">
           Criar alerta
         </button>
       </div>

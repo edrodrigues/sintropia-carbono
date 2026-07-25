@@ -125,7 +125,7 @@ export async function StatisticsSection({ locale }: { locale: string }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-forest-green mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-deep-forest mb-4">
             {getHeading()}
           </h2>
           <p className="text-slate-600 text-lg max-w-2xl mx-auto">
@@ -142,7 +142,7 @@ export async function StatisticsSection({ locale }: { locale: string }) {
             >
               {/* Value and Trend */}
               <div className="flex items-start justify-between mb-3">
-                <span className="text-3xl sm:text-4xl font-bold text-forest-green">
+                <span className="text-3xl sm:text-4xl font-bold text-deep-forest">
                   {stat.value}
                 </span>
                 {stat.trend && (

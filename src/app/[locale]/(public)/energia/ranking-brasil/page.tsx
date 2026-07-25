@@ -110,7 +110,7 @@ export default async function RankingBrasilPage({
 
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-forest-green mb-2">
+          <h1 className="text-3xl lg:text-4xl font-bold text-deep-forest mb-2">
             {tRanking("brasilTitle")}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">

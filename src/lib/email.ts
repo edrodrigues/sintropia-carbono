@@ -36,7 +36,7 @@ const styles = `
     margin-bottom: 24px; 
   }
   .logo h1 { 
-    color: #10b981; 
+    color: #0a382c; 
     font-size: 28px; 
     font-weight: 700;
   }
@@ -44,13 +44,13 @@ const styles = `
     color: #f8fafc; 
   }
   h1 { 
-    color: #10b981; 
+    color: #0a382c; 
     font-size: 24px; 
     font-weight: 600; 
     margin-bottom: 20px;
   }
   h2 { 
-    color: #10b981; 
+    color: #0a382c; 
     font-size: 20px; 
     font-weight: 600; 
     margin: 24px 0 12px;
@@ -75,7 +75,7 @@ const styles = `
   }
   .btn { 
     display: inline-block; 
-    background-color: #10b981; 
+    background-color: #0a382c; 
     color: #ffffff; 
     padding: 14px 28px; 
     text-decoration: none; 
@@ -84,7 +84,7 @@ const styles = `
     margin-top: 8px;
   }
   .btn:hover {
-    background-color: #059669;
+    background-color: #0a382c;
   }
   .footer { 
     text-align: center; 
@@ -98,11 +98,11 @@ const styles = `
     margin-bottom: 8px;
   }
   .footer a {
-    color: #10b981;
+    color: #0a382c;
     text-decoration: none;
   }
   .highlight {
-    background-color: #10b981;
+    background-color: #0a382c;
     color: #ffffff;
     padding: 2px 8px;
     border-radius: 4px;

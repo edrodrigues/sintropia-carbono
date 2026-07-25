@@ -1,6 +1,7 @@
 "use client";
 
 import { Link } from "@/i18n/routing";
+import { Logo } from "@/components/ui/Logo";
 import { useTranslations } from "next-intl";
 
 export function Footer() {
@@ -14,11 +15,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-12 lg:mb-20">
           {/* Brand Info */}
           <div className="flex flex-col gap-6 lg:col-span-2">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-lg bg-emerald-600 flex items-center justify-center">
-                <span className="text-white text-xl">🌱</span>
-              </div>
-              <span className="font-bold text-2xl tracking-tight">SINTROPIA</span>
+            <Link href="/" aria-label="Sintropia">
+              <Logo size={36} dark />
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
               {tFooter("tagline")}

@@ -92,7 +92,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                       type="checkbox"
                       checked={isAllSelected}
                       onChange={selectAll}
-                      className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                      className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-deep-forest cursor-pointer"
                       aria-label="Select all assets"
                     />
                   </label>
@@ -124,7 +124,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                           type="checkbox"
                           checked={isSelected}
                           onChange={() => item.asset_id && toggleSelect(item.asset_id)}
-                          className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                          className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-deep-forest cursor-pointer"
                           aria-label={`Select ${item.asset_name}`}
                         />
                       </label>

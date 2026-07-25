@@ -227,7 +227,7 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
               <Star className="w-4 h-4" aria-hidden="true" />
               Watchlist
             </button>
-            <button className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg cursor-pointer min-h-[44px]">
+            <button className="flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-charcoal-ink rounded-lg cursor-pointer min-h-[44px]">
               <Bell className="w-4 h-4" aria-hidden="true" />
               Criar alerta
             </button>

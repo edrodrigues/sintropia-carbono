@@ -4,10 +4,10 @@ import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
 
-export function formatPrice(item: SnapshotRow, toCurrency: string, rates?: ConversionRates): string {
+export function formatPrice(item: { price?: number | null; price_display?: string | null; price_low?: number | null; price_high?: number | null; currency?: string | null }, toCurrency: string, rates?: ConversionRates): string {
   if (item.price_display && toCurrency === (item.currency || "USD")) return item.price_display;
-  if (item.price !== null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
-  if (item.price_low !== null && item.price_high !== null) {
+  if (item.price != null) return formatConvertedPrice(item.price, item.currency, toCurrency, rates);
+  if (item.price_low != null && item.price_high != null) {
     if (rates && item.currency && item.currency !== toCurrency) {
       const low = convertPrice(Number(item.price_low), item.currency, toCurrency, rates);
       const high = convertPrice(Number(item.price_high), item.currency, toCurrency, rates);

@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import FeedClient from "./FeedClient";
 import { PostWithRelations } from "@/types";
+import { logger } from "@/lib/utils/logger";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -20,7 +21,8 @@ export default async function FeedPage() {
   let supabase;
   try {
     supabase = await createClient();
-  } catch {
+  } catch (err) {
+    logger.error("FeedPage: Failed to create Supabase client", { error: String(err) });
     supabase = null;
   }
 
@@ -39,7 +41,8 @@ export default async function FeedPage() {
         .limit(20)
       : { data: null };
     posts = (data as PostWithRelations[]) || [];
-  } catch {
+  } catch (err) {
+    logger.error("FeedPage: Failed to load posts", { error: String(err) });
     posts = [];
   }
 

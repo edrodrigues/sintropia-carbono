@@ -78,7 +78,7 @@ export default async function CarbonoLiveMarketsPage({
 
   let drawerAsset: (typeof snapshot)[number] | undefined = undefined;
   let drawerSeries: Awaited<ReturnType<typeof getPriceSeries>> = [];
-  let drawerRelated: (typeof snapshot)[] = [];
+  let drawerRelated: typeof snapshot = [];
 
   if (assetSlug) {
     drawerAsset = snapshot.find(

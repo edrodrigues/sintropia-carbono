@@ -75,8 +75,8 @@ export default async function CarbonoPrecosPage({ params }: { params: Promise<{ 
       <main className="max-w-7xl mx-auto px-4 lg:px-8 lg:px-16 py-12">
         <Breadcrumb />
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-[#059669] mb-2 font-inter">{t("title")}</h2>
-          <p className="text-gray-600 dark:text-gray-400 font-inter">{t("subtitle")}</p>
+          <h2 className="text-4xl font-bold text-[#0a382c] mb-2">{t("title")}</h2>
+          <p className="text-gray-600 dark:text-gray-400">{t("subtitle")}</p>
           <p className="text-sm text-gray-500 mt-2 font-mono">{t("lastUpdate")}</p>
         </div>
 
@@ -160,7 +160,7 @@ export default async function CarbonoPrecosPage({ params }: { params: Promise<{ 
                   {displayVoluntary.map((row, i) => (
                     <TableRow key={i}>
                       <TableCell className="font-bold">{row.quality}</TableCell>
-                      <TableCell className="font-mono font-bold text-[#1e40af]">{row.price}</TableCell>
+                      <TableCell className="font-mono font-bold text-[#0a382c]">{row.price}</TableCell>
                       <TableCell className="text-right text-sm text-gray-500">{row.obs}</TableCell>
                     </TableRow>
                   ))}
@@ -173,7 +173,7 @@ export default async function CarbonoPrecosPage({ params }: { params: Promise<{ 
         {/* Brazil Section */}
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden mb-8 shadow-sm">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-yellow-50 to-green-50 dark:from-yellow-900/10 dark:to-green-900/10">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white font-inter">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
               🇧🇷
               {t("brazilian")}
             </h3>
@@ -230,32 +230,32 @@ export default async function CarbonoPrecosPage({ params }: { params: Promise<{ 
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2 text-xs">
             <p>
-              <span className="font-bold text-[#059669]">SBCE:</span>
+              <span className="font-bold text-[#0a382c]">SBCE:</span>
               {" "}
               {tGlossary("sbce")}
             </p>
             <p>
-              <span className="font-bold text-[#059669]">tCO2e:</span>
+              <span className="font-bold text-[#0a382c]">tCO2e:</span>
               {" "}
               {tGlossary("tco2e")}
             </p>
             <p>
-              <span className="font-bold text-[#059669]">AFOLU:</span>
+              <span className="font-bold text-[#0a382c]">AFOLU:</span>
               {" "}
               {tGlossary("afolu")}
             </p>
             <p>
-              <span className="font-bold text-[#059669]">ETS:</span>
+              <span className="font-bold text-[#0a382c]">ETS:</span>
               {" "}
               {tGlossary("ets")}
             </p>
             <p>
-              <span className="font-bold text-[#059669]">ARR:</span>
+              <span className="font-bold text-[#0a382c]">ARR:</span>
               {" "}
               {tGlossary("arr")}
             </p>
             <p>
-              <span className="font-bold text-[#059669]">VCM:</span>
+              <span className="font-bold text-[#0a382c]">VCM:</span>
               {" "}
               {tGlossary("vcm")}
             </p>

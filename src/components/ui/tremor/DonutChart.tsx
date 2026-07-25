@@ -23,7 +23,7 @@ interface DonutChartProps {
   colors?: string[];
 }
 
-const defaultColors = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316", "#6366f1", "#84cc16", "#06b6d4", "#a855f7"];
+const defaultColors = ["#0a382c", "#0cf570", "#a8c3a0", "#23282d", "#14624a", "#f59e0b", "#6b8f71", "#0891b2", "#ef4444", "#ec4899", "#8b5cf6", "#f97316"];
 
 interface CustomTooltipProps {
   active?: boolean;

@@ -45,7 +45,7 @@ export function ComparisonBar({ selectedIds, onClearSelection }: ComparisonBarPr
           </button>
           <button
             onClick={goCompare}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg cursor-pointer min-h-[44px]"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-charcoal-ink rounded-lg cursor-pointer min-h-[44px]"
           >
             <ArrowLeftRight className="w-4 h-4" aria-hidden="true" />
             Comparar referências

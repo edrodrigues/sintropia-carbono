@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Card, Title, BarChart, DonutChart } from "@/components/ui/tremor";
+import { brandChartPalette } from "@/lib/utils";
 
 const fullChartData = {
   labels: [
@@ -83,15 +84,7 @@ const fullChartData = {
   ],
 };
 
-const sectorColors = [
-  "#166534",
-  "#2563eb",
-  "#7c3aed",
-  "#1e40af",
-  "#6b7280",
-  "#0891b2",
-  "#dc2626"
-];
+const sectorColors = [...brandChartPalette];
 
 export function CarbonoMundoChart() {
   const [view, setView] = useState<"top10" | "top25">("top25");

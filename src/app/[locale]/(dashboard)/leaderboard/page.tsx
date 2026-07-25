@@ -158,7 +158,7 @@ export default async function LeaderboardPage() {
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
-                    <span className="text-2xl font-black text-blue-600 dark:text-blue-400 tabular-nums">
+                    <span className="text-2xl font-black text-blue-600 dark:text-electric-emerald tabular-nums">
                       {(user.karma || 0).toLocaleString()}
                     </span>
                   </TableCell>

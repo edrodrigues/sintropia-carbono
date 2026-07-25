@@ -2,6 +2,7 @@
 
 interface LastUpdatedProps {
   lastDate?: string | null;
+  dataFile?: string;
   className?: string;
 }
 

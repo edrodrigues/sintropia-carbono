@@ -59,8 +59,8 @@ export async function banUser(
     return { success: false, error: "Erro ao atualizar perfil" };
   }
 
-  revalidatePath("/mod");
-  revalidatePath("/profiles");
+  revalidatePath("/", "layout");
+  revalidatePath("/", "layout");
 
   return { success: true };
 }
@@ -115,8 +115,8 @@ export async function promoteToModerator(
     return { success: false, error: "Erro ao promover usuário" };
   }
 
-  revalidatePath("/mod");
-  revalidatePath("/profiles");
+  revalidatePath("/", "layout");
+  revalidatePath("/", "layout");
 
   return { success: true };
 }
@@ -159,8 +159,8 @@ export async function warnUser(
     return { success: false, error: "Erro ao criar advertência" };
   }
 
-  revalidatePath("/mod");
-  revalidatePath("/profiles");
+  revalidatePath("/", "layout");
+  revalidatePath("/", "layout");
 
   return { success: true };
 }
@@ -212,8 +212,8 @@ export async function deletePost(
     });
   }
 
-  revalidatePath("/mod");
-  revalidatePath("/feed");
+  revalidatePath("/", "layout");
+  revalidatePath("/", "layout");
 
   return { success: true };
 }

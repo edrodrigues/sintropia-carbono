@@ -34,7 +34,7 @@ export function ExpertQuote({ locale }: { locale: string }) {
   const quote = quotes[locale] ?? quotes.en;
 
   return (
-    <section className="bg-forest-green py-20 lg:py-28">
+    <section className="bg-deep-forest py-20 lg:py-28">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-center text-center">
           {/* Quote Icon */}

@@ -202,9 +202,9 @@ export default async function SetoresPage({
           {brasilSectors.slice(0, 4).map((sector, index) => {
             const bgColors = [
               "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800",
-              "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800",
+              "bg-mint-tint dark:bg-blue-900/20 border-blue-200 dark:border-blue-800",
               "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800",
-              "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800",
+              "bg-mint-tint dark:bg-blue-900/20 border-blue-200 dark:border-blue-800",
             ];
             const textColors = [
               "text-emerald-800 dark:text-emerald-200",
@@ -220,9 +220,9 @@ export default async function SetoresPage({
             ];
             const subColors = [
               "text-emerald-600 dark:text-emerald-400",
-              "text-blue-600 dark:text-blue-400",
+              "text-blue-600 dark:text-electric-emerald",
               "text-emerald-600 dark:text-emerald-400",
-              "text-blue-600 dark:text-blue-400",
+              "text-blue-600 dark:text-electric-emerald",
             ];
 
             return (
@@ -276,7 +276,7 @@ export default async function SetoresPage({
               integridade.
             </p>
           </div>
-          <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
+          <div className="bg-mint-tint dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
               ⚡ Energia em Transição
             </h4>
