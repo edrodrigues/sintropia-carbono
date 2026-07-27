@@ -98,11 +98,6 @@ export function PostCard({ post, onOpenModal }: PostCardProps) {
                 @
                 {post.author?.username}
               </Link>
-              <span className="mx-1 text-yellow-500 font-bold">
-                (
-                {post.author?.karma || 0}
-                )
-              </span>
             </span>
             {post.author?.linkedin_url && (
               <a

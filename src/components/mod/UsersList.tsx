@@ -134,11 +134,6 @@ export function UsersList() {
                   {user.username}
                 </p>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-xs text-gray-400">
-                    {user.karma}
-                    {" "}
-                    karma
-                  </span>
                   {getRoleBadge(user.role || "user")}
                 </div>
                 <p className="text-xs text-gray-400 mt-0.5">

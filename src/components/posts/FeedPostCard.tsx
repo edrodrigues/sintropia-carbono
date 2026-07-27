@@ -14,15 +14,6 @@ interface FeedPostCardProps {
   isAlternateBg?: boolean;
 }
 
-const getBadge = (karma: number) => {
-  if (karma >= 1000) return { emoji: "👑", label: "Master" };
-  if (karma >= 500) return { emoji: "💎", label: "Especialista" };
-  if (karma >= 100) return { emoji: "🌟", label: "Contribuidor" };
-  if (karma >= 50) return { emoji: "🌿", label: "Aprendiz" };
-  if (karma >= 10) return { emoji: "🌱", label: "Iniciante" };
-  return null;
-};
-
 export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedPostCardProps) {
   const [copied, setCopied] = useState(false);
 
@@ -64,7 +55,6 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
     }
   };
 
-  const authorBadge = post.author?.karma ? getBadge(post.author.karma) : null;
   const categoryDetails = getCategoryDetails(post.category);
 
   return (
@@ -123,13 +113,6 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
               @
               {post.author?.username}
             </Link>
-            {authorBadge && (
-              <span className="text-[10px] sm:text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-400 whitespace-nowrap">
-                {authorBadge.emoji}
-                {" "}
-                <span className="hidden sm:inline">{authorBadge.label}</span>
-              </span>
-            )}
             <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
               •
               {" "}

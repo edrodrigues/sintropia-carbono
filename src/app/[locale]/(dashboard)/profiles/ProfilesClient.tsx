@@ -12,7 +12,7 @@ interface Profile {
   display_name: string | null;
   bio: string | null;
   user_type: string | null;
-  karma: number | null;
+  tokenBalance?: number;
   created_at: string | null;
 }
 
@@ -34,12 +34,12 @@ export function ProfilesClient({
     ? profiles.filter(p => p.user_type === selectedType)
     : profiles;
 
-  const getBadge = (karma: number) => {
-    if (karma >= 1000) return { emoji: "👑", label: t("badges.master") };
-    if (karma >= 500) return { emoji: "💎", label: t("badges.specialist") };
-    if (karma >= 100) return { emoji: "🌟", label: t("badges.contributor") };
-    if (karma >= 50) return { emoji: "🌿", label: t("badges.learner") };
-    if (karma >= 10) return { emoji: "🌱", label: t("badges.beginner") };
+  const getBadge = (tokenBalance: number) => {
+    if (tokenBalance >= 1000) return { emoji: "👑", label: t("badges.master") };
+    if (tokenBalance >= 500) return { emoji: "💎", label: t("badges.specialist") };
+    if (tokenBalance >= 100) return { emoji: "🌟", label: t("badges.contributor") };
+    if (tokenBalance >= 50) return { emoji: "🌿", label: t("badges.learner") };
+    if (tokenBalance >= 10) return { emoji: "🌱", label: t("badges.beginner") };
     return { emoji: "🥚", label: t("badges.newbie") };
   };
 
@@ -99,7 +99,7 @@ export function ProfilesClient({
         {filteredProfiles.length > 0
           ? (
               filteredProfiles.map((profile) => {
-                const badge = getBadge(profile.karma ?? 0);
+                const badge = getBadge(profile.tokenBalance ?? 0);
                 const posts = postCountByUser[profile.id] || 0;
                 const comments = commentCountByUser[profile.id] || 0;
 
@@ -149,7 +149,7 @@ export function ProfilesClient({
                         <span className="font-bold text-yellow-600">
                           ⭐
                           {" "}
-                          {profile.karma?.toLocaleString() || 0}
+                          {profile.tokenBalance?.toLocaleString() || 0}
                         </span>
                       </div>
 

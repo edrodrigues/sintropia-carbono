@@ -11,7 +11,7 @@ interface UserStats {
   uniqueUsersInteracted?: number;
   totalCommentsOnPosts?: number;
   categoryPosts?: Record<string, number>;
-  karma?: number;
+  tokenBalance?: number;
 }
 
 interface AchievementDefinition {
@@ -29,52 +29,52 @@ interface AchievementDefinition {
 }
 
 const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
-  // === KARMA - Níveis ===
+  // === TOKENS - Níveis ===
   {
-    id: "karma_10",
+    id: "tokens_10",
     icon: "🌱",
     label: "Iniciante",
-    description: "Atinga 10 pontos de karma",
+    description: "Tenha 10 tokens",
     earned: false,
     rarity: "common",
     category: "quantity",
     progress: { current: 0, target: 10 },
   },
   {
-    id: "karma_50",
+    id: "tokens_50",
     icon: "🌿",
     label: "Aprendiz",
-    description: "Atinga 50 pontos de karma",
+    description: "Tenha 50 tokens",
     earned: false,
     rarity: "common",
     category: "quantity",
     progress: { current: 0, target: 50 },
   },
   {
-    id: "karma_100",
+    id: "tokens_100",
     icon: "🌟",
     label: "Contribuidor",
-    description: "Atinga 100 pontos de karma",
+    description: "Tenha 100 tokens",
     earned: false,
     rarity: "rare",
     category: "quantity",
     progress: { current: 0, target: 100 },
   },
   {
-    id: "karma_500",
+    id: "tokens_500",
     icon: "💎",
     label: "Especialista",
-    description: "Atinga 500 pontos de karma",
+    description: "Tenha 500 tokens",
     earned: false,
     rarity: "epic",
     category: "quantity",
     progress: { current: 0, target: 500 },
   },
   {
-    id: "karma_1000",
+    id: "tokens_1000",
     icon: "👑",
     label: "Master",
-    description: "Atinga 1000 pontos de karma",
+    description: "Tenha 1000 tokens",
     earned: false,
     rarity: "legendary",
     category: "quantity",
@@ -355,7 +355,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
 ];
 
 export function calculateAchievements(profile: {
-  karma?: number;
+  tokenBalance?: number;
   linkedin_url?: string | null;
   created_at?: string;
 }, stats: UserStats): Achievement[] {
@@ -428,26 +428,26 @@ export function calculateAchievements(profile: {
         earned = stats.commentCount >= 10;
         if (progress) progress.current = stats.commentCount;
         break;
-      // Karma achievements
-      case "karma_10":
-        earned = (stats.karma || 0) >= 10;
-        if (progress) progress.current = stats.karma || 0;
+      // Token achievements
+      case "tokens_10":
+        earned = (stats.tokenBalance || 0) >= 10;
+        if (progress) progress.current = stats.tokenBalance || 0;
         break;
-      case "karma_50":
-        earned = (stats.karma || 0) >= 50;
-        if (progress) progress.current = Math.min(stats.karma || 0, 50);
+      case "tokens_50":
+        earned = (stats.tokenBalance || 0) >= 50;
+        if (progress) progress.current = Math.min(stats.tokenBalance || 0, 50);
         break;
-      case "karma_100":
-        earned = (stats.karma || 0) >= 100;
-        if (progress) progress.current = Math.min(stats.karma || 0, 100);
+      case "tokens_100":
+        earned = (stats.tokenBalance || 0) >= 100;
+        if (progress) progress.current = Math.min(stats.tokenBalance || 0, 100);
         break;
-      case "karma_500":
-        earned = (stats.karma || 0) >= 500;
-        if (progress) progress.current = Math.min(stats.karma || 0, 500);
+      case "tokens_500":
+        earned = (stats.tokenBalance || 0) >= 500;
+        if (progress) progress.current = Math.min(stats.tokenBalance || 0, 500);
         break;
-      case "karma_1000":
-        earned = (stats.karma || 0) >= 1000;
-        if (progress) progress.current = Math.min(stats.karma || 0, 1000);
+      case "tokens_1000":
+        earned = (stats.tokenBalance || 0) >= 1000;
+        if (progress) progress.current = Math.min(stats.tokenBalance || 0, 1000);
         break;
       case "early_adopter":
         earned = new Date(stats.createdAt) < new Date("2025-03-01");

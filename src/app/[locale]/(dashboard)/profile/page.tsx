@@ -9,6 +9,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { InviteSection } from "@/components/dashboard/InviteSection";
 import { FloatingInviteCard } from "@/components/dashboard/FloatingInviteCard";
+import { fetchUserTokenBalance } from "@/lib/privy/balance";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -75,21 +76,17 @@ export default async function MyProfilePage() {
     upvotesReceived = count || 0;
   }
 
-  const { count: higherKarmaCount } = await supabase
-    .from("profiles")
-    .select("id", { count: "exact", head: true })
-    .neq("role", "banned")
-    .gt("karma", profile?.karma ?? 0);
+  const tokenBalance = await fetchUserTokenBalance(profile?.wallet_address ?? null);
 
   const stats = {
     posts: postCount || 0,
     comments: commentCount || 0,
     upvotes: upvotesReceived || 0,
-    ranking: higherKarmaCount !== null ? higherKarmaCount + 1 : 1,
+    ranking: 0,
   };
 
   const achievements = calculateAchievements({
-    karma: profile?.karma ?? undefined,
+    tokenBalance,
     linkedin_url: profile?.linkedin_url ?? undefined,
     created_at: profile?.created_at ?? undefined,
   }, {

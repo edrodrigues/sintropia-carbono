@@ -7,6 +7,7 @@ import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } f
 import { getUserTypeIcon } from "@/lib/utils/user";
 import { getTranslations } from "next-intl/server";
 import { FloatingInviteCard } from "@/components/dashboard/FloatingInviteCard";
+import { fetchTokenBalances, fetchTokenInfo } from "@/lib/privy/balance";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -24,12 +25,30 @@ export default async function LeaderboardPage() {
   const supabase = await createClient();
   const t = await getTranslations("Community.leaderboard");
 
-  const { data: users } = await supabase
+  const { data: profiles } = await supabase
     .from("profiles")
-    .select("username, display_name, karma, avatar_url, user_type")
+    .select("username, display_name, avatar_url, user_type, wallet_address")
     .neq("role", "banned")
-    .order("karma", { ascending: false })
-    .limit(25);
+    .not("wallet_address", "is", null)
+    .limit(50);
+
+  const balances = await fetchTokenBalances(
+    profiles?.map((p) => p.wallet_address).filter(Boolean) as string[] || []
+  );
+  const tokenInfo = await fetchTokenInfo();
+
+  const balanceMap = new Map<string, number>();
+  for (const b of balances) {
+    balanceMap.set(b.address.toLowerCase(), b.balance);
+  }
+
+  const ranked = (profiles || [])
+    .map((p) => ({
+      ...p,
+      balance: balanceMap.get(p.wallet_address?.toLowerCase() || "") || 0,
+    }))
+    .sort((a, b) => b.balance - a.balance)
+    .slice(0, 25);
 
   // Get current user's referral code for invite card
   const { data: { user } } = await supabase.auth.getUser();
@@ -58,13 +77,13 @@ export default async function LeaderboardPage() {
     return `#${rank}`;
   };
 
-  const getBadges = (karma: number) => {
+  const getBadges = (balance: number) => {
     const badges = [];
-    if (karma >= 1000) badges.push(`👑 ${t("badges.master")}`);
-    else if (karma >= 500) badges.push(`💎 ${t("badges.specialist")}`);
-    else if (karma >= 100) badges.push(`🌟 ${t("badges.contributor")}`);
-    else if (karma >= 50) badges.push(`🌿 ${t("badges.learner")}`);
-    else if (karma >= 10) badges.push(`🌱 ${t("badges.beginner")}`);
+    if (balance >= 1000) badges.push(`👑 ${t("badges.master")}`);
+    else if (balance >= 500) badges.push(`💎 ${t("badges.specialist")}`);
+    else if (balance >= 100) badges.push(`🌟 ${t("badges.contributor")}`);
+    else if (balance >= 50) badges.push(`🌿 ${t("badges.learner")}`);
+    else if (balance >= 10) badges.push(`🌱 ${t("badges.beginner")}`);
     return badges;
   };
 
@@ -94,16 +113,16 @@ export default async function LeaderboardPage() {
               <TableHeader>{t("user")}</TableHeader>
               <TableHeader>{t("achievements")}</TableHeader>
               <TableHeader className="text-right">
-                <Tooltip content={t("pointsTooltip")}>
-                  {t("points")}
+                <Tooltip content={tokenInfo.symbol}>
+                  {tokenInfo.symbol}
                 </Tooltip>
               </TableHeader>
             </TableRow>
           </TableHead>
           <TableBody>
-            {users?.map((user, index) => {
+            {ranked.map((user, index) => {
               const rank = index + 1;
-              const badges = getBadges(user.karma || 0);
+              const badges = getBadges(user.balance);
 
               return (
                 <TableRow
@@ -159,7 +178,7 @@ export default async function LeaderboardPage() {
                   </TableCell>
                   <TableCell className="text-right">
                     <span className="text-2xl font-black text-blue-600 dark:text-blue-400 tabular-nums">
-                      {(user.karma || 0).toLocaleString()}
+                      {user.balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
                   </TableCell>
                 </TableRow>
@@ -168,7 +187,7 @@ export default async function LeaderboardPage() {
           </TableBody>
         </Table>
 
-        {(!users || users.length === 0) && (
+        {ranked.length === 0 && (
           <div className="text-center py-24">
             <div className="text-6xl mb-6 opacity-20">🌫️</div>
             <h3 className="text-xl font-bold text-gray-400">{t("noData")}</h3>

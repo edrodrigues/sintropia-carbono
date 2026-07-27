@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import ProfileForm from "@/app/[locale]/(dashboard)/profile/ProfileForm";
 import { getUserTypeIcon } from "@/lib/utils/user";
+import { fetchUserTokenBalance } from "@/lib/privy/balance";
 import Image from "next/image";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
@@ -32,6 +33,8 @@ export default async function EditProfilePage() {
   if (!profile || profileError) {
     redirect("/onboarding");
   }
+
+  const tokenBalance = await fetchUserTokenBalance(profile?.wallet_address);
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
@@ -70,8 +73,8 @@ export default async function EditProfilePage() {
             </div>
             <div className="flex gap-4 text-center">
               <div className="px-6 py-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-2xl border border-yellow-100 dark:border-yellow-900/30">
-                <p className="text-xs font-bold text-yellow-600 uppercase tracking-widest mb-1">Karma</p>
-                <p className="text-2xl font-black text-yellow-700 dark:text-yellow-500">{profile?.karma || 0}</p>
+                <p className="text-xs font-bold text-yellow-600 uppercase tracking-widest mb-1">Token Balance</p>
+                <p className="text-2xl font-black text-yellow-700 dark:text-yellow-500">{tokenBalance}</p>
               </div>
               <div className="px-6 py-3 bg-blue-50 dark:bg-blue-900/20 rounded-2xl border border-blue-100 dark:border-blue-900/30">
                 <p className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-1">Membro desde</p>

@@ -5,6 +5,7 @@ import { calculateAchievements } from "@/lib/achievements";
 import { AchievementList } from "@/components/profile/AchievementBadges";
 import { getTranslations } from "next-intl/server";
 import { FloatingInviteCard } from "@/components/dashboard/FloatingInviteCard";
+import { fetchUserTokenBalance } from "@/lib/privy/balance";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -44,17 +45,10 @@ export default async function ConquistasPage() {
     .eq("author_id", user.id)
     .eq("is_deleted", false);
 
-  const { count: higherKarmaCount } = await supabase
-    .from("profiles")
-    .select("id", { count: "exact", head: true })
-    .neq("role", "banned")
-    .gt("karma", profile?.karma ?? 0);
-
-  const userKarma = profile?.karma || 0;
-  const ranking = higherKarmaCount !== null ? higherKarmaCount + 1 : 1;
+  const tokenBalance = await fetchUserTokenBalance(profile?.wallet_address ?? null);
 
   const achievements = calculateAchievements({
-    karma: profile?.karma ?? undefined,
+    tokenBalance,
     linkedin_url: profile?.linkedin_url ?? undefined,
     created_at: profile?.created_at ?? undefined,
   }, {
@@ -63,7 +57,7 @@ export default async function ConquistasPage() {
     upvotesReceived: 0,
     hasLinkedIn: !!profile?.linkedin_url,
     createdAt: profile?.created_at || new Date().toISOString(),
-    karma: userKarma,
+    tokenBalance,
   });
 
   const earnedCount = achievements.filter(a => a.earned).length;
@@ -85,17 +79,10 @@ export default async function ConquistasPage() {
       {/* Your Progress */}
       <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl border border-blue-100 dark:border-blue-800 p-6 mb-8">
         <h2 className="text-xl font-bold text-blue-900 dark:text-blue-200 mb-4">{t("progress")}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl">
-            <span className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{userKarma}</span>
+            <span className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{tokenBalance}</span>
             <p className="text-sm text-gray-600 dark:text-gray-400">{t("karmaTotal")}</p>
-          </div>
-          <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl">
-            <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">
-              #
-              {ranking}
-            </span>
-            <p className="text-sm text-gray-600 dark:text-gray-400">{t("ranking")}</p>
           </div>
           <div className="text-center p-4 bg-white dark:bg-gray-800 rounded-xl">
             <span className="text-3xl font-bold text-purple-600 dark:text-purple-400">{earnedCount}</span>
@@ -107,32 +94,6 @@ export default async function ConquistasPage() {
         {(profile as { referral_code?: string })?.referral_code && (
           <FloatingInviteCard referralCode={(profile as { referral_code?: string }).referral_code || ""} variant="compact" dismissible />
         )}
-      </div>
-
-      {/* How to Earn Karma */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 p-6 mb-8">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t("howToEarn")}</h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-4">
-          {t("karmaDescription")}
-        </p>
-        <div className="space-y-3">
-          <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-            <span className="w-16 text-center py-1 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-700 dark:text-green-400 font-bold text-sm">+10</span>
-            <span className="text-gray-700 dark:text-gray-300">{t("earnActions.createPost")}</span>
-          </div>
-          <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-            <span className="w-16 text-center py-1 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-700 dark:text-green-400 font-bold text-sm">+5</span>
-            <span className="text-gray-700 dark:text-gray-300">{t("earnActions.comment")}</span>
-          </div>
-          <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-            <span className="w-16 text-center py-1 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-700 dark:text-green-400 font-bold text-sm">+3</span>
-            <span className="text-gray-700 dark:text-gray-300">{t("earnActions.likePost")}</span>
-          </div>
-          <div className="flex items-center gap-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
-            <span className="w-16 text-center py-1 bg-green-100 dark:bg-green-900/30 rounded-lg text-green-700 dark:text-green-400 font-bold text-sm">+2</span>
-            <span className="text-gray-700 dark:text-gray-300">{t("earnActions.likeComment")}</span>
-          </div>
-        </div>
       </div>
 
       {/* Badges */}

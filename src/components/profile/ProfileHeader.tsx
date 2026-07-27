@@ -14,6 +14,7 @@ interface ProfileHeaderProps {
     display_name?: string | null;
     bio?: string | null;
     karma?: number | null;
+    tokenBalance?: number | null;
     organization?: string | null;
     cargo?: string | null;
     linkedin_url?: string | null;
@@ -38,20 +39,20 @@ interface ProfileHeaderProps {
   isOwnProfile?: boolean;
 }
 
-const getBadge = (karma: number) => {
-  if (karma >= 1000) return { emoji: "👑", label: "Master", nextLevel: 2000, color: "yellow" };
-  if (karma >= 500) return { emoji: "💎", label: "Especialista", nextLevel: 1000, color: "blue" };
-  if (karma >= 100) return { emoji: "🌟", label: "Contribuidor", nextLevel: 500, color: "green" };
-  if (karma >= 50) return { emoji: "🌿", label: "Aprendiz", nextLevel: 100, color: "teal" };
-  if (karma >= 10) return { emoji: "🌱", label: "Iniciante", nextLevel: 50, color: "emerald" };
+const getBadge = (tokenBalance: number) => {
+  if (tokenBalance >= 1000) return { emoji: "👑", label: "Master", nextLevel: 2000, color: "yellow" };
+  if (tokenBalance >= 500) return { emoji: "💎", label: "Especialista", nextLevel: 1000, color: "blue" };
+  if (tokenBalance >= 100) return { emoji: "🌟", label: "Contribuidor", nextLevel: 500, color: "green" };
+  if (tokenBalance >= 50) return { emoji: "🌿", label: "Aprendiz", nextLevel: 100, color: "teal" };
+  if (tokenBalance >= 10) return { emoji: "🌱", label: "Iniciante", nextLevel: 50, color: "emerald" };
   return { emoji: "🥚", label: "Novato", nextLevel: 10, color: "gray" };
 };
 
 export function ProfileHeader({ profile, achievements, isOwnProfile = false }: ProfileHeaderProps) {
   const t = useTranslations("ProfileHeader");
   const tPerfil = useTranslations("Perfil");
-  const karma = profile.karma ?? 0;
-  const badge = getBadge(karma);
+  const tokenBalance = profile.tokenBalance ?? profile.karma ?? 0;
+  const badge = getBadge(tokenBalance);
 
   return (
     <div className="w-full">
@@ -99,7 +100,7 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
 
             <div className="mt-4 max-w-md">
               <ProgressBar
-                current={karma}
+                current={tokenBalance}
                 max={badge.nextLevel}
                 label={t("progressLabel")}
               />

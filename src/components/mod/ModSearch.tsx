@@ -194,10 +194,6 @@ export function ModSearch() {
                                 {user.username}
                               </p>
                               <p className="text-xs text-gray-400">
-                                {user.karma}
-                                {" "}
-                                karma •
-                                {" "}
                                 {getRoleBadge(user.role)}
                               </p>
                             </div>

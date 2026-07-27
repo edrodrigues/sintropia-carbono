@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { Metadata } from "next";
 import { ProfilesClient } from "./ProfilesClient";
+import { fetchBalancesByWallet, getBalanceFromMap } from "@/lib/privy/balance";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -13,13 +14,25 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function ProfilesPage() {
   const supabase = await createClient();
 
-  // Fetch all profiles with their stats
-  const { data: profiles } = await supabase
+  // Fetch all profiles with wallet_address (must have wallet to have tokens)
+  const { data: rawProfiles } = await supabase
     .from("profiles")
-    .select("id, username, display_name, bio, user_type, karma, created_at")
+    .select("id, username, display_name, bio, user_type, wallet_address, created_at")
     .neq("role", "banned")
-    .order("karma", { ascending: false })
+    .not("wallet_address", "is", null)
     .limit(50);
+
+  // Fetch token balances for all profiles with wallets
+  const balanceMap = await fetchBalancesByWallet(rawProfiles || []);
+
+  // Sort profiles by token balance descending and attach balance
+  const profiles = (rawProfiles || [])
+    .map((p) => ({
+      ...p,
+      tokenBalance: getBalanceFromMap(balanceMap, p.wallet_address),
+    }))
+    .sort((a, b) => b.tokenBalance - a.tokenBalance)
+    .slice(0, 50);
 
   // Fetch post counts for each profile
   const { data: postCounts } = await supabase
@@ -47,7 +60,7 @@ export default async function ProfilesPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       <ProfilesClient
-        profiles={profiles || []}
+        profiles={profiles}
         postCountByUser={postCountByUser}
         commentCountByUser={commentCountByUser}
       />

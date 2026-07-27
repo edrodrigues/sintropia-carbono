@@ -8,6 +8,7 @@ import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { StatsDashboard } from "@/components/profile/StatsDashboard";
 import { TokenBalance } from "@/components/wallet/TokenBalance";
 import { calculateAchievements } from "@/lib/achievements";
+import { fetchUserTokenBalance } from "@/lib/privy/balance";
 import { decodeHtmlServer } from "@/lib/utils/sanitize";
 import type { Database } from "@/types/supabase";
 import Link from "next/link";
@@ -77,7 +78,7 @@ export default async function PublicProfilePage(props: PageProps) {
     }
 
     const emptyCount = { count: 0 };
-    const [postCountRes, commentCountRes, upvotesRes, rankingRes] = await Promise.all([
+    const [postCountRes, commentCountRes, upvotesRes] = await Promise.all([
       supabase
         ? supabase.from("posts").select("id", { count: "exact", head: true }).eq("author_id", profile.id).eq("is_deleted", false)
         : emptyCount,
@@ -87,20 +88,19 @@ export default async function PublicProfilePage(props: PageProps) {
       supabase
         ? supabase.from("votes").select("id", { count: "exact", head: true }).in("target_id", posts.map(p => p.id).length > 0 ? posts.map(p => p.id) : [""]).eq("vote_type", 1)
         : emptyCount,
-      supabase
-        ? supabase.from("profiles").select("id", { count: "exact", head: true }).neq("role", "banned").gt("karma", profile.karma ?? 0)
-        : emptyCount,
     ]);
 
     const stats = {
       posts: postCountRes.count || 0,
       comments: commentCountRes.count || 0,
       upvotes: upvotesRes.count || 0,
-      ranking: rankingRes.count !== null ? rankingRes.count + 1 : 1,
+      ranking: 1,
     };
 
+    const tokenBalance = await fetchUserTokenBalance(profile.wallet_address);
+
     const achievements = calculateAchievements({
-      karma: profile.karma ?? undefined,
+      tokenBalance,
       linkedin_url: profile.linkedin_url ?? undefined,
       created_at: profile.created_at ?? undefined,
     }, {

@@ -226,17 +226,6 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
     if (e.target === e.currentTarget && !isEditing) onClose();
   };
 
-  const getBadge = (karma: number) => {
-    if (karma >= 1000) return { emoji: "👑", label: "Master" };
-    if (karma >= 500) return { emoji: "💎", label: "Especialista" };
-    if (karma >= 100) return { emoji: "🌟", label: "Contribuidor" };
-    if (karma >= 50) return { emoji: "🌿", label: "Aprendiz" };
-    if (karma >= 10) return { emoji: "🌱", label: "Iniciante" };
-    return { emoji: "🥚", label: "Novato" };
-  };
-
-  const authorBadge = getBadge(post.author?.karma || 0);
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
@@ -266,10 +255,8 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                   {post.author?.username}
                 </p>
                 <div className="flex items-center gap-1 text-sm">
-                  <span>{authorBadge.emoji}</span>
-                  <span className="text-yellow-600 font-semibold">{post.author?.karma || 0}</span>
                   <span className="text-gray-400">•</span>
-                  <span className="text-gray-500">{authorBadge.label}</span>
+                  <span className="text-gray-500 text-xs">{post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR") : ""}</span>
                 </div>
               </div>
             </Link>
@@ -581,7 +568,6 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                           )
                         : (
                             comments.map((comment) => {
-                              const commentBadge = getBadge(comment.author?.karma || 0);
                               return (
                                 <div
                                   key={comment.id}
@@ -593,21 +579,17 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 p-[1px] shadow-sm flex-shrink-0">
                                           <div className="w-full h-full rounded-[calc(0.5rem-1px)] bg-white dark:bg-gray-900 flex items-center justify-center text-sm overflow-hidden relative">
                                             {comment.author?.avatar_url
-                                              ? (
-                                                  <Image src={comment.author.avatar_url} alt="" fill className="object-cover" />
-                                                )
-                                              : (
-                                                  getUserTypeIcon(comment.author?.user_type)
-                                                )}
+                                                ? (
+                                                    <Image src={comment.author.avatar_url} alt="" fill className="object-cover" />
+                                                  )
+                                                : (
+                                                    getUserTypeIcon(comment.author?.user_type)
+                                                  )}
                                           </div>
                                         </div>
                                         <span className="font-bold text-gray-900 dark:text-gray-100 text-sm">
-                                          @
+                                            @
                                           {comment.author?.username}
-                                        </span>
-                                        <span className="text-xs">{commentBadge.emoji}</span>
-                                        <span className="text-xs text-yellow-600 font-semibold">
-                                          {comment.author?.karma || 0}
                                         </span>
                                       </Link>
                                       {comment.author?.linkedin_url && (
