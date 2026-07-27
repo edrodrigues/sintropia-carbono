@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { StatsDashboard } from "@/components/profile/StatsDashboard";
+import { TokenBalance } from "@/components/wallet/TokenBalance";
 import { calculateAchievements } from "@/lib/achievements";
 import { decodeHtmlServer } from "@/lib/utils/sanitize";
 import type { Database } from "@/types/supabase";
@@ -119,6 +120,10 @@ export default async function PublicProfilePage(props: PageProps) {
           <ProfileHeader profile={profile!} achievements={achievements} isOwnProfile={isOwnProfile} />
 
           <StatsDashboard stats={stats} />
+
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <TokenBalance walletAddress={profile.wallet_address} />
+          </div>
 
           <div className="mt-8">
             <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">
