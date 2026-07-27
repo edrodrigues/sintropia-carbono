@@ -51,7 +51,7 @@
             "myPanel": "Mi Panel",
             "status": "Estado",
             "notLoggedIn": "No Iniciado",
-            "karma": "Karma acumulado",
+            "karma": "Tokens acumulados",
             "viewAchievements": "Ver Todos los Logros",
             "loginToFollow": "Inicia sesión para rastrear tus activos favoritos, publicar en la comunidad y ganar puntos.",
             "loginRegister": "Iniciar / Registrarse"
@@ -113,7 +113,7 @@
             "challenges": "Desafíos ASG reales de organizaciones. ¡Comparte tus ideas!",
             "profiles": "Mira todos los perfiles de la comunidad.",
             "ranking": "Mira quiénes son los mayores contribuyentes.",
-            "missions": "Gana karma y sube de nivel en la plataforma."
+            "missions": "Gana tokens y sube de nivel en la plataforma."
         }
     },
     "Header": {
@@ -792,7 +792,7 @@
             "invalidEmail": "Correo electrónico inválido",
             "required": "Campo obligatorio"
         },
-        "referralApplied": "¡Referencia aplicada! Ganarás 50 puntos de Karma después de completar tu perfil."
+        "referralApplied": "¡Referencia aplicada! Ganarás 50 tokens después de completar tu perfil."
     },
     "PasswordRequirements": {
         "length": "Mínimo 8 caracteres",
@@ -849,7 +849,7 @@
             "rank": "Rango",
             "user": "Usuario",
             "achievements": "Logros",
-            "karma": "Karma",
+            "karma": "Tokens",
             "points": "Puntos",
             "pointsTooltip": "Puntos ganados por contribuciones a la comunidad",
             "noData": "No hay datos disponibles",
@@ -865,47 +865,47 @@
         },
         "conquistas": {
             "title": "Misiones y Logros",
-            "subtitle": "Gana karma y sube de nivel en la plataforma.",
+            "subtitle": "Gana tokens y sube de nivel en la plataforma.",
             "pageTitle": "Logros y Gamificación",
             "pageSubtitle": "Entiende cómo funciona el sistema de recompensas de Sintropia",
             "backToDashboard": "← Volver al Panel",
             "progress": "Tu Progreso",
-            "karmaTotal": "Karma Total",
+            "karmaTotal": "Tokens",
             "ranking": "Ranking",
             "achievementsCount": "Logros",
-            "howToEarn": "Cómo Ganar Karma",
-            "karmaDescription": "Karma es tu reputación en la comunidad. ¡Cuantas más contribuciones de calidad, más puntos ganas!",
+            "howToEarn": "Cómo Ganar Tokens",
+            "karmaDescription": "Tokens son tu puntuación en la comunidad. ¡Cuantas más contribuciones de calidad, más tokens ganas!",
             "earnActions": {
                 "createPost": "Crear una publicación",
                 "comment": "Comentar en la publicación de otro",
                 "likePost": "Cuando alguien da like a tu publicación",
                 "likeComment": "Cuando alguien da like a tu comentario"
             },
-            "badgesByLevel": "Insignias por Nivel de Karma",
+            "badgesByLevel": "Insignias por Nivel de Tokens",
             "badgeLevels": {
                 "newbie": {
                     "name": "Novato",
-                    "threshold": "0+ Karma"
+                    "threshold": "0+ Tokens"
                 },
                 "beginner": {
                     "name": "Principiante",
-                    "threshold": "10+ Karma"
+                    "threshold": "10+ Tokens"
                 },
                 "learner": {
                     "name": "Aprendiz",
-                    "threshold": "50+ Karma"
+                    "threshold": "50+ Tokens"
                 },
                 "contributor": {
                     "name": "Contribuidor",
-                    "threshold": "100+ Karma"
+                    "threshold": "100+ Tokens"
                 },
                 "specialist": {
                     "name": "Especialista",
-                    "threshold": "500+ Karma"
+                    "threshold": "500+ Tokens"
                 },
                 "master": {
                     "name": "Maestro",
-                    "threshold": "1000+ Karma"
+                    "threshold": "1000+ Tokens"
                 }
             },
             "day": "día",
@@ -919,12 +919,12 @@
         "profile": {
             "username": "Usuario",
             "noUsername": "sin nombre de usuario",
-            "karma": "Karma",
+            "karma": "Tokens",
             "nextLevel": "para el siguiente nivel",
             "viewProfile": "Ver Perfil"
         },
         "stats": {
-            "karma": "Karma",
+            "karma": "Tokens",
             "posts": "Publicaciones",
             "published": "publicadas",
             "comments": "Comentarios",
@@ -933,7 +933,7 @@
         "summary": {
             "title": "Resumen",
             "ranking": "Ranking",
-            "karma": "Karma",
+            "karma": "Tokens",
             "badge": "Insignia",
             "posts": "Publicaciones",
             "comments": "Comentarios",
@@ -941,13 +941,13 @@
         },
         "gamification": {
             "title": "Cómo Funciona la Gamificación",
-            "description": "Karma es tu reputación en la comunidad. ¡Cuantas más contribuciones de calidad, más puntos ganas!",
+            "description": "Tokens son tu puntuación en la comunidad. ¡Cuantas más contribuciones de calidad, más tokens ganas!",
             "progress": "Progreso",
             "toNext": "para el siguiente nivel",
-            "howToEarn": "Cómo ganar Karma",
+            "howToEarn": "Cómo ganar Tokens",
             "rankingTitle": "Tu Posición",
             "globalRanking": "Ranking Global",
-            "rankingDesc": "Aumenta tu Karma participando activamente en la comunidad e invitando nuevos miembros.",
+            "rankingDesc": "Aumenta tus tokens participando activamente en la comunidad e invitando nuevos miembros.",
             "viewLeaderboard": "Ver Leaderboard",
             "actions": {
                 "createPost": "Crear una publicación",
@@ -958,7 +958,7 @@
                 "dislikeComment": "Cuando alguien da dislike a tu comentario",
                 "inviteFriend": "Invitar a un amigo (después de completar el perfil)"
             },
-            "badgesTitle": "Insignias por Nivel de Karma:",
+            "badgesTitle": "Insignias por Nivel de Tokens:",
             "yourRanking": "Tu ranking actual:",
             "viewRanking": "Ver ranking completo →"
         },
@@ -999,7 +999,7 @@
             "cta": "Ver cómo contribuir"
         },
         "inviteTitle": "Invitar Amigos",
-        "inviteDescription": "¡Gana 50 puntos de Karma por cada amigo que complete su perfil! Tus amigos también ganan 50 puntos.",
+        "inviteDescription": "¡Gana 50 tokens por cada amigo que complete su perfil! Tus amigos también ganan 50 tokens.",
         "copied": "¡Copiado!",
         "copyLink": "Copiar Enlace",
         "inviteLimit": "Límite de 20 referidos recompensados",
@@ -1038,7 +1038,7 @@
         "completeLater": "Lo haré después",
         "step3Title": "¡Listo!",
         "step3Subtitle": "Tu perfil está completo. ¡Hora de explorar la comunidad!",
-        "karmaBonus": "¡Ganaste Karma por completar tu perfil!",
+        "karmaBonus": "¡Ganaste tokens por completar tu perfil!",
         "step3CtaDashboard": "Ir al Panel",
         "step3CtaFeed": "Explorar Feed"
     },
