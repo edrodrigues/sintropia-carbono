@@ -94,14 +94,14 @@ export function ComparisonChart({
           <Bar
             dataKey="brasil"
             name={brasilLabel}
-            fill="#059669"
+            fill="#0a382c"
             radius={[4, 4, 0, 0]}
             maxBarSize={60}
           />
           <Bar
             dataKey="mundo"
             name={mundoLabel}
-            fill="#1e40af"
+            fill="#0a382c"
             radius={[4, 4, 0, 0]}
             maxBarSize={60}
           />

@@ -16,13 +16,30 @@ async function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([promise, timeout]) as Promise<T>;
 }
 
+async function getLocale(): Promise<string> {
+  const hdrs = await headers();
+  const referer = hdrs.get("referer") || "";
+  const match = referer.match(/\/(pt|en|es)\b/);
+  return match ? match[1] : "pt";
+}
+
 async function getRateLimitKey(type: string): Promise<string> {
   const hdrs = await headers();
   const ip = hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() || hdrs.get("x-real-ip") || "unknown";
   return `auth:${type}:${ip}`;
 }
 
+function safeNextPath(raw: unknown, locale: string): string {
+  if (typeof raw !== "string") return `/${locale}`;
+  const trimmed = raw.trim();
+  if (!trimmed.startsWith("/") || trimmed.startsWith("//")) return `/${locale}`;
+  const decoded = decodeURIComponent(trimmed);
+  if (!/^\/[A-Za-z0-9\-._~:/?#\[\]@!$&'()*+,;=%]*$/.test(decoded)) return `/${locale}`;
+  return decoded;
+}
+
 export async function login(formData: FormData) {
+  const locale = await getLocale();
   const supabase = await createClient();
 
   const raw = {
@@ -33,14 +50,15 @@ export async function login(formData: FormData) {
   const parsed = loginSchema.safeParse(raw);
   if (!parsed.success) {
     const msg = parsed.error.issues[0]?.message || "Dados inválidos";
-    redirect(`/login?error=${encodeURIComponent(msg)}`);
+    const next = safeNextPath(formData.get("next"), locale);
+    redirect(`/${locale}/login?error=${encodeURIComponent(msg)}&next=${encodeURIComponent(next)}`);
   }
 
   const rateKey = await getRateLimitKey("login");
   const rateCheck = checkRateLimit(rateKey);
   if (!rateCheck.allowed) {
     const retryAfter = Math.ceil(rateCheck.resetIn / 1000);
-    redirect(`/login?error=Muitas tentativas. Tente novamente em ${retryAfter} segundos.`);
+    redirect(`/${locale}/login?error=Muitas tentativas. Tente novamente em ${retryAfter} segundos.`);
   }
 
   const data = parsed.data;
@@ -51,13 +69,14 @@ export async function login(formData: FormData) {
   );
 
   if (error) {
-    redirect("/login?error=" + encodeURIComponent(error.message));
+    redirect(`/${locale}/login?error=${encodeURIComponent(error.message)}`);
   }
 
-  redirect("/");
+  redirect(safeNextPath(formData.get("next"), locale));
 }
 
 export async function signup(formData: FormData) {
+  const locale = await getLocale();
   const supabase = await createClient();
 
   const raw = {
@@ -71,7 +90,7 @@ export async function signup(formData: FormData) {
   const parsed = signupSchema.safeParse(raw);
   if (!parsed.success) {
     const msg = parsed.error.issues[0]?.message || "Dados inválidos";
-    redirect(`/register?error=${encodeURIComponent(msg)}`);
+    redirect(`/${locale}/register?error=${encodeURIComponent(msg)}`);
   }
 
   const { email, password, name, username, user_type } = parsed.data;
@@ -80,7 +99,7 @@ export async function signup(formData: FormData) {
   const rateCheck = checkRateLimit(rateKey);
   if (!rateCheck.allowed) {
     const retryAfter = Math.ceil(rateCheck.resetIn / 1000);
-    redirect(`/register?error=Muitas tentativas. Tente novamente em ${retryAfter} segundos.`);
+    redirect(`/${locale}/register?error=Muitas tentativas. Tente novamente em ${retryAfter} segundos.`);
   }
 
   const { error } = await withTimeout(
@@ -100,22 +119,24 @@ export async function signup(formData: FormData) {
   );
 
   if (error) {
-    redirect("/register?error=" + encodeURIComponent(error.message));
+    redirect(`/${locale}/register?error=${encodeURIComponent(error.message)}`);
   }
 
   // Send welcome email (non-blocking, don't wait)
   sendWelcomeEmail(email, name || "Usuario").catch(console.error);
 
-  redirect("/login?message=Cadastro realizado! Verifique seu e-mail para confirmar a conta.");
+  redirect(`/${locale}/login?message=Cadastro realizado! Verifique seu e-mail para confirmar a conta.`);
 }
 
 export async function logout() {
+  const locale = await getLocale();
   const supabase = await createClient();
   await supabase.auth.signOut();
-  redirect("/login");
+  redirect(`/${locale}/login`);
 }
 
 export async function signInWithGoogle() {
+  const locale = await getLocale();
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
 
@@ -130,7 +151,7 @@ export async function signInWithGoogle() {
   });
 
   if (error) {
-    redirect("/login?error=" + encodeURIComponent(error.message));
+    redirect(`/${locale}/login?error=${encodeURIComponent(error.message)}`);
   }
 
   if (data.url) {
@@ -139,6 +160,7 @@ export async function signInWithGoogle() {
 }
 
 export async function signInWithLinkedIn() {
+  const locale = await getLocale();
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
 
@@ -150,7 +172,7 @@ export async function signInWithLinkedIn() {
   });
 
   if (error) {
-    redirect("/login?error=" + encodeURIComponent(error.message));
+    redirect(`/${locale}/login?error=${encodeURIComponent(error.message)}`);
   }
 
   if (data.url) {
@@ -159,12 +181,13 @@ export async function signInWithLinkedIn() {
 }
 
 export async function resetPassword(formData: FormData) {
+  const locale = await getLocale();
   const supabase = await createClient();
   const raw = { email: formData.get("email") as string };
   const parsed = resetPasswordSchema.safeParse(raw);
   if (!parsed.success) {
     const msg = parsed.error.issues[0]?.message || "E-mail inválido";
-    redirect(`/forgot-password?error=${encodeURIComponent(msg)}`);
+    redirect(`/${locale}/forgot-password?error=${encodeURIComponent(msg)}`);
   }
 
   const { email } = parsed.data;
@@ -174,7 +197,7 @@ export async function resetPassword(formData: FormData) {
   const rateCheck = checkRateLimit(rateKey);
   if (!rateCheck.allowed) {
     const retryAfter = Math.ceil(rateCheck.resetIn / 1000);
-    redirect(`/forgot-password?error=Muitas tentativas. Tente novamente em ${retryAfter} segundos.`);
+    redirect(`/${locale}/forgot-password?error=Muitas tentativas. Tente novamente em ${retryAfter} segundos.`);
   }
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -182,19 +205,20 @@ export async function resetPassword(formData: FormData) {
   });
 
   if (error) {
-    redirect("/forgot-password?error=" + encodeURIComponent(error.message));
+    redirect(`/${locale}/forgot-password?error=${encodeURIComponent(error.message)}`);
   }
 
-  redirect("/forgot-password?message=E-mail de recuperação enviado! Verifique sua caixa de entrada.");
+  redirect(`/${locale}/forgot-password?message=E-mail de recuperação enviado! Verifique sua caixa de entrada.`);
 }
 
 export async function updatePassword(formData: FormData) {
+  const locale = await getLocale();
   const supabase = await createClient();
   const raw = { password: formData.get("password") as string };
   const parsed = updatePasswordSchema.safeParse(raw);
   if (!parsed.success) {
     const msg = parsed.error.issues[0]?.message || "Senha inválida";
-    redirect(`/auth/reset-password?error=${encodeURIComponent(msg)}`);
+    redirect(`/${locale}/auth/reset-password?error=${encodeURIComponent(msg)}`);
   }
 
   const { password } = parsed.data;
@@ -204,8 +228,8 @@ export async function updatePassword(formData: FormData) {
   });
 
   if (error) {
-    redirect("/auth/reset-password?error=" + encodeURIComponent(error.message));
+    redirect(`/${locale}/auth/reset-password?error=${encodeURIComponent(error.message)}`);
   }
 
-  redirect("/login?message=Senha atualizada com sucesso!");
+  redirect(`/${locale}/login?message=Senha atualizada com sucesso!`);
 }

@@ -150,7 +150,7 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                   onChange={e => setTitle(e.target.value)}
                   placeholder="Título do seu post"
                   maxLength={200}
-                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-deep-forest outline-none transition-all"
                   required
                 />
                 <div className="text-right text-xs text-gray-400 mt-1">
@@ -167,7 +167,7 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                   value={url}
                   onChange={e => setUrl(e.target.value)}
                   placeholder="https://..."
-                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-deep-forest outline-none transition-all"
                 />
               </div>
 
@@ -177,7 +177,7 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                   id="post-category"
                   value={category}
                   onChange={e => setCategory(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-deep-forest outline-none transition-all"
                 >
                   <option value="news">Notícias</option>
                   <option value="discussion">Discussão</option>
@@ -243,7 +243,7 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                   onChange={e => setContent(e.target.value)}
                   placeholder="Opcional. Adicione mais detalhes..."
                   maxLength={2000}
-                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all h-32 resize-none"
+                  className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-deep-forest outline-none transition-all h-32 resize-none"
                 />
                 <div className="text-right text-xs text-gray-400 mt-1">
                   {content.length}
@@ -265,7 +265,7 @@ export function CreatePostButton({ onPostCreated, initialOpen = false }: { onPos
                 <button
                   type="submit"
                   disabled={loading || !title.trim()}
-                  className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                  className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-charcoal-ink disabled:opacity-50 transition-colors"
                 >
                   {loading ? "Postando..." : "Criar Post"}
                 </button>

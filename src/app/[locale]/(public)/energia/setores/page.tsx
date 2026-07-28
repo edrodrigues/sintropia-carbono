@@ -251,7 +251,7 @@ export default async function SetoresPage({
               Geradoras e comercializadoras de energia representam a maior fatia do mercado I-REC brasileiro, tanto como vendedores quanto compradores.
             </p>
           </div>
-          <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
+          <div className="bg-mint-tint dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
               🏭 Indústria em Ascensão
             </h4>

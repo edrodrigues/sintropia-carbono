@@ -1,6 +1,6 @@
 "use client";
 
-import { cx } from "@/lib/utils";
+import { cx, brandChartPalette } from "@/lib/utils";
 import {
   PieChart,
   Pie,
@@ -22,20 +22,7 @@ interface SectorPieChartProps {
   showLegend?: boolean;
 }
 
-const COLORS = [
-  "#059669", // emerald-600
-  "#1e40af", // blue-800
-  "#f59e0b", // amber-500
-  "#ef4444", // red-500
-  "#10b981", // emerald-500
-  "#ec4899", // pink-500
-  "#14b8a6", // teal-500
-  "#f97316", // orange-500
-  "#3b82f6", // blue-500
-  "#84cc16", // lime-500
-  "#06b6d4", // cyan-500
-  "#f43f5e", // rose-500
-];
+const COLORS = [...brandChartPalette];
 
 const formatNumber = (num: number) => {
   if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";

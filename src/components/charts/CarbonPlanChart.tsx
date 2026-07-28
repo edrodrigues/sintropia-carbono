@@ -17,15 +17,15 @@ const continentColors: Record<string, string> = {
 };
 
 const categoryColors: Record<string, string> = {
-  "forest": "#22c55e",
-  "agriculture": "#f59e0b",
-  "renewable-energy": "#3b82f6",
+  "forest": "#0a382c",
+  "agriculture": "#a8c3a0",
+  "renewable-energy": "#0cf570",
   "fuel-switching": "#ef4444",
-  "biochar": "#8b5cf6",
+  "biochar": "#23282d",
   "energy-efficiency": "#ec4899",
-  "land-use": "#14b8a6",
-  "carbon-capture": "#6366f1",
-  "ghg-management": "#84cc16",
+  "land-use": "#14624a",
+  "carbon-capture": "#0891b2",
+  "ghg-management": "#6b8f71",
   "unknown": "#6b7280",
 };
 

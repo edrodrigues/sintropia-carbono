@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Card, Title, BarChart, DonutChart } from "@/components/ui/tremor";
+import { brandChartPalette } from "@/lib/utils";
 
 const fullChartData = {
   labels: [
@@ -53,16 +54,7 @@ const fullChartData = {
   regionDistribution: [35, 25, 15, 10, 8, 4, 2, 1],
 };
 
-const regionColors = [
-  "#2563eb",
-  "#0891b2",
-  "#10b981",
-  "#f59e0b",
-  "#ef4444",
-  "#8b5cf6",
-  "#ec4899",
-  "#6366f1",
-];
+const regionColors = [...brandChartPalette];
 
 export function EnergiaRenovavelChart() {
   const [view, setView] = useState<"all" | "top5">("all");

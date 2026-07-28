@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 import { updateProfile } from "@/app/[locale]/(dashboard)/profile/actions";
 import { StepIndicator } from "./StepIndicator";
@@ -27,6 +27,7 @@ const USER_TYPES = [
   { value: "ong", icon: "🤝" },
   { value: "government", icon: "🏛️" },
   { value: "professor", icon: "🧑‍🏫" },
+  { value: "broker", icon: "📈" },
 ] as const;
 
 export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
@@ -74,30 +75,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
   async function handleStep1Submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!isStep1Valid) return;
-    setLoading(true);
-    setMessage(null);
-
-    const form = new FormData();
-    form.set("username", step1Data.username);
-    form.set("display_name", step1Data.display_name);
-    form.set("user_type", step1Data.user_type);
-    form.set("bio", step2Data.bio);
-    form.set("organization", step2Data.organization);
-    form.set("cargo", step2Data.cargo);
-    form.set("linkedin_url", step2Data.linkedin_url);
-    form.set("twitter_url", step2Data.twitter_url);
-    form.set("headline", step2Data.headline);
-    form.set("expertise_areas", JSON.stringify(step2Data.expertise_areas));
-
-    const result = await updateProfile(form);
-    setLoading(false);
-
-    if (result.error) {
-      setMessage({ type: "error", text: result.error });
-    }
-    else {
-      setStep(2);
-    }
+    setStep(2);
   }
 
   async function handleStep2Submit(e: React.FormEvent<HTMLFormElement>) {
@@ -155,7 +133,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
               onClick={() => router.push("/dashboard")}
-              className="px-6 py-3 rounded-xl bg-[#1e40af] text-white font-bold shadow-lg shadow-blue-500/25 hover:bg-blue-700 active:scale-95 transition-all"
+              className="px-6 py-3 rounded-xl bg-[#0a382c] text-white font-bold shadow-lg shadow-deep-forest/25 hover:bg-charcoal-ink active:scale-95 transition-all"
             >
               {t("step3CtaDashboard")}
             </button>
@@ -198,7 +176,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
               onChange={e => setStep2Data({ ...step2Data, organization: e.target.value })}
               placeholder={t("organizationPlaceholder")}
               maxLength={100}
-              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
             />
           </div>
 
@@ -214,7 +192,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
               onChange={e => setStep2Data({ ...step2Data, cargo: e.target.value })}
               placeholder={t("cargoPlaceholder")}
               maxLength={100}
-              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
             />
           </div>
 
@@ -230,7 +208,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
               onChange={e => setStep2Data({ ...step2Data, headline: e.target.value })}
               placeholder="Ex: Carbon Markets Analyst | ESG Specialist"
               maxLength={150}
-              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
             />
           </div>
 
@@ -268,7 +246,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
               onChange={e => setStep2Data({ ...step2Data, bio: e.target.value })}
               placeholder={t("bioPlaceholder")}
               maxLength={1000}
-              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white resize-none"
+              className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white resize-none"
             />
           </div>
 
@@ -284,7 +262,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
                 value={step2Data.linkedin_url}
                 onChange={e => setStep2Data({ ...step2Data, linkedin_url: e.target.value })}
                 placeholder="https://linkedin.com/in/..."
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
               />
             </div>
             <div className="space-y-2">
@@ -298,7 +276,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
                 value={step2Data.twitter_url}
                 onChange={e => setStep2Data({ ...step2Data, twitter_url: e.target.value })}
                 placeholder="https://x.com/..."
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
               />
             </div>
           </div>
@@ -324,7 +302,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 py-3 px-4 rounded-xl bg-[#1e40af] text-white font-bold shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-700 active:scale-95 disabled:opacity-50 disabled:scale-100"
+              className="flex-1 py-3 px-4 rounded-xl bg-[#0a382c] text-white font-bold shadow-lg shadow-deep-forest/25 transition-all hover:bg-charcoal-ink active:scale-95 disabled:opacity-50 disabled:scale-100"
             >
               {loading ? t("saving") : t("saveAndContinue")}
             </button>
@@ -355,14 +333,14 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
           <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
             {t("accountTypeLabel")}
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
             {USER_TYPES.map(type => (
               <label
                 key={type.value}
                 htmlFor={`onb-type-${type.value}`}
                 className={`relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 ${
                   step1Data.user_type === type.value
-                    ? "border-[#1e40af] bg-blue-50 dark:bg-blue-900/20"
+                    ? "border-[#0a382c] bg-mint-tint dark:bg-blue-900/20"
                     : "border-gray-100 dark:border-gray-700"
                 }`}
               >
@@ -400,7 +378,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
               onChange={e => setStep1Data({ ...step1Data, username: e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, "") })}
               placeholder="seu_nome"
               maxLength={30}
-              className="w-full pl-8 pr-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+              className="w-full pl-8 pr-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
             />
           </div>
           <p className="text-[10px] text-gray-400 px-1">
@@ -425,7 +403,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
             onChange={e => setStep1Data({ ...step1Data, display_name: e.target.value })}
             placeholder={t("displayNamePlaceholder")}
             maxLength={50}
-            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
           />
         </div>
 
@@ -442,7 +420,7 @@ export function OnboardingForm({ profile, isNewUser }: OnboardingFormProps) {
         <button
           type="submit"
           disabled={loading || !isStep1Valid}
-          className="w-full py-3 px-4 rounded-xl bg-[#1e40af] text-white font-bold shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-700 active:scale-95 disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed"
+          className="w-full py-3 px-4 rounded-xl bg-[#0a382c] text-white font-bold shadow-lg shadow-deep-forest/25 transition-all hover:bg-charcoal-ink active:scale-95 disabled:opacity-50 disabled:scale-100 disabled:cursor-not-allowed"
         >
           {loading ? t("saving") : t("continueButton")}
         </button>

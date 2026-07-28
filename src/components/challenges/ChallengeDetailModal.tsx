@@ -201,8 +201,8 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
           </div>
 
           {/* Expected Result */}
-          <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-            <h4 className="text-sm font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1">Resultado Esperado</h4>
+          <div className="p-4 rounded-xl bg-mint-tint dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+            <h4 className="text-sm font-bold text-blue-600 dark:text-electric-emerald uppercase tracking-wide mb-1">Resultado Esperado</h4>
             <p className="text-blue-700 dark:text-blue-300 text-sm leading-relaxed whitespace-pre-wrap">{challenge.expected_result}</p>
           </div>
 
@@ -247,7 +247,7 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
             {showLoginPrompt && (
               <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 rounded-lg text-sm border border-yellow-100 dark:border-yellow-800">
                 Você precisa estar logado para comentar.{" "}
-                <Link href="/login" className="underline font-semibold text-[#1e40af] dark:text-blue-400">Faça login</Link>
+                <Link href="/login" className="underline font-semibold text-[#0a382c] dark:text-electric-emerald">Faça login</Link>
               </div>
             )}
 

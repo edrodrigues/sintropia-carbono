@@ -91,7 +91,7 @@ export default async function Categorias({ params }: { params: Promise<{ locale:
       <main id="main-content" className="min-h-screen bg-slate-50 dark:bg-gray-950 transition-colors duration-500">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-20">
           <div className="mb-16">
-            <h1 className="text-5xl font-black text-forest-green tracking-tight mb-6">
+            <h1 className="text-5xl font-black text-deep-forest tracking-tight mb-6">
               {t("title")}
             </h1>
             <p className="text-slate-500 text-xl max-w-2xl leading-relaxed">
@@ -117,7 +117,7 @@ export default async function Categorias({ params }: { params: Promise<{ locale:
 
                 <div className="absolute inset-0 p-8 flex flex-col justify-end">
                   <div className="transform transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                    <span className="inline-block px-4 py-1.5 bg-forest-green text-white text-[10px] uppercase tracking-widest font-black rounded-lg mb-4 shadow-lg">
+                    <span className="inline-block px-4 py-1.5 bg-deep-forest text-white text-[10px] uppercase tracking-widest font-black rounded-lg mb-4 shadow-lg">
                       {category.title}
                     </span>
                     <p className="text-white/80 text-base font-medium leading-snug group-hover:text-white transition-colors duration-300">

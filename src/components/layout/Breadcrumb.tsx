@@ -38,6 +38,7 @@ export function Breadcrumb() {
       "setores": "Setores",
       "precos": "Preços",
       "projetos": "Projetos",
+      "mercados-ao-vivo": "Mercados ao Vivo",
       "carbono-brasil": "Carbono Brasil",
       "carbono-mundo": "Carbono Mundo",
       "carbono-precos": "Preços Carbono",

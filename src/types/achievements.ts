@@ -29,7 +29,7 @@ export const RARITY_COLORS: Record<AchievementRarity, { bg: string; border: stri
     text: "text-gray-700 dark:text-gray-300",
   },
   rare: {
-    bg: "bg-blue-50 dark:bg-blue-900/30",
+    bg: "bg-mint-tint dark:bg-blue-900/30",
     border: "border-blue-300 dark:border-blue-700",
     text: "text-blue-700 dark:text-blue-300",
   },

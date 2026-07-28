@@ -43,7 +43,7 @@ export default async function ForgotPasswordPage(props: {
               type="email"
               autoComplete="email"
               required
-              className="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1e40af] focus:border-transparent sm:text-sm dark:bg-gray-800 transition-all"
+              className="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0a382c] focus:border-transparent sm:text-sm dark:bg-gray-800 transition-all"
               placeholder="seu@email.com"
             />
           </div>
@@ -57,7 +57,7 @@ export default async function ForgotPasswordPage(props: {
           )}
 
           {searchParams?.message && (
-            <div className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 p-3 rounded-xl text-xs text-center font-bold border border-blue-100 dark:border-blue-800">
+            <div className="bg-mint-tint dark:bg-blue-900/20 text-blue-600 dark:text-electric-emerald p-3 rounded-xl text-xs text-center font-bold border border-blue-100 dark:border-blue-800">
               ✨
               {" "}
               {decodeURIComponent(searchParams.message as string)}
@@ -67,7 +67,7 @@ export default async function ForgotPasswordPage(props: {
           <div className="flex flex-col gap-4">
             <button
               formAction={resetPassword}
-              className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-[#1e40af] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all shadow-lg shadow-blue-500/25 active:scale-95"
+              className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-[#0a382c] hover:bg-charcoal-ink focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-deep-forest transition-all shadow-lg shadow-deep-forest/25 active:scale-95"
             >
               Enviar Link de Recuperação
             </button>

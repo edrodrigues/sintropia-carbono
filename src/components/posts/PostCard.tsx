@@ -104,7 +104,7 @@ export function PostCard({ post, onOpenModal }: PostCardProps) {
                 href={post.author.linkedin_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
+                className="text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-1 rounded"
                 aria-label="Perfil LinkedIn"
                 onClick={e => e.stopPropagation()}
               >
@@ -135,7 +135,7 @@ export function PostCard({ post, onOpenModal }: PostCardProps) {
               href={safeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline text-sm flex items-center gap-1 mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
+              className="text-blue-600 hover:underline text-sm flex items-center gap-1 mb-3 focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-1 rounded"
               aria-label={`Abrir link externo: ${displayUrl}`}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -150,7 +150,7 @@ export function PostCard({ post, onOpenModal }: PostCardProps) {
             <button
               onClick={() => setShowComments(!showComments)}
               aria-expanded={showComments}
-              className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded px-1"
+              className="flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-1 rounded px-1"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
               {post.comment_count}

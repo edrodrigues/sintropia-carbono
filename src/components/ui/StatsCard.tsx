@@ -66,7 +66,7 @@ export function StatsCard({
           <div className="text-emerald-600 dark:text-emerald-400">{icon}</div>
         )}
       </div>
-      <h3 className="text-3xl font-bold text-premium-blue dark:text-blue-400">
+      <h3 className="text-3xl font-bold tabular-nums text-deep-forest dark:text-electric-emerald">
         {value}
       </h3>
       <div className="flex items-center gap-2 mt-2">

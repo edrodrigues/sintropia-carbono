@@ -204,7 +204,7 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Profile Summary Card */}
         <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm flex flex-col">
-          <div className="bg-gradient-to-r from-[#1e40af] to-blue-600 h-20 sm:h-24 shrink-0"></div>
+          <div className="bg-gradient-to-r from-[#0a382c] to-charcoal-ink h-20 sm:h-24 shrink-0"></div>
           <div className="px-4 sm:px-6 pb-6 -mt-8 sm:-mt-12 flex-1 flex flex-col">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div className="flex items-end gap-3 sm:gap-4 min-w-0">
@@ -216,7 +216,7 @@ export default async function DashboardPage() {
                     {profile?.display_name || profile?.username}
                   </h2>
                   <div className="flex flex-wrap items-center gap-2 mt-1 sm:mt-2">
-                    <span className="text-blue-600 dark:text-blue-400 font-medium text-sm sm:text-base truncate">
+                    <span className="text-blue-600 dark:text-electric-emerald font-medium text-sm sm:text-base truncate">
                       @
                       {profile?.username}
                     </span>
@@ -322,7 +322,7 @@ export default async function DashboardPage() {
               {" "}
               {tAchievements("earned")}
             </span>
-            <Link href="/conquistas" className="text-sm text-blue-600 dark:text-blue-400 hover:underline">
+            <Link href="/conquistas" className="text-sm text-blue-600 dark:text-electric-emerald hover:underline">
               {tAchievements("viewAll")}
             </Link>
           </div>
@@ -375,7 +375,7 @@ export default async function DashboardPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/contribuir"
-            className="px-5 py-2.5 bg-[#1e40af] hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-colors shadow-lg shadow-blue-500/25"
+            className="px-5 py-2.5 bg-[#0a382c] hover:bg-charcoal-ink text-white text-sm font-bold rounded-xl transition-colors shadow-lg shadow-deep-forest/25"
           >
             {tContribute("cta")}
           </Link>

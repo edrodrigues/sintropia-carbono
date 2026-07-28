@@ -52,9 +52,50 @@ async function getExistingProjectIds() {
   return new Set(data.map(p => p.project_id));
 }
 
+async function getCadTrustProjectMap() {
+  const { data, error } = await supabase
+    .from("cad_trust_projects")
+    .select("id, project_id");
+
+  if (error) {
+    console.error("Error fetching CAD Trust project IDs:", error.message);
+    return new Map<string, string>();
+  }
+
+  return new Map(data.map(p => [p.project_id, p.id]));
+}
+
+async function getOrCreateIssuance(projectId: string, cadTrustProjectId: string): Promise<string> {
+  const { data: existing } = await supabase
+    .from("cad_trust_issuances")
+    .select("id")
+    .eq("cad_trust_project_id", cadTrustProjectId)
+    .limit(1)
+    .single();
+
+  if (existing) return existing.id;
+
+  const { data: created, error } = await supabase
+    .from("cad_trust_issuances")
+    .insert({
+      cad_trust_project_id: cadTrustProjectId,
+      issuance_id: "AGG-" + projectId,
+    })
+    .select("id")
+    .single();
+
+  if (error) throw new Error(`Issuance create: ${error.message}`);
+  return created.id;
+}
+
 async function insertCredits(credits: CSVRow[], projectIds: Set<string>, batchSize = 1000) {
   const validCredits = credits.filter(c => projectIds.has(c.project_id));
   console.log(`Filtering to ${validCredits.length} credits with valid project_ids`);
+
+  const cadTrustMap = await getCadTrustProjectMap();
+  console.log(`Found ${cadTrustMap.size} CAD Trust projects`);
+
+  const issuanceCache = new Map<string, string>();
 
   const totalBatches = Math.ceil(validCredits.length / batchSize);
 
@@ -95,6 +136,48 @@ async function insertCredits(credits: CSVRow[], projectIds: Set<string>, batchSi
     else {
       console.log(`Batch ${batchNum}/${totalBatches} inserted successfully (${records.length} records)`);
     }
+
+    for (const c of batch) {
+      const cadTrustProjectId = cadTrustMap.get(c.project_id);
+      if (!cadTrustProjectId) continue;
+
+      if (!issuanceCache.has(c.project_id)) {
+        try {
+          const issuanceId = await getOrCreateIssuance(c.project_id, cadTrustProjectId);
+          issuanceCache.set(c.project_id, issuanceId);
+        } catch (e) {
+          console.warn(`Failed to get issuance for ${c.project_id}: ${e}`);
+          continue;
+        }
+      }
+
+      const issuanceId = issuanceCache.get(c.project_id)!;
+      let transactionDate = null;
+      if (c.transaction_date) {
+        const dateStr = c.transaction_date.split(" ")[0];
+        if (dateStr && dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+          transactionDate = dateStr;
+        }
+      }
+
+      const { error: unitErr } = await supabase.from("cad_trust_units").insert({
+        cad_trust_issuance_id: issuanceId,
+        org_uid: "carbonplan",
+        unit_serial_id: "CC-" + Math.random().toString(36).slice(2),
+        unit_start_block: "0",
+        unit_end_block: "0",
+        unit_count: parseInt(c.quantity) || 0,
+        unit_type: "Reduction",
+        unit_vintage_year: parseInt(c.vintage) || 0,
+        unit_status: c.transaction_type === "retirement" ? "Retired" : "Issued",
+        unit_retirement_detail: c.retirement_note || null,
+        unit_retirement_beneficiary: c.retirement_beneficiary_harmonized || null,
+      });
+
+      if (unitErr) {
+        console.warn(`Unit insert for ${c.project_id}: ${unitErr.message}`);
+      }
+    }
   }
 }
 
@@ -120,6 +203,12 @@ async function main() {
     .select("*", { count: "exact", head: true });
 
   console.log(`Total credits in database: ${count}`);
+
+  const { count: ctCount } = await supabase
+    .from("cad_trust_units")
+    .select("*", { count: "exact", head: true });
+
+  console.log(`Total CAD Trust units in database: ${ctCount}`);
 }
 
 main().catch(console.error);

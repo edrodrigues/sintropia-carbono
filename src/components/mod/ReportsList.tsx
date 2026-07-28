@@ -94,7 +94,7 @@ export function ReportsList({ reports }: ReportsListProps) {
               <p className="text-xs text-gray-400">
                 Denunciado por
                 {" "}
-                <Link href={`/u/${report.reporter?.username}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+                <Link href={`/u/${report.reporter?.username}`} className="text-blue-600 dark:text-electric-emerald hover:underline">
                   @
                   {report.reporter?.username || "Anônimo"}
                 </Link>
@@ -123,7 +123,7 @@ export function ReportsList({ reports }: ReportsListProps) {
             <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
               <a
                 href={`/posts?highlight=${report.target_id}`}
-                className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                className="text-xs text-blue-600 dark:text-electric-emerald hover:underline"
               >
                 Ver conteúdo →
               </a>

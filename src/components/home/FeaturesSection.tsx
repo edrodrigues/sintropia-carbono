@@ -20,7 +20,7 @@ export async function FeaturesSection({ locale }: { locale: string }) {
   return (
     <section className="py-16 lg:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl lg:text-3xl font-bold text-forest-green text-center mb-12">
+        <h2 className="text-2xl lg:text-3xl font-bold text-deep-forest text-center mb-12">
           {tFeatures("title")}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -31,10 +31,10 @@ export async function FeaturesSection({ locale }: { locale: string }) {
                 key={i}
                 className="bg-white rounded-2xl p-6 border border-slate-100 shadow-premium hover:shadow-premium-lg transition-all duration-300 group"
               >
-                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mb-5 group-hover:bg-forest-green transition-colors duration-300">
-                  <Icon className="w-6 h-6 text-forest-green group-hover:text-white transition-colors duration-300" />
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center mb-5 group-hover:bg-deep-forest transition-colors duration-300">
+                  <Icon className="w-6 h-6 text-deep-forest group-hover:text-white transition-colors duration-300" />
                 </div>
-                <h3 className="text-lg font-bold text-forest-green mb-2">{f.title}</h3>
+                <h3 className="text-lg font-bold text-deep-forest mb-2">{f.title}</h3>
                 <p className="text-sm text-slate-600 leading-relaxed">{f.desc}</p>
               </div>
             );

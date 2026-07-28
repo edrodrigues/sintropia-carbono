@@ -1,141 +1,182 @@
-# Sintropia
+# Sintropia Carbono
 
-The professional network for environmental markets and sustainability.
+Plataforma em Next.js para comunidade, conteúdo e inteligência de mercado em carbono e energia renovável.
 
-Connecting professionals in carbon markets, renewable energy, ESG, and sustainability with market data, expert insights, and career opportunities.
+O projeto combina navegação multilíngue, autenticação com Supabase, painéis de comunidade, páginas públicas de mercado e automações administrativas para dados, e-mail e operações.
+
+## Visão geral
+
+- App Router com rotas localizadas em `src/app/[locale]`
+- Conteúdo público sobre carbono, energia e I-REC
+- Área autenticada com feed, perfil, desafios, conquistas e ranking
+- Integração com Supabase para auth, banco e storage de dados operacionais
+- Scripts em TypeScript para carga, sync e envio de campanhas
 
 ## Stack
 
-- Next.js 15
+- Next.js 15.5.x
 - React 18
 - TypeScript
 - Tailwind CSS 4
-- Supabase
-- Resend
-- Playwright
+- Supabase (`@supabase/ssr` + `@supabase/supabase-js`)
+- next-intl para i18n (`pt`, `en`, `es`)
+- Recharts para gráficos
+- Resend para e-mail
+- Playwright para testes e2e
+- Zod, DOMPurify, clsx e tailwind-merge para validação e utilitários
 
 ## Requisitos
 
 - Node.js 20+
 - npm 10+
 - Projeto Supabase configurado
+- Variáveis de ambiente definidas em `.env.local`
 
-## Variáveis de ambiente
+## Configuração local
 
-Crie um arquivo `.env.local` na raiz do projeto:
+1. Instale as dependências.
+2. Configure `.env.local` com as chaves do Supabase e do Resend.
+3. Execute `npm run dev`.
+
+### Variáveis de ambiente
 
 ```bash
-# Supabase (obrigatório)
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
-SUPABASE_SERVICE_ROLE_KEY=eyJ...  # Service role (admin) — usar apenas em scripts e admin
-
-# Resend (obrigatório para envio de e-mails)
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
 RESEND_API_KEY=re_...
-
-# Playwright (opcional, para testes)
 PLAYWRIGHT_BASE_URL=http://localhost:3000
 ```
 
 | Variável | Obrigatória | Uso |
 |----------|:-----------:|-----|
-| `NEXT_PUBLIC_SUPABASE_URL` | ✅ | URL do projeto Supabase |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | Chave anônima do Supabase (pública) |
-| `SUPABASE_SERVICE_ROLE_KEY` | ✅ | Chave de serviço (scripts/upload, admin API) |
-| `RESEND_API_KEY` | ✅ | API key do Resend (e-mails transacionais) |
-| `PLAYWRIGHT_BASE_URL` | ❌ | URL base para testes (default: `http://localhost:3000`) |
+| `NEXT_PUBLIC_SUPABASE_URL` | Sim | URL do projeto Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Sim | Chave pública do Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Sim | Scripts, rotas administrativas e operações internas |
+| `RESEND_API_KEY` | Sim | E-mails transacionais e campanhas |
+| `PLAYWRIGHT_BASE_URL` | Não | Base dos testes Playwright |
 
 ## Comandos
 
 ```bash
-npm install       # Instalar dependências
-npm run dev       # Servidor de desenvolvimento
-npm run build     # Compilar para produção
-npm run lint      # Executar ESLint
-npm test          # Testes Playwright (headless)
-npm run test:ui   # Testes Playwright (UI)
-npm run start     # Servidor de produção
+npm install
+npm run dev
+npm run build
+npm run start
+npm run lint
+npm test
+npm run test:ui
 ```
 
-## Estrutura principal
+## Rotas principais
 
-- `src/app` — rotas App Router e APIs
-- `src/components` — UI e componentes de domínio
-- `src/lib` — integrações, auth, queries e utilitários
-- `messages` — traduções `pt`, `en` e `es`
-- `e2e` — testes Playwright (4 testes)
-- `scripts` — automações administrativas (23 scripts)
-- `dados` — arquivos CSV de dados (stakeholders, preços)
-- `supabase/migrations` — migrações SQL do Supabase
+### Públicas
+
+- Home e shell localizado em `src/app/[locale]/page.tsx`
+- Carbono: ranking, preços, projetos, Brasil e mundo
+- Energia: ranking, preços, Brasil e mundo
+- I-REC: preços, Brasil e mundo
+- Categorias, certificadoras, contribuir, termos e privacidade
+- Perfil público por usuário em `/u/[username]`
+
+### Autenticação
+
+- Login, cadastro, recuperação de senha e onboarding
+- Callback e confirmação OAuth em `src/app/auth`
+
+### Área autenticada
+
+- Dashboard
+- Feed
+- Perfis e edição de perfil
+- Posts
+- Desafios
+- Conquistas
+- Ranking
+- Área de moderação e scripts administrativos
+
+### Operação e API
+
+- API de projetos de carbono
+- Upload de dados CarbonPlan
+- Execução de scripts administrativos
+- Endpoints de debug e testes Supabase
+
+## Estrutura do projeto
+
+- `src/app` - rotas, layouts, APIs e páginas localizadas
+- `src/components` - UI, gráficos, feed, perfil, moderação e shell
+- `src/lib` - Supabase, utilitários, validação, auth e regras de negócio
+- `src/data` - dados base usados pelo app
+- `messages` - traduções `pt`, `en` e `es`
+- `dados` - CSVs, JSON e documentação auxiliar de dados
+- `public/dados` - cópias públicas dos conjuntos de dados
+- `scripts` - automações de importação, sync, e-mail e SQL
+- `supabase/migrations` - migrações do banco
+- `e2e` - testes Playwright
+
+## Dados e integrações
+
+O projeto usa Supabase como fonte principal para autenticação e persistência. As migrações vivem em `supabase/migrations` e incluem schema, políticas e rotinas de ingestão.
+
+Os dados locais e públicos ficam em `dados/` e `public/dados/`. Os scripts em `scripts/` fazem upload, sincronização, geração de SQL e envio de campanhas.
 
 ## Scripts administrativos
 
-### Drip campaign (e-mails automáticos)
-| Script | Descrição |
-|--------|-----------|
-| `send-drip-emails.ts` | Dispara e-mails da campanha drip (welcome, carbon_credits, irec, community, action) |
-| `verify-drip-status.ts` | Verifica status de entrega dos e-mails |
-| `summary-drip.ts` | Gera sumário/estatísticas da campanha |
-| `run-drip-campaign.bat` | Atalho Windows para executar `send-drip-emails.ts` |
+### E-mail e campanhas
 
-### Upload de dados para Supabase
-| Script | Descrição |
-|--------|-----------|
-| `upload-irec-stakeholders.ts` | Upload stakeholders I-REC (lê CSV de `dados/`) |
-| `upload-carbon-stakeholders.ts` | Upload stakeholders carbono (lê CSV de `dados/`) |
-| `upload-irec-prices.ts` | Upload preços I-REC (lê CSV) |
-| `upload-carbon-prices.ts` | Upload preços carbono (lê CSV) |
-| `insert-projects.ts` | Insere projetos a partir de CSV |
-| `insert-credits.ts` | Insere créditos a partir de CSV |
+- `send-drip-emails.ts`
+- `verify-drip-status.ts`
+- `summary-drip.ts`
+- `send-newsletter.ts`
+- `send-help-announcement.ts`
+- `send-batch-profile-emails.ts`
+- `test-profile-email.ts`
+- `debug-resend.ts`
+- `check-domains.ts`
 
-### Sincronização
-| Script | Descrição |
-|--------|-----------|
-| `sync-irec-stakeholders.ts` | Sincroniza stakeholders I-REC de CSV |
-| `sync-carbon-stakeholders.ts` | Sincroniza stakeholders carbono de CSV |
-| `sync-carbon-brazil-top50.ts` | Sincroniza top 50 stakeholders Brasil |
-| `sync-contacts-to-resend.ts` | Sincroniza contatos para audiência no Resend |
-| `fix-and-sync-irec-data.ts` | Corrige e sincroniza dados I-REC |
+### Carga e sincronização de dados
 
-### E-mail
-| Script | Descrição |
-|--------|-----------|
-| `send-newsletter.ts` | Envia newsletter via Resend |
-| `send-help-announcement.ts` | Envia anúncio de ajuda |
-| `send-batch-profile-emails.ts` | Envia e-mails de conclusão de perfil em lote |
-| `test-profile-email.ts` | Envia e-mail de teste de perfil |
-| `debug-resend.ts` | Debug: lista audiências e contatos do Resend |
-| `check-domains.ts` | Lista domínios configurados no Resend |
+- `upload-carbon-stakeholders.ts`
+- `upload-irec-stakeholders.ts`
+- `upload-carbon-prices.ts`
+- `upload-irec-prices.ts`
+- `sync-carbon-stakeholders.ts`
+- `sync-irec-stakeholders.ts`
+- `sync-carbon-brazil-top50.ts`
+- `sync-carbonmark-prices.ts`
+- `sync-contacts-to-resend.ts`
+- `fix-and-sync-irec-data.ts`
 
-### Outros
-| Script | Descrição |
-|--------|-----------|
-| `check-new-users.ts` | Consulta novos usuários no Supabase |
-| `generate-sql.ts` | Gera SQL a partir de CSVs |
+### SQL e utilitários
 
-### Execução
-```bash
-npx tsx scripts/<nome-do-script>.ts
-```
-Requer variáveis `NEXT_PUBLIC_SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` configuradas (scripts que enviam e-mail também requerem `RESEND_API_KEY`).
+- `generate-sql.ts`
+- `insert-projects.ts`
+- `insert-credits.ts`
+- `check-new-users.ts`
+- `gen-carbonmark-sql.js`
 
-## Migrações
+## Testes
 
-As migrações SQL ficam em `supabase/migrations/` e devem ser aplicadas manualmente no SQL Editor do Supabase (ou via `supabase db push` com CLI).
+- Os testes end-to-end usam Playwright.
+- No ambiente atual do Windows, a configuração de testes usa o Chrome do sistema via `channel: 'chrome'`.
+- O navegador base é controlado por `PLAYWRIGHT_BASE_URL`, quando definido.
+
+## Deploy
+
+- Build com `npm run build`
+- Deploy em Vercel com configuração em `vercel.json`
+- Lint configurado em `eslint.config.mjs`
 
 ## Segurança e operação
 
-- Rotas administrativas exigem sessão autenticada e perfil `admin`
-- Endpoints de debug restritos a ambiente de desenvolvimento
-- Script runner valida argumentos com regex de segurança
-- Rate limiting de 5 tentativas/minuto nas rotas de auth
-- Zod validation em todas as server actions
-- XSS sanitizer com DOMPurify (whitelist de tags/atributos)
-- Logs estruturados via `src/lib/utils/logger.ts`
+- Rotas administrativas exigem sessão autenticada e, quando aplicável, perfil com permissão adequada
+- Chaves de serviço ficam restritas ao servidor e aos scripts internos
+- Validações server-side usam Zod
+- Sanitização de HTML usa DOMPurify
+- A aplicação possui internacionalização com `pt`, `en` e `es`
 
 ## Observações
 
-- O projeto usa internacionalização baseada em locale (`pt`, `en`, `es`)
-- Build, lint e testes devem passar antes de deploy
-- Scripts administrativos devem ser executados apenas pela interface protegida
-- Prisma foi removido; toda comunicação com banco é via Supabase client
+- O README reflete a aplicação atual do repositório, com foco em comunidade, conteúdo e mercado de carbono/energia.
+- Se você for alterar fluxos de dados, confira também as migrações em `supabase/migrations` e os scripts em `scripts/`.

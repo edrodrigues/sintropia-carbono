@@ -249,8 +249,8 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
               </div>
 
               {companySector && (
-                <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-                  <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide">Setor da empresa</span>
+                <div className="p-3 rounded-xl bg-mint-tint dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+                  <span className="text-xs font-bold text-blue-600 dark:text-electric-emerald uppercase tracking-wide">Setor da empresa</span>
                   <p className="text-sm text-blue-700 dark:text-blue-300 mt-0.5">{companySector}</p>
                 </div>
               )}

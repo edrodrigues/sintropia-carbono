@@ -12,7 +12,7 @@ interface MetricSubtitleProps {
 
 export function Metric({ children, className }: MetricProps) {
   return (
-    <h3 className={cx("text-3xl font-bold text-[#1e40af] dark:text-blue-400", className)}>
+    <h3 className={cx("text-3xl font-bold tabular-nums text-[#0a382c] dark:text-electric-emerald", className)}>
       {children}
     </h3>
   );

@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminApiAccess } from "@/lib/auth/server";
 
 export async function GET(request: NextRequest) {
+  const access = await requireAdminApiAccess({ developmentOnly: true });
+  if (!access.ok) {
+    return access.response;
+  }
   const steps: Record<string, unknown> = {};
   const results: Record<string, unknown> = {
     timestamp: new Date().toISOString(),

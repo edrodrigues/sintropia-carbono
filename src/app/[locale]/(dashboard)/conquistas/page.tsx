@@ -65,10 +65,10 @@ export default async function ConquistasPage() {
   return (
     <div className="max-w-4xl mx-auto py-12 px-4">
       <div className="mb-8">
-        <Link href="/dashboard" className="text-blue-600 dark:text-blue-400 hover:underline mb-4 inline-block">
+        <Link href="/dashboard" className="text-blue-600 dark:text-electric-emerald hover:underline mb-4 inline-block">
           {t("backToDashboard")}
         </Link>
-        <h1 className="text-4xl font-bold text-[#1e40af] mb-2 dark:text-blue-400">
+        <h1 className="text-4xl font-bold text-[#0a382c] mb-2 dark:text-electric-emerald">
           {t("pageTitle")}
         </h1>
         <p className="text-gray-600 dark:text-gray-400">
@@ -128,7 +128,7 @@ export default async function ConquistasPage() {
               <p className="text-xs text-gray-500">{t("badgeLevels.contributor.threshold")}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+          <div className="flex items-center gap-3 p-3 bg-mint-tint dark:bg-blue-900/30 rounded-lg">
             <span className="text-2xl">💎</span>
             <div>
               <p className="font-bold">{t("badgeLevels.specialist.name")}</p>

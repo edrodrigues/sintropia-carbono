@@ -1,4 +1,3 @@
-import { GeistSans } from "geist/font/sans";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import "../globals.css";
@@ -117,8 +116,8 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale as (typeof routing.locales)[number]} className={`${GeistSans.className} ${inter.variable} light antialiased dark:bg-gray-950`}>
-      <body className="antialiased font-sans bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+    <html lang={locale as (typeof routing.locales)[number]} className={`${inter.variable} light antialiased dark:bg-gray-950`}>
+      <body className="antialiased font-sans bg-mint-tint/40 dark:bg-charcoal-ink text-charcoal-ink dark:text-gray-100 min-h-screen">
         <NextIntlClientProvider messages={messages}>
           <PrivyProvider appId={process.env.NEXT_PRIVY_ID!}>
             <StrictModeFix />
@@ -130,6 +129,14 @@ export default async function RootLayout({
             </a>
             {children}
           </PrivyProvider>
+          <StrictModeFix />
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-deep-forest focus:text-white focus:rounded-lg focus:font-bold focus:outline-none focus:ring-2 focus:ring-emerald-300"
+          >
+            Pular para o conteúdo principal
+          </a>
+          {children}
 
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-BC4PP7XDM6"

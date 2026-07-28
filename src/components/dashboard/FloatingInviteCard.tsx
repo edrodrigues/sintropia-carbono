@@ -163,7 +163,7 @@ export function FloatingInviteCard({
                 className={`px-4 py-2.5 rounded-xl font-semibold text-sm transition-all flex items-center gap-2 ${
                   copied
                     ? "bg-green-500 text-white"
-                    : "bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/25"
+                    : "bg-blue-600 hover:bg-charcoal-ink text-white shadow-lg shadow-deep-forest/25"
                 }`}
               >
                 {copied

@@ -100,7 +100,7 @@ export function ReportButton({ targetId, targetType }: ReportButtonProps) {
                         <label
                           key={r}
                           className={`flex items-center gap-3 p-3 rounded-xl border-2 transition-all cursor-pointer ${reason === r
-                            ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
+                            ? "border-blue-500 bg-mint-tint dark:bg-blue-900/20"
                             : "border-transparent bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800"
                           }`}
                         >

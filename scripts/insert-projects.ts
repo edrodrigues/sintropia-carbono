@@ -73,6 +73,33 @@ async function insertProjects(projects: CSVRow[], batchSize = 100) {
     else {
       console.log(`Batch ${batchNum}/${totalBatches} inserted/updated successfully (${records.length} records)`);
     }
+
+    const cadTrustRecords = batch.map(p => ({
+      org_uid: p.registry || "unknown",
+      project_registry_name: p.registry || "unknown",
+      project_id: p.project_id,
+      project_name: p.name || null,
+      project_description: null,
+      project_link: p.project_url || null,
+      project_sector: p.category || null,
+      project_type: p.project_type || null,
+      project_status: p.status || "Listed",
+      category: p.category || null,
+      project_type_source: p.project_type_source || null,
+      proponent: p.proponent || null,
+      protocol: p.protocol || null,
+      is_compliance: p.is_compliance === "True",
+      issued: parseInt(p.issued) || 0,
+      retired: parseInt(p.retired) || 0,
+    }));
+
+    const { error: ctErr } = await supabase
+      .from("cad_trust_projects")
+      .upsert(cadTrustRecords, { onConflict: "project_id" });
+
+    if (ctErr) {
+      console.error(`CAD Trust batch ${batchNum}/${totalBatches} error:`, ctErr.message);
+    }
   }
 }
 

@@ -4,7 +4,7 @@ export const profileSchema = z.object({
   username: z.string().min(3).max(30).regex(/^[a-zA-Z0-9_]+$/, "Username can only contain letters, numbers, and underscores"),
   display_name: z.string().max(100).optional(),
   bio: z.string().max(500).optional(),
-  user_type: z.enum(["individual", "company", "ong", "government", "professor"]).optional(),
+  user_type: z.enum(["individual", "company", "ong", "government", "professor", "broker"]).optional(),
   cargo: z.string().max(100).optional(),
   organization: z.string().max(200).optional(),
   linkedin_url: z.string().url().optional().or(z.literal("")),

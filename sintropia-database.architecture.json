@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Sintropia Database Architecture",
+    "subtitle": "Supabase PostgreSQL — 44 tables, 9 views, full RLS",
+    "output": "sintropia-database.html",
+    "viewBox": [1100, 820]
+  },
+  "components": [
+    { "id": "auth", "type": "external", "label": "auth.users", "sublabel": "Supabase Auth", "pos": [40, 60], "size": [130, 56] },
+
+    { "id": "profiles", "type": "database", "label": "profiles", "sublabel": "102 rows · central hub", "pos": [240, 60], "size": [140, 56], "tag": "FK → auth.users" },
+    { "id": "orgs", "type": "database", "label": "organizations", "sublabel": "0 rows", "pos": [240, 155], "size": [140, 50] },
+    { "id": "api_keys", "type": "database", "label": "api_keys", "sublabel": "0 rows", "pos": [420, 155], "size": [120, 50] },
+    { "id": "audit_log", "type": "database", "label": "audit_log", "sublabel": "0 rows", "pos": [560, 155], "size": [120, 50] },
+    { "id": "notifications", "type": "database", "label": "notifications", "sublabel": "0 rows", "pos": [420, 60], "size": [130, 50] },
+
+    { "id": "posts", "type": "database", "label": "posts", "sublabel": "21 rows", "pos": [40, 280], "size": [120, 50] },
+    { "id": "comments", "type": "database", "label": "comments", "sublabel": "9 rows · nested", "pos": [185, 280], "size": [130, 50] },
+    { "id": "votes", "type": "database", "label": "votes", "sublabel": "15 rows · polymorphic", "pos": [340, 280], "size": [130, 50] },
+    { "id": "karma", "type": "database", "label": "karma_transactions", "sublabel": "111 rows", "pos": [495, 280], "size": [150, 50] },
+    { "id": "challenges", "type": "database", "label": "challenges", "sublabel": "0 rows", "pos": [670, 280], "size": [120, 50] },
+    { "id": "moderation", "type": "security", "label": "Moderation", "sublabel": "bans · reports · warnings", "pos": [815, 280], "size": [150, 50] },
+
+    { "id": "carbon_projects", "type": "database", "label": "carbon_projects", "sublabel": "7,752 rows · legacy", "pos": [40, 400], "size": [150, 56] },
+    { "id": "carbon_credits", "type": "database", "label": "carbon_credits", "sublabel": "12,254 rows · legacy", "pos": [215, 400], "size": [150, 56] },
+
+    { "id": "assets", "type": "database", "label": "assets", "sublabel": "149 rows · unified abstraction", "pos": [440, 400], "size": [160, 56], "tag": "bridge table" },
+    { "id": "price_refs", "type": "database", "label": "price_references", "sublabel": "676 rows · multi-source", "pos": [660, 400], "size": [150, 56] },
+    { "id": "data_sources", "type": "database", "label": "data_sources", "sublabel": "9 rows", "pos": [860, 400], "size": [120, 50] },
+
+    { "id": "cad_projects", "type": "database", "label": "cad_trust_projects", "sublabel": "7,752 rows · CAD Trust API", "pos": [40, 530], "size": [170, 56], "tag": "canonical source" },
+    { "id": "cad_locations", "type": "database", "label": "cad_trust_locations", "sublabel": "7,752 rows", "pos": [40, 625], "size": [160, 50] },
+    { "id": "cad_issuances", "type": "database", "label": "cad_trust_issuances", "sublabel": "782 rows", "pos": [220, 625], "size": [160, 50] },
+    { "id": "cad_units", "type": "database", "label": "cad_trust_units", "sublabel": "12,254 rows", "pos": [400, 645], "size": [150, 50] },
+    { "id": "cad_ratings", "type": "database", "label": "cad_trust_ratings", "sublabel": "BeZero · Sylvera", "pos": [570, 625], "size": [150, 50] },
+    { "id": "cad_labels", "type": "database", "label": "cad_trust_labels", "sublabel": "CCP alignment", "pos": [740, 625], "size": [140, 50] },
+    { "id": "cad_other", "type": "database", "label": "Other CAD Trust", "sublabel": "stakeholders · validations · verifications · co_benefits · methodologies", "pos": [40, 705], "size": [320, 50] },
+
+    { "id": "v_snapshot", "type": "backend", "label": "v_market_snapshot", "sublabel": "deduplicated · CAD Trust scores", "pos": [440, 530], "size": [180, 56], "tag": "VIEW" },
+    { "id": "v_normalized", "type": "backend", "label": "v_normalized_assets", "sublabel": "full join · ratings + CCP", "pos": [660, 530], "size": [180, 56], "tag": "VIEW" },
+    { "id": "v_changes", "type": "backend", "label": "v_price_changes", "sublabel": "LAG window · % change", "pos": [440, 705], "size": [160, 50], "tag": "VIEW" },
+
+    { "id": "watchlists", "type": "database", "label": "watchlists", "sublabel": "0 rows", "pos": [660, 705], "size": [120, 50] },
+    { "id": "alerts", "type": "database", "label": "alerts", "sublabel": "0 rows · price alerts", "pos": [800, 705], "size": [120, 50] },
+
+    { "id": "irec", "type": "database", "label": "I-REC / ESG", "sublabel": "irec_prices · irec_stakeholders · carbon_stakeholders", "pos": [860, 530], "size": [180, 50] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Auth & Identity", "wraps": ["auth", "profiles", "orgs", "api_keys", "audit_log", "notifications"] },
+    { "kind": "region", "label": "Social & Community", "wraps": ["posts", "comments", "votes", "karma", "challenges", "moderation"] },
+    { "kind": "region", "label": "Carbon Market Data", "wraps": ["carbon_projects", "carbon_credits", "assets", "price_refs", "data_sources", "irec"] },
+    { "kind": "region", "label": "CAD Trust (canonical)", "wraps": ["cad_projects", "cad_locations", "cad_issuances", "cad_units", "cad_ratings", "cad_labels", "cad_other"] },
+    { "kind": "region", "label": "Materialized Views", "wraps": ["v_snapshot", "v_normalized", "v_changes"] },
+    { "kind": "region", "label": "User Preferences", "wraps": ["watchlists", "alerts"] }
+  ],
+  "connections": [
+    { "from": "auth", "to": "profiles", "label": "1:1", "variant": "emphasis", "labelAt": [190, 88] },
+    { "from": "profiles", "to": "orgs", "label": "N:1", "fromSide": "bottom", "toSide": "top", "labelAt": [310, 135] },
+    { "from": "profiles", "to": "posts", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "route": "orthogonal-v", "via": [[100, 60], [100, 280]] },
+    { "from": "posts", "to": "comments", "label": "1:N", "variant": "dashed", "labelAt": [170, 345] },
+    { "from": "carbon_projects", "to": "carbon_credits", "label": "1:N", "variant": "dashed", "labelAt": [200, 470] },
+    { "from": "assets", "to": "price_refs", "label": "1:N", "variant": "emphasis" },
+    { "from": "price_refs", "to": "data_sources", "fromSide": "right", "toSide": "left", "via": [[840, 428], [840, 425]] },
+    { "from": "cad_projects", "to": "assets", "label": "optional FK", "variant": "security", "fromSide": "right", "toSide": "left", "route": "orthogonal-h", "labelAt": [350, 500] },
+    { "from": "cad_projects", "to": "cad_issuances", "label": "1:N", "variant": "dashed", "fromSide": "right", "toSide": "left", "labelAt": [215, 595] },
+    { "from": "cad_issuances", "to": "cad_units", "label": "1:N", "variant": "dashed", "labelAt": [395, 640] },
+    { "from": "price_refs", "to": "v_snapshot", "label": "view source", "variant": "emphasis", "fromSide": "bottom", "toSide": "top", "labelAt": [520, 470] },
+    { "from": "assets", "to": "v_normalized", "label": "view source", "variant": "emphasis", "fromSide": "bottom", "toSide": "top", "labelAt": [740, 470] },
+    { "from": "profiles", "to": "watchlists", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "route": "orthogonal-v", "via": [[720, 116], [720, 705]] },
+    { "from": "assets", "to": "alerts", "label": "optional", "variant": "dashed", "fromSide": "bottom", "toSide": "top", "route": "orthogonal-v", "via": [[860, 456], [860, 705]], "labelAt": [870, 600] }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "Auth Layer", "items": ["Supabase Auth → profiles 1:1", "RLS on all 44 tables", "Organizations for multi-tenant"] },
+    { "dot": "emerald", "title": "Carbon Market", "items": ["assets is the unified bridge table", "price_references: multi-source pricing", "carbon_projects/carbon_credits: legacy data"] },
+    { "dot": "violet", "title": "CAD Trust", "items": ["12 tables mirroring CAD Trust API", "cad_trust_projects = canonical project source", "ratings (BeZero/Sylvera) + CCP labels"] },
+    { "dot": "amber", "title": "Views", "items": ["v_market_snapshot: deduplicated + scores", "v_normalized_assets: full join with ratings", "v_price_changes: LAG window for % change"] },
+    { "dot": "rose", "title": "Moderation", "items": ["bans, warnings, reports, post_deletions", "All linked to profiles (moderator_id)", "Currently early-stage (0-2 rows)"] }
+  ]
+}

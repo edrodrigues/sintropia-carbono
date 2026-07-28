@@ -136,7 +136,7 @@ export default async function RankingMundoPage({
 
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-premium-blue mb-2">
+          <h1 className="text-3xl lg:text-4xl font-bold text-deep-forest mb-2">
             {tRanking("mundoTitle")}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -196,7 +196,7 @@ export default async function RankingMundoPage({
               {sectorDistribution.slice(0, 6).map(sector => (
                 <div
                   key={sector.setor}
-                  className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800"
+                  className="p-4 rounded-lg bg-mint-tint dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800"
                 >
                   <p className="text-sm font-medium text-blue-900 dark:text-blue-200">
                     {sector.setor}
@@ -204,7 +204,7 @@ export default async function RankingMundoPage({
                   <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">
                     {sector.count}
                   </p>
-                  <p className="text-xs text-blue-600 dark:text-blue-400">
+                  <p className="text-xs text-blue-600 dark:text-electric-emerald">
                     {formatVolume(sector.totalVolume)}
                     {" "}
                     {tStats("volumeUnit")}
@@ -250,7 +250,7 @@ export default async function RankingMundoPage({
 
         {/* Insights */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
+          <div className="bg-mint-tint dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
               🏢
               {" "}
@@ -270,7 +270,7 @@ export default async function RankingMundoPage({
               {tInsights("growthDesc")}
             </p>
           </div>
-          <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
+          <div className="bg-mint-tint dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
               🌍
               {" "}

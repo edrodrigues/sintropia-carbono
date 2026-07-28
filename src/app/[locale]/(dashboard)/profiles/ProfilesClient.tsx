@@ -48,7 +48,8 @@ export function ProfilesClient({
       case "company": return `🏢 ${t("userTypes.company")}`;
       case "ong": return `🤝 ${t("userTypes.ong")}`;
       case "government": return `🏛️ ${t("userTypes.government")}`;
-      case "professor": return `🧑‍🏫 ${t("userTypes.professor")}`;
+      case "professor": return `🧑🏫 ${t("userTypes.professor")}`;
+      case "broker": return `📈 ${t("userTypes.broker")}`;
       default: return `👤 ${t("userTypes.individual")}`;
     }
   };
@@ -59,12 +60,13 @@ export function ProfilesClient({
     { value: "ong", label: `🤝 ${t("userTypes.ong")}` },
     { value: "government", label: `🏛️ ${t("userTypes.government")}` },
     { value: "professor", label: `🧑‍🏫 ${t("userTypes.professor")}` },
+    { value: "broker", label: `📈 ${t("userTypes.broker")}` },
   ];
 
   return (
     <>
       <div className="mb-8">
-        <h2 className="text-4xl font-bold text-premium-blue mb-2 dark:text-blue-400">
+        <h2 className="text-4xl font-bold text-deep-forest mb-2 dark:text-electric-emerald">
           {t("title")}
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
@@ -168,7 +170,7 @@ export function ProfilesClient({
                     <div className="px-6 pb-4">
                       <Link
                         href={`/feed?author=${profile.username}`}
-                        className="block w-full text-center py-2 px-4 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl text-sm font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors"
+                        className="block w-full text-center py-2 px-4 bg-mint-tint dark:bg-blue-900/20 text-blue-600 dark:text-electric-emerald rounded-xl text-sm font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors"
                       >
                         {t("viewActivities")}
                       </Link>

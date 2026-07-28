@@ -26,7 +26,7 @@ export default async function OnboardingPage() {
     .from("profiles")
     .select("*")
     .eq("id", user.id)
-    .single();
+    .maybeSingle();
 
   const hasUsername = profile?.username && profile.username.trim().length > 0;
   const hasDisplayName = profile?.display_name && profile.display_name.trim().length > 0;

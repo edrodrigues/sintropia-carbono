@@ -42,7 +42,7 @@ export default async function Posts() {
             {t("pageSubtitle")}
           </p>
         </div>
-        <button className="bg-[#1e40af] hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+        <button className="bg-[#0a382c] hover:bg-charcoal-ink text-white font-semibold py-2 px-4 rounded-lg transition-colors">
           {t("newPost")}
         </button>
       </div>

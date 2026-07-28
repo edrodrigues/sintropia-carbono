@@ -87,8 +87,8 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
       <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
         <Breadcrumb />
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-premium-blue mb-2 font-inter">{t("title")}</h2>
-          <p className="text-gray-600 dark:text-gray-400 font-inter">{t("subtitle")}</p>
+          <h2 className="text-4xl font-bold text-deep-forest mb-2">{t("title")}</h2>
+          <p className="text-gray-600 dark:text-gray-400">{t("subtitle")}</p>
           <p className="text-sm text-gray-500 mt-2 font-mono">{t("lastUpdate")}</p>
         </div>
 
@@ -109,7 +109,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
             ].map((item, i) => (
               <div key={i} className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
                 <p className="text-xs font-bold text-gray-500 uppercase mb-1">{item.label}</p>
-                <h4 className="text-2xl font-bold text-premium-blue dark:text-blue-400">{item.value}</h4>
+                <h4 className="text-2xl font-bold text-deep-forest dark:text-electric-emerald">{item.value}</h4>
                 <p className="text-[10px] text-gray-500 mt-1 font-semibold">{item.sub}</p>
               </div>
             ))}
@@ -164,7 +164,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
                   </li>
                 </ul>
               </div>
-              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+              <div className="bg-mint-tint dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
                 <h5 className="font-bold text-blue-800 dark:text-blue-200 mb-2">
                   📈
                   {t("trendsTitle")}
@@ -240,7 +240,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
                     <TableRow key={i}>
                       <TableCell className="font-bold">{row.country}</TableCell>
                       <TableCell>{row.tech}</TableCell>
-                      <TableCell className="font-mono font-bold text-premium-blue dark:text-blue-400">{row.price}</TableCell>
+                      <TableCell className="font-mono font-bold text-deep-forest dark:text-electric-emerald">{row.price}</TableCell>
                       <TableCell className="text-right">{row.trend}</TableCell>
                     </TableRow>
                   ))}
@@ -257,11 +257,11 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
-              <p className="text-sm text-indigo-800 dark:text-indigo-300 mb-4 font-inter">{t("projectionDesc")}</p>
+              <p className="text-sm text-indigo-800 dark:text-indigo-300 mb-4">{t("projectionDesc")}</p>
               <div className="flex gap-4">
                 <div className="bg-white dark:bg-gray-800 px-4 py-2 rounded shadow-sm border border-indigo-100">
                   <span className="block text-[10px] uppercase font-bold text-gray-500">{tProj("estimatedValue")}</span>
-                  <span className="text-xl font-bold text-premium-blue dark:text-blue-400">{tProj("value")}</span>
+                  <span className="text-xl font-bold text-deep-forest dark:text-electric-emerald">{tProj("value")}</span>
                 </div>
                 <div className="bg-white dark:bg-gray-800 px-4 py-2 rounded shadow-sm border border-indigo-100">
                   <span className="block text-[10px] uppercase font-bold text-gray-500">{tProj("cagr")}</span>
@@ -282,7 +282,7 @@ export default async function IRECPrecos({ params }: { params: Promise<{ locale:
                 </div>
                 <div className="flex justify-between text-xs pb-1">
                   <span>{tDrivers("quality")}</span>
-                  <span className="font-bold text-premium-blue">Alto</span>
+                  <span className="font-bold text-deep-forest">Alto</span>
                 </div>
               </div>
             </div>

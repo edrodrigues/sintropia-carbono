@@ -56,3 +56,4 @@ output_*.json
 output_*.txt
 data/
 curl_out.txt
+IMPLEMENTATION_PLAN.md

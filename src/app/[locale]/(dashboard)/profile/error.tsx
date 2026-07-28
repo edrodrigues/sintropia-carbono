@@ -22,7 +22,7 @@ export default function ProfileError({
         <div className="flex items-center justify-center gap-4">
           <button
             onClick={reset}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors"
+            className="px-6 py-3 bg-blue-600 hover:bg-charcoal-ink text-white font-bold rounded-xl transition-colors"
           >
             Tentar novamente
           </button>

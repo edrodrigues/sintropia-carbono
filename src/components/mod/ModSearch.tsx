@@ -128,7 +128,7 @@ export function ModSearch() {
             placeholder="Buscar usuários (nome, username) ou posts (título, conteúdo, tags)..."
             value={query}
             onChange={e => setQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-forest-green focus:border-transparent"
+            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-deep-forest focus:border-transparent"
           />
         </div>
 
@@ -138,7 +138,7 @@ export function ModSearch() {
               onClick={() => setActiveTab("users")}
               className={`px-3 py-1.5 text-sm font-bold rounded-lg transition-colors ${
                 activeTab === "users"
-                  ? "bg-forest-green text-white"
+                  ? "bg-deep-forest text-white"
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200"
               }`}
             >
@@ -150,7 +150,7 @@ export function ModSearch() {
               onClick={() => setActiveTab("posts")}
               className={`px-3 py-1.5 text-sm font-bold rounded-lg transition-colors ${
                 activeTab === "posts"
-                  ? "bg-forest-green text-white"
+                  ? "bg-deep-forest text-white"
                   : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200"
               }`}
             >

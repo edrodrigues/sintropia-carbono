@@ -1,7 +1,8 @@
 import type { User } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
-import type { Database, UserRole } from "@/types/supabase";
+import type { Database } from "@/types/supabase";
+import type { UserRole } from "@/types";
 import { createClient } from "@/lib/supabase/server";
 
 type ProfileRoleRow = Pick<Database["public"]["Tables"]["profiles"]["Row"], "role">;

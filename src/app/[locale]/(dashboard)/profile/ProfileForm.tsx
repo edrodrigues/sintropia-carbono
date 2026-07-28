@@ -125,31 +125,36 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="md:col-span-2 space-y-2">
           <label className="text-xs font-bold text-gray-400 uppercase tracking-wider px-1">Tipo de Conta</label>
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-            <label htmlFor="user_type_individual" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+          <div className="grid grid-cols-2 lg:grid-cols-6 gap-3">
+            <label htmlFor="user_type_individual" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-deep-forest has-[:checked]:bg-mint-tint dark:has-[:checked]:bg-deep-forest/20">
               <input id="user_type_individual" type="radio" name="user_type" value="individual" checked={userType === "individual"} onChange={() => setUserType("individual")} className="hidden" />
               <span className="text-xl">👤</span>
               <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Indivíduo</span>
             </label>
-            <label htmlFor="user_type_company" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+            <label htmlFor="user_type_company" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-deep-forest has-[:checked]:bg-mint-tint dark:has-[:checked]:bg-deep-forest/20">
               <input id="user_type_company" type="radio" name="user_type" value="company" checked={userType === "company"} onChange={() => setUserType("company")} className="hidden" />
               <span className="text-xl">🏢</span>
               <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Empresa</span>
             </label>
-            <label htmlFor="user_type_ong" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+            <label htmlFor="user_type_ong" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-deep-forest has-[:checked]:bg-mint-tint dark:has-[:checked]:bg-deep-forest/20">
               <input id="user_type_ong" type="radio" name="user_type" value="ong" checked={userType === "ong"} onChange={() => setUserType("ong")} className="hidden" />
               <span className="text-xl">🤝</span>
               <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">ONG</span>
             </label>
-            <label htmlFor="user_type_government" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+            <label htmlFor="user_type_government" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-deep-forest has-[:checked]:bg-mint-tint dark:has-[:checked]:bg-deep-forest/20">
               <input id="user_type_government" type="radio" name="user_type" value="government" checked={userType === "government"} onChange={() => setUserType("government")} className="hidden" />
               <span className="text-xl">🏛️</span>
               <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Governo</span>
             </label>
-            <label htmlFor="user_type_professor" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-premium-blue has-[:checked]:bg-blue-50 dark:has-[:checked]:bg-blue-900/20">
+            <label htmlFor="user_type_professor" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-deep-forest has-[:checked]:bg-mint-tint dark:has-[:checked]:bg-deep-forest/20">
               <input id="user_type_professor" type="radio" name="user_type" value="professor" checked={userType === "professor"} onChange={() => setUserType("professor")} className="hidden" />
               <span className="text-xl">🧑‍🏫</span>
               <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Professor</span>
+            </label>
+            <label htmlFor="user_type_broker" className="relative flex flex-col items-center justify-center gap-1 p-3 rounded-xl border-2 cursor-pointer transition-all hover:bg-gray-50 dark:hover:bg-gray-800 border-gray-100 dark:border-gray-700 has-[:checked]:border-deep-forest has-[:checked]:bg-mint-tint dark:has-[:checked]:bg-deep-forest/20">
+              <input id="user_type_broker" type="radio" name="user_type" value="broker" checked={userType === "broker"} onChange={() => setUserType("broker")} className="hidden" />
+              <span className="text-xl">📈</span>
+              <span className="text-xs font-bold uppercase tracking-wide dark:text-gray-300">Broker</span>
             </label>
           </div>
         </div>
@@ -177,7 +182,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
             onChange={e => setFormData({ ...formData, username: e.target.value })}
             placeholder="usuario"
             maxLength={30}
-            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
           />
         </div>
 
@@ -194,7 +199,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
             onChange={e => setFormData({ ...formData, display_name: e.target.value })}
             placeholder="Como quer ser chamado"
             maxLength={50}
-            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
           />
         </div>
 
@@ -211,7 +216,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
             onChange={e => setFormData({ ...formData, organization: e.target.value })}
             placeholder="Ex: Empresa X, ONG Y, Universidade Z"
             maxLength={100}
-            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
           />
         </div>
 
@@ -228,7 +233,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
             onChange={e => setFormData({ ...formData, cargo: e.target.value })}
             placeholder="Ex: Gerente de Sustentabilidade, Analista, Pesquisador"
             maxLength={100}
-            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
           />
         </div>
 
@@ -245,7 +250,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
             onChange={e => setFormData({ ...formData, bio: e.target.value })}
             placeholder="Conte-nos um pouco sobre você ou sua empresa..."
             maxLength={1000}
-            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white resize-none"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white resize-none"
           />
         </div>
 
@@ -261,7 +266,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
             value={formData.linkedin_url}
             onChange={e => setFormData({ ...formData, linkedin_url: e.target.value })}
             placeholder="https://linkedin.com/in/seu-perfil"
-            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
           />
         </div>
 
@@ -277,7 +282,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
             value={formData.twitter_url}
             onChange={e => setFormData({ ...formData, twitter_url: e.target.value })}
             placeholder="https://x.com/seu-usuario"
-            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+            className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
           />
         </div>
       </div>
@@ -303,7 +308,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
                 onChange={e => setFormData({ ...formData, company_tagline: e.target.value })}
                 placeholder="Ex: Líder em créditos de carbono na América Latina"
                 maxLength={150}
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
               />
             </div>
 
@@ -316,7 +321,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
                 name="company_sector"
                 value={formData.company_sector}
                 onChange={e => setFormData({ ...formData, company_sector: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
               >
                 <option value="">Selecione um setor</option>
                 {COMPANY_SECTORS.map(s => (
@@ -334,7 +339,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
                 name="company_size"
                 value={formData.company_size}
                 onChange={e => setFormData({ ...formData, company_size: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
               >
                 <option value="">Selecione o porte</option>
                 {COMPANY_SIZES.map(s => (
@@ -356,7 +361,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
                 onChange={e => setFormData({ ...formData, company_cnpj: e.target.value })}
                 placeholder="00.000.000/0000-00"
                 maxLength={14}
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
               />
             </div>
 
@@ -371,7 +376,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
                 value={formData.company_website || ""}
                 onChange={e => setFormData({ ...formData, company_website: e.target.value })}
                 placeholder="https://www.exemplo.com"
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
               />
             </div>
 
@@ -388,7 +393,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
                 value={formData.company_founded_year ?? ""}
                 onChange={e => setFormData({ ...formData, company_founded_year: e.target.value ? Number(e.target.value) : null })}
                 placeholder="ex: 2010"
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
               />
             </div>
 
@@ -401,7 +406,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
                 name="company_geo_presence"
                 value={formData.company_geo_presence}
                 onChange={e => setFormData({ ...formData, company_geo_presence: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
               >
                 <option value="">Selecione a abrangência</option>
                 {GEO_PRESENCE_OPTIONS.map(o => (
@@ -425,7 +430,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
                 onChange={e => setFormData({ ...formData, headline: e.target.value })}
                 placeholder="Ex: Carbon Markets Analyst | ESG Specialist"
                 maxLength={150}
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
               />
             </div>
 
@@ -488,7 +493,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
                 value={formData.years_of_experience ?? ""}
                 onChange={e => setFormData({ ...formData, years_of_experience: e.target.value ? Number(e.target.value) : null })}
                 placeholder="ex: 5"
-                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all dark:text-white"
+                className="w-full px-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all dark:text-white"
               />
             </div>
 
@@ -525,7 +530,7 @@ export default function ProfileForm({ profile, email }: ProfileFormProps) {
         <button
           type="submit"
           disabled={loading}
-          className="px-8 py-3 rounded-xl bg-premium-blue text-white font-bold shadow-lg shadow-blue-500/25 transition-all hover:bg-blue-700 active:scale-95 disabled:opacity-50 disabled:scale-100"
+          className="px-8 py-3 rounded-xl bg-deep-forest text-white font-bold shadow-lg shadow-deep-forest/25 transition-all hover:bg-charcoal-ink active:scale-95 disabled:opacity-50 disabled:scale-100"
         >
           {loading ? "Salvando..." : "Salvar Alterações"}
         </button>

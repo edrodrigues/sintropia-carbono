@@ -175,7 +175,7 @@ export function AchievementList({ achievements, maxVisible = 6 }: AchievementLis
                     </div>
                     <div className="w-full h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all"
+                        className="h-full bg-gradient-to-r from-blue-500 to-charcoal-ink rounded-full transition-all"
                         style={{ width: `${progressPercent}%` }}
                       />
                     </div>

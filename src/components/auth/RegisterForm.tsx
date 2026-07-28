@@ -79,7 +79,7 @@ export function RegisterForm({ error: initialError }: RegisterFormProps) {
       )}
 
       {referralCode && (
-        <div className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 p-3 rounded-xl text-xs text-center font-bold border border-blue-100 dark:border-blue-800">
+        <div className="bg-mint-tint dark:bg-blue-900/20 text-blue-600 dark:text-electric-emerald p-3 rounded-xl text-xs text-center font-bold border border-blue-100 dark:border-blue-800">
           🎁
           {" "}
           {t("referralApplied") || "Referral applied! You will earn 50 Karma points after completing your profile."}
@@ -91,7 +91,7 @@ export function RegisterForm({ error: initialError }: RegisterFormProps) {
           type="button"
           onClick={handleGoogleSignUp}
           disabled={loading}
-          className="group relative w-full flex justify-center items-center gap-3 py-3.5 px-4 border border-gray-300 dark:border-gray-700 text-sm font-bold rounded-xl text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#1e40af] focus:ring-offset-2"
+          className="group relative w-full flex justify-center items-center gap-3 py-3.5 px-4 border border-gray-300 dark:border-gray-700 text-sm font-bold rounded-xl text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-[#0a382c] focus:ring-offset-2"
         >
           {loading
             ? (
@@ -134,7 +134,7 @@ export function RegisterForm({ error: initialError }: RegisterFormProps) {
             required
             value={email}
             onChange={e => setEmail(e.target.value)}
-            className="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1e40af] focus:border-transparent sm:text-sm dark:bg-gray-800 transition-all"
+            className="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0a382c] focus:border-transparent sm:text-sm dark:bg-gray-800 transition-all"
             placeholder="seu@email.com"
           />
         </div>
@@ -153,7 +153,7 @@ export function RegisterForm({ error: initialError }: RegisterFormProps) {
               minLength={8}
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#1e40af] focus:border-transparent sm:text-sm dark:bg-gray-800 transition-all pr-12"
+              className="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0a382c] focus:border-transparent sm:text-sm dark:bg-gray-800 transition-all pr-12"
               placeholder="••••••••"
             />
             <button
@@ -181,7 +181,7 @@ export function RegisterForm({ error: initialError }: RegisterFormProps) {
         <button
           type="submit"
           disabled={loading || password.length < 8}
-          className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-[#1e40af] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all shadow-lg shadow-blue-500/25 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
+          className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-[#0a382c] hover:bg-charcoal-ink focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-deep-forest transition-all shadow-lg shadow-deep-forest/25 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
         >
           {loading ? t("creatingAccount") : t("createAccountFree")}
         </button>
@@ -195,7 +195,7 @@ export function RegisterForm({ error: initialError }: RegisterFormProps) {
         <p className="text-xs text-gray-500 font-medium">
           {t("alreadyHaveAccount")}
           {" "}
-          <Link href="/login" className="text-[#1e40af] dark:text-blue-400 hover:underline font-bold transition-all">
+          <Link href="/login" className="text-[#0a382c] dark:text-electric-emerald hover:underline font-bold transition-all">
             {t("loginNow")}
           </Link>
         </p>

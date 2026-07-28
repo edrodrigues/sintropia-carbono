@@ -33,7 +33,7 @@ export default function LanguageSwitcher() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-forest-green hover:bg-slate-50 transition-all duration-200 focus:outline-none"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 hover:border-deep-forest hover:bg-slate-50 transition-all duration-200 focus:outline-none"
         aria-haspopup="true"
         aria-expanded={isOpen}
         aria-label="Selecionar idioma"
@@ -60,7 +60,7 @@ export default function LanguageSwitcher() {
                   router.push(pathname, { locale: lang.code as "pt" | "en" | "es" });
                   setIsOpen(false);
                 }}
-                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-[13px] font-medium transition-colors ${locale === lang.code ? "bg-forest-green/10 text-forest-green font-bold" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left text-[13px] font-medium transition-colors ${locale === lang.code ? "bg-deep-forest/10 text-deep-forest font-bold" : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
                 }`}
               >
                 <span className="text-base">{lang.flag}</span>

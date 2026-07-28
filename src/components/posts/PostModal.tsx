@@ -265,7 +265,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                 href={post.author.linkedin_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
+                className="text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-1 rounded"
                 aria-label="Perfil LinkedIn"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -279,7 +279,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
               <>
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-400 focus:outline-none focus:ring-2 focus:ring-deep-forest"
                   aria-label="Editar post"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -300,7 +300,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
             )}
             <button
               onClick={onClose}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-deep-forest"
               aria-label="Fechar modal"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -329,7 +329,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                       value={editTitle}
                       onChange={e => setEditTitle(e.target.value)}
                       maxLength={200}
-                      className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                      className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-deep-forest outline-none transition-all"
                     />
                     <div className="text-right text-xs text-gray-400 mt-1">
                       {editTitle.length}
@@ -345,7 +345,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                       value={editUrl}
                       onChange={e => setEditUrl(e.target.value)}
                       placeholder="https://..."
-                      className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                      className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-deep-forest outline-none transition-all"
                     />
                   </div>
 
@@ -355,7 +355,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                       id="edit-category"
                       value={editCategory}
                       onChange={e => setEditCategory(e.target.value)}
-                      className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                      className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-deep-forest outline-none transition-all"
                     >
                       <option value="news">Notícias</option>
                       <option value="discussion">Discussão</option>
@@ -417,7 +417,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                       value={editContent}
                       onChange={e => setEditContent(e.target.value)}
                       maxLength={2000}
-                      className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 outline-none transition-all h-32 resize-none"
+                      className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-deep-forest outline-none transition-all h-32 resize-none"
                     />
                     <div className="text-right text-xs text-gray-400 mt-1">
                       {editContent.length}
@@ -444,7 +444,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                     <button
                       onClick={handleSaveEdit}
                       disabled={loading}
-                      className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                      className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-charcoal-ink disabled:opacity-50 transition-colors focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-2"
                     >
                       {loading ? "Salvando..." : "Salvar"}
                     </button>
@@ -485,7 +485,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                       href={post.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-blue-600 hover:text-blue-700 dark:text-blue-400 transition-colors mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-lg text-blue-600 hover:text-blue-700 dark:text-electric-emerald transition-colors mb-6 focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-1"
                       aria-label={`Abrir link: ${new URL(post.url).hostname}`}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -529,7 +529,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                       <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 rounded-lg text-sm border border-yellow-100 dark:border-yellow-800">
                         Você precisa estar logado para comentar.
                         {" "}
-                        <Link href="/login" className="underline font-semibold text-[#1e40af] dark:text-blue-400">Faça login</Link>
+                        <Link href="/login" className="underline font-semibold text-[#0a382c] dark:text-electric-emerald">Faça login</Link>
                       </div>
                     )}
 
@@ -542,7 +542,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                         placeholder="O que você acha disso?"
                         maxLength={1000}
                         aria-describedby="comment-counter"
-                        className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none h-24"
+                        className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-deep-forest focus:border-transparent outline-none transition-all resize-none h-24"
                       />
                       <div className="flex justify-between items-center mt-2">
                         <span id="comment-counter" className="text-xs text-gray-400">
@@ -552,7 +552,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                         <button
                           type="submit"
                           disabled={loading || !newComment.trim()}
-                          className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                          className="px-6 py-2 bg-blue-600 hover:bg-charcoal-ink disabled:opacity-50 text-white font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-2"
                         >
                           {loading ? "Enviando..." : "Comentar"}
                         </button>
@@ -597,7 +597,7 @@ export function PostModal({ post, onClose, currentUser, onPostUpdated, onPostDel
                                           href={comment.author.linkedin_url}
                                           target="_blank"
                                           rel="noopener noreferrer"
-                                          className="text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded"
+                                          className="text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-1 rounded"
                                           aria-label="Perfil LinkedIn"
                                         >
                                           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">

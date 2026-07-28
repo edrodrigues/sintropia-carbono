@@ -130,7 +130,7 @@ export default async function RankingBrasilPage({
 
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold text-forest-green mb-2">
+          <h1 className="text-3xl lg:text-4xl font-bold text-deep-forest mb-2">
             {tRanking("brasilTitle")}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -239,7 +239,7 @@ export default async function RankingBrasilPage({
               {tInsights("leaderDesc")}
             </p>
           </div>
-          <div className="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
+          <div className="bg-mint-tint dark:bg-blue-900/20 border-l-4 border-blue-500 p-6 rounded-r-xl">
             <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-2">
               🌳
               {" "}

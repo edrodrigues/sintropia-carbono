@@ -20,9 +20,9 @@ export function StepIndicator({ currentStep, labels }: StepIndicatorProps) {
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
                     isCompleted
-                      ? "bg-[#1e40af] text-white shadow-md shadow-blue-500/30"
+                      ? "bg-[#0a382c] text-white shadow-md shadow-blue-500/30"
                       : isCurrent
-                        ? "bg-[#1e40af] text-white shadow-lg shadow-blue-500/40 ring-4 ring-blue-100"
+                        ? "bg-[#0a382c] text-white shadow-lg shadow-blue-500/40 ring-4 ring-blue-100"
                         : "bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500"
                   }`}
                 >
@@ -37,7 +37,7 @@ export function StepIndicator({ currentStep, labels }: StepIndicatorProps) {
                       )}
                 </div>
                 <span className={`text-xs font-semibold hidden sm:block ${
-                  isCurrent ? "text-[#1e40af] dark:text-blue-400" : isCompleted ? "text-gray-700 dark:text-gray-300" : "text-gray-400 dark:text-gray-500"
+                  isCurrent ? "text-[#0a382c] dark:text-electric-emerald" : isCompleted ? "text-gray-700 dark:text-gray-300" : "text-gray-400 dark:text-gray-500"
                 }`}
                 >
                   {label}
@@ -45,7 +45,7 @@ export function StepIndicator({ currentStep, labels }: StepIndicatorProps) {
               </div>
               {index < labels.length - 1 && (
                 <div className={`flex-1 h-0.5 mx-3 rounded-full transition-all duration-300 ${
-                  isCompleted ? "bg-[#1e40af]" : "bg-gray-200 dark:bg-gray-700"
+                  isCompleted ? "bg-[#0a382c]" : "bg-gray-200 dark:bg-gray-700"
                 }`}
                 />
               )}

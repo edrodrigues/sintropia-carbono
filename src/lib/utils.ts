@@ -75,6 +75,21 @@ export const chartColors = {
 
 export type AvailableChartColorsKeys = keyof typeof chartColors;
 
+export const brandChartPalette = [
+  "#0a382c",
+  "#0cf570",
+  "#a8c3a0",
+  "#23282d",
+  "#14624a",
+  "#f59e0b",
+  "#6b8f71",
+  "#0891b2",
+  "#ef4444",
+  "#ec4899",
+  "#8b5cf6",
+  "#f97316",
+] as const;
+
 export const AvailableChartColors: AvailableChartColorsKeys[] = Object.keys(
   chartColors,
 ) as Array<AvailableChartColorsKeys>;
