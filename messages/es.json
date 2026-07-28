@@ -1,24 +1,28 @@
 {
     "Index": {
-        "title": "Democratizando datos de créditos de carbono y energía renovable.",
+        "title": "La red para profesionales que transforman los mercados ambientales.",
         "hero": {
-            "badge": "Inteligencia de mercado en vivo",
-            "subtitle": "Las plataformas globales cobran $15/mes por estos datos. Proporcionamos clasificaciones, precios y tendencias en tiempo real para el mercado global — completamente gratis.",
-            "cta": "Comienza Gratis"
+            "badge": "Red profesional + inteligencia de mercado",
+            "subtitle": "Datos de mercado, perspectivas de expertos y una red profesional para carbono, energía renovable, ASG y sostenibilidad. Gratis para unirse.",
+            "promo": "Datos de mercado, perspectivas de expertos y una red profesional para carbono, energía renovable, ASG y sostenibilidad. Gratis para unirse.",
+            "cta": "Únete Gratis",
+            "ctaTitle": "¿Listo para conectarte?",
+            "ctaDesc": "Únete a cientos de profesionales, analistas y empresas que ya están dando forma al futuro de los mercados ambientales.",
+            "secondaryCta": "Explorar Feed"
         },
         "features": {
-            "title": "¿Por qué elegir Sintropia?",
+            "title": "¿Por qué Sintropia?",
             "brazilianData": {
-                "title": "Datos Globales",
-                "desc": "Accede a la base de datos más completa de activos ambientales del mundo."
+                "title": "Datos de Mercado",
+                "desc": "Acceso gratuito a rankings, precios y tendencias de créditos de carbono e I-REC — con datos ASG en expansión."
             },
             "marketIntelligence": {
-                "title": "Inteligencia de Mercado",
-                "desc": "Precios, volumen y tendencias en tiempo real para I-RECs y créditos de carbono."
+                "title": "Red Profesional",
+                "desc": "Conéctate, comparte perspectivas y construye tu reputación entre profesionales del mercado ambiental."
             },
             "activeCommunity": {
-                "title": "Comunidad Activa",
-                "desc": "Conecta con expertos, analistas y traders del mercado ambiental."
+                "title": "Conocimiento & Perspectivas",
+                "desc": "Discusiones de expertos, seguimiento regulatorio e inteligencia colaborativa sobre mercados ambientales."
             },
             "openApi": {
                 "title": "API Abierta (Próximamente)",
@@ -29,13 +33,15 @@
             "title": "Explora la Inteligencia de Mercado",
             "subtitle": "Filtra por los pilares centrales de la economía ambiental global.",
             "viewAll": "Ver Todas las Categorías",
+            "viewRankings": "Ver Rankings",
             "explore": "Explorar",
             "trending": "Tendencias",
             "items": {
                 "carbonBrazil": "Carbono Mundo",
                 "energyBrazil": "Energía Mundo",
                 "carbonWorld": "Carbono Mundo",
-                "energyPrices": "Precos Energía",
+                "energyWorld": "Energía Mundo",
+                "energyPrices": "Precios Energía",
                 "carbonProjects": "Proyectos Carbono"
             }
         },
@@ -45,49 +51,71 @@
             "myPanel": "Mi Panel",
             "status": "Estado",
             "notLoggedIn": "No Iniciado",
-            "karma": "Karma acumulado",
-            "viewAchievements": "Ver Todas las Conquistas",
+            "karma": "Tokens acumulados",
+            "viewAchievements": "Ver Todos los Logros",
             "loginToFollow": "Inicia sesión para rastrear tus activos favoritos, publicar en la comunidad y ganar puntos.",
             "loginRegister": "Iniciar / Registrarse"
         },
+        "feed": {
+            "title": "Feed de la Comunidad",
+            "new": "Recientes",
+            "popular": "Populares",
+            "empty": "No se encontraron publicaciones.",
+            "viewAll": "Ver todo en el Feed"
+        },
         "stats": {
             "indexSREC": "Índice S-REC (Semanal)",
-            "vsLastMonth": "vs mes pasado"
+            "vsLastMonth": "vs mes pasado",
+            "pts": "pts"
+        },
+        "marketStats": {
+            "title": "Datos del Mercado de Carbono",
+            "subtitle": "Datos autoritativos de fuentes confiables de la industria",
+            "disclaimer": "* Datos de 2025. Fuentes: Banco Mundial, Ecosystem Marketplace, SFB, IEA"
         }
     },
     "Navigation": {
         "certificadoras": "Certificadoras",
         "energy": "Energía",
         "carbon": "Carbono",
-        "community": "Comunidad",
+        "network": "Red",
         "marketBrazil": "Mercado Mundial",
         "marketWorld": "Mercado Global",
         "prices": "Precios",
-        "marketBrazilCarbon": "Mercado Mundial",
-        "marketWorldCarbon": "Mercado Mundo",
+        "sectors": "Sectores",
+        "marketBrazilCarbon": "Ranking Brasil",
+        "marketWorldCarbon": "Ranking Mundo",
+        "carbonSectors": "Sectores",
         "carbonPrices": "Precios",
         "carbonData": "Datos de Proyectos",
+        "carbonLiveMarkets": "Mercados en Vivo",
         "newsFeed": "Feed de Noticias",
+        "challenges": "Desafíos",
         "communityProfiles": "Perfiles de la Comunidad",
         "ranking": "Ranking de Miembros",
         "missions": "Mis Misiones",
         "missionsAndAchievements": "Misiones y Logros",
+        "contribute": "Cómo Contribuir",
         "energyDesc": {
             "marketBrazil": "Mira quiénes son los mayores compradores de certificados I-REC en el mundo.",
             "marketWorld": "Mira quiénes son los mayores compradores de certificados I-REC en el Mundo.",
-            "prices": "Confirma los precios de los certificados I-REC de forma comparada entre los mercados."
+            "prices": "Confirma los precios de los certificados I-REC de forma comparada entre los mercados.",
+            "sectors": "Distribución del mercado I-REC por sector económico."
         },
         "carbonDesc": {
-            "marketBrazil": "Mira quiénes son los mayores compradores de créditos de carbono en el mundo.",
+            "marketBrazil": "Mira quiénes son los mayores compradores de créditos de carbono en Brasil.",
             "marketWorld": "Mira quiénes son los mayores compradores de créditos de carbono en el mundo.",
+            "sectors": "Distribución del mercado de carbono por sector económico.",
             "prices": "Análisis comparado y evolución de los precios",
-            "data": "Datos sobre 7700+ Proyectos de carbono."
+            "data": "Datos sobre 7700+ Proyectos de carbono.",
+            "liveMarkets": "Plataforma de inteligencia de mercado con precios consolidados de créditos de carbono y certificados I-REC."
         },
         "communityDesc": {
             "newsFeed": "Insights y publicaciones de nuestra red de expertos.",
+            "challenges": "Desafíos ASG reales de organizaciones. ¡Comparte tus ideas!",
             "profiles": "Mira todos los perfiles de la comunidad.",
             "ranking": "Mira quiénes son los mayores contribuyentes.",
-            "missions": "Gana karma y sube de nivel en la plataforma."
+            "missions": "Gana tokens y sube de nivel en la plataforma."
         }
     },
     "Header": {
@@ -96,19 +124,25 @@
         "myPanel": "Mi Panel",
         "myProfile": "Mi Perfil",
         "editProfile": "Editar Perfil",
-        "achievements": "Conquistas",
+        "achievements": "Logros",
         "logout": "Cerrar Sesión",
         "login": "Iniciar Sesión",
         "register": "Crear Cuenta Gratis",
         "loggedAs": "Sesión iniciada como",
         "moderation": "Moderación",
+        "adminScripts": "Scripts Admin",
         "skipToContent": "Saltar al contenido principal",
         "openMenu": "Abrir menú",
         "closeMenu": "Cerrar menú",
-        "newPostTooltip": "Comparte insights o noticias con la comunidad"
+        "newPostTooltip": "Comparte insights o noticias con la comunidad",
+        "criar": "Crear",
+        "criarPost": "Publicación",
+        "criarDesafio": "Desafío",
+        "criarOferta": "Oferta",
+        "criarDemanda": "Demanda"
     },
     "Footer": {
-        "tagline": "Democratizando el acceso a datos de mercados ambientales con transparencia, tecnología y enfoque en el ecosistema bajo en carbono global.",
+        "tagline": "La red profesional para mercados ambientales y sostenibilidad. Código abierto. Impulsado por la comunidad.",
         "energy": "Energía",
         "carbon": "Carbono",
         "community": "Comunidad",
@@ -122,16 +156,38 @@
         "carbonData": "Datos de Proyectos",
         "newsFeed": "Feed de Noticias",
         "ranking": "Ranking de Miembros",
-        "missions": "Misiones y Conquistas",
+        "missions": "Misiones y Logros",
         "allRights": "Todos los derechos reservados.",
+        "rightsReserved": "Todos los derechos reservados.",
         "status": "Estado",
         "stable": "Estable",
         "location": "Recife/Pernambuco 🇧🇷",
         "privacy": "Privacidad",
         "terms": "Términos de Uso",
         "contact": "Contacto",
-        "github": "GitHub",
-        "rightsReserved": "Todos los derechos reservados."
+        "github": "GitHub"
+    },
+    "LanguageSwitcher": {
+        "label": "Idioma"
+    },
+    "stats": {
+        "source": "Fuente"
+    },
+    "Common": {
+        "loading": "Cargando...",
+        "error": "Error",
+        "retry": "Intentar de nuevo",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "view": "Ver",
+        "search": "Buscar",
+        "noResults": "No se encontraron resultados",
+        "seeAll": "Ver todos",
+        "lastUpdated": "Última actualización",
+        "dataSources": "Fuentes de datos"
     },
     "Certificadoras": {
         "title": "Certificadoras de Carbono y Energía",
@@ -172,11 +228,79 @@
             "irecWorldDesc": "Mercado global de certificados I-REC",
             "carbonPrices": "Precios Carbono",
             "carbonPricesDesc": "Evolución y análisis de precios de carbono"
+        },
+        "alt": {
+            "carbonBrazil": "Bosque tropical denso que representa créditos de carbono basados en la naturaleza",
+            "energyBrazil": "Turbinas eólicas en un campo bajo cielo despejado que representan energía renovable",
+            "carbonWorld": "Globo digital con conexiones de datos que representa el mercado global de carbono",
+            "energyPrices": "Torres de alta tensión que representan la infraestructura y los precios de la energía",
+            "carbonProjects": "Vegetación exuberante que representa proyectos de conservación ambiental",
+            "certificadoras": "Documento oficial con sello de verificación que representa estándares de calidad",
+            "irecWorld": "Paneles solares fotovoltaicos que representan certificados de energía limpia",
+            "carbonPrices": "Gráfico financiero de mercado que representa la evolución de los precios del carbono"
         }
     },
     "IREC": {
         "title": "Mercado I-REC Mundial",
-        "subtitle": "Dashboard de inteligencia sobre certificados I-REC en el mundo."
+        "subtitle": "Dashboard de inteligencia sobre certificados I-REC en el mundo.",
+        "pageTitle": "I-REC Brasil 2025",
+        "pageSubtitle": "Las 25 empresas brasileñas por volumen de certificados I-REC transaccionados.",
+        "cards": {
+            "totalVolume": "Volumen Total 2025",
+            "growth": "Crecimiento Promedio",
+            "sellers": "Vendedores",
+            "leader": "Líder",
+            "vsLastYear": "vs 2024",
+            "topGenerators": "principales generadores"
+        },
+        "table": {
+            "rank": "Rango",
+            "company": "Empresa",
+            "role": "Rol en el Mercado",
+            "vol2024": "Vol 2024 (mil)",
+            "vol2025": "Vol 2025 (mil)",
+            "delta": "Delta %"
+        },
+        "legend": {
+            "title": "Leyenda - Rol en el Mercado",
+            "seller": "Vendedor",
+            "sellerDesc": "Genera y vende I-RECs",
+            "buyer": "Comprador",
+            "buyerDesc": "Adquiere I-RECs para compensación",
+            "both": "Ambos",
+            "bothDesc": "Opera en ambos lados del mercado"
+        },
+        "insights": {
+            "leaderTitle": "Eletrobras Líder",
+            "leaderDesc": "Eletrobras es la mayor vendedora de I-RECs en Brasil, con 14.5 millones de certificados en 2025, crecimiento de 57.6%.",
+            "growthTitle": "Mayor Crecimiento",
+            "growthDesc": "Voltalia Brasil mostró el mayor crecimiento del mercado con 127% de aumento en el volumen de I-RECs.",
+            "financeTitle": "Sector Financiero",
+            "financeDesc": "Bancos como Itaú, Bradesco y Banco do Brasil son grandes compradores de I-RECs para compensación de operaciones."
+        },
+        "worldInsights": {
+            "leaderTitle": "Statkraft Líder Global",
+            "leaderDesc": "Statkraft consolidó su posición como el mayor negociador global de I-RECs, alcanzando 30.2 TWh (30.2 millones de I-RECs) en 2025.",
+            "growthTitle": "Mercado en Expansión",
+            "growthDesc": "El volumen de los Top 10 negociadores globales creció en promedio 21.7%, con destaque para Tata Power (+31.8%) y Shell Energy (+26.5%).",
+            "sectorTitle": "Presencia Brasileña",
+            "sectorDesc": "Empresas brasileñas como Auren, Itaipu, CPFL Renováveis y Omega Energia figuran entre los 20 mayores negociadores globales."
+        },
+        "setoresPage": {
+            "title": "Análisis por Sector",
+            "subtitle": "Distribución del mercado I-REC por sector económico",
+            "distribution": "Distribución por Sector",
+            "volumeByYear": "Volumen por Sector (Anual)",
+            "companiesBySector": "Empresas por Sector"
+        },
+        "comparison": {
+            "title": "Brasil vs Mundo",
+            "subtitle": "Comparativo de volúmenes 2024/2025/2026"
+        },
+        "chart": {
+            "brasilVolume": "Volumen Brasil",
+            "mundoVolume": "Volumen Mundo"
+        }
     },
     "IRECMundo": {
         "title": "Mayores Compradores Energía Renovable Mundo 2025",
@@ -239,7 +363,7 @@
     "CarbonoPrecos": {
         "title": "Precios del Carbono",
         "subtitle": "Mercados Globales y Brasil - Análisis Completo 2024-2025",
-        "lastUpdate": "Última actualización: Febrero 2026",
+        "lastUpdate": "Última actualización: 11 de Marzo de 2026",
         "summary": "RESUMEN",
         "summaryItems": {
             "latam": "América Latina",
@@ -256,6 +380,13 @@
             "colombiaSub": "Crisis de precios"
         },
         "regulated": "Mercados Regulados",
+        "regulatedMarkets": {
+            "euEts": "EU ETS",
+            "ukEts": "UK ETS",
+            "california": "California",
+            "avg2024": "Media 2024",
+            "minimum": "Mínimo"
+        },
         "voluntary": "Mercado Voluntario (VCM)",
         "brazilian": "Mercado Brasileño",
         "glossary": "Glosario Rápido",
@@ -276,7 +407,17 @@
             "law": "Ley 14.590/2023 (SBCE)",
             "lawDesc": "Aprobada en Nov 2024. Regulación por CVM/B3 en curso para 2025.",
             "nbs": "NBS Premiadas",
-            "tech": "Tecnologías"
+            "nbsTypes": {
+                "redd": "REDD+ (Alta Calidad)",
+                "restoration": "Restauración Nativa (ARR)",
+                "mangroves": "Manglares (Blue Carbon)"
+            },
+            "tech": "Tecnologías",
+            "techTypes": {
+                "stoves": "Cocinas Eficientes",
+                "methane": "Captura de Metano",
+                "biochar": "Biochar"
+            }
         },
         "glossaryTerms": {
             "sbce": "Sist. Bras. de Comercio de Emisiones",
@@ -292,6 +433,14 @@
         "subtitle": "Visualización interactiva de proyectos de carbono registrados en el mercado voluntario.",
         "projectIds": "Entendiendo los IDs de Proyectos",
         "projectIdsDesc": "Cada proyecto de carbono tiene un identificador único (ID) que indica el registro donde está registrado:",
+        "projectIdDetails": {
+            "vcs": "Verra Carbon Standard (ej: VCS2547) - El sistema de registro de créditos de carbono más grande del mundo",
+            "car": "Climate Action Reserve (ej: CAR1019) - Registro americano",
+            "acr": "American Carbon Registry (ej: ACR1000) - Registro americano de carbono",
+            "gld": "Gold Standard (ej: GLD7737) - Estándar suizo para proyectos de carbono y desarrollo sostenible",
+            "cdm": "Clean Development Mechanism (ej: CDM1234) - Mecanismo de Desarrollo Limpio de la ONU",
+            "gs": "Gold Standard (ej: GS1234) - Versión moderna de Gold Standard"
+        },
         "aboutData": "Sobre los Datos",
         "aboutDataDesc": "Estos datos son proporcionados por carbonplan.org, una organización de investigación independiente que analiza y ofrece gratuitamente información sobre proyectos de carbono.",
         "aboutDataNote": "Nota: Esta página muestra proyectos listados pero aún no emitidos. Los créditos emitidos se agregarán a medida que los datos se actualicen.",
@@ -303,7 +452,7 @@
     "IrecPrecos": {
         "title": "Precios de Certificados I-REC",
         "subtitle": "Brasil y Mercado Global - Análisis Completo 2024-2025",
-        "lastUpdate": "Última actualización: Febrero 2026",
+        "lastUpdate": "Última actualización: 11 de Marzo de 2026",
         "summary": "RESUMEN EJECUTIVO",
         "summaryItems": {
             "globalVolume": "Volumen Global",
@@ -359,9 +508,9 @@
     },
     "Contribuir": {
         "back": "Volver",
-        "heroBadge": "Proyecto de Código Abierto",
+        "heroBadge": "Proyecto Colaborativo",
         "heroTitle": "Contribuye al Proyecto",
-        "heroDesc": "Sintropia es un proyecto colaborativo de código abierto. Tu contribución ayuda a hacer el mercado de carbono más transparente y accesible.",
+        "heroDesc": "Sintropia es un proyecto colaborativo de código abierto. Tu contribución ayuda a fortalecer la red profesional de mercados ambientales.",
         "github": {
             "title": "Código en GitHub",
             "desc": "Accede al repositorio completo, haz forks, abre issues y envía pull requests.",
@@ -376,29 +525,29 @@
         "howTo": {
             "report": {
                 "title": "Reportar Errores",
-                "desc": "¿Encontraste datos incorrectos o desactualizados? Abre un issue en GitHub."
+                "desc": "Encontraste datos incorrectos o desactualizados? Abre una issue en GitHub."
             },
             "suggest": {
                 "title": "Sugerir Mejoras",
-                "desc": "¿Tienes ideas para nuevas funcionalidades o visualizaciones? Compártelas con nosotros."
+                "desc": "Tienes ideas para nuevas funcionalidades o visualizaciones? Compártelas con nosotros."
             },
             "code": {
                 "title": "Enviar Código",
-                "desc": "Los desarrolladores pueden enviar pull requests con correcciones y nuevas features."
+                "desc": "Desarrolladores pueden enviar pull requests con correcciones y nuevas features."
             }
         },
         "techStackTitle": "Stack Tecnológica",
         "techStack": {
             "nextjs": "Framework React",
             "typescript": "Tipado estático",
-            "tailwind": "Estilización",
+            "tailwind": "Estilizado",
             "supabase": "Base de datos",
             "chartjs": "Visualización",
             "prisma": "ORM",
-            "vercel": "Despliegue",
-            "github": "Control de versiones"
+            "vercel": "Deploy",
+            "github": "Versionamiento"
         },
-        "contact": "¿Tienes dudas o sugerencias? Contáctanos a través de GitHub.",
+        "contact": "Tienes preguntas o sugerencias? Contáctanos a través de GitHub.",
         "openIssue": "Abrir Issue en GitHub",
         "footer": "Proyecto colaborativo de código abierto.",
         "footerLinks": {
@@ -411,7 +560,7 @@
         "heroBadge": "Términos de Uso",
         "heroTitle": "Términos y Condiciones",
         "heroDesc": "Al usar Sintropia, aceptas estos términos. Por favor léelos con atención.",
-        "lastUpdate": "Última actualización: Febrero 2026",
+        "lastUpdate": "Última actualización: 11 de Marzo de 2026",
         "sections": {
             "1": {
                 "title": "Aceptación de los Términos",
@@ -513,7 +662,7 @@
         "heroBadge": "Política de Privacidad",
         "heroTitle": "Tu Privacidad es Importante",
         "heroDesc": "Esta política describe cómo recopilamos, usamos y protegemos tu información.",
-        "lastUpdate": "Última actualización: Febrero 2026",
+        "lastUpdate": "Última actualización: 11 de Marzo de 2026",
         "sections": {
             "1": {
                 "title": "Información que Recopilamos",
@@ -590,15 +739,127 @@
             "home": "Inicio"
         }
     },
+    "Metadata": {
+        "dashboard": "Panel",
+        "feed": "Feed",
+        "profiles": "Perfiles",
+        "leaderboard": "Clasificación",
+        "achievements": "Logros",
+        "profile": "Perfil"
+    },
     "Carbon": {
-        "title": "Mercado de Carbono Mundial",
-        "subtitle": "Dashboard de inteligencia sobre créditos de carbono en el mundo."
+        "title": "Mercado Global de Carbono",
+        "subtitle": "Dashboard de inteligencia sobre créditos de carbono en el mundo.",
+        "cards": {
+            "totalVolume": "Volumen Total 2025",
+            "growth": "Crecimiento Promedio",
+            "sectors": "Sectores",
+            "leader": "Líder",
+            "vsLastYear": "vs 2024",
+            "sectorsRepresented": "sectores representados"
+        },
+        "table": {
+            "rank": "Rango",
+            "company": "Empresa",
+            "sector": "Sector",
+            "country": "País",
+            "vol2024": "Vol 2024",
+            "vol2025": "Vol 2025",
+            "delta": "Delta %"
+        },
+        "sectorsRepresented": "Sectores Representados"
+    },
+    "MarketListings": {
+        "supply": "Oferta",
+        "demand": "Demanda",
+        "all": "Todas",
+        "searchPlaceholder": "Buscar proyecto o ID...",
+        "empty": "Aún no hay listados activos. Sé el primero en publicar.",
+        "createSupplyTitle": "Publicar oferta",
+        "createSupplySubtitle": "Anuncia créditos de carbono o certificados I-REC para la venta.",
+        "createDemandTitle": "Publicar demanda",
+        "createDemandSubtitle": "Describe lo que necesitas comprar — reemplaza RFPs manuales.",
+        "groupRequired": "Obligatorios",
+        "groupRecommended": "Recomendados",
+        "assetType": "Tipo de activo",
+        "registry": "Registry / estándar",
+        "projectRegistryId": "ID en el registry",
+        "projectName": "Nombre del proyecto",
+        "vintage": "Vintage",
+        "volume": "Volumen",
+        "unit": "Unidad",
+        "originCountry": "País de origen",
+        "deliveryTerm": "Plazo de entrega",
+        "price": "Precio",
+        "onRequest": "Bajo consulta",
+        "methodology": "Metodología",
+        "ccpStatus": "Estado CCP (ICVCM)",
+        "ratings": "Ratings",
+        "cceeOrigem": "CCEE Origem (I-REC)",
+        "minTransactionSize": "Tamaño mínimo de transacción",
+        "contractType": "Tipo de contrato",
+        "mediaUrls": "Fotos / videos del proyecto (URLs, separadas por coma)",
+        "coBenefits": "Cobeneficios / SDGs",
+        "assetCarbon": "Crédito de carbono",
+        "assetIrec": "I-REC",
+        "assetBoth": "Ambos",
+        "errRequired": "Completa todos los campos obligatorios.",
+        "errPrice": "Indica un precio o marca 'Bajo consulta'.",
+        "publishing": "Publicando...",
+        "publish": "Publicar",
+        "cancel": "Cancelar",
+        "buyerProfileTitle": "Perfil del comprador",
+        "buyerCompany": "Nombre / empresa",
+        "buyerCountry": "País del comprador",
+        "purchasePurpose": "Propósito de compra",
+        "annualBudget": "Presupuesto anual estimado",
+        "boughtBrBefore": "¿Ya compraste créditos brasileños antes?",
+        "assetRequirementsTitle": "Requisitos del activo",
+        "registries": "Registries",
+        "volumeRange": "Volumen (rango)",
+        "vintageRange": "Rango de vintage",
+        "priceRange": "Rango de precio",
+        "methodologies": "Metodologías preferidas",
+        "regions": "País / región",
+        "ccpRequirement": "Estado CCP (knock-out)",
+        "certifications": "Certificaciones específicas",
+        "qualityCriteriaTitle": "Criterios de calidad",
+        "coBenefitPrefs": "Preferencia por cobeneficios",
+        "needsExtraDd": "¿Necesita due diligence complementario?",
+        "multiYearOfftake": "¿Abierto a offtake plurianual?",
+        "until": "hasta",
+        "processTitle": "Proceso",
+        "proposalDeadline": "Plazo para propuestas",
+        "responseFormat": "Formato de respuesta",
+        "preferDealRoom": "¿Prefiere deal room?",
+        "volumeCard": "Volumen",
+        "priceCard": "Precio",
+        "vintageCard": "Vintage",
+        "countryCard": "Origen",
+        "vintageRangeCard": "Vintage",
+        "regionsCard": "Regiones",
+        "completeness": "Puntaje de completitud",
+        "completenessShort": "{score}/100",
+        "negotiable": "Negociable",
+        "anonymousBuyer": "Comprador anónimo",
+        "trustTitle": "Confianza",
+        "trustVerified": "Verificado",
+        "trustDeals": "Deals",
+        "trustVolume": "Volumen",
+        "close": "Cerrar",
+        "yes": "Sí",
+        "no": "No",
+        "documentation": "Documentación",
+        "evaluationCriteria": "Criterios de evaluación",
+        "evaluationCriteriaHelp": "Cómo se evaluarán las propuestas (peso porcentual)",
+        "minRatings": "Rating mínimo por agencia",
+        "minRatingsHelp": "Rating mínimo deseado de cada agencia"
     },
     "Auth": {
         "loginTitle": "Sintropia",
         "loginSubtitle": "Accede a tu cuenta",
         "registerTitle": "Únete a Sintropia",
-        "registerSubtitle": "Datos de carbono y energía, completamente gratis.",
+        "registerSubtitle": "Únete a la red profesional de mercados ambientales.",
         "emailLabel": "Correo electrónico",
         "passwordLabel": "Contraseña",
         "confirmPasswordLabel": "Confirmar Contraseña",
@@ -612,18 +873,19 @@
         "alreadyHaveAccount": "¿Ya tienes una cuenta?",
         "createAccount": "Crear cuenta",
         "loginNow": "Iniciar sesión",
-        "backToHome": "← Volver a inicio",
+        "backToHome": "← Volver al inicio",
         "continueWithGoogle": "Continuar con Google",
         "orWithEmail": "o con correo electrónico",
         "noCreditCard": "Sin tarjeta de crédito necesaria",
-        "wait": "Por favor espera...",
+        "wait": "Espera...",
         "creatingAccount": "Creando cuenta...",
         "createAccountFree": "Crear Cuenta Gratis (~30 segundos)",
-        "signUpSuccessMessage": "¡Registro completado! Revisa tu correo para confirmar tu cuenta.",
+        "signUpSuccessMessage": "¡Registro completado! Verifica tu correo electrónico para confirmar tu cuenta.",
         "errors": {
-            "invalidEmail": "Correo inválido",
+            "invalidEmail": "Correo electrónico inválido",
             "required": "Campo obligatorio"
-        }
+        },
+        "referralApplied": "¡Referencia aplicada! Ganarás 50 tokens después de completar tu perfil."
     },
     "PasswordRequirements": {
         "length": "Mínimo 8 caracteres",
@@ -635,69 +897,514 @@
     "Community": {
         "feed": {
             "title": "Feed de Noticias",
-            "subtitle": "Insights y publicaciones de nuestra red de expertos."
+            "subtitle": "Insights y publicaciones de nuestra red de expertos.",
+            "todayFeed": "Feed de Hoy",
+            "shareInsight": "Comparte perspectivas y discute mercados ambientales, ASG y sostenibilidad.",
+            "sortTop": "Top",
+            "sortNew": "Nuevos",
+            "sortBest": "Mejores",
+            "noPosts": "Aún no hay publicaciones",
+            "beFirst": "¡Sé el primero en compartir algo con la comunidad!"
         },
         "profiles": {
             "title": "Perfiles de la Comunidad",
-            "subtitle": "Mira todos los perfiles de la comunidad."
+            "subtitle": "Mira todos los perfiles de la comunidad.",
+            "explore": "Descubre profesionales en mercados de carbono, ASG y sostenibilidad.",
+            "posts": "Publicaciones",
+            "comments": "Comentarios",
+            "viewActivities": "Ver Actividades →",
+            "noProfiles": "No se encontraron perfiles",
+            "beFirstProfile": "¡Sé el primero en unirte a la comunidad!",
+            "showTop": "Mostrando los 50 mejores miembros por puntos",
+            "noUsername": "sin nombre de usuario",
+            "noAchievement": "Sin logros aún",
+            "badges": {
+                "master": "Maestro",
+                "specialist": "Especialista",
+                "contributor": "Contribuidor",
+                "learner": "Aprendiz",
+                "beginner": "Principiante",
+                "newbie": "Novato"
+            },
+            "userTypes": {
+                "company": "Empresa",
+                "ong": "ONG",
+                "government": "Gobierno",
+                "professor": "Profesor",
+                "broker": "Broker",
+                "individual": "Individual"
+            }
         },
         "leaderboard": {
             "title": "Ranking de Miembros",
             "subtitle": "Mira quiénes son los mayores contribuyentes.",
+            "pageTitle": "Ranking Más Activo",
+            "pageSubtitle": "Los miembros más activos contribuyendo a la comunidad.",
             "rank": "Rango",
             "user": "Usuario",
-            "achievements": "Conquistas",
-            "karma": "Karma"
+            "achievements": "Logros",
+            "karma": "Tokens",
+            "points": "Puntos",
+            "pointsTooltip": "Puntos ganados por contribuciones a la comunidad",
+            "noData": "No hay datos disponibles",
+            "joinNow": "¡Empieza a participar para aparecer en el ranking!",
+            "noAchievement": "Sin logros aún",
+            "badges": {
+                "master": "Maestro",
+                "specialist": "Especialista",
+                "contributor": "Contribuidor",
+                "learner": "Aprendiz",
+                "beginner": "Principiante"
+            }
         },
         "conquistas": {
-            "title": "Misiones y Conquistas",
-            "subtitle": "Gana karma y sube de nivel en la plataforma."
+            "title": "Misiones y Logros",
+            "subtitle": "Gana tokens y sube de nivel en la plataforma.",
+            "pageTitle": "Logros y Gamificación",
+            "pageSubtitle": "Entiende cómo funciona el sistema de recompensas de Sintropia",
+            "backToDashboard": "← Volver al Panel",
+            "progress": "Tu Progreso",
+            "karmaTotal": "Tokens",
+            "ranking": "Ranking",
+            "achievementsCount": "Logros",
+            "howToEarn": "Cómo Ganar Tokens",
+            "karmaDescription": "Tokens son tu puntuación en la comunidad. ¡Cuantas más contribuciones de calidad, más tokens ganas!",
+            "earnActions": {
+                "createPost": "Crear una publicación",
+                "comment": "Comentar en la publicación de otro",
+                "likePost": "Cuando alguien da like a tu publicación",
+                "likeComment": "Cuando alguien da like a tu comentario"
+            },
+            "badgesByLevel": "Insignias por Nivel de Tokens",
+            "badgeLevels": {
+                "newbie": {
+                    "name": "Novato",
+                    "threshold": "0+ Tokens"
+                },
+                "beginner": {
+                    "name": "Principiante",
+                    "threshold": "10+ Tokens"
+                },
+                "learner": {
+                    "name": "Aprendiz",
+                    "threshold": "50+ Tokens"
+                },
+                "contributor": {
+                    "name": "Contribuidor",
+                    "threshold": "100+ Tokens"
+                },
+                "specialist": {
+                    "name": "Especialista",
+                    "threshold": "500+ Tokens"
+                },
+                "master": {
+                    "name": "Maestro",
+                    "threshold": "1000+ Tokens"
+                }
+            },
+            "day": "día",
+            "allAchievements": "Todos los Logros"
         }
     },
     "Dashboard": {
-        "title": "Panel",
-        "welcome": "Bienvenido de nuevo",
-        "myProfile": "Mi Perfil",
-        "editProfile": "Editar Perfil",
-        "myPosts": "Mis Publicaciones",
-        "settings": "Configuración"
-    },
-    "Contribuir": {
-        "title": "Contribuye",
-        "subtitle": "Ayuda a construir la mayor base de datos de activos ambientales del mundo.",
-        "description": "Tu contribución es fundamental para democratizar el acceso a información sobre el mercado de carbono y energía renovable."
-    },
-    "Legal": {
-        "privacy": {
-            "title": "Política de Privacidad",
-            "lastUpdate": "Última actualización"
+        "pageTitle": "Mi Página",
+        "title": "Panel de Control",
+        "pageSubtitle": "Tu perfil profesional en la red de mercados ambientales",
+        "profile": {
+            "username": "Usuario",
+            "noUsername": "sin nombre de usuario",
+            "karma": "Tokens",
+            "nextLevel": "para el siguiente nivel",
+            "viewProfile": "Ver Perfil"
         },
-        "terms": {
-            "title": "Términos de Uso",
-            "lastUpdate": "Última actualización"
-        }
+        "stats": {
+            "karma": "Tokens",
+            "posts": "Publicaciones",
+            "published": "publicadas",
+            "comments": "Comentarios",
+            "made": "realizados"
+        },
+        "summary": {
+            "title": "Resumen",
+            "ranking": "Ranking",
+            "karma": "Tokens",
+            "badge": "Insignia",
+            "posts": "Publicaciones",
+            "comments": "Comentarios",
+            "toNext": "Para el siguiente"
+        },
+        "gamification": {
+            "title": "Cómo Funciona la Gamificación",
+            "description": "Tokens son tu puntuación en la comunidad. ¡Cuantas más contribuciones de calidad, más tokens ganas!",
+            "progress": "Progreso",
+            "toNext": "para el siguiente nivel",
+            "howToEarn": "Cómo ganar Tokens",
+            "rankingTitle": "Tu Posición",
+            "globalRanking": "Ranking Global",
+            "rankingDesc": "Aumenta tus tokens participando activamente en la comunidad e invitando nuevos miembros.",
+            "viewLeaderboard": "Ver Leaderboard",
+            "actions": {
+                "createPost": "Crear una publicación",
+                "comment": "Comentar en la publicación de otro",
+                "likePost": "Cuando alguien da like a tu publicación",
+                "likeComment": "Cuando alguien da like a tu comentario",
+                "dislikePost": "Cuando alguien da dislike a tu publicación",
+                "dislikeComment": "Cuando alguien da dislike a tu comentario",
+                "inviteFriend": "Invitar a un amigo (después de completar el perfil)"
+            },
+            "badgesTitle": "Insignias por Nivel de Tokens:",
+            "yourRanking": "Tu ranking actual:",
+            "viewRanking": "Ver ranking completo →"
+        },
+        "badges": {
+            "novato": "Novato",
+            "iniciante": "Principiante",
+            "aprendiz": "Aprendiz",
+            "contribuidor": "Colaborador",
+            "especialista": "Especialista",
+            "master": "Master"
+        },
+        "achievements": {
+            "title": "Logros",
+            "earned": "obtenidos",
+            "viewAll": "Ver todos →"
+        },
+        "contribute": {
+            "title": "Cómo Contribuir",
+            "description": "Sintropia es un proyecto colaborativo de código abierto. Tu contribución ayuda a fortalecer la red profesional de mercados ambientales.",
+            "actions": {
+                "shareKnowledge": {
+                    "title": "Compartir conocimiento",
+                    "desc": "Publica posts y comenta en la comunidad"
+                },
+                "helpNewbies": {
+                    "title": "Ayudar a nuevos miembros",
+                    "desc": "Responde preguntas y colabora"
+                },
+                "reportData": {
+                    "title": "Reportar datos",
+                    "desc": "Reporta datos de mercado incorrectos"
+                },
+                "contributeCode": {
+                    "title": "Contribuir con código",
+                    "desc": "Haz fork en GitHub y envía PRs"
+                }
+            },
+            "cta": "Ver cómo contribuir"
+        },
+        "inviteTitle": "Invitar Amigos",
+        "inviteDescription": "¡Gana 50 tokens por cada amigo que complete su perfil! Tus amigos también ganan 50 tokens.",
+        "copied": "¡Copiado!",
+        "copyLink": "Copiar Enlace",
+        "inviteLimit": "Límite de 20 referidos recompensados",
+        "noReferralCode": "Código de referido no disponible"
     },
-    "Common": {
-        "loading": "Cargando...",
-        "error": "Error",
-        "retry": "Intentar de nuevo",
-        "save": "Guardar",
-        "cancel": "Cancelar",
-        "confirm": "Confirmar",
-        "delete": "Eliminar",
-        "edit": "Editar",
-        "view": "Ver",
-        "search": "Buscar",
-        "noResults": "No se encontraron resultados",
-        "seeAll": "Ver todos",
-        "lastUpdated": "Última actualización",
-        "dataSources": "Fuentes de datos"
+    "Onboarding": {
+        "step1Label": "Identidad",
+        "step2Label": "Detalles",
+        "step3Label": "Listo",
+        "step1TitleNew": "¡Bienvenido a la red!",
+        "step1SubtitleNew": "Cuéntanos quién eres para personalizar tu experiencia. Tu nombre y handle son obligatorios.",
+        "step1TitleReturning": "Terminemos tu perfil",
+        "step1SubtitleReturning": "¡Casi listo! Solo agrega tu nombre y handle para desbloquear todas las funcionalidades.",
+        "accountTypeLabel": "Tipo de Cuenta",
+        "type_individual": "Individual",
+        "type_company": "Empresa",
+        "type_ong": "ONG",
+        "type_government": "Gobierno",
+        "type_professor": "Profesor",
+        "type_broker": "Broker",
+        "usernameLabel": "Nombre de Usuario",
+        "usernameHint": "Tu @handle en la plataforma (letras, números, _ y -)",
+        "usernameMinLength": "El nombre de usuario debe tener al menos 3 caracteres",
+        "displayNameLabel": "Nombre para Mostrar",
+        "displayNamePlaceholder": "¿Cómo debemos llamarte?",
+        "continueButton": "Continuar",
+        "saving": "Guardando...",
+        "step2Title": "Cuéntanos más (opcional)",
+        "step2Subtitle": "Estos detalles ayudan a otros a conectarse contigo. Siempre puedes agregarlos después.",
+        "organizationLabel": "Organización",
+        "organizationPlaceholder": "ej., Empresa X, ONG Y",
+        "cargoLabel": "Cargo",
+        "cargoPlaceholder": "ej., Gerente de Sustentabilidad, Analista",
+        "bioLabel": "Bio / Acerca de",
+        "bioPlaceholder": "Cuéntanos un poco sobre ti o tu empresa...",
+        "saveAndContinue": "Guardar y Continuar",
+        "completeLater": "Lo haré después",
+        "step3Title": "¡Listo!",
+        "step3Subtitle": "Tu perfil está completo. ¡Hora de explorar la comunidad!",
+        "karmaBonus": "¡Ganaste tokens por completar tu perfil!",
+        "step3CtaDashboard": "Ir al Panel",
+        "step3CtaFeed": "Explorar Feed"
     },
-    "LanguageSwitcher": {
-        "label": "Idioma"
+    "Posts": {
+        "pageTitle": "Publicaciones",
+        "pageSubtitle": "Comunidad y discusiones sobre el mercado de carbono",
+        "newPost": "+ Nueva Publicación"
     },
     "Perfil": {
         "myPosts": "Mis Publicaciones",
-        "noPosts": "Aún no hay publicaciones."
+        "noPosts": "Aún no hay publicaciones.",
+        "createFirst": "Crear primera publicación",
+        "createNew": "Crear nueva publicación →",
+        "editProfile": "Editar Perfil",
+        "achievements": "Logros"
+    },
+    "StatsDashboard": {
+        "posts": "Publicaciones",
+        "comments": "Comentarios",
+        "upvotes": "Me gusta",
+        "ranking": "Ranking"
+    },
+    "ProfileHeader": {
+        "progressLabel": "Progreso al siguiente nivel",
+    "headline": "Título Profesional",
+    "headlinePlaceholder": "Ej: Analista de Mercado de Carbono | Especialista ASG",
+    "expertiseAreas": "Áreas de Especialización",
+    "expertiseAreasPlaceholder": "Selecciona tus áreas de especialización",
+    "certifications": "Certificaciones",
+    "certificationsPlaceholder": "Selecciona tus certificaciones",
+    "yearsOfExperience": "Años de Experiencia",
+    "availableForConsulting": "Disponible para Consultoría"
+    },
+    "Energia": {
+        "pageTitle": "Mercado de Energía Renovable",
+        "pageSubtitle": "Compensación energética con certificados I-REC",
+        "heroTitle": "Energía Renovable en Brasil y en el Mundo",
+        "heroSubtitle": "Dashboard completo del mercado de certificados I-REC - rankings, precios y tendencias",
+        "lastUpdated": "Última actualización",
+        "stats": {
+            "totalVolume": "Volumen Total",
+            "growth": "Crecimiento",
+            "sectors": "Sectores",
+            "leaders": "Empresas",
+            "vsLastYear": "vs año anterior"
+        },
+        "table": {
+            "rank": "#",
+            "company": "Empresa",
+            "sector": "Sector",
+            "role": "Rol",
+            "vol2024": "2024",
+            "vol2025": "2025",
+            "vol2026": "2026",
+            "delta": "Δ%"
+        },
+        "filters": {
+            "allSectors": "Todos los sectores",
+            "search": "Buscar empresa...",
+            "year": "Año",
+            "region": "Región"
+        },
+        "quickLinks": {
+            "title": "Navegación Rápida",
+            "rankingBrasil": "Ranking Brasil",
+            "rankingMundo": "Ranking Mundo",
+            "setores": "Análisis por Sector",
+            "precos": "Precios I-REC"
+        },
+        "sectors": {
+            "title": "Sectores Destacados",
+            "subtitle": "Distribución del mercado por sector económico"
+        },
+        "ranking": {
+            "brasilTitle": "Top 50 I-REC Brasil",
+            "brasilSubtitle": "Mayores negociadores de certificados de energía renovable en Brasil",
+            "mundoTitle": "Top 50 I-REC Mundo",
+            "mundoSubtitle": "Mayores negociadores globales de certificados de energía renovable",
+            "viewAll": "Ver ranking completo →"
+        },
+        "insights": {
+            "leaderTitle": "Comerc Lidera Brasil",
+            "leaderDesc": "Comerc Energia mantiene el liderazgo absoluto en el mercado brasileño, negociando 10.4 millones de I-RECs en 2025 (30% de crecimiento vs 2024).",
+            "growthTitle": "Consolidación del Mercado",
+            "growthDesc": "Las 5 principales empresas concentran el 45% del volumen total, con Comerc, Raízen y Engie Brasil dominando el ranking.",
+            "sectorTitle": "Diversidad Sectorial",
+            "sectorDesc": "Además del sector energético, empresas de minería (Vale), siderurgia (Gerdau) y papel (Klabin, Suzano) son grandes consumidores."
+        },
+        "worldInsights": {
+            "leaderTitle": "Statkraft Lidera Globalmente",
+            "leaderDesc": "Statkraft consolidó su posición como el mayor negociador global de I-RECs, alcanzando 30.2 TWh (30.2 millones de I-RECs) en 2025.",
+            "growthTitle": "Mercado en Expansión",
+            "growthDesc": "El volumen de los Top 10 negociadores globales creció en promedio 21.7%, con destaque para Tata Power (+31.8%) y Shell Energy (+26.5%).",
+            "sectorTitle": "Presencia Brasileña",
+            "sectorDesc": "Empresas brasileñas como Auren, Itaipu, CPFL Renováveis y Omega Energia figuran entre los 20 mayores negociadores globales."
+        },
+        "setoresPage": {
+            "title": "Análisis por Sector",
+            "subtitle": "Distribución del mercado I-REC por sector económico",
+            "distribution": "Distribución por Sector",
+            "volumeByYear": "Volumen por Sector (Anual)",
+            "companiesBySector": "Empresas por Sector"
+        },
+        "comparison": {
+            "title": "Brasil vs Mundo",
+            "subtitle": "Comparativo de volúmenes 2024/2025/2026"
+        },
+        "chart": {
+            "brasilVolume": "Volumen Brasil",
+            "mundoVolume": "Volumen Mundo"
+        }
+    },
+    "Carbono": {
+        "pageTitle": "Mercado de Carbono",
+        "pageSubtitle": "Créditos de carbono y compensación ambiental",
+        "heroTitle": "Mercado de Créditos de Carbono",
+        "heroSubtitle": "Dashboard completo del mercado de créditos de carbono - rankings, volúmenes y tendencias",
+        "lastUpdated": "Última actualización",
+        "stats": {
+            "totalVolume": "Volumen Total",
+            "growth": "Crecimiento",
+            "sectors": "Sectores",
+            "leaders": "Empresas",
+            "vsLastYear": "vs año anterior",
+            "volumeUnit": "tCO2e"
+        },
+        "table": {
+            "rank": "#",
+            "company": "Empresa",
+            "sector": "Sector",
+            "country": "País",
+            "vol2024": "2024",
+            "vol2025": "2025",
+            "vol2026": "2026",
+            "delta": "Δ%"
+        },
+        "filters": {
+            "allSectors": "Todos los sectores",
+            "search": "Buscar empresa...",
+            "year": "Año",
+            "region": "Región"
+        },
+        "quickLinks": {
+            "title": "Navegación Rápida",
+            "rankingBrasil": "Ranking Brasil",
+            "rankingMundo": "Ranking Mundo",
+            "setores": "Análisis por Sector",
+            "projetos": "Proyectos de Carbono",
+            "precos": "Precios Carbono"
+        },
+        "sectors": {
+            "title": "Sectores Destacados",
+            "subtitle": "Distribución del mercado por sector económico"
+        },
+        "ranking": {
+            "brasilTitle": "Top 50 Carbono Brasil",
+            "brasilSubtitle": "Mayores compradores de créditos de carbono en Brasil",
+            "mundoTitle": "Top 50 Carbono Mundo",
+            "mundoSubtitle": "Mayores compradores globales de créditos de carbono",
+            "viewAll": "Ver ranking completo →"
+        },
+        "setoresPage": {
+            "title": "Análisis por Sector",
+            "subtitle": "Distribución del mercado de carbono por sector económico",
+            "distribution": "Distribución por Sector",
+            "volumeByYear": "Volumen por Sector (Anual)",
+            "companiesBySector": "Empresas por Sector"
+        },
+        "comparison": {
+            "title": "Brasil vs Mundo",
+            "subtitle": "Comparativo de volúmenes 2024/2025/2026"
+        },
+        "insights": {
+            "leaderTitle": "Shell Brasil Lidera",
+            "leaderDesc": "Shell PLC es el mayor comprador de créditos de carbono en Brasil, con un volumen superior a 9.7 millones de tCO2e en 2025.",
+            "growthTitle": "Papel y Celulosa",
+            "growthDesc": "Suzano y Klabin son grandes players, con Suzano presentando el mayor crecimiento absoluto en volumen de compensación.",
+            "sectorTitle": "Sector de Energía",
+            "sectorDesc": "Empresas de petróleo, gas y energía eléctrica continúan siendo los principales motores de la demanda por créditos de carbono."
+        },
+        "worldInsights": {
+            "leaderTitle": "Microsoft Lidera Globalmente",
+            "leaderDesc": "Microsoft consolidó su posición como la mayor compradora global de créditos de carbono, con 45 millones de tCO2e en 2025.",
+            "growthTitle": "Big Tech en Foco",
+            "growthDesc": "Google, Amazon y Microsoft lideran la transición, enfocándose en créditos de alta integridad y tecnologías de remoción (CDR).",
+            "sectorTitle": "Aceleración Global",
+            "sectorDesc": "El volumen de las Top 10 empresas globales se duplicó en comparación con 2024, señalando un fuerte compromiso con las metas Net Zero."
+        },
+        "download": {
+            "button": "Descargar CSV",
+            "tooltip": "Exportar datos en formato CSV"
+        }
+    },
+    "CarbonoLiveMarkets": {
+        "title": "Mercados en Vivo",
+        "subtitle": "Plataforma de inteligencia de mercado para créditos de carbono y certificados I-REC",
+        "comingSoon": "Próximamente",
+        "comingSoonDesc": "Estamos construyendo una plataforma completa de inteligencia de mercado para consolidar, organizar y presentar referencias de precios de créditos de carbono voluntarios y certificados I-REC.",
+        "whatIs": "¿Qué es Mercados en Vivo?",
+        "whatIsDesc": "Una plataforma que consolida referencias de precios de múltiples fuentes de mercado, haciendo que el descubrimiento, comparación y seguimiento de precios sea más simple y confiable para decisiones de compra, venta y planificación de sostenibilidad.",
+        "features": "Funcionalidades Planificadas",
+        "featureDashboard": "Dashboard de Mercado",
+        "featureDashboardDesc": "Panel con indicadores de precios y movimientos recientes del mercado de carbono e I-REC.",
+        "featureSearch": "Búsqueda y Filtros",
+        "featureSearchDesc": "Búsqueda avanzada por tipo de activo, geografía, registro, tecnología, vintage y moneda.",
+        "featureCompare": "Comparador de Precios",
+        "featureCompareDesc": "Comparación lado a lado de referencias de mercado con diferencias materiales destacadas.",
+        "featureWatchlist": "Watchlists y Alertas",
+        "featureWatchlistDesc": "Seguimiento de activos de interés y alertas de cambios de precio o disponibilidad.",
+        "featureExport": "Exportación y API",
+        "featureExportDesc": "Exportación en CSV y acceso programático vía API para integración con sistemas internos.",
+        "featureSources": "Múltiples Fuentes",
+        "featureSourcesDesc": "Datos de marketplaces, bolsas, brokers, registros y proveedores de inteligencia de mercado.",
+        "scope": "Cobertura Inicial",
+        "scopeDesc": "El producto cubrirá créditos de carbono voluntarios y certificados I-REC/EAC, con prioridad para Brasil y América Latina, sin limitar la cobertura a estos mercados.",
+        "notIncluded": "Fuera del Alcance del MVP",
+        "notIncludedItems": "No ejecutaremos órdenes, custodia, transferencia o retiro de créditos, liquidación financiera, cálculos de inventario de emisiones o validación de proyectos.",
+        "dataTransparency": "Transparencia de los Datos",
+        "dataTransparencyDesc": "Toda referencia de precio podrá ser rastreada hasta su fuente. Datos indicativos, precios de cierre, ofertas y operaciones realizadas serán claramente diferenciados.",
+        "marketMovements": "Movimientos del Mercado",
+        "allReferences": "Referencias de Precio",
+        "featuredPrices": "Precios Destacados",
+        "recentChanges": "Cambios Recientes",
+        "watchlist": "Watchlist",
+        "alerts": "Alertas",
+        "loginToFollow": "Inicia sesión para seguir tus activos favoritos y recibir notificaciones.",
+        "loginToAlerts": "Inicia sesión para crear alertas de precio y no perderte ninguna oportunidad.",
+        "viewAll": "Ver todos",
+        "noAlerts": "Sin alertas activas",
+        "noWatchlist": "Sin activos en la watchlist",
+        "asset": "Activo",
+        "type": "Tipo",
+        "price": "Precio",
+        "change": "Cambio",
+        "geography": "Geografía",
+        "source": "Fuente",
+        "updated": "Actualizado",
+        "score": "Score",
+        "price_type": "Tipo de precio",
+        "attributes": "Atributos",
+        "registry": "Registro",
+        "time_now": "ahora",
+        "time_min": "{n} min",
+        "time_hour": "{n}h",
+        "time_day": "{n}d",
+        "loginRegister": "Iniciar Sesión / Registrarse",
+        "tabOverview": "Resumen",
+        "tabExplorer": "Explorar precios",
+        "tabComparator": "Comparador",
+        "tabWatchlist": "Watchlist",
+        "drawerWatchlist": "Watchlist",
+        "drawerAlert": "Crear alerta",
+        "drawerAttributes": "Atributos",
+        "drawerRelated": "Referencias relacionadas",
+        "drawerPriceHistory": "Historial de precios",
+        "comparatorRef": "Referencia",
+        "comparatorMatrix": "Matriz comparativa",
+        "comparatorAttribute": "Atributo",
+        "comparatorExportCsv": "Exportar CSV",
+        "comparatorCreateAlert": "Crear alerta",
+        "comparatorWarning": "Estas referencias pertenecen a mercados o categorías diferentes. Los precios no son directamente comparables.",
+        "explorerResults": "referencias encontradas",
+        "explorerSelectAll": "Seleccionar todas",
+        "explorerDeselectAll": "Desmarcar todas",
+        "explorerCompare": "Comparar referencias",
+        "explorerClear": "Limpiar",
+        "explorerSelected": "elementos seleccionados para comparar",
+        "watchlistAssets": "activos",
+        "watchlistAlerts": "alertas",
+        "watchlistNotifications": "Historial de notificaciones",
+        "chartPriceHistory": "Historial de precios",
+        "chartPriceBar": "Precio (barra)"
     }
 }

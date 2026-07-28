@@ -20,7 +20,7 @@ export function ReportsList({ reports }: ReportsListProps) {
       .update({ status: action })
       .eq("id", reportId);
 
-    setLocalReports((prev) => prev.filter((r) => r.id !== reportId));
+    setLocalReports(prev => prev.filter(r => r.id !== reportId));
   };
 
   const handleDeleteContent = async (report: Report) => {
@@ -29,7 +29,8 @@ export function ReportsList({ reports }: ReportsListProps) {
         .from("posts")
         .update({ is_deleted: true })
         .eq("id", report.target_id);
-    } else if (report.target_type === "comment") {
+    }
+    else if (report.target_type === "comment") {
       await supabase
         .from("comments")
         .update({ is_deleted: true })
@@ -75,7 +76,7 @@ export function ReportsList({ reports }: ReportsListProps) {
 
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
-      {localReports.map((report) => (
+      {localReports.map(report => (
         <div key={report.id} className="p-4">
           <div className="flex items-start justify-between gap-4">
             <div className="flex-1 min-w-0">
@@ -91,10 +92,16 @@ export function ReportsList({ reports }: ReportsListProps) {
                 {report.reason}
               </p>
               <p className="text-xs text-gray-400">
-                Denunciado por <Link href={`/u/${report.reporter?.username}`} className="text-blue-600 dark:text-blue-400 hover:underline">
-                  @{report.reporter?.username || "Anônimo"}
-                </Link> •{" "}
-                {new Date(report.created_at).toLocaleDateString("pt-BR")}
+                Denunciado por
+                {" "}
+                <Link href={`/u/${report.reporter?.username}`} className="text-blue-600 dark:text-electric-emerald hover:underline">
+                  @
+                  {report.reporter?.username || "Anônimo"}
+                </Link>
+                {" "}
+                •
+                {" "}
+                {report.created_at ? new Date(report.created_at).toLocaleDateString("pt-BR") : ""}
               </p>
             </div>
             <div className="flex flex-col gap-2">
@@ -116,7 +123,7 @@ export function ReportsList({ reports }: ReportsListProps) {
             <div className="mt-3 p-3 bg-gray-50 dark:bg-gray-900 rounded-lg">
               <a
                 href={`/posts?highlight=${report.target_id}`}
-                className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+                className="text-xs text-blue-600 dark:text-electric-emerald hover:underline"
               >
                 Ver conteúdo →
               </a>

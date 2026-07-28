@@ -12,7 +12,10 @@ export function Breadcrumb() {
   const pathname = usePathname();
 
   const getBreadcrumbs = (): BreadcrumbItem[] => {
-    const paths = pathname.split("/").filter(Boolean);
+    const allPaths = pathname.split("/").filter(Boolean);
+    const locales = ["pt", "en", "es"];
+    const paths = allPaths.filter(p => !locales.includes(p));
+
     const breadcrumbs: BreadcrumbItem[] = [{ label: "Início", href: "/" }];
 
     if (paths.length === 0) {
@@ -20,24 +23,32 @@ export function Breadcrumb() {
     }
 
     const pathLabels: Record<string, string> = {
-      dashboard: "Painel",
-      feed: "Feed",
-      profiles: "Perfis",
-      profile: "Perfil",
-      leaderboard: "Ranking",
-      mod: "Moderação",
-      posts: "Posts",
-      u: "Perfil",
+      "dashboard": "Painel",
+      "feed": "Feed",
+      "profiles": "Perfis",
+      "profile": "Perfil",
+      "leaderboard": "Ranking",
+      "mod": "Moderação",
+      "posts": "Posts",
+      "u": "Perfil",
+      "carbono": "Carbono",
+      "energia": "Energia",
+      "ranking-brasil": "Ranking Brasil",
+      "ranking-mundo": "Ranking Mundo",
+      "setores": "Setores",
+      "precos": "Preços",
+      "projetos": "Projetos",
+      "mercados-ao-vivo": "Mercados ao Vivo",
       "carbono-brasil": "Carbono Brasil",
       "carbono-mundo": "Carbono Mundo",
       "carbono-precos": "Preços Carbono",
       "carbono-projetos": "Projetos Carbono",
-      certificadoras: "Certificadoras",
+      "certificadoras": "Certificadoras",
       "irec-brasil": "IREC Brasil",
       "irec-mundo": "IREC Mundo",
       "irec-precos": "IREC Preços",
-      login: "Login",
-      register: "Cadastro",
+      "login": "Login",
+      "register": "Cadastro",
       "forgot-password": "Esqueci a Senha",
       "reset-password": "Redefinir Senha",
     };
@@ -45,14 +56,19 @@ export function Breadcrumb() {
     let currentPath = "";
 
     paths.forEach((path, index) => {
+      // Find the locale if present in the original pathname
+      const locale = allPaths.find(p => locales.includes(p));
+      const localePrefix = locale ? `/${locale}` : "";
+
       currentPath += `/${path}`;
       const isLast = index === paths.length - 1;
       const label = pathLabels[path] || path;
-      
+
       if (isLast) {
         breadcrumbs.push({ label: path.startsWith("@") ? path.slice(1) : label });
-      } else {
-        breadcrumbs.push({ label, href: currentPath });
+      }
+      else {
+        breadcrumbs.push({ label, href: `${localePrefix}${currentPath}` });
       }
     });
 
@@ -65,25 +81,46 @@ export function Breadcrumb() {
     return null;
   }
 
+  const siteUrl = "https://sintropia.space";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": breadcrumbs.map((item, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": item.label,
+      ...(item.href && { item: `${siteUrl}${item.href}` }),
+    })),
+  };
+
   return (
-    <nav className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 mb-4">
-      {breadcrumbs.map((item, index) => (
-        <div key={index} className="flex items-center gap-1">
-          {index > 0 && <span className="mx-1">/</span>}
-          {item.href ? (
-            <Link
-              href={item.href}
-              className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            >
-              {item.label}
-            </Link>
-          ) : (
-            <span className="text-gray-900 dark:text-gray-100 font-medium">
-              {item.label}
-            </span>
-          )}
-        </div>
-      ))}
-    </nav>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <nav className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400 mb-4" aria-label="Breadcrumb">
+        {breadcrumbs.map((item, index) => (
+          <div key={index} className="flex items-center gap-1">
+            {index > 0 && <span className="mx-1" aria-hidden="true">/</span>}
+            {item.href
+              ? (
+                  <Link
+                    href={item.href}
+                    className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                )
+              : (
+                  <span className="text-gray-900 dark:text-gray-100 font-medium" aria-current="page">
+                    {item.label}
+                  </span>
+                )}
+          </div>
+        ))}
+      </nav>
+    </>
   );
 }

@@ -9,7 +9,7 @@ interface ProgressBarProps {
 
 export function ProgressBar({ current, max, label, showPercentage = true }: ProgressBarProps) {
   const percentage = Math.min((current / max) * 100, 100);
-  
+
   return (
     <div className="w-full">
       {label && (
@@ -17,7 +17,8 @@ export function ProgressBar({ current, max, label, showPercentage = true }: Prog
           <span className="text-sm text-white/90 dark:text-white/80">{label}</span>
           {showPercentage && (
             <span className="text-sm font-bold text-white">
-              {Math.round(percentage)}%
+              {Math.round(percentage)}
+              %
             </span>
           )}
         </div>
@@ -29,8 +30,16 @@ export function ProgressBar({ current, max, label, showPercentage = true }: Prog
         />
       </div>
       <div className="flex justify-between mt-1 text-xs text-white/70">
-        <span>{current} pts</span>
-        <span>{max} pts</span>
+        <span>
+          {current}
+          {" "}
+          pts
+        </span>
+        <span>
+          {max}
+          {" "}
+          pts
+        </span>
       </div>
     </div>
   );

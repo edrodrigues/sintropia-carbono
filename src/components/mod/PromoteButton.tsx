@@ -9,7 +9,7 @@ interface PromoteButtonProps {
   currentRole: string;
 }
 
-export function PromoteButton({ userId, username, currentRole }: PromoteButtonProps) {
+export function PromoteButton({ userId, currentRole }: PromoteButtonProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -50,7 +50,7 @@ export function PromoteButton({ userId, username, currentRole }: PromoteButtonPr
       <button
         onClick={handlePromote}
         disabled={loading}
-        className="px-2 py-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs font-bold rounded-lg transition-colors"
+        className="px-2 py-1 bg-blue-600 hover:bg-charcoal-ink disabled:opacity-50 text-white text-xs font-bold rounded-lg transition-colors"
       >
         {loading ? "..." : "Promover"}
       </button>

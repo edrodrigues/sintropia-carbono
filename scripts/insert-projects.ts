@@ -1,38 +1,38 @@
-import { createClient } from '@supabase/supabase-js';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
+import { createClient } from "@supabase/supabase-js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({ path: path.join(__dirname, '..', '.env.local') });
+dotenv.config({ path: path.join(__dirname, "..", ".env.local") });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('Missing Supabase environment variables');
+  console.error("Missing Supabase environment variables");
   process.exit(1);
 }
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-const CSV_PATH = path.join(__dirname, '..', 'dados', 'CarbonPlan', 'projects.csv');
+const CSV_PATH = path.join(__dirname, "..", "dados", "CarbonPlan", "projects.csv");
 
 type CSVRow = Record<string, string>;
 
 function parseCSV(content: string): CSVRow[] {
-  const lines = content.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.trim());
-  
+  const lines = content.trim().split("\n");
+  const headers = lines[0].split(",").map(h => h.trim());
+
   const rows: CSVRow[] = [];
   for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(',');
+    const values = lines[i].split(",");
     const row: Record<string, string> = {};
     headers.forEach((header, index) => {
-      row[header] = values[index]?.trim() || '';
+      row[header] = values[index]?.trim() || "";
     });
     rows.push(row);
   }
@@ -41,11 +41,11 @@ function parseCSV(content: string): CSVRow[] {
 
 async function insertProjects(projects: CSVRow[], batchSize = 100) {
   const totalBatches = Math.ceil(projects.length / batchSize);
-  
+
   for (let i = 0; i < projects.length; i += batchSize) {
     const batch = projects.slice(i, i + batchSize);
     const batchNum = Math.floor(i / batchSize) + 1;
-    
+
     const records = batch.map(p => ({
       project_id: p.project_id,
       name: p.name || null,
@@ -58,40 +58,68 @@ async function insertProjects(projects: CSVRow[], batchSize = 100) {
       protocol: p.protocol || null,
       registry: p.registry || null,
       status: p.status || null,
-      is_compliance: p.is_compliance === 'True',
+      is_compliance: p.is_compliance === "True",
       issued: parseInt(p.issued) || 0,
       retired: parseInt(p.retired) || 0,
     }));
-    
-    const { data, error } = await supabase
-      .from('carbon_projects')
-      .upsert(records, { onConflict: 'project_id' });
-    
+
+    const { error } = await supabase
+      .from("carbon_projects")
+      .upsert(records, { onConflict: "project_id" });
+
     if (error) {
       console.error(`Batch ${batchNum}/${totalBatches} error:`, error.message);
-    } else {
+    }
+    else {
       console.log(`Batch ${batchNum}/${totalBatches} inserted/updated successfully (${records.length} records)`);
+    }
+
+    const cadTrustRecords = batch.map(p => ({
+      org_uid: p.registry || "unknown",
+      project_registry_name: p.registry || "unknown",
+      project_id: p.project_id,
+      project_name: p.name || null,
+      project_description: null,
+      project_link: p.project_url || null,
+      project_sector: p.category || null,
+      project_type: p.project_type || null,
+      project_status: p.status || "Listed",
+      category: p.category || null,
+      project_type_source: p.project_type_source || null,
+      proponent: p.proponent || null,
+      protocol: p.protocol || null,
+      is_compliance: p.is_compliance === "True",
+      issued: parseInt(p.issued) || 0,
+      retired: parseInt(p.retired) || 0,
+    }));
+
+    const { error: ctErr } = await supabase
+      .from("cad_trust_projects")
+      .upsert(cadTrustRecords, { onConflict: "project_id" });
+
+    if (ctErr) {
+      console.error(`CAD Trust batch ${batchNum}/${totalBatches} error:`, ctErr.message);
     }
   }
 }
 
 async function main() {
-  console.log('Reading CSV file...');
-  const content = fs.readFileSync(CSV_PATH, 'utf-8');
-  
-  console.log('Parsing CSV...');
+  console.log("Reading CSV file...");
+  const content = fs.readFileSync(CSV_PATH, "utf-8");
+
+  console.log("Parsing CSV...");
   const projects = parseCSV(content);
   console.log(`Found ${projects.length} projects`);
-  
-  console.log('Inserting projects into database...');
+
+  console.log("Inserting projects into database...");
   await insertProjects(projects);
-  
-  console.log('Done!');
-  
+
+  console.log("Done!");
+
   const { count } = await supabase
-    .from('carbon_projects')
-    .select('*', { count: 'exact', head: true });
-  
+    .from("carbon_projects")
+    .select("*", { count: "exact", head: true });
+
   console.log(`Total projects in database: ${count}`);
 }
 

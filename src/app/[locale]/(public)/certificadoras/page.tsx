@@ -1,7 +1,7 @@
 export const revalidate = 3600;
 
 import { Metadata } from "next";
-import { getTranslations } from 'next-intl/server';
+import { getTranslations } from "next-intl/server";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -13,26 +13,25 @@ import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } f
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'Certificadoras' });
-  
+
   const titles: Record<string, string> = {
     pt: "Certificadoras Carbono e Energia | Verra, Gold Standard, I-REC",
-    en: "Carbon and Energy Certifiers | Verra, Gold Standard, I-REC"
+    en: "Carbon and Energy Certifiers | Verra, Gold Standard, I-REC",
   };
-  
+
   const descriptions: Record<string, string> = {
     pt: "Principais certificadoras e padrões de carbono e energia renovável. Verra, Gold Standard, RenovaBio, ACR, I-REC e outros padrões.",
-    en: "Main certifiers and standards for carbon and renewable energy. Verra, Gold Standard, RenovaBio, ACR, I-REC and other standards."
+    en: "Main certifiers and standards for carbon and renewable energy. Verra, Gold Standard, RenovaBio, ACR, I-REC and other standards.",
   };
 
   return {
     title: titles[locale] || titles.pt,
     description: descriptions[locale] || descriptions.pt,
-    keywords: locale === "pt" 
+    keywords: locale === "pt"
       ? ["certificadoras carbono", "Verra", "Gold Standard", "I-REC", "RenovaBio", "certificação energia renovável"]
       : ["carbon certifiers", "Verra", "Gold Standard", "I-REC", "RenovaBio", "renewable energy certification"],
     alternates: {
-      canonical: `https://sintropia.space/${locale === 'pt' ? '' : locale + '/' }certificadoras`,
+      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}certificadoras`,
     },
   };
 }
@@ -79,8 +78,7 @@ const dataSources = [
 
 export default async function Certificadoras({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'Certificadoras' });
-  const tCommon = await getTranslations({ locale, namespace: 'Common' });
+  const t = await getTranslations({ locale, namespace: "Certificadoras" });
 
   return (
     <>
@@ -88,11 +86,11 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
       <main className="max-w-7xl mx-auto px-8 lg:px-16 py-12">
         <Breadcrumb />
         <div className="mb-8">
-          <h2 className="text-4xl font-bold text-[#1e40af] mb-2">
-            {t('title')}
+          <h2 className="text-4xl font-bold text-deep-forest mb-2">
+            {t("title")}
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
-            {t('subtitle')}
+            {t("subtitle")}
           </p>
         </div>
 
@@ -101,10 +99,12 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
         <div className="mt-12 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-              🌍 {locale === 'pt' ? 'Certificadoras de Carbono' : 'Carbon Certifiers'}
+              🌍
+              {" "}
+              {locale === "pt" ? "Certificadoras de Carbono" : "Carbon Certifiers"}
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
-              {locale === 'pt' ? 'Principais padrões e certificadoras de créditos de carbono.' : 'Main carbon credit standards and certifiers.'}
+              {locale === "pt" ? "Principais padrões e certificadoras de créditos de carbono." : "Main carbon credit standards and certifiers."}
             </p>
           </div>
           <div className="p-6">
@@ -112,11 +112,11 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableHeader>{t('table.certificadora')}</TableHeader>
-                    <TableHeader>{t('table.sede')}</TableHeader>
-                    <TableHeader>{t('table.foco')}</TableHeader>
-                    <TableHeader>{t('table.unidade')}</TableHeader>
-                    <TableHeader className="text-right">{t('table.volume')}</TableHeader>
+                    <TableHeader>{t("table.certificadora")}</TableHeader>
+                    <TableHeader>{t("table.sede")}</TableHeader>
+                    <TableHeader>{t("table.foco")}</TableHeader>
+                    <TableHeader>{t("table.unidade")}</TableHeader>
+                    <TableHeader className="text-right">{t("table.volume")}</TableHeader>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -127,9 +127,11 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
                           href={cert.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#1e40af] hover:underline font-semibold"
+                          className="text-deep-forest hover:underline font-semibold"
                         >
-                          {cert.nome} ↗
+                          {cert.nome}
+                          {" "}
+                          ↗
                         </a>
                       </TableCell>
                       <TableCell>{cert.sede}</TableCell>
@@ -181,9 +183,11 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
                           href={padrao.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[#1e40af] hover:underline font-semibold"
+                          className="text-deep-forest hover:underline font-semibold"
                         >
-                          {padrao.nome} ↗
+                          {padrao.nome}
+                          {" "}
+                          ↗
                         </a>
                       </TableCell>
                       <TableCell>{padrao.origem}</TableCell>
@@ -219,7 +223,7 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
                       href={padrao.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#1e40af] hover:underline font-semibold"
+                      className="text-deep-forest hover:underline font-semibold"
                     >
                       {padrao.nome}
                     </a>
@@ -254,19 +258,27 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
             </h4>
             <ul className="text-gray-700 dark:text-gray-300 text-sm space-y-2">
               <li>
-                <strong>Europa (GOs):</strong> Maior mercado mundial, sistema
+                <strong>Europa (GOs):</strong>
+                {" "}
+                Maior mercado mundial, sistema
                 harmonizado entre países da UE
               </li>
               <li>
-                <strong>Estados Unidos (RECs):</strong> Mercado maduro com
+                <strong>Estados Unidos (RECs):</strong>
+                {" "}
+                Mercado maduro com
                 diferentes tipos (SRECs, TRECs)
               </li>
               <li>
-                <strong>Ásia (I-REC):</strong> Crescimento acelerado em China,
+                <strong>Ásia (I-REC):</strong>
+                {" "}
+                Crescimento acelerado em China,
                 Índia e Sudeste Asiático
               </li>
               <li>
-                <strong>Brasil:</strong> Mercado emergente com I-REC Brasil e
+                <strong>Brasil:</strong>
+                {" "}
+                Mercado emergente com I-REC Brasil e
                 potencial hidrelétrico
               </li>
             </ul>
@@ -279,30 +291,46 @@ export default async function Certificadoras({ params }: { params: Promise<{ loc
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600 dark:text-gray-400">
             <div>
-              <strong>tCO2e:</strong> Toneladas de CO2 equivalente
+              <strong>tCO2e:</strong>
+              {" "}
+              Toneladas de CO2 equivalente
             </div>
             <div>
-              <strong>CBIO:</strong> Crédito de Descarbonização (unidade do
+              <strong>CBIO:</strong>
+              {" "}
+              Crédito de Descarbonização (unidade do
               RenovaBio)
             </div>
             <div>
-              <strong>REDD+:</strong> Redução de Emissões por Desmatamento e
+              <strong>REDD+:</strong>
+              {" "}
+              Redução de Emissões por Desmatamento e
               Degradação Florestal
             </div>
             <div>
-              <strong>ODS:</strong> Objetivos de Desenvolvimento Sustentável
+              <strong>ODS:</strong>
+              {" "}
+              Objetivos de Desenvolvimento Sustentável
             </div>
             <div>
-              <strong>IFM:</strong> Manejo Florestal Intensivo
+              <strong>IFM:</strong>
+              {" "}
+              Manejo Florestal Intensivo
             </div>
             <div>
-              <strong>MWh:</strong> Megawatt-hora (unidade de energia)
+              <strong>MWh:</strong>
+              {" "}
+              Megawatt-hora (unidade de energia)
             </div>
             <div>
-              <strong>TWh:</strong> Terawatt-hora (1.000.000 MWh)
+              <strong>TWh:</strong>
+              {" "}
+              Terawatt-hora (1.000.000 MWh)
             </div>
             <div>
-              <strong>I-REC:</strong> International Renewable Energy Certificate
+              <strong>I-REC:</strong>
+              {" "}
+              International Renewable Energy Certificate
             </div>
           </div>
         </div>

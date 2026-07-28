@@ -57,33 +57,33 @@ export const carbonProjectsData: CarbonProject[] = [
 ];
 
 export const countryToContinent: Record<string, string> = {
-  Colombia: "South America",
-  Philippines: "Asia",
-  India: "Asia",
-  Canada: "North America",
-  Brazil: "South America",
-  Peru: "South America",
-  Cameroon: "Africa",
-  Argentina: "South America",
+  "Colombia": "South America",
+  "Philippines": "Asia",
+  "India": "Asia",
+  "Canada": "North America",
+  "Brazil": "South America",
+  "Peru": "South America",
+  "Cameroon": "Africa",
+  "Argentina": "South America",
   "Congo Republic": "Africa",
-  Togo: "Africa",
-  Senegal: "Africa",
-  Malawi: "Africa",
-  Gabon: "Africa",
-  Madagascar: "Africa",
-  Kenya: "Africa",
-  Uganda: "Africa",
-  Zambia: "Africa",
+  "Togo": "Africa",
+  "Senegal": "Africa",
+  "Malawi": "Africa",
+  "Gabon": "Africa",
+  "Madagascar": "Africa",
+  "Kenya": "Africa",
+  "Uganda": "Africa",
+  "Zambia": "Africa",
   "DR Congo": "Africa",
-  Portugal: "Europe",
+  "Portugal": "Europe",
   "Papua New Guinea": "Oceania",
-  Indonesia: "Asia",
-  Kazakhstan: "Asia",
-  Spain: "Europe",
-  Honduras: "Central America",
-  Mongolia: "Asia",
+  "Indonesia": "Asia",
+  "Kazakhstan": "Asia",
+  "Spain": "Europe",
+  "Honduras": "Central America",
+  "Mongolia": "Asia",
   "United States": "North America",
-  China: "Asia",
+  "China": "Asia",
   "South Africa": "Africa",
 };
 
@@ -92,18 +92,18 @@ export const getStats = () => {
   const forestProjects = carbonProjectsData.filter(p => p.category === "forest").length;
   const countries = new Set(carbonProjectsData.map(p => p.country)).size;
   const continents = new Set(carbonProjectsData.map(p => countryToContinent[p.country] || "Unknown")).size;
-  
+
   const countryStats: Record<string, number> = {};
-  carbonProjectsData.forEach(p => {
+  carbonProjectsData.forEach((p) => {
     countryStats[p.country] = (countryStats[p.country] || 0) + 1;
   });
-  
+
   const typeStats: Record<string, number> = {};
-  carbonProjectsData.forEach(p => {
+  carbonProjectsData.forEach((p) => {
     const type = p.project_type === "Unknown" ? "Outros" : p.project_type;
     typeStats[type] = (typeStats[type] || 0) + 1;
   });
-  
+
   return {
     totalProjects,
     forestProjects,

@@ -1,22 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
 import { DeletePostButton } from "@/components/mod/DeletePostButton";
 
 interface Post {
   id: string;
   title: string;
-  content: string;
+  content: string | null;
   url: string | null;
   category: string;
-  karma: number;
-  comment_count: number;
-  is_locked: boolean;
-  is_deleted: boolean;
-  created_at: string;
+  karma: number | null;
+  comment_count: number | null;
+  is_locked: boolean | null;
+  is_deleted: boolean | null;
+  created_at: string | null;
   author: {
     username: string;
     avatar_url: string | null;
@@ -47,7 +45,7 @@ export function PostsList({ posts: initialPosts }: PostsListProps) {
 
   return (
     <div className="divide-y divide-gray-200 dark:divide-gray-700">
-      {posts.map((post) => (
+      {posts.map(post => (
         <div key={post.id} className="p-4 flex items-center justify-between">
           <div className="flex-1 min-w-0">
             <Link href={`/feed/${post.id}`} className="font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 line-clamp-1">
@@ -57,10 +55,21 @@ export function PostsList({ posts: initialPosts }: PostsListProps) {
               <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">
                 {post.category}
               </span>
-              <span>por @{post.author?.username || "desconhecido"}</span>
-              <span>{post.karma} karma</span>
-              <span>{post.comment_count} comentários</span>
-              <span>{new Date(post.created_at).toLocaleDateString("pt-BR")}</span>
+              <span>
+                por @
+                {post.author?.username || "desconhecido"}
+              </span>
+              <span>
+                {post.karma ?? 0}
+                {" "}
+                karma
+              </span>
+              <span>
+                {post.comment_count ?? 0}
+                {" "}
+                comentários
+              </span>
+              <span>{post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR") : ""}</span>
             </div>
           </div>
           <div className="flex items-center gap-2 ml-4">

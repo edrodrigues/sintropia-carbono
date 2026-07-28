@@ -1,15 +1,15 @@
-import 'dotenv/config';
-import { resolve } from 'path';
-import dotenv from 'dotenv';
+import "dotenv/config";
+import { resolve } from "path";
+import dotenv from "dotenv";
 
-dotenv.config({ path: resolve(__dirname, '../.env.local') });
+dotenv.config({ path: resolve(__dirname, "../.env.local") });
 
-import { Resend } from 'resend';
-import { createClient } from '@supabase/supabase-js';
+import { Resend } from "resend";
+import { createClient } from "@supabase/supabase-js";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 if (!RESEND_API_KEY) {
-  console.error('RESEND_API_KEY is not set');
+  console.error("RESEND_API_KEY is not set");
   process.exit(1);
 }
 const resend = new Resend(RESEND_API_KEY);
@@ -18,7 +18,7 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
-  console.error('SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not set');
+  console.error("SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not set");
   process.exit(1);
 }
 
@@ -32,10 +32,10 @@ interface ContactRecord {
 
 async function getDbUsers(): Promise<ContactRecord[]> {
   const { data, error } = await supabase
-    .rpc('get_users_for_drip');
+    .rpc("get_users_for_drip");
 
   if (error) {
-    console.error('Error fetching users from DB:', error);
+    console.error("Error fetching users from DB:", error);
     throw error;
   }
 
@@ -64,7 +64,7 @@ async function getResendContacts(audienceId: string): Promise<string[]> {
       const { data, error } = await resend.contacts.list(listOptions);
 
       if (error) {
-        if (error.name === 'rate_limit_exceeded') {
+        if (error.name === "rate_limit_exceeded") {
           attempts++;
           if (attempts < maxAttempts) {
             console.log(`Rate limited, retrying in 2 seconds... (attempt ${attempts}/${maxAttempts})`);
@@ -72,7 +72,7 @@ async function getResendContacts(audienceId: string): Promise<string[]> {
             continue;
           }
         }
-        console.error('Error fetching contacts:', error);
+        console.error("Error fetching contacts:", error);
         throw error;
       }
 
@@ -82,8 +82,9 @@ async function getResendContacts(audienceId: string): Promise<string[]> {
 
       cursor = (data as unknown as { next_cursor?: string })?.next_cursor;
       attempts = 0;
-    } catch (err) {
-      console.error('Exception:', err);
+    }
+    catch (err) {
+      console.error("Exception:", err);
       throw err;
     }
   } while (cursor);
@@ -99,7 +100,7 @@ async function addContactToResend(audienceId: string, email: string, firstName?:
   });
 
   if (error) {
-    if ((error.name as string) === 'already_exists') {
+    if ((error.name as string) === "already_exists") {
       return { success: true, alreadyExists: true };
     }
     console.error(`Error adding ${email}:`, error);
@@ -113,7 +114,7 @@ async function listAudiences() {
   const { data, error } = await resend.audiences.list();
 
   if (error) {
-    console.error('Error listing audiences:', error);
+    console.error("Error listing audiences:", error);
     throw error;
   }
 
@@ -122,32 +123,32 @@ async function listAudiences() {
 
 async function main() {
   const args = process.argv.slice(2);
-  const dryRun = args.includes('--dry-run');
-  const audienceArg = args.find(arg => arg.startsWith('--audience='));
-  const audienceId = audienceArg ? audienceArg.replace('--audience=', '') : null;
+  const dryRun = args.includes("--dry-run");
+  const audienceArg = args.find(arg => arg.startsWith("--audience="));
+  const audienceId = audienceArg ? audienceArg.replace("--audience=", "") : null;
 
   if (dryRun) {
-    console.log('=== DRY RUN MODE ===\n');
+    console.log("=== DRY RUN MODE ===\n");
   }
 
-  console.log('Fetching users from database...');
+  console.log("Fetching users from database...");
   const dbUsers = await getDbUsers();
   console.log(`Found ${dbUsers.length} users in database`);
 
-  console.log('\nFetching audiences from Resend...');
+  console.log("\nFetching audiences from Resend...");
   const audiences = await listAudiences();
 
-  console.log('Available audiences:');
-  audiences.forEach(a => {
+  console.log("Available audiences:");
+  audiences.forEach((a) => {
     const aud = a as unknown as { subscribers_count?: number };
-    console.log(`  - ${a.id}: ${a.name} (${aud.subscribers_count ?? 'unknown'} subscribers)`);
+    console.log(`  - ${a.id}: ${a.name} (${aud.subscribers_count ?? "unknown"} subscribers)`);
   });
 
   let targetAudienceId = audienceId;
 
   if (!targetAudienceId) {
     if (audiences.length === 0) {
-      console.error('No audiences found in Resend.');
+      console.error("No audiences found in Resend.");
       return;
     }
     targetAudienceId = audiences[0].id;
@@ -166,11 +167,11 @@ async function main() {
   console.log(`To add: ${emailsToAdd.length}`);
 
   if (emailsToAdd.length === 0) {
-    console.log('\nNo new contacts to add.');
+    console.log("\nNo new contacts to add.");
     return;
   }
 
-  console.log('\n=== Adding contacts ===');
+  console.log("\n=== Adding contacts ===");
 
   if (dryRun) {
     for (const user of emailsToAdd) {
@@ -192,11 +193,13 @@ async function main() {
       if (result.alreadyExists) {
         console.log(`  ↩ Already exists`);
         skipped++;
-      } else {
+      }
+      else {
         console.log(`  ✓ Added`);
         added++;
       }
-    } else {
+    }
+    else {
       console.log(`  ✗ Failed: ${result.error}`);
     }
   }

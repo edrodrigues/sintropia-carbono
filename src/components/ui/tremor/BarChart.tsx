@@ -21,7 +21,7 @@ interface BarChartProps {
   className?: string;
 }
 
-const defaultColors = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316", "#6366f1", "#84cc16"];
+const defaultColors = ["#0a382c", "#0cf570", "#a8c3a0", "#23282d", "#14624a", "#f59e0b", "#6b8f71", "#0891b2", "#ef4444", "#ec4899"];
 
 const formatNumber = (num: number) => {
   if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
@@ -40,9 +40,13 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
     return (
       <div className="bg-white dark:bg-gray-800 px-3 py-2 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
         <p className="font-medium text-gray-900 dark:text-white">{label}</p>
-        <p className="text-sm text-blue-600 dark:text-blue-400 font-bold">
+        <p className="text-sm text-blue-600 dark:text-electric-emerald font-bold">
           {payload[0].value?.toLocaleString()}
-          <span className="ml-1 text-[10px] text-gray-500 font-normal">({formatNumber(payload[0].value || 0)})</span>
+          <span className="ml-1 text-[10px] text-gray-500 font-normal">
+            (
+            {formatNumber(payload[0].value || 0)}
+            )
+          </span>
         </p>
       </div>
     );
@@ -106,7 +110,7 @@ export function BarList({ data, className }: BarListProps) {
               className="h-full rounded-full transition-all duration-300"
               style={{
                 width: `${(item.value / maxValue) * 100}%`,
-                backgroundColor: item.color || defaultColors[index % defaultColors.length]
+                backgroundColor: item.color || defaultColors[index % defaultColors.length],
               }}
             />
           </div>

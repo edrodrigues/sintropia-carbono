@@ -5,38 +5,54 @@ import Image from "next/image";
 import { ProgressBar } from "./ProgressBar";
 import { AchievementBadges, type Achievement } from "./AchievementBadges";
 import { getUserTypeIcon } from "@/lib/utils/user";
+import { useTranslations } from "next-intl";
 
 interface ProfileHeaderProps {
   profile: {
     id: string;
     username: string;
-    display_name?: string;
-    bio?: string;
-    karma?: number;
-    organization?: string;
-    cargo?: string;
-    linkedin_url?: string;
-    twitter_url?: string;
-    avatar_url?: string;
+    display_name?: string | null;
+    bio?: string | null;
+    karma?: number | null;
+    tokenBalance?: number | null;
+    organization?: string | null;
+    cargo?: string | null;
+    linkedin_url?: string | null;
+    twitter_url?: string | null;
+    avatar_url?: string | null;
     user_type?: string | null;
-    created_at?: string;
+    created_at?: string | null;
+    headline?: string | null;
+    expertise_areas?: string[] | null;
+    certifications?: string[] | null;
+    years_of_experience?: number | null;
+    available_for_consulting?: boolean | null;
+    company_tagline?: string | null;
+    company_sector?: string | null;
+    company_size?: string | null;
+    company_cnpj?: string | null;
+    company_website?: string | null;
+    company_founded_year?: number | null;
+    company_geo_presence?: string | null;
   };
   achievements?: Achievement[];
   isOwnProfile?: boolean;
 }
 
-const getBadge = (karma: number) => {
-  if (karma >= 1000) return { emoji: "👑", label: "Master", nextLevel: 2000, color: "yellow" };
-  if (karma >= 500) return { emoji: "💎", label: "Especialista", nextLevel: 1000, color: "blue" };
-  if (karma >= 100) return { emoji: "🌟", label: "Contribuidor", nextLevel: 500, color: "green" };
-  if (karma >= 50) return { emoji: "🌿", label: "Aprendiz", nextLevel: 100, color: "teal" };
-  if (karma >= 10) return { emoji: "🌱", label: "Iniciante", nextLevel: 50, color: "emerald" };
+const getBadge = (tokenBalance: number) => {
+  if (tokenBalance >= 1000) return { emoji: "👑", label: "Master", nextLevel: 2000, color: "yellow" };
+  if (tokenBalance >= 500) return { emoji: "💎", label: "Especialista", nextLevel: 1000, color: "blue" };
+  if (tokenBalance >= 100) return { emoji: "🌟", label: "Contribuidor", nextLevel: 500, color: "green" };
+  if (tokenBalance >= 50) return { emoji: "🌿", label: "Aprendiz", nextLevel: 100, color: "teal" };
+  if (tokenBalance >= 10) return { emoji: "🌱", label: "Iniciante", nextLevel: 50, color: "emerald" };
   return { emoji: "🥚", label: "Novato", nextLevel: 10, color: "gray" };
 };
 
 export function ProfileHeader({ profile, achievements, isOwnProfile = false }: ProfileHeaderProps) {
-  const karma = profile.karma || 0;
-  const badge = getBadge(karma);
+  const t = useTranslations("ProfileHeader");
+  const tPerfil = useTranslations("Perfil");
+  const tokenBalance = profile.tokenBalance ?? profile.karma ?? 0;
+  const badge = getBadge(tokenBalance);
 
   return (
     <div className="w-full">
@@ -44,16 +60,18 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
         <div className="flex items-start gap-6">
           <div className="w-28 h-28 rounded-3xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[3px] shadow-2xl flex-shrink-0">
             <div className="w-full h-full rounded-[1.6rem] bg-white dark:bg-gray-900 flex items-center justify-center text-6xl font-bold text-blue-600 overflow-hidden relative">
-              {profile.avatar_url ? (
-                <Image
-                  src={profile.avatar_url}
-                  alt={profile.display_name || profile.username}
-                  fill
-                  className="object-cover"
-                />
-              ) : (
-                getUserTypeIcon(profile.user_type)
-              )}
+              {profile.avatar_url
+                ? (
+                    <Image
+                      src={profile.avatar_url}
+                      alt={profile.display_name || profile.username}
+                      fill
+                      className="object-cover"
+                    />
+                  )
+                : (
+                    getUserTypeIcon(profile.user_type)
+                  )}
             </div>
           </div>
 
@@ -67,7 +85,14 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
                 <span>{badge.label}</span>
               </span>
             </div>
-            <p className="text-blue-100 mb-2">@{profile.username}</p>
+            <p className="text-blue-100 mb-1">
+              @
+              {profile.username}
+            </p>
+
+            {profile.headline && (
+              <p className="text-blue-200 text-sm font-medium mb-2">{profile.headline}</p>
+            )}
 
             {profile.bio && (
               <p className="text-blue-50 mb-3 max-w-xl">{profile.bio}</p>
@@ -75,9 +100,9 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
 
             <div className="mt-4 max-w-md">
               <ProgressBar
-                current={karma}
+                current={tokenBalance}
                 max={badge.nextLevel}
-                label={`Progresso para próximo nível`}
+                label={t("progressLabel")}
               />
             </div>
           </div>
@@ -85,9 +110,12 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
           {isOwnProfile && (
             <Link
               href="/profile/edit"
-              className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white font-medium rounded-xl transition-colors"
+              className="px-6 py-3 bg-white hover:bg-gray-100 text-blue-700 font-bold rounded-xl transition-colors flex items-center gap-2 shadow-lg"
             >
-              Editar Perfil
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+              </svg>
+              {tPerfil("editProfile")}
             </Link>
           )}
         </div>
@@ -97,7 +125,9 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
             <div className="flex flex-wrap items-center gap-4">
               {profile.organization && (
                 <span className="text-blue-100 text-sm">
-                  🏢 {profile.organization}
+                  🏢
+                  {" "}
+                  {profile.organization}
                   {profile.cargo && ` - ${profile.cargo}`}
                 </span>
               )}
@@ -129,9 +159,82 @@ export function ProfileHeader({ profile, achievements, isOwnProfile = false }: P
         )}
       </div>
 
+      {profile.user_type === "company" ? (
+        <div className="mb-4 space-y-4">
+          {profile.company_tagline && (
+            <p className="text-gray-600 dark:text-gray-400 text-sm italic">{profile.company_tagline}</p>
+          )}
+          <div className="flex flex-wrap gap-2">
+            {profile.company_sector && (
+              <span className="px-3 py-1 rounded-full bg-mint-tint dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800">
+                {profile.company_sector}
+              </span>
+            )}
+            {profile.company_size && (
+              <span className="px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 text-xs font-medium border border-purple-200 dark:border-purple-800">
+                {profile.company_size}
+              </span>
+            )}
+            {profile.company_geo_presence && (
+              <span className="px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300 text-xs font-medium border border-teal-200 dark:border-teal-800">
+                {profile.company_geo_presence}
+              </span>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
+            {profile.company_cnpj && <span>📋 CNPJ: {profile.company_cnpj}</span>}
+            {profile.company_website && (
+              <a href={profile.company_website} target="_blank" rel="noopener noreferrer" className="text-deep-forest hover:underline">
+                🌐 {profile.company_website}
+              </a>
+            )}
+            {profile.company_founded_year != null && <span>📅 Fundada em {profile.company_founded_year}</span>}
+          </div>
+        </div>
+      ) : (
+        <>
+          {profile.expertise_areas && profile.expertise_areas.length > 0 && (
+            <div className="mb-4">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Áreas de Especialização</h3>
+              <div className="flex flex-wrap gap-2">
+                {profile.expertise_areas.map(area => (
+                  <span key={area} className="px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 text-xs font-medium border border-emerald-200 dark:border-emerald-800">
+                    {area}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {profile.certifications && profile.certifications.length > 0 && (
+            <div className="mb-4">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Certificações</h3>
+              <div className="flex flex-wrap gap-2">
+                {profile.certifications.map(cert => (
+                  <span key={cert} className="px-3 py-1 rounded-full bg-mint-tint dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-medium border border-blue-200 dark:border-blue-800">
+                    {cert}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="mb-4 flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-400">
+            {profile.years_of_experience != null && (
+              <span>📅 {profile.years_of_experience} anos de experiência</span>
+            )}
+            {profile.available_for_consulting && (
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300 text-xs font-medium border border-amber-200 dark:border-amber-800">
+                ✅ Disponível para consultoria
+              </span>
+            )}
+          </div>
+        </>
+      )}
+
       <div className="mb-6">
         <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-          Conquistas
+          {tPerfil("achievements")}
         </h3>
         <AchievementBadges achievements={achievements || []} />
       </div>

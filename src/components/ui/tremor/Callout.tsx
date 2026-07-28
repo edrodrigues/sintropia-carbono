@@ -12,7 +12,7 @@ interface CalloutProps {
 
 const variantClasses: Record<CalloutVariant, { bg: string; border: string; title: string }> = {
   info: {
-    bg: "bg-blue-50 dark:bg-blue-900/20",
+    bg: "bg-mint-tint dark:bg-blue-900/20",
     border: "border-blue-100 dark:border-blue-800",
     title: "text-blue-900 dark:text-blue-200",
   },
@@ -35,7 +35,7 @@ const variantClasses: Record<CalloutVariant, { bg: string; border: string; title
 
 export function Callout({ children, variant = "info", className, title }: CalloutProps) {
   const styles = variantClasses[variant];
-  
+
   return (
     <div className={cx("rounded-xl p-6 border", styles.bg, styles.border, className)}>
       <div className="flex items-start gap-3">

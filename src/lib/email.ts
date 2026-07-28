@@ -1,14 +1,15 @@
-import { Resend } from 'resend';
+import { Resend } from "resend";
+import { logger } from "@/lib/utils/logger";
 
 function getResend() {
   if (!process.env.RESEND_API_KEY) {
-    throw new Error('RESEND_API_KEY is not set');
+    throw new Error("RESEND_API_KEY is not set");
   }
   return new Resend(process.env.RESEND_API_KEY);
 }
 
-const FROM_EMAIL = 'Sintropia <noreply@contato.sintropia.space>';
-const APP_URL = 'https://sintropia.space/';
+const FROM_EMAIL = "Sintropia <noreply@contato.sintropia.space>";
+const APP_URL = "https://sintropia.space/";
 
 const styles = `
 <style>
@@ -35,7 +36,7 @@ const styles = `
     margin-bottom: 24px; 
   }
   .logo h1 { 
-    color: #10b981; 
+    color: #0a382c; 
     font-size: 28px; 
     font-weight: 700;
   }
@@ -43,13 +44,13 @@ const styles = `
     color: #f8fafc; 
   }
   h1 { 
-    color: #10b981; 
+    color: #0a382c; 
     font-size: 24px; 
     font-weight: 600; 
     margin-bottom: 20px;
   }
   h2 { 
-    color: #10b981; 
+    color: #0a382c; 
     font-size: 20px; 
     font-weight: 600; 
     margin: 24px 0 12px;
@@ -74,7 +75,7 @@ const styles = `
   }
   .btn { 
     display: inline-block; 
-    background-color: #10b981; 
+    background-color: #0a382c; 
     color: #ffffff; 
     padding: 14px 28px; 
     text-decoration: none; 
@@ -83,7 +84,7 @@ const styles = `
     margin-top: 8px;
   }
   .btn:hover {
-    background-color: #059669;
+    background-color: #0a382c;
   }
   .footer { 
     text-align: center; 
@@ -97,11 +98,11 @@ const styles = `
     margin-bottom: 8px;
   }
   .footer a {
-    color: #10b981;
+    color: #0a382c;
     text-decoration: none;
   }
   .highlight {
-    background-color: #10b981;
+    background-color: #0a382c;
     color: #ffffff;
     padding: 2px 8px;
     border-radius: 4px;
@@ -136,13 +137,14 @@ export async function sendEmail(to: string, subject: string, html: string) {
     });
 
     if (error) {
-      console.error('Resend error:', error);
+      logger.error("Erro ao enviar email com Resend", { error });
       return { success: false, error };
     }
 
     return { success: true, data };
-  } catch (error) {
-    console.error('Failed to send email:', error);
+  }
+  catch (error) {
+    logger.error("Falha ao enviar email", { error });
     return { success: false, error };
   }
 }
@@ -152,8 +154,8 @@ export async function sendEmail(to: string, subject: string, html: string) {
 // ============================================
 
 function buildEmail(title: string, content: string, ctaLink?: string, ctaText?: string) {
-  const cta = ctaLink && ctaText ? `<a href="${ctaLink}" class="btn">${ctaText}</a>` : '';
-  
+  const cta = ctaLink && ctaText ? `<a href="${ctaLink}" class="btn">${ctaText}</a>` : "";
+
   return `
 <div class="card">
   <div class="logo">
@@ -164,7 +166,7 @@ function buildEmail(title: string, content: string, ctaLink?: string, ctaText?: 
   ${cta}
   <div class="footer">
     <p>Projeto Open Source e Feito com ❤️ em Recife/Pernambuco.</p>
-    <p><a href="${APP_URL}">Acesse a Sintropia</a></p>
+    <p><a href="${APP_URL}">Acesse a Rede Sintropia</a></p>
   </div>
 </div>
   `.trim();
@@ -172,25 +174,25 @@ function buildEmail(title: string, content: string, ctaLink?: string, ctaText?: 
 
 // Dia 0: E-mail de Boas-vindas
 export async function sendDripEmail1_Welcome(email: string, name: string) {
-  const title = 'Bem-vindo(a) à Sintropia 🌿';
+  const title = "Bem-vindo(a) à rede Sintropia 🌿";
   const content = `
     <p>Olá ${name},</p>
-    <p>Obrigado por se juntar à comunidade Sintropia. Estamos muito animados em tê-lo conosco!</p>
+    <p>Obrigado por se juntar à rede profissional de mercados ambientais. Estamos muito animados em tê-lo conosco!</p>
     <p>Com sua conta, você pode:</p>
     <ul>
       <li>Acompanhar preços de carbono e créditos IREC em tempo real</li>
       <li>Conectar-se com outros profissionais do mercado</li>
       <li>Compartilhar conteúdo e participar de discussões</li>
-      <li>Explorar oportunidades de negócio</li>
+      <li>Construir sua reputação na rede</li>
     </ul>
   `;
-  const html = buildEmail(title, content, APP_URL, 'Começar agora');
+  const html = buildEmail(title, content, APP_URL, "Começar agora");
   return sendEmail(email, title, html);
 }
 
 // Dia 2: Entendendo os Créditos de Carbono
 export async function sendDripEmail2_CarbonCredits(email: string, name: string) {
-  const title = 'O que são créditos de carbono?';
+  const title = "O que são créditos de carbono?";
   const content = `
     <p>Olá ${name},</p>
     <p>Você sabe como funcionam os créditos de carbono? Esse é o conceito fundamental do mercado que estamos construindo juntos.</p>
@@ -209,13 +211,13 @@ export async function sendDripEmail2_CarbonCredits(email: string, name: string) 
       <li>Projetos de eficiência energética</li>
     </ul>
   `;
-  const html = buildEmail(title, content, `${APP_URL}/carbono-mundo`, 'Ver preços de carbono');
+  const html = buildEmail(title, content, `${APP_URL}/carbono-mundo`, "Ver preços de carbono");
   return sendEmail(email, title, html);
 }
 
 // Dia 4: Certificados de Energia Renovável
 export async function sendDripEmail3_IREC(email: string, name: string) {
-  const title = 'Você conhece as diferenças dos certificados de energias renováveis?';
+  const title = "Você conhece as diferenças dos certificados de energias renováveis?";
   const content = `
     <p>Olá ${name},</p>
     <p>IREC (International Renewable Energy Certificate) é um certificado que representa os benefícios ambientais de 1 MWh de energia renovável gerada e injetada na rede elétrica.</p>
@@ -229,17 +231,17 @@ export async function sendDripEmail3_IREC(email: string, name: string) {
     <h3>No Brasil</h3>
     <p>O mercado de IREC no Brasil está em crescimento, especialmente após a resolução da ANEEL que permite a geração distribuída e os certificados de energia renovável.</p>
   `;
-  const html = buildEmail(title, content, `${APP_URL}/irec-brasil`, 'Ver preços IREC no Brasil');
+  const html = buildEmail(title, content, `${APP_URL}/irec-brasil`, "Ver preços IREC no Brasil");
   return sendEmail(email, title, html);
 }
 
 // Dia 6: Aba Comunidade e Karma
 export async function sendDripEmail4_Community(email: string, name: string) {
-  const title = 'Conheça a aba Comunidade na Sintropia 🚀';
+  const title = "Conheça a Rede Profissional Sintropia 🚀";
   const content = `
     <p>Olá ${name},</p>
-    <p>A Comunidade é o diferencial! Não é só sobre preços e dados — é sobre pessoas que acreditam em um futuro mais sustentável.</p>
-    <h3>O que você encontra na aba Comunidade:</h3>
+    <p>A Rede é o diferencial! Não é só sobre preços e dados — é sobre profissionais que acreditam em um futuro mais sustentável.</p>
+    <h3>O que você encontra na Rede:</h3>
     <ul>
       <li><strong>Feed de Postagens:</strong> Compartilhe notícias, análises e insights sobre o mercado</li>
       <li><strong>Discussões:</strong> Conecte-se com profissionais e empresas do setor</li>
@@ -254,13 +256,13 @@ export async function sendDripEmail4_Community(email: string, name: string) {
     </ul>
     <p>Que tal fazer sua primeira postagem e começar a construir sua reputação?</p>
   `;
-  const html = buildEmail(title, content, `${APP_URL}/feed`, 'Fazer uma postagem');
+  const html = buildEmail(title, content, `${APP_URL}/feed`, "Fazer uma postagem");
   return sendEmail(email, title, html);
 }
 
 // Dia 9: CTA Final - Ação
 export async function sendDripEmail5_Action(email: string, name: string) {
-  const title = 'Último Passo: Explore as funcionalidades na plataforma! 💪';
+  const title = "Último Passo: Explore as funcionalidades na plataforma! 💪";
   const content = `
     <p>Olá ${name},</p>
     <p>Você já conhece as principais funcionalidades da Sintropia. Agora é hora de explorar e tirar proveito de tudo o que preparamos para você.</p>
@@ -273,7 +275,7 @@ export async function sendDripEmail5_Action(email: string, name: string) {
     </ul>
     <p>Sua participação faz diferença. Cada pergunta, resposta ou insight compartilhado ajuda a construir uma comunidade mais forte.</p>
   `;
-  const html = buildEmail(title, content, `${APP_URL}/dashboard`, 'Acessar meu dashboard');
+  const html = buildEmail(title, content, `${APP_URL}/dashboard`, "Acessar meu dashboard");
   return sendEmail(email, title, html);
 }
 
@@ -288,8 +290,37 @@ export async function sendWelcomeEmail(email: string, name: string) {
 export async function sendNotificationEmail(
   email: string,
   subject: string,
-  content: string
+  content: string,
 ) {
-  const html = buildEmail(subject, `<p>${content}</p>`, APP_URL, 'Acessar');
+  const html = buildEmail(subject, `<p>${content}</p>`, APP_URL, "Acessar");
   return sendEmail(email, subject, html);
+}
+
+// E-mail de Incentivo ao Completar o Perfil
+export async function sendProfileCompletionEmail(email: string, name: string) {
+  const title = "Destaque-se na Rede Sintropia! 🌿";
+  const content = `
+    <p>Olá ${name},</p>
+    <p>Notamos que seu perfil ainda está em fase inicial. Na Sintropia, acreditamos que a transparência e o networking são fundamentais para fortalecer os mercados ambientais.</p>
+    
+    <h3>Por que completar seu perfil?</h3>
+    <ul>
+      <li><strong>Credibilidade:</strong> Perfis completos geram mais confiança em discussões na comunidade.</li>
+      <li><strong>Networking:</strong> Facilite que outros profissionais e empresas encontrem você.</li>
+      <li><strong>Visibilidade:</strong> Suas contribuições (posts e comentários) ganham mais destaque com foto e biografia.</li>
+      <li><strong>Oportunidades:</strong> Exiba sua organização e cargo para atrair parcerias estratégicas.</li>
+    </ul>
+
+    <h3>O que você pode adicionar:</h3>
+    <ul>
+      <li><strong>Nome de Exibição:</strong> Como você quer ser chamado na plataforma.</li>
+      <li><strong>Bio:</strong> Uma breve descrição de sua atuação no mercado sustentável.</li>
+      <li><strong>Cargo e Organização:</strong> Compartilhe onde você atua e sua área de expertise.</li>
+      <li><strong>LinkedIn:</strong> Conecte sua rede profissional diretamente.</li>
+    </ul>
+
+    <p>É rápido e faz toda a diferença para sua jornada na nossa plataforma!</p>
+  `;
+  const html = buildEmail(title, content, `${APP_URL}/profile/edit`, "Completar meu perfil");
+  return sendEmail(email, title, html);
 }

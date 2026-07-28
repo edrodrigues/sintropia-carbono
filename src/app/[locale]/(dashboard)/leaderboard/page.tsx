@@ -6,27 +6,62 @@ import { Tooltip } from "@/components/ui/Tooltip";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 import { getUserTypeIcon } from "@/lib/utils/user";
 import { getTranslations } from "next-intl/server";
+import { FloatingInviteCard } from "@/components/dashboard/FloatingInviteCard";
+import { fetchTokenBalances, fetchTokenInfo } from "@/lib/privy/balance";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
-    const { locale } = await params;
-    
-    return {
-        title: locale === 'pt' ? 'Ranking | Sintropia' : 'Ranking | Sintropia',
-        robots: {
-            index: false,
-            follow: false,
-        },
-    };
+  const { locale } = await params;
+
+  return {
+    title: locale === "pt" ? "Ranking | Sintropia" : "Ranking | Sintropia",
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
 }
 
 export default async function LeaderboardPage() {
   const supabase = await createClient();
+  const t = await getTranslations("Community.leaderboard");
 
-  const { data: users } = await supabase
+  const { data: profiles } = await supabase
     .from("profiles")
-    .select("username, display_name, karma, avatar_url, user_type")
-    .order("karma", { ascending: false })
+    .select("username, display_name, avatar_url, user_type, wallet_address")
+    .neq("role", "banned")
+    .not("wallet_address", "is", null)
     .limit(50);
+
+  const balances = await fetchTokenBalances(
+    profiles?.map((p) => p.wallet_address).filter(Boolean) as string[] || []
+  );
+  const tokenInfo = await fetchTokenInfo();
+
+  const balanceMap = new Map<string, number>();
+  for (const b of balances) {
+    balanceMap.set(b.address.toLowerCase(), b.balance);
+  }
+
+  const ranked = (profiles || [])
+    .map((p) => ({
+      ...p,
+      balance: balanceMap.get(p.wallet_address?.toLowerCase() || "") || 0,
+    }))
+    .sort((a, b) => b.balance - a.balance)
+    .slice(0, 25);
+
+  // Get current user's referral code for invite card
+  const { data: { user } } = await supabase.auth.getUser();
+  let referralCode = "";
+
+  if (user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+    referralCode = (profile as { referral_code?: string })?.referral_code || "";
+  }
 
   const getRankStyle = (rank: number) => {
     if (rank === 1) return "bg-yellow-50/50 dark:bg-yellow-900/10 border-l-4 border-l-yellow-400";
@@ -42,13 +77,13 @@ export default async function LeaderboardPage() {
     return `#${rank}`;
   };
 
-  const getBadges = (karma: number) => {
+  const getBadges = (balance: number) => {
     const badges = [];
-    if (karma >= 1000) badges.push("👑 Master");
-    else if (karma >= 500) badges.push("💎 Especialista");
-    else if (karma >= 100) badges.push("🌟 Contribuidor");
-    else if (karma >= 50) badges.push("🌿 Aprendiz");
-    else if (karma >= 10) badges.push("🌱 Iniciante");
+    if (balance >= 1000) badges.push(`👑 ${t("badges.master")}`);
+    else if (balance >= 500) badges.push(`💎 ${t("badges.specialist")}`);
+    else if (balance >= 100) badges.push(`🌟 ${t("badges.contributor")}`);
+    else if (balance >= 50) badges.push(`🌿 ${t("badges.learner")}`);
+    else if (balance >= 10) badges.push(`🌱 ${t("badges.beginner")}`);
     return badges;
   };
 
@@ -56,31 +91,38 @@ export default async function LeaderboardPage() {
     <div className="max-w-7xl mx-auto px-8 lg:px-16">
       <div className="mb-12">
         <h1 className="text-5xl font-black text-gray-900 dark:text-gray-100 mb-4 tracking-tight">
-          Ranking dos Mais Ativos
+          {t("pageTitle")}
         </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed">
-          Os membros mais ativos que contribuem para a comunidade.
+        <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl leading-relaxed mb-6">
+          {t("pageSubtitle")}
         </p>
+
+        {/* Invite Friends Card */}
+        {referralCode && (
+          <div className="max-w-2xl">
+            <FloatingInviteCard referralCode={referralCode} variant="inline" />
+          </div>
+        )}
       </div>
 
       <Card>
         <Table>
           <TableHead>
             <TableRow>
-              <TableHeader>Rank</TableHeader>
-              <TableHeader>Usuário</TableHeader>
-              <TableHeader>Conquistas</TableHeader>
+              <TableHeader>{t("rank")}</TableHeader>
+              <TableHeader>{t("user")}</TableHeader>
+              <TableHeader>{t("achievements")}</TableHeader>
               <TableHeader className="text-right">
-                <Tooltip content="Pontos ganhos com contribuições na comunidade">
-                  Pontos
+                <Tooltip content={tokenInfo.symbol}>
+                  {tokenInfo.symbol}
                 </Tooltip>
               </TableHeader>
             </TableRow>
           </TableHead>
           <TableBody>
-            {users?.map((user, index) => {
+            {ranked.map((user, index) => {
               const rank = index + 1;
-              const badges = getBadges(user.karma || 0);
+              const badges = getBadges(user.balance);
 
               return (
                 <TableRow
@@ -96,40 +138,47 @@ export default async function LeaderboardPage() {
                     <Link href={`/u/${user.username}`} className="flex items-center gap-4 hover:opacity-80 transition-opacity">
                       <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 p-[2px] shadow-lg shadow-blue-500/10 group-hover:scale-110 transition-transform">
                         <div className="w-full h-full rounded-[0.9rem] bg-white dark:bg-gray-900 flex items-center justify-center text-blue-600 font-black text-lg overflow-hidden">
-                          {user.avatar_url ? (
-                            <Image src={user.avatar_url} alt={user.username} fill className="rounded-[0.9rem] object-cover" />
-                          ) : (
-                            <span className="text-2xl">{getUserTypeIcon(user.user_type)}</span>
-                          )}
+                          {user.avatar_url
+                            ? (
+                                <Image src={user.avatar_url} alt={user.username} fill className="rounded-[0.9rem] object-cover" />
+                              )
+                            : (
+                                <span className="text-2xl">{getUserTypeIcon(user.user_type)}</span>
+                              )}
                         </div>
                       </div>
                       <div>
                         <p className="font-bold text-gray-900 dark:text-gray-100 text-lg">
                           {user.display_name || user.username}
                         </p>
-                        <p className="text-sm text-gray-500">@{user.username}</p>
+                        <p className="text-sm text-gray-500">
+                          @
+                          {user.username}
+                        </p>
                       </div>
                     </Link>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-2">
-                      {badges.length > 0 ? (
-                        badges.map((badge) => (
-                          <span
-                            key={badge}
-                            className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-[10px] font-black uppercase tracking-wider rounded-lg border border-gray-200 dark:border-gray-700"
-                          >
-                            {badge}
-                          </span>
-                        ))
-                      ) : (
-                        <span className="text-gray-400 text-xs italic">Sem conquista ainda</span>
-                      )}
+                      {badges.length > 0
+                        ? (
+                            badges.map(badge => (
+                              <span
+                                key={badge}
+                                className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-[10px] font-black uppercase tracking-wider rounded-lg border border-gray-200 dark:border-gray-700"
+                              >
+                                {badge}
+                              </span>
+                            ))
+                          )
+                        : (
+                            <span className="text-gray-400 text-xs italic">{t("noAchievement")}</span>
+                          )}
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
                     <span className="text-2xl font-black text-blue-600 dark:text-blue-400 tabular-nums">
-                      {(user.karma || 0).toLocaleString()}
+                      {user.balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </span>
                   </TableCell>
                 </TableRow>
@@ -138,11 +187,11 @@ export default async function LeaderboardPage() {
           </TableBody>
         </Table>
 
-        {(!users || users.length === 0) && (
+        {ranked.length === 0 && (
           <div className="text-center py-24">
             <div className="text-6xl mb-6 opacity-20">🌫️</div>
-            <h3 className="text-xl font-bold text-gray-400">Nenhum dado disponível</h3>
-            <p className="text-gray-500">Comece a participar para aparecer no ranking!</p>
+            <h3 className="text-xl font-bold text-gray-400">{t("noData")}</h3>
+            <p className="text-gray-500">{t("joinNow")}</p>
           </div>
         )}
       </Card>

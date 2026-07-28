@@ -1,149 +1,182 @@
-# 🌱 Sintropia
+# Sintropia Carbono
 
-Dashboard de inteligência colaborativa sobre o mercado de créditos de carbono e certificados de energia renovável no Brasil e no mundo.
+Plataforma em Next.js para comunidade, conteúdo e inteligência de mercado em carbono e energia renovável.
 
-[![Deploy on Vercel](https://vercel.com/button)](https://vercel.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![GitHub Stars](https://img.shields.io/github/stars/edrodrigues/sintropia-carbono)](https://github.com/edrodrigues/sintropia-carbono/stargazers)
+O projeto combina navegação multilíngue, autenticação com Supabase, painéis de comunidade, páginas públicas de mercado e automações administrativas para dados, e-mail e operações.
 
-## ✨ Funcionalidades
+## Visão geral
 
-### 📊 Dados e Inteligência
-- **Certificadoras** - 17 padrões de carbono e energia renovável globais e nacionais
-- **Mercado de Carbono** - Rankings, volumes e tendências Brasil e Mundo
-- **Energia Renovável** - I-RECs Brasil e Mundo com preços atualizados
-- **Preços** - Dados de mercados de carbono (EU ETS, VCM) e energia
+- App Router com rotas localizadas em `src/app/[locale]`
+- Conteúdo público sobre carbono, energia e I-REC
+- Área autenticada com feed, perfil, desafios, conquistas e ranking
+- Integração com Supabase para auth, banco e storage de dados operacionais
+- Scripts em TypeScript para carga, sync e envio de campanhas
 
-### 💬 Comunidade
-- **Feed** - Compartilhe notícias, tire dúvidas e discuta sobre o mercado
-- **Perfis** - Explore membros e suas contribuições
-- **Ranking (Leaderboard)** - Veja os membros mais ativos por Karma
-- **Dashboard Pessoal** - Acompanhe sua atividade e reputação
-- **Denúncias e Moderação** - Sistema de reports para manter comunidade segura
+## Stack
 
-### 🏆 Sistema de Karma e Gamificação
-- **Pontos de Karma** - Ganhe pontos ao contribuir com a comunidade
-- **Badges**: Novato, Iniciante, Contribuidor, Especialista, Master
-- **Sistema de Streaks** - Mantenha sua sequência diária de atividades
-- **Missões Semanais** - Complete objetivos para ganhar recompensas de karma
-- **Sistema de Likes** - Likes e dislikes em posts e comentários
+- Next.js 15.5.x
+- React 18
+- TypeScript
+- Tailwind CSS 4
+- Supabase (`@supabase/ssr` + `@supabase/supabase-js`)
+- next-intl para i18n (`pt`, `en`, `es`)
+- Recharts para gráficos
+- Resend para e-mail
+- Playwright para testes e2e
+- Zod, DOMPurify, clsx e tailwind-merge para validação e utilitários
 
-## 🚀 Tecnologias
+## Requisitos
 
-- **Frontend:** Next.js 15, React 19, TypeScript
-- **Styling:** Tailwind CSS 4
-- **Database:** Supabase (PostgreSQL)
-- **Charts & Tables:** Tremor (Recharts-based)
-- **Email:** Resend
-- **Testing:** Playwright
-- **Deploy:** Vercel
+- Node.js 20+
+- npm 10+
+- Projeto Supabase configurado
+- Variáveis de ambiente definidas em `.env.local`
 
-## 📈 Desenvolvimento Recente
+## Configuração local
 
-### Migração para Tremor
-O projeto passou por uma migração completa para a biblioteca Tremor:
-- **Gráficos**: 9 componentes de gráficos migrados de Chart.js para Tremor (BarChart, DonutChart, LineChart)
-- **Tabelas**: 11 tabelas migradas de HTML nativo para Tremor Table
-- **Componentes customizados**: Biblioteca Tremor estendida com LineChart
+1. Instale as dependências.
+2. Configure `.env.local` com as chaves do Supabase e do Resend.
+3. Execute `npm run dev`.
 
-### Performance
-- Lazy loading implementado na página carbono-projetos
-- Code splitting automático com Next.js dynamic imports
-- Skeleton loading para melhor experiência de usuário
-
-## 🛠️ Como Executar
+### Variáveis de ambiente
 
 ```bash
-# Clone o repositório
-git clone https://github.com/edrodrigues/sintropia-carbono.git
-cd sintropia-carbono
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
+RESEND_API_KEY=re_...
+PLAYWRIGHT_BASE_URL=http://localhost:3000
+```
 
-# Instale as dependências
+| Variável | Obrigatória | Uso |
+|----------|:-----------:|-----|
+| `NEXT_PUBLIC_SUPABASE_URL` | Sim | URL do projeto Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Sim | Chave pública do Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Sim | Scripts, rotas administrativas e operações internas |
+| `RESEND_API_KEY` | Sim | E-mails transacionais e campanhas |
+| `PLAYWRIGHT_BASE_URL` | Não | Base dos testes Playwright |
+
+## Comandos
+
+```bash
 npm install
-
-# Configure as variáveis de ambiente
-cp .env.example .env.local
-# Edite .env.local com suas credenciais do Supabase
-
-# Execute o servidor de desenvolvimento
 npm run dev
-```
-
-Abra [http://localhost:3000](http://localhost:3000) no seu navegador.
-
-## 🔧 Variáveis de Ambiente
-
-Crie um arquivo `.env.local` com as following variáveis:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=sua_url_supabase
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anonima
-SUPABASE_SERVICE_ROLE_KEY=sua_chave_service_role
-RESEND_API_KEY=sua_chave_resend
-```
-
-## 🧪 Testes
-
-```bash
-# Execute os testes E2E
+npm run build
+npm run start
+npm run lint
 npm test
-
-# Execute os testes com UI
 npm run test:ui
 ```
 
-## 🔐 Segurança
+## Rotas principais
 
-- **Headers de Segurança**: X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy
-- **Sanitização de Input**: Proteção contra XSS em entradas de usuário
-- **Verificação de Funções**: Ações de moderação verificam permissões no servidor
-- **RLS (Row Level Security)**: Políticas de acesso a dados no Supabase
+### Públicas
 
-## 🌐 SEO Otimizado
+- Home e shell localizado em `src/app/[locale]/page.tsx`
+- Carbono: ranking, preços, projetos, Brasil e mundo
+- Energia: ranking, preços, Brasil e mundo
+- I-REC: preços, Brasil e mundo
+- Categorias, certificadoras, contribuir, termos e privacidade
+- Perfil público por usuário em `/u/[username]`
 
-- URL canônica: https://sintropia.space
-- Meta tags otimizadas para busca
-- Structured Data (JSON-LD) para Organization e WebSite
-- Sitemap XML automático
-- Robots.txt configurado
+### Autenticação
 
-## 📱 Design
+- Login, cadastro, recuperação de senha e onboarding
+- Callback e confirmação OAuth em `src/app/auth`
 
-- Totalmente responsivo (mobile, tablet, desktop)
-- Suporte a Dark Mode
-- Acessibilidade em conformidade com WCAG
+### Área autenticada
 
-## 🤝 Como Contribuir
+- Dashboard
+- Feed
+- Perfis e edição de perfil
+- Posts
+- Desafios
+- Conquistas
+- Ranking
+- Área de moderação e scripts administrativos
 
-Contribuições são bem-vindas! Veja como você pode ajudar:
+### Operação e API
 
-1. **🐛 Reportar bugs** - Abra uma issue descrevendo o problema
-2. **💡 Sugerir funcionalidades** - Compartilhe suas ideias
-3. **📊 Atualizar dados** - Mantenha as informações do mercado atualizadas
-4. **🎨 Melhorar o design** - Contribua com a interface visual
-5. **📝 Documentar** - Melhore a documentação do projeto
-6. 🚀 **Divulgar** - Compartilhe com sua rede
+- API de projetos de carbono
+- Upload de dados CarbonPlan
+- Execução de scripts administrativos
+- Endpoints de debug e testes Supabase
 
-### 📋 Pré-requisitos para Contribuir
+## Estrutura do projeto
 
-- Node.js 18+
-- NPM ou Yarn
-- Conta no Supabase (para desenvolvimento local)
+- `src/app` - rotas, layouts, APIs e páginas localizadas
+- `src/components` - UI, gráficos, feed, perfil, moderação e shell
+- `src/lib` - Supabase, utilitários, validação, auth e regras de negócio
+- `src/data` - dados base usados pelo app
+- `messages` - traduções `pt`, `en` e `es`
+- `dados` - CSVs, JSON e documentação auxiliar de dados
+- `public/dados` - cópias públicas dos conjuntos de dados
+- `scripts` - automações de importação, sync, e-mail e SQL
+- `supabase/migrations` - migrações do banco
+- `e2e` - testes Playwright
 
-## 📄 Licença
+## Dados e integrações
 
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para detalhes.
+O projeto usa Supabase como fonte principal para autenticação e persistência. As migrações vivem em `supabase/migrations` e incluem schema, políticas e rotinas de ingestão.
 
-## 🙏 Agradecimentos
+Os dados locais e públicos ficam em `dados/` e `public/dados/`. Os scripts em `scripts/` fazem upload, sincronização, geração de SQL e envio de campanhas.
 
-- [Supabase](https://supabase.com) - Backend como serviço
-- [Vercel](https://vercel.com) - Hospedagem
-- [Next.js](https://nextjs.org) - Framework React
-- [Resend](https://resend.com) - Email transacional
-- Todos os contribuidores da comunidade!
+## Scripts administrativos
 
----
+### E-mail e campanhas
 
-<p align="center">
-  Feito com 💚 pela comunidade
-</p>
+- `send-drip-emails.ts`
+- `verify-drip-status.ts`
+- `summary-drip.ts`
+- `send-newsletter.ts`
+- `send-help-announcement.ts`
+- `send-batch-profile-emails.ts`
+- `test-profile-email.ts`
+- `debug-resend.ts`
+- `check-domains.ts`
+
+### Carga e sincronização de dados
+
+- `upload-carbon-stakeholders.ts`
+- `upload-irec-stakeholders.ts`
+- `upload-carbon-prices.ts`
+- `upload-irec-prices.ts`
+- `sync-carbon-stakeholders.ts`
+- `sync-irec-stakeholders.ts`
+- `sync-carbon-brazil-top50.ts`
+- `sync-carbonmark-prices.ts`
+- `sync-contacts-to-resend.ts`
+- `fix-and-sync-irec-data.ts`
+
+### SQL e utilitários
+
+- `generate-sql.ts`
+- `insert-projects.ts`
+- `insert-credits.ts`
+- `check-new-users.ts`
+- `gen-carbonmark-sql.js`
+
+## Testes
+
+- Os testes end-to-end usam Playwright.
+- No ambiente atual do Windows, a configuração de testes usa o Chrome do sistema via `channel: 'chrome'`.
+- O navegador base é controlado por `PLAYWRIGHT_BASE_URL`, quando definido.
+
+## Deploy
+
+- Build com `npm run build`
+- Deploy em Vercel com configuração em `vercel.json`
+- Lint configurado em `eslint.config.mjs`
+
+## Segurança e operação
+
+- Rotas administrativas exigem sessão autenticada e, quando aplicável, perfil com permissão adequada
+- Chaves de serviço ficam restritas ao servidor e aos scripts internos
+- Validações server-side usam Zod
+- Sanitização de HTML usa DOMPurify
+- A aplicação possui internacionalização com `pt`, `en` e `es`
+
+## Observações
+
+- O README reflete a aplicação atual do repositório, com foco em comunidade, conteúdo e mercado de carbono/energia.
+- Se você for alterar fluxos de dados, confira também as migrações em `supabase/migrations` e os scripts em `scripts/`.

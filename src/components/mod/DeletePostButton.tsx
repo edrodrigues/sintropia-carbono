@@ -31,7 +31,8 @@ export function DeletePostButton({ postId, postTitle, onDeleted }: DeletePostBut
     setIsOpen(false);
     if (onDeleted) {
       onDeleted();
-    } else {
+    }
+    else {
       window.location.reload();
     }
   };
@@ -53,7 +54,9 @@ export function DeletePostButton({ postId, postTitle, onDeleted }: DeletePostBut
                 Deletar Post
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 truncate">
-                &quot;{postTitle}&quot;
+                &quot;
+                {postTitle}
+                &quot;
               </p>
             </div>
 
@@ -64,7 +67,7 @@ export function DeletePostButton({ postId, postTitle, onDeleted }: DeletePostBut
                 </label>
                 <textarea
                   value={reason}
-                  onChange={(e) => setReason(e.target.value)}
+                  onChange={e => setReason(e.target.value)}
                   placeholder="Descreva o motivo..."
                   className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
                   rows={3}

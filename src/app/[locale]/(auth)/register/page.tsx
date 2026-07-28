@@ -1,12 +1,11 @@
-import { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
-import { Link } from '@/i18n/routing';
-import { RegisterForm } from '@/components/auth/RegisterForm';
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/routing";
+import { RegisterForm } from "@/components/auth/RegisterForm";
 
 export async function generateMetadata(props: { params: Promise<{ locale: string }> }) {
   const params = await props.params;
-  const title = params.locale === 'pt' ? 'Criar Conta | Sintropia' : 'Create Account | Sintropia';
-  
+  const title = params.locale === "pt" ? "Criar Conta | Sintropia" : "Create Account | Sintropia";
+
   return {
     title,
     robots: {
@@ -21,7 +20,7 @@ export default async function RegisterPage(props: {
   searchParams: Promise<{ message: string; error: string }>;
 }) {
   const searchParams = await props.searchParams;
-  const t = await getTranslations('Auth');
+  const t = await getTranslations("Auth");
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4 py-12">
@@ -29,10 +28,10 @@ export default async function RegisterPage(props: {
         <div className="text-center">
           <span className="text-4xl mb-4 block animate-bounce">🌱</span>
           <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-            {t('registerTitle')}
+            {t("registerTitle")}
           </h2>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-            {t('registerSubtitle')}
+            {t("registerSubtitle")}
           </p>
         </div>
 
@@ -40,7 +39,7 @@ export default async function RegisterPage(props: {
 
         <div className="text-center mt-4">
           <Link href="/" className="text-xs text-gray-500 hover:text-blue-600 transition-colors">
-            {t('backToHome')}
+            {t("backToHome")}
           </Link>
         </div>
       </div>

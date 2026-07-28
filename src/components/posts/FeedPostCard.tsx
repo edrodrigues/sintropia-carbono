@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { TopicTags, commonTopicTags } from "@/components/posts/TopicTags";
 import { decodeHtml } from "@/lib/utils/sanitize";
 import { getUserTypeIcon } from "@/lib/utils/user";
+import { getCategoryDetails } from "@/lib/utils/post";
 import type { PostWithRelations } from "@/types";
 
 interface FeedPostCardProps {
@@ -14,24 +14,15 @@ interface FeedPostCardProps {
   isAlternateBg?: boolean;
 }
 
-const getBadge = (karma: number) => {
-  if (karma >= 1000) return { emoji: "👑", label: "Master" };
-  if (karma >= 500) return { emoji: "💎", label: "Especialista" };
-  if (karma >= 100) return { emoji: "🌟", label: "Contribuidor" };
-  if (karma >= 50) return { emoji: "🌿", label: "Aprendiz" };
-  if (karma >= 10) return { emoji: "🌱", label: "Iniciante" };
-  return null;
-};
-
 export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedPostCardProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCardClick = (e: React.MouseEvent) => {
     if (
-      e.target instanceof HTMLAnchorElement ||
-      e.target instanceof HTMLButtonElement ||
-      (e.target as HTMLElement).closest("button") ||
-      (e.target as HTMLElement).closest("a")
+      e.target instanceof HTMLAnchorElement
+      || e.target instanceof HTMLButtonElement
+      || (e.target as HTMLElement).closest("button")
+      || (e.target as HTMLElement).closest("a")
     ) {
       return;
     }
@@ -47,24 +38,24 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
           text: post.content?.slice(0, 100) || post.title,
           url: postUrl,
         });
-      } else {
+      }
+      else {
         await navigator.clipboard.writeText(postUrl);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
       }
-    } catch {
+    }
+    catch {
       try {
         await navigator.clipboard.writeText(postUrl);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
-      } catch { /* silently fail */ }
+      }
+      catch { /* silently fail */ }
     }
   };
 
-  const authorBadge = post.author?.karma ? getBadge(post.author.karma) : null;
-  const topicTags = [
-    commonTopicTags.find(t => post.category.toLowerCase().includes(t.label.toLowerCase())) || { label: post.category, color: "gray" as const }
-  ].filter(Boolean) as { label: string; color: "gray" | "blue" | "green" | "yellow" | "red" | "purple" }[];
+  const categoryDetails = getCategoryDetails(post.category);
 
   return (
     <div
@@ -74,10 +65,11 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
       <div className="flex max-w-5xl mx-auto">
         {/* Karma Column - Hidden on mobile, shown on md+ */}
         <div className="hidden md:flex w-16 flex-shrink-0 flex flex-col items-center pt-4 pb-4">
-          <div className={`w-12 h-12 rounded-lg flex flex-col items-center justify-center ${post.karma > 0 ? "bg-green-100 dark:bg-green-900/30" : "bg-gray-100 dark:bg-gray-800"
-            }`}>
-            <span className={`text-lg font-bold ${post.karma > 0 ? "text-green-600 dark:text-green-400" : "text-gray-500 dark:text-gray-400"}`}>
-              {post.karma}
+          <div className={`w-12 h-12 rounded-lg flex flex-col items-center justify-center ${(post.karma ?? 0) > 0 ? "bg-green-100 dark:bg-green-900/30" : "bg-gray-100 dark:bg-gray-800"
+          }`}
+          >
+            <span className={`text-lg font-bold ${(post.karma ?? 0) > 0 ? "text-green-600 dark:text-green-400" : "text-gray-500 dark:text-gray-400"}`}>
+              {post.karma ?? 0}
             </span>
           </div>
         </div>
@@ -88,41 +80,43 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
               {decodeHtml(post.title)}
             </h3>
             {/* Karma Badge for Mobile */}
-            <div className={`md:hidden shrink-0 px-2 py-1 rounded-md text-xs font-bold ${post.karma > 0 ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"}`}>
-              {post.karma}
+            <div className={`md:hidden shrink-0 px-2 py-1 rounded-md text-xs font-bold ${(post.karma ?? 0) > 0 ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"}`}>
+              {post.karma ?? 0}
             </div>
           </div>
 
           {post.url && (
             <p className="text-[11px] sm:text-sm text-gray-500 dark:text-gray-400 mb-2 truncate">
-              🔗 {new URL(post.url).hostname}
+              🔗
+              {" "}
+              {new URL(post.url).hostname}
             </p>
           )}
 
           <div className="flex items-center gap-2 mb-3 flex-wrap">
             <div className="size-6 sm:size-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 p-[1px] shadow-sm flex-shrink-0">
               <div className="w-full h-full rounded-[calc(0.5rem-1px)] bg-white dark:bg-gray-900 flex items-center justify-center overflow-hidden relative">
-                {post.author?.avatar_url ? (
-                  <Image src={post.author.avatar_url} alt="" fill className="object-cover" />
-                ) : (
-                  <span className="text-[10px] sm:text-xs">{getUserTypeIcon(post.author?.user_type)}</span>
-                )}
+                {post.author?.avatar_url
+                  ? (
+                      <Image src={post.author.avatar_url} alt="" fill className="object-cover" />
+                    )
+                  : (
+                      <span className="text-[10px] sm:text-xs">{getUserTypeIcon(post.author?.user_type)}</span>
+                    )}
               </div>
             </div>
             <Link
               href={`/u/${post.author?.username}`}
               className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 truncate max-w-[100px] sm:max-w-none"
-              onClick={(e) => e.stopPropagation()}
+              onClick={e => e.stopPropagation()}
             >
-              @{post.author?.username}
+              @
+              {post.author?.username}
             </Link>
-            {authorBadge && (
-              <span className="text-[10px] sm:text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-600 dark:text-gray-400 whitespace-nowrap">
-                {authorBadge.emoji} <span className="hidden sm:inline">{authorBadge.label}</span>
-              </span>
-            )}
             <span className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
-              • {new Date(post.created_at).toLocaleDateString("pt-BR", { day: '2-digit', month: 'short' })}
+              •
+              {" "}
+              {post.created_at ? new Date(post.created_at).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" }) : ""}
             </span>
           </div>
 
@@ -154,7 +148,11 @@ export function FeedPostCard({ post, onOpenModal, isAlternateBg = false }: FeedP
               </button>
             </div>
 
-            <TopicTags tags={topicTags} maxVisible={2} />
+            <div className="flex flex-wrap gap-2">
+              <span className={`px-2 py-1 text-[10px] sm:text-xs font-bold rounded-full uppercase tracking-wider ${categoryDetails.classes}`}>
+                {categoryDetails.label}
+              </span>
+            </div>
           </div>
         </div>
       </div>

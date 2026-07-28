@@ -1,11 +1,10 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { ChangeEvent, useTransition } from "react";
 
 export function LanguageSwitcher() {
-  const t = useTranslations("LanguageSwitcher");
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
@@ -24,7 +23,7 @@ export function LanguageSwitcher() {
         defaultValue={locale}
         onChange={onSelectChange}
         disabled={isPending}
-        className="appearance-none bg-transparent border border-slate-300 rounded-lg px-3 py-1.5 pr-8 text-sm font-medium text-slate-700 hover:border-forest-green hover:text-forest-green transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-forest-green focus:ring-offset-2"
+        className="appearance-none bg-transparent border border-slate-300 rounded-lg px-3 py-1.5 pr-8 text-sm font-medium text-slate-700 hover:border-deep-forest hover:text-deep-forest transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-deep-forest focus:ring-offset-2"
         aria-label="Select language"
       >
         <option value="pt">PT</option>

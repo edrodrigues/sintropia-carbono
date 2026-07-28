@@ -52,7 +52,8 @@ export function WarnUserButton({ userId, username }: WarnUserButtonProps) {
           <div className="bg-white dark:bg-gray-800 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700">
             <div className="p-6 border-b border-gray-100 dark:border-gray-700">
               <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                Advertir @{username}
+                Advertir @
+                {username}
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 Esta ação será registrada no histórico do usuário.
@@ -66,7 +67,7 @@ export function WarnUserButton({ userId, username }: WarnUserButtonProps) {
                 </label>
                 <textarea
                   value={reason}
-                  onChange={(e) => setReason(e.target.value)}
+                  onChange={e => setReason(e.target.value)}
                   placeholder="Descreva o motivo..."
                   className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-yellow-500 focus:border-transparent resize-none"
                   rows={3}

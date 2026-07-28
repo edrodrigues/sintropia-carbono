@@ -5,11 +5,14 @@
 
 @theme {
   /* Brand Colors */
-  --color-forest-green: #064e3b;
-  --color-sintropia-green: #10b981;
-  --color-accent-lime: #84cc16;
-  --color-bg-light: #f8fafc;
-  --color-premium-blue: #1e40af;
+  --color-deep-forest: #0a382c;
+  --color-sage-green: #a8c3a0;
+  --color-electric-emerald: #0cf570;
+  --color-charcoal-ink: #23282d;
+  --color-mint-tint: #ddf5e6;
+
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   /* Extended Colors */
   --color-slate-50: #f8fafc;
@@ -146,7 +149,7 @@
 
 @layer base {
   body {
-    @apply bg-bg-light text-slate-900 antialiased;
+    @apply bg-mint-tint/40 text-charcoal-ink antialiased;
   }
 }
 

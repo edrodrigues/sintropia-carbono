@@ -1,15 +1,15 @@
-import { defineConfig, devices } from '@playwright/test';
-import path from 'path';
+import { defineConfig, devices } from "@playwright/test";
+import path from "path";
 
-const baseURL = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000';
+const baseURL = process.env.PLAYWRIGHT_BASE_URL || "http://localhost:3000";
 
 export default defineConfig({
   timeout: 30 * 1000,
-  testDir: path.join(__dirname, 'e2e'),
+  testDir: path.join(__dirname, "e2e"),
   retries: 2,
-  outputDir: 'test-results/',
+  outputDir: "test-results/",
   webServer: {
-    command: 'npm run dev',
+    command: "npm run dev",
     url: baseURL,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
@@ -17,14 +17,15 @@ export default defineConfig({
 
   use: {
     baseURL,
-    trace: 'retry-with-trace',
+    trace: "retry-with-trace",
   },
 
   projects: [
     {
-      name: 'Desktop Chrome',
+      name: "Desktop Chrome",
       use: {
-        ...devices['Desktop Chrome'],
+        ...devices["Desktop Chrome"],
+        channel: "chrome",
       },
     },
   ],

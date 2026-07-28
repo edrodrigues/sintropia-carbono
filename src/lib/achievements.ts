@@ -1,5 +1,5 @@
 import type { Achievement } from "@/components/profile/AchievementBadges";
-import type { AchievementRarity } from "@/types/gamification";
+import type { AchievementRarity } from "@/types/achievements";
 
 interface UserStats {
   postCount: number;
@@ -7,12 +7,11 @@ interface UserStats {
   upvotesReceived: number;
   hasLinkedIn: boolean;
   createdAt: string;
-  streakDays?: number;
   postsWithHighUpvotes?: number;
   uniqueUsersInteracted?: number;
   totalCommentsOnPosts?: number;
   categoryPosts?: Record<string, number>;
-  karma?: number;
+  tokenBalance?: number;
 }
 
 interface AchievementDefinition {
@@ -22,7 +21,7 @@ interface AchievementDefinition {
   description: string;
   earned: boolean;
   rarity: AchievementRarity;
-  category: 'quality' | 'quantity' | 'social' | 'consistency' | 'specialization';
+  category: "quality" | "quantity" | "social" | "consistency" | "specialization";
   progress?: {
     current: number;
     target: number;
@@ -30,58 +29,58 @@ interface AchievementDefinition {
 }
 
 const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
-  // === KARMA - Níveis ===
+  // === TOKENS - Níveis ===
   {
-    id: "karma_10",
+    id: "tokens_10",
     icon: "🌱",
     label: "Iniciante",
-    description: "Atinga 10 pontos de karma",
+    description: "Tenha 10 tokens",
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
-    id: "karma_50",
+    id: "tokens_50",
     icon: "🌿",
     label: "Aprendiz",
-    description: "Atinga 50 pontos de karma",
+    description: "Tenha 50 tokens",
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 50 }
+    progress: { current: 0, target: 50 },
   },
   {
-    id: "karma_100",
+    id: "tokens_100",
     icon: "🌟",
     label: "Contribuidor",
-    description: "Atinga 100 pontos de karma",
+    description: "Tenha 100 tokens",
     earned: false,
     rarity: "rare",
     category: "quantity",
-    progress: { current: 0, target: 100 }
+    progress: { current: 0, target: 100 },
   },
   {
-    id: "karma_500",
+    id: "tokens_500",
     icon: "💎",
     label: "Especialista",
-    description: "Atinga 500 pontos de karma",
+    description: "Tenha 500 tokens",
     earned: false,
     rarity: "epic",
     category: "quantity",
-    progress: { current: 0, target: 500 }
+    progress: { current: 0, target: 500 },
   },
   {
-    id: "karma_1000",
+    id: "tokens_1000",
     icon: "👑",
     label: "Master",
-    description: "Atinga 1000 pontos de karma",
+    description: "Tenha 1000 tokens",
     earned: false,
     rarity: "legendary",
     category: "quantity",
-    progress: { current: 0, target: 1000 }
+    progress: { current: 0, target: 1000 },
   },
-  
+
   // === QUANTIDADE - Comum ===
   {
     id: "first_post",
@@ -91,7 +90,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 1 }
+    progress: { current: 0, target: 1 },
   },
   {
     id: "veteran",
@@ -101,7 +100,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "influencer_post",
@@ -111,7 +110,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "quantity",
-    progress: { current: 0, target: 50 }
+    progress: { current: 0, target: 50 },
   },
   {
     id: "content_machine",
@@ -121,9 +120,9 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "epic",
     category: "quantity",
-    progress: { current: 0, target: 100 }
+    progress: { current: 0, target: 100 },
   },
-  
+
   // === QUANTIDADE - Comentários ===
   {
     id: "first_comment",
@@ -133,7 +132,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 1 }
+    progress: { current: 0, target: 1 },
   },
   {
     id: "chatterbox",
@@ -143,7 +142,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quantity",
-    progress: { current: 0, target: 20 }
+    progress: { current: 0, target: 20 },
   },
   {
     id: "conversation_master",
@@ -153,9 +152,9 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "quantity",
-    progress: { current: 0, target: 100 }
+    progress: { current: 0, target: 100 },
   },
-  
+
   // === QUALIDADE ===
   {
     id: "first_upvote",
@@ -165,7 +164,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "quality",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "star_author",
@@ -175,7 +174,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "quality",
-    progress: { current: 0, target: 100 }
+    progress: { current: 0, target: 100 },
   },
   {
     id: "quality_post",
@@ -185,7 +184,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "quality",
-    progress: { current: 0, target: 1 }
+    progress: { current: 0, target: 1 },
   },
   {
     id: "quality_streak",
@@ -195,7 +194,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "epic",
     category: "quality",
-    progress: { current: 0, target: 3 }
+    progress: { current: 0, target: 3 },
   },
   {
     id: "trend_setter",
@@ -205,7 +204,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "legendary",
     category: "quality",
-    progress: { current: 0, target: 1 }
+    progress: { current: 0, target: 1 },
   },
   {
     id: "viral_author",
@@ -215,9 +214,9 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "legendary",
     category: "quality",
-    progress: { current: 0, target: 1 }
+    progress: { current: 0, target: 1 },
   },
-  
+
   // === SOCIAL ===
   {
     id: "mentor",
@@ -227,7 +226,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "common",
     category: "social",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "connected",
@@ -246,7 +245,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "social",
-    progress: { current: 0, target: 20 }
+    progress: { current: 0, target: 20 },
   },
   {
     id: "conversation_starter",
@@ -256,7 +255,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "social",
-    progress: { current: 0, target: 50 }
+    progress: { current: 0, target: 50 },
   },
   {
     id: "community_builder",
@@ -266,7 +265,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "epic",
     category: "social",
-    progress: { current: 0, target: 200 }
+    progress: { current: 0, target: 200 },
   },
   {
     id: "welcomer",
@@ -276,50 +275,10 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "social",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
-  
+
   // === CONSISTÊNCIA ===
-  {
-    id: "week_warrior",
-    icon: "🔥",
-    label: "Guerreiro da Semana",
-    description: "Acesse 7 dias consecutivos",
-    earned: false,
-    rarity: "common",
-    category: "consistency",
-    progress: { current: 0, target: 7 }
-  },
-  {
-    id: "fortnight_fighter",
-    icon: "⚔️",
-    label: "Lutador de Quinzena",
-    description: "Acesse 14 dias consecutivos",
-    earned: false,
-    rarity: "rare",
-    category: "consistency",
-    progress: { current: 0, target: 14 }
-  },
-  {
-    id: "month_master",
-    icon: "📅",
-    label: "Mestre do Mês",
-    description: "Acesse 30 dias consecutivos",
-    earned: false,
-    rarity: "epic",
-    category: "consistency",
-    progress: { current: 0, target: 30 }
-  },
-  {
-    id: "unstoppable",
-    icon: "💪",
-    label: "Imparável",
-    description: "Acesse 100 dias consecutivos",
-    earned: false,
-    rarity: "legendary",
-    category: "consistency",
-    progress: { current: 0, target: 100 }
-  },
   {
     id: "daily_contributor",
     icon: "📆",
@@ -328,9 +287,9 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "consistency",
-    progress: { current: 0, target: 7 }
+    progress: { current: 0, target: 7 },
   },
-  
+
   // === ESPECIALIZAÇÃO ===
   {
     id: "news_reporter",
@@ -340,7 +299,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "specialization",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "market_analyst",
@@ -350,7 +309,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "specialization",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "educator",
@@ -360,7 +319,7 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "rare",
     category: "specialization",
-    progress: { current: 0, target: 10 }
+    progress: { current: 0, target: 10 },
   },
   {
     id: "polymath",
@@ -370,9 +329,19 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
     earned: false,
     rarity: "epic",
     category: "specialization",
-    progress: { current: 0, target: 5 }
+    progress: { current: 0, target: 5 },
   },
-  
+  {
+    id: "help_seeker",
+    icon: "🆘",
+    label: "Buscador de Ajuda",
+    description: "Poste 10 pedidos de ajuda",
+    earned: false,
+    rarity: "common",
+    category: "specialization",
+    progress: { current: 0, target: 10 },
+  },
+
   // === ESPECIAL ===
   {
     id: "early_adopter",
@@ -386,14 +355,14 @@ const ACHIEVEMENT_DEFINITIONS: AchievementDefinition[] = [
 ];
 
 export function calculateAchievements(profile: {
-  karma?: number;
+  tokenBalance?: number;
   linkedin_url?: string | null;
   created_at?: string;
 }, stats: UserStats): Achievement[] {
-  const achievements: Achievement[] = ACHIEVEMENT_DEFINITIONS.map(def => {
+  const achievements: Achievement[] = ACHIEVEMENT_DEFINITIONS.map((def) => {
     let earned = false;
-    let progress = def.progress ? { ...def.progress } : undefined;
-    
+    const progress = def.progress ? { ...def.progress } : undefined;
+
     switch (def.id) {
       case "first_post":
         earned = stats.postCount >= 1;
@@ -455,65 +424,49 @@ export function calculateAchievements(profile: {
         earned = (stats.totalCommentsOnPosts || 0) >= 200;
         if (progress) progress.current = stats.totalCommentsOnPosts || 0;
         break;
-      case "week_warrior":
-        earned = (stats.streakDays || 0) >= 7;
-        if (progress) progress.current = stats.streakDays || 0;
-        break;
-      case "fortnight_fighter":
-        earned = (stats.streakDays || 0) >= 14;
-        if (progress) progress.current = stats.streakDays || 0;
-        break;
-      case "month_master":
-        earned = (stats.streakDays || 0) >= 30;
-        if (progress) progress.current = stats.streakDays || 0;
-        break;
-      case "unstoppable":
-        earned = (stats.streakDays || 0) >= 100;
-        if (progress) progress.current = stats.streakDays || 0;
-        break;
       case "mentor":
         earned = stats.commentCount >= 10;
         if (progress) progress.current = stats.commentCount;
         break;
-      // Karma achievements
-      case "karma_10":
-        earned = (stats.karma || 0) >= 10;
-        if (progress) progress.current = stats.karma || 0;
+      // Token achievements
+      case "tokens_10":
+        earned = (stats.tokenBalance || 0) >= 10;
+        if (progress) progress.current = stats.tokenBalance || 0;
         break;
-      case "karma_50":
-        earned = (stats.karma || 0) >= 50;
-        if (progress) progress.current = Math.min(stats.karma || 0, 50);
+      case "tokens_50":
+        earned = (stats.tokenBalance || 0) >= 50;
+        if (progress) progress.current = Math.min(stats.tokenBalance || 0, 50);
         break;
-      case "karma_100":
-        earned = (stats.karma || 0) >= 100;
-        if (progress) progress.current = Math.min(stats.karma || 0, 100);
+      case "tokens_100":
+        earned = (stats.tokenBalance || 0) >= 100;
+        if (progress) progress.current = Math.min(stats.tokenBalance || 0, 100);
         break;
-      case "karma_500":
-        earned = (stats.karma || 0) >= 500;
-        if (progress) progress.current = Math.min(stats.karma || 0, 500);
+      case "tokens_500":
+        earned = (stats.tokenBalance || 0) >= 500;
+        if (progress) progress.current = Math.min(stats.tokenBalance || 0, 500);
         break;
-      case "karma_1000":
-        earned = (stats.karma || 0) >= 1000;
-        if (progress) progress.current = Math.min(stats.karma || 0, 1000);
+      case "tokens_1000":
+        earned = (stats.tokenBalance || 0) >= 1000;
+        if (progress) progress.current = Math.min(stats.tokenBalance || 0, 1000);
         break;
       case "early_adopter":
-        earned = new Date(stats.createdAt) < new Date("2025-01-01");
+        earned = new Date(stats.createdAt) < new Date("2025-03-01");
         break;
       case "connected":
         earned = !!profile.linkedin_url || stats.hasLinkedIn;
         break;
       case "news_reporter":
-        const newsCount = stats.categoryPosts?.['Notícias'] || stats.categoryPosts?.['noticias'] || 0;
+        const newsCount = stats.categoryPosts?.["Notícias"] || stats.categoryPosts?.["noticias"] || 0;
         earned = newsCount >= 10;
         if (progress) progress.current = newsCount;
         break;
       case "market_analyst":
-        const analysisCount = stats.categoryPosts?.['Análises'] || stats.categoryPosts?.['analises'] || 0;
+        const analysisCount = stats.categoryPosts?.["Análises"] || stats.categoryPosts?.["analises"] || 0;
         earned = analysisCount >= 10;
         if (progress) progress.current = analysisCount;
         break;
       case "educator":
-        const eduCount = stats.categoryPosts?.['Educação'] || stats.categoryPosts?.['educacao'] || 0;
+        const eduCount = stats.categoryPosts?.["Educação"] || stats.categoryPosts?.["educacao"] || 0;
         earned = eduCount >= 10;
         if (progress) progress.current = eduCount;
         break;
@@ -522,8 +475,13 @@ export function calculateAchievements(profile: {
         earned = categoryCount >= 5;
         if (progress) progress.current = categoryCount;
         break;
+      case "help_seeker":
+        const helpCount = stats.categoryPosts?.["help"] || stats.categoryPosts?.["Pedir Ajuda"] || 0;
+        earned = helpCount >= 10;
+        if (progress) progress.current = helpCount;
+        break;
     }
-    
+
     return {
       id: def.id,
       icon: def.icon,
@@ -536,7 +494,7 @@ export function calculateAchievements(profile: {
 
   const earnedList = achievements.filter(a => a.earned);
   const unearned = achievements.filter(a => !a.earned);
-  
+
   const sortedUnearned = unearned.sort((a, b) => {
     if (!a.progress || !b.progress) return 0;
     const aProgress = a.progress.current / a.progress.target;
@@ -549,10 +507,10 @@ export function calculateAchievements(profile: {
 
 export function getAchievementRarity(achievementId: string): AchievementRarity {
   const def = ACHIEVEMENT_DEFINITIONS.find(d => d.id === achievementId);
-  return def?.rarity || 'common';
+  return def?.rarity || "common";
 }
 
-export function getAchievementsByCategory(category: AchievementDefinition['category']): AchievementDefinition[] {
+export function getAchievementsByCategory(category: AchievementDefinition["category"]): AchievementDefinition[] {
   return ACHIEVEMENT_DEFINITIONS.filter(d => d.category === category);
 }
 

@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { carbonProjectsData as localData, countryToContinent, getStats, type CarbonProject } from "@/data/carbon-plan";
+import { logger } from "@/lib/utils/logger";
 import { Card, Metric, MetricSubtitle, Title, Badge, TextInput, Select, Table, TableHead, TableBody, TableRow, TableHeader, TableCell, BarChart, DonutChart, BarList, Tooltip } from "@/components/ui/tremor";
 
 const continentColors: Record<string, string> = {
@@ -12,10 +13,34 @@ const continentColors: Record<string, string> = {
   "North America": "#ef4444",
   "Central America": "#ec4899",
   "Oceania": "#14b8a6",
-  Unknown: "#6b7280",
+  "Unknown": "#6b7280",
 };
 
-const chartColors = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316", "#6366f1", "#84cc16"];
+const categoryColors: Record<string, string> = {
+  "forest": "#0a382c",
+  "agriculture": "#a8c3a0",
+  "renewable-energy": "#0cf570",
+  "fuel-switching": "#ef4444",
+  "biochar": "#23282d",
+  "energy-efficiency": "#ec4899",
+  "land-use": "#14624a",
+  "carbon-capture": "#0891b2",
+  "ghg-management": "#6b8f71",
+  "unknown": "#6b7280",
+};
+
+const PortugueseCategoryNames: Record<string, string> = {
+  "forest": "Florestal",
+  "agriculture": "Agricultura",
+  "renewable-energy": "Energia Renovável",
+  "fuel-switching": "Subst. Combustível",
+  "biochar": "Biochar",
+  "energy-efficiency": "Eficiência Energética",
+  "land-use": "Uso da Terra",
+  "carbon-capture": "Captura de Carbono",
+  "ghg-management": "Gestão de GEE",
+  "unknown": "Pendente",
+};
 
 interface ApiResponse {
   projects: CarbonProject[];
@@ -50,7 +75,6 @@ export function CarbonPlanChart() {
   const itemsPerPage = 50;
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [projects, setProjects] = useState<CarbonProject[]>([]);
   const [stats, setStats] = useState<{
     totalProjects: number;
@@ -70,23 +94,24 @@ export function CarbonPlanChart() {
     async function fetchData() {
       try {
         setLoading(true);
-        const response = await fetch('/api/carbon-projects?limit=1000');
+        const response = await fetch("/api/carbon-projects?limit=1000");
 
         if (!response.ok) {
-          throw new Error('Failed to fetch data');
+          throw new Error("Failed to fetch data");
         }
 
         const data: ApiResponse = await response.json();
 
         if (data.error && data.fallback) {
-          throw new Error('Using local data');
+          throw new Error("Using local data");
         }
 
         setProjects(data.projects);
         setStats(data.stats);
         setUseFallback(false);
-      } catch (err) {
-        console.log('Using fallback data:', err);
+      }
+      catch (err) {
+        logger.warn("Usando dados fallback", { error: err });
         setUseFallback(true);
         // Use local data as fallback
         const localStats = getStats();
@@ -113,7 +138,8 @@ export function CarbonPlanChart() {
           protocol: p.protocol,
         }));
         setProjects(mappedProjects);
-      } finally {
+      }
+      finally {
         setLoading(false);
       }
     }
@@ -128,9 +154,9 @@ export function CarbonPlanChart() {
       const term = searchTerm.toLowerCase();
       filtered = filtered.filter(
         (p: CarbonProject) =>
-          p.name.toLowerCase().includes(term) ||
-          p.country.toLowerCase().includes(term) ||
-          p.project_id.toLowerCase().includes(term)
+          p.name.toLowerCase().includes(term)
+          || p.country.toLowerCase().includes(term)
+          || p.project_id.toLowerCase().includes(term),
       );
     }
 
@@ -146,7 +172,8 @@ export function CarbonPlanChart() {
       let comparison = 0;
       if (sortBy === "country") {
         comparison = a.country.localeCompare(b.country);
-      } else {
+      }
+      else {
         comparison = a.name.localeCompare(b.name);
       }
       return sortOrder === "asc" ? comparison : -comparison;
@@ -172,7 +199,7 @@ export function CarbonPlanChart() {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 400, behavior: 'smooth' });
+    window.scrollTo({ top: 400, behavior: "smooth" });
   };
 
   const countryStatsData = useMemo(() => {
@@ -194,7 +221,7 @@ export function CarbonPlanChart() {
         .map(([name, value]) => ({
           name,
           value,
-          color: continentColors[name] || "#6b7280"
+          color: continentColors[name] || "#6b7280",
         }));
     }
     return Object.entries(stats.continentStats)
@@ -202,46 +229,9 @@ export function CarbonPlanChart() {
       .map(([name, value]) => ({
         name,
         value,
-        color: continentColors[name] || "#6b7280"
+        color: continentColors[name] || "#6b7280",
       }));
   }, [stats]);
-
-  const typeChartData = useMemo(() => {
-    if (!stats) return [
-      { name: "Florestal", value: 0, color: "#22c55e" },
-      { name: "Outros", value: 0, color: "#6b7280" },
-    ];
-    return [
-      { name: "Florestal", value: stats.forestProjects, color: "#22c55e" },
-      { name: "Outros", value: stats.totalProjects - stats.forestProjects, color: "#6b7280" },
-    ];
-  }, [stats]);
-
-  const categoryColors: Record<string, string> = {
-    "forest": "#22c55e",
-    "agriculture": "#f59e0b",
-    "renewable-energy": "#3b82f6",
-    "fuel-switching": "#ef4444",
-    "biochar": "#8b5cf6",
-    "energy-efficiency": "#ec4899",
-    "land-use": "#14b8a6",
-    "carbon-capture": "#6366f1",
-    "ghg-management": "#84cc16",
-    "unknown": "#6b7280",
-  };
-
-  const PortugueseCategoryNames: Record<string, string> = {
-    "forest": "Florestal",
-    "agriculture": "Agricultura",
-    "renewable-energy": "Energia Renovável",
-    "fuel-switching": "Subst. Combustível",
-    "biochar": "Biochar",
-    "energy-efficiency": "Eficiência Energética",
-    "land-use": "Uso da Terra",
-    "carbon-capture": "Captura de Carbono",
-    "ghg-management": "Gestão de GEE",
-    "unknown": "Pendente",
-  };
 
   const categoryChartData = useMemo(() => {
     if (!stats || !stats.categoryStats) return [];
@@ -256,15 +246,15 @@ export function CarbonPlanChart() {
     const result = topEntries.map(([name, value]) => ({
       name: PortugueseCategoryNames[name] || name,
       value,
-      color: categoryColors[name] || "#94a3b8"
+      color: categoryColors[name] || "#94a3b8",
     }));
 
     if (otherEntries.length > 0) {
-      const othersValue = otherEntries.reduce((sum, [_, val]) => sum + val, 0);
+      const othersValue = otherEntries.reduce((sum, [, val]) => sum + val, 0);
       result.push({
         name: "Outros",
         value: othersValue,
-        color: "#94a3b8" // Slate-400 for 'Others'
+        color: "#94a3b8", // Slate-400 for 'Others'
       });
     }
 
@@ -294,24 +284,24 @@ export function CarbonPlanChart() {
     if (!stats?.categoryStats) return [];
     return Object.keys(stats.categoryStats).map(cat => ({
       value: cat,
-      label: PortugueseCategoryNames[cat] || cat.charAt(0).toUpperCase() + cat.slice(1).replace(/-/g, " ")
+      label: PortugueseCategoryNames[cat] || cat.charAt(0).toUpperCase() + cat.slice(1).replace(/-/g, " "),
     })).sort((a, b) => a.label.localeCompare(b.label));
   }, [stats]);
 
   const getBadgeColor = (category: string) => {
-    const colors: Record<string, string> = {
+    const colors: Record<string, "green" | "amber" | "blue" | "red" | "pink" | "emerald" | "yellow" | "gray"> = {
       "forest": "green",
       "agriculture": "amber",
       "renewable-energy": "blue",
       "fuel-switching": "red",
-      "biochar": "violet",
+      "biochar": "blue",
       "energy-efficiency": "pink",
       "land-use": "emerald",
-      "carbon-capture": "indigo",
-      "ghg-management": "lime",
+      "carbon-capture": "blue",
+      "ghg-management": "yellow",
       "unknown": "gray",
     };
-    return (colors[category] || "gray") as any;
+    return colors[category] || "gray";
   };
 
   const getTypeBadgeColor = (projectType: string): "green" | "emerald" | "gray" => {
@@ -344,7 +334,7 @@ export function CarbonPlanChart() {
         <Card>
           <MetricSubtitle>Créditos Emitidos</MetricSubtitle>
           <Metric className="text-green-600 dark:text-green-400">
-            {stats?.totalCredits ? (stats.totalCredits / 1000000).toFixed(1) + 'M' : '0'}
+            {stats?.totalCredits ? (stats.totalCredits / 1000000).toFixed(1) + "M" : "0"}
           </Metric>
         </Card>
         <Card>
@@ -367,9 +357,11 @@ export function CarbonPlanChart() {
             Visualização geográfica em desenvolvimento
           </p>
           <div className="flex flex-wrap justify-center gap-3">
-            {continentStatsData.map((item) => (
+            {continentStatsData.map(item => (
               <Badge key={item.name} color="blue">
-                {item.name}: {item.value}
+                {item.name}
+                :
+                {item.value}
               </Badge>
             ))}
           </div>
@@ -407,7 +399,11 @@ export function CarbonPlanChart() {
               content="A predominância massiva dos EUA no gráfico de créditos deve-se à completude dos dados de emissão: enquanto muitos projetos de outros países estão apenas registrados, os projetos dos EUA possuem o histórico completo de quantidades emitidas (vintages) carregado no sistema."
             >
               <span className="cursor-help text-gray-400">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                  <path d="M12 17h.01" />
+                </svg>
               </span>
             </Tooltip>
           </div>
@@ -417,7 +413,7 @@ export function CarbonPlanChart() {
                 ...item,
                 name: item.name,
                 value: item.value,
-                color: item.name === "United States" ? "#3b82f6" : "#94a3b8"
+                color: item.name === "United States" ? "#3b82f6" : "#94a3b8",
               }))}
             />
           </div>
@@ -432,7 +428,11 @@ export function CarbonPlanChart() {
             content='Observação sobre "Vintage Delay": Você notará que 2024 e 2025 ainda mostram valores menores. Isso é normal e correto tecnicamente, pois no mercado de carbono existe o chamado Reporting Lag: leva-se de 1 a 2 anos para que as reduções de um ano sejam verificadas, registradas e os créditos efetivamente emitidos (Vintages). Conforme novos dados forem inseridos, esses anos "subirão" no gráfico.'
           >
             <span className="cursor-help text-gray-400">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                <path d="M12 17h.01" />
+              </svg>
             </span>
           </Tooltip>
         </div>
@@ -454,7 +454,7 @@ export function CarbonPlanChart() {
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedCountry(e.target.value)}
             options={[
               { value: "", label: "Todos os países" },
-              ...uniqueCountries.map((c: string) => ({ value: c, label: c }))
+              ...uniqueCountries.map((c: string) => ({ value: c, label: c })),
             ]}
           />
           <Select
@@ -462,7 +462,7 @@ export function CarbonPlanChart() {
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedType(e.target.value)}
             options={[
               { value: "", label: "Todas as categorias" },
-              ...categoryOptions
+              ...categoryOptions,
             ]}
           />
         </div>
@@ -471,7 +471,9 @@ export function CarbonPlanChart() {
           <TableHead>
             <TableRow>
               <TableHeader onClick={() => { setSortBy("country"); setSortOrder(sortOrder === "asc" ? "desc" : "asc"); }}>
-                País {sortBy === "country" && (sortOrder === "asc" ? "↑" : "↓")}
+                País
+                {" "}
+                {sortBy === "country" && (sortOrder === "asc" ? "↑" : "↓")}
               </TableHeader>
               <TableHeader>Projeto</TableHeader>
               <TableHeader>Tipo</TableHeader>
@@ -509,7 +511,17 @@ export function CarbonPlanChart() {
         {filteredProjects.length > 50 && (
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
             <p className="text-sm text-gray-500">
-              Mostrando {startIndex + 1}-{Math.min(endIndex, filteredProjects.length)} de {filteredProjects.length} projetos
+              Mostrando
+              {" "}
+              {startIndex + 1}
+              -
+              {Math.min(endIndex, filteredProjects.length)}
+              {" "}
+              de
+              {" "}
+              {filteredProjects.length}
+              {" "}
+              projetos
             </p>
 
             <div className="flex items-center gap-2">
@@ -526,11 +538,14 @@ export function CarbonPlanChart() {
                   let pageNum: number;
                   if (totalPages <= 5) {
                     pageNum = i + 1;
-                  } else if (currentPage <= 3) {
+                  }
+                  else if (currentPage <= 3) {
                     pageNum = i + 1;
-                  } else if (currentPage >= totalPages - 2) {
+                  }
+                  else if (currentPage >= totalPages - 2) {
                     pageNum = totalPages - 4 + i;
-                  } else {
+                  }
+                  else {
                     pageNum = currentPage - 2 + i;
                   }
 
@@ -539,9 +554,9 @@ export function CarbonPlanChart() {
                       key={pageNum}
                       onClick={() => handlePageChange(pageNum)}
                       className={`w-8 h-8 text-sm rounded-lg transition-colors ${currentPage === pageNum
-                        ? 'bg-blue-600 text-white'
-                        : 'border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
-                        }`}
+                        ? "bg-blue-600 text-white"
+                        : "border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      }`}
                     >
                       {pageNum}
                     </button>

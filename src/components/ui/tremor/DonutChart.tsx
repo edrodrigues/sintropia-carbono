@@ -23,7 +23,7 @@ interface DonutChartProps {
   colors?: string[];
 }
 
-const defaultColors = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#14b8a6", "#f97316", "#6366f1", "#84cc16", "#06b6d4", "#a855f7"];
+const defaultColors = ["#0a382c", "#0cf570", "#a8c3a0", "#23282d", "#14624a", "#f59e0b", "#6b8f71", "#0891b2", "#ef4444", "#ec4899", "#8b5cf6", "#f97316"];
 
 interface CustomTooltipProps {
   active?: boolean;
@@ -50,8 +50,8 @@ function CustomLegend({ payload }: { payload?: Array<{ value?: string; color?: s
     <div className="flex flex-wrap justify-center gap-4 mt-4">
       {payload?.map((entry, index) => (
         <div key={index} className="flex items-center gap-1">
-          <div 
-            className="w-3 h-3 rounded-full" 
+          <div
+            className="w-3 h-3 rounded-full"
             style={{ backgroundColor: entry?.color }}
           />
           <span className="text-xs text-gray-600 dark:text-gray-400">{entry?.value}</span>
@@ -62,8 +62,6 @@ function CustomLegend({ payload }: { payload?: Array<{ value?: string; color?: s
 }
 
 export function DonutChart({ data, className, showLegend = true, colors = defaultColors }: DonutChartProps) {
-  const chartColors = data.map((d, i) => d.color || colors[i % colors.length]);
-
   return (
     <div className={cx("h-[250px]", className)}>
       <ResponsiveContainer width="100%" height="100%">
@@ -78,8 +76,8 @@ export function DonutChart({ data, className, showLegend = true, colors = defaul
             dataKey="value"
           >
             {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
+              <Cell
+                key={`cell-${index}`}
                 fill={entry.color || colors[index % colors.length]}
                 stroke="#ffffff"
                 strokeWidth={2}
