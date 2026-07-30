@@ -24,6 +24,14 @@
 
 # production
 /build
+/dist
+
+# design-sync
+/.ds-sync/
+/ds-bundle/
+/.design-sync/.cache/
+/.design-sync/learnings/
+/.design-sync/node_modules
 
 # misc
 .DS_Store

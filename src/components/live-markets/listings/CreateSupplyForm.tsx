@@ -39,6 +39,7 @@ export function CreateSupplyForm({ locale }: Props) {
     documentation: [] as string[],
     media_urls: "",
     contract_type: "",
+    notes: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -86,6 +87,7 @@ export function CreateSupplyForm({ locale }: Props) {
         ? form.media_urls.split(",").map((s) => s.trim()).filter(Boolean).map((u) => { try { return new URL(u).toString(); } catch { return null; } }).filter(Boolean) as string[]
         : undefined,
       contract_type: form.contract_type || undefined,
+      notes: form.notes.trim() || undefined,
     };
     if (form.sylvera || form.bezero || form.renoster) {
       const ratings: Record<string, unknown> = {};
@@ -247,6 +249,18 @@ export function CreateSupplyForm({ locale }: Props) {
               </button>
             ))}
           </div>
+        </div>
+        <div>
+          <label className={labelCls}>{t("notes")}</label>
+          <textarea
+            className={`${inputCls} resize-none`}
+            rows={3}
+            maxLength={500}
+            value={form.notes}
+            onChange={(e) => field("notes", e.target.value)}
+            placeholder={t("notesPlaceholder")}
+          />
+          <p className="mt-1 text-right text-xs text-slate-400">{form.notes.length}/500</p>
         </div>
       </section>
 

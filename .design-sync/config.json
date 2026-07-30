@@ -1,0 +1,9 @@
+{
+  "projectId": "eebef3d2-19ce-49d3-98ae-847c989e6ba5",
+  "pkg": "sintropia-carbono",
+  "shape": "package",
+  "buildCmd": "npm run build:ds",
+  "tsconfig": "tsconfig.ds.json",
+  "cssEntry": "dist/styles.css",
+  "guidelinesGlob": ["DESIGN.md"]
+}

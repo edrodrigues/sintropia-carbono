@@ -853,7 +853,9 @@
         "evaluationCriteria": "Criterios de evaluación",
         "evaluationCriteriaHelp": "Cómo se evaluarán las propuestas (peso porcentual)",
         "minRatings": "Rating mínimo por agencia",
-        "minRatingsHelp": "Rating mínimo deseado de cada agencia"
+        "minRatingsHelp": "Rating mínimo deseado de cada agencia",
+        "notes": "Notas",
+        "notesPlaceholder": "Observaciones adicionales (opcional, hasta 500 caracteres)"
     },
     "Auth": {
         "loginTitle": "Sintropia",

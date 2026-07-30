@@ -52,6 +52,7 @@ export function CreateDemandForm({ locale, existingBuyerProfile }: Props) {
     proposal_deadline: "",
     response_format: "" as "" | "free" | "template",
     prefer_deal_room: false,
+    notes: "",
   });
 
   const [evalCriteria, setEvalCriteria] = useState<Record<string, number>>({
@@ -105,6 +106,7 @@ export function CreateDemandForm({ locale, existingBuyerProfile }: Props) {
       prefer_deal_room: form.prefer_deal_room,
       evaluation_criteria: showEvalCriteria ? evalCriteria : undefined,
       min_ratings: showMinRatings ? minRatings : undefined,
+      notes: form.notes.trim() || undefined,
     };
 
     setLoading(true);
@@ -356,6 +358,18 @@ export function CreateDemandForm({ locale, existingBuyerProfile }: Props) {
               {t("preferDealRoom")}
             </label>
           </div>
+        </div>
+        <div>
+          <label className={labelCls}>{t("notes")}</label>
+          <textarea
+            className={`${inputCls} resize-none`}
+            rows={3}
+            maxLength={500}
+            value={form.notes}
+            onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+            placeholder={t("notesPlaceholder")}
+          />
+          <p className="mt-1 text-right text-xs text-slate-400">{form.notes.length}/500</p>
         </div>
       </section>
 

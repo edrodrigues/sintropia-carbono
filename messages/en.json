@@ -830,7 +830,9 @@
         "evaluationCriteria": "Evaluation criteria",
         "evaluationCriteriaHelp": "How proposals will be evaluated (percentage weight)",
         "minRatings": "Minimum rating per agency",
-        "minRatingsHelp": "Minimum desired rating from each agency"
+        "minRatingsHelp": "Minimum desired rating from each agency",
+        "notes": "Notes",
+        "notesPlaceholder": "Additional remarks (optional, up to 500 characters)"
     },
     "Auth": {
         "loginTitle": "Sintropia",

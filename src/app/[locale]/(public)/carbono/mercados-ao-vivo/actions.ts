@@ -51,6 +51,7 @@ export async function createSupplyListing(raw: Record<string, unknown>): Promise
     documentation: d.documentation ?? [],
     media_urls: d.media_urls ?? [],
     contract_type: d.contract_type ?? null,
+    notes: d.notes ?? null,
     completeness_score,
   };
 
@@ -122,6 +123,7 @@ export async function createDemandListing(raw: Record<string, unknown>): Promise
     response_format: d.response_format ?? null,
     evaluation_criteria: (d.evaluation_criteria ?? null) as Json,
     prefer_deal_room: d.prefer_deal_room ?? null,
+    notes: d.notes ?? null,
     completeness_score,
   };
 

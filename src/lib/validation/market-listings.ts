@@ -33,6 +33,7 @@ export const supplyListingSchema = z.object({
   documentation: z.array(z.string()).max(20).optional(),
   media_urls: z.array(z.string().url()).max(10).optional(),
   contract_type: z.string().max(50).optional(),
+  notes: z.string().max(500, "Notas: máximo de 500 caracteres").optional(),
 }).refine(
   (d) => d.price_on_request === true || (typeof d.price_amount === "number" && d.price_amount > 0),
   { message: "Informe um preço ou marque 'Sob consulta'", path: ["price_amount"] },
@@ -66,6 +67,7 @@ export const demandListingSchema = z.object({
   response_format: responseFormatEnum.optional(),
   evaluation_criteria: z.record(z.string(), z.unknown()).optional(),
   prefer_deal_room: z.boolean().optional(),
+  notes: z.string().max(500, "Notas: máximo de 500 caracteres").optional(),
 }).refine(
   (d) => d.vintage_from === undefined || d.vintage_to === undefined || d.vintage_from <= d.vintage_to,
   { message: "Vintage inicial maior que a final", path: ["vintage_from"] },

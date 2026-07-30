@@ -1495,6 +1495,7 @@ export type Database = {
           min_ratings: Json | null
           min_transaction_size: number | null
           needs_extra_dd: boolean | null
+          notes: string | null
           offtake_until_year: number | null
           open_to_multi_year_offtake: boolean | null
           origin_country: string | null
@@ -1547,6 +1548,7 @@ export type Database = {
           min_ratings?: Json | null
           min_transaction_size?: number | null
           needs_extra_dd?: boolean | null
+          notes?: string | null
           offtake_until_year?: number | null
           open_to_multi_year_offtake?: boolean | null
           origin_country?: string | null
@@ -1599,6 +1601,7 @@ export type Database = {
           min_ratings?: Json | null
           min_transaction_size?: number | null
           needs_extra_dd?: boolean | null
+          notes?: string | null
           offtake_until_year?: number | null
           open_to_multi_year_offtake?: boolean | null
           origin_country?: string | null
@@ -2468,6 +2471,7 @@ export type Database = {
           min_ratings: Json | null
           min_transaction_size: number | null
           needs_extra_dd: boolean | null
+          notes: string | null
           offtake_until_year: number | null
           open_to_multi_year_offtake: boolean | null
           origin_country: string | null

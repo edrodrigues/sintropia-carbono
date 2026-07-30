@@ -3,6 +3,14 @@
   "version": "0.1.0",
   "description": "The professional network for environmental markets and sustainability. Connecting professionals in carbon, renewable energy, ESG, and sustainability.",
   "private": true,
+  "types": "./dist/index.d.mts",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    }
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,7 +18,8 @@
     "lint": "eslint src playwright.config.ts next.config.ts eslint.config.mjs --max-warnings=0",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "prepare": "husky"
+    "prepare": "husky",
+    "build:ds": "tsup && tailwindcss -i src/app/globals.css -o dist/styles.css --content \"./src/components/ui/**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@remixicon/react": "^4.9.0",
@@ -33,7 +42,9 @@
     "node-domexception": "^2.0.2"
   },
   "devDependencies": {
+    "@fontsource/inter": "^5.2.8",
     "@playwright/test": "^1.58.2",
+    "@tailwindcss/cli": "^4",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/postcss": "^4",
     "@types/dompurify": "^3.0.5",
@@ -50,6 +61,7 @@
     "papaparse": "^5.5.3",
     "playwright": "^1.58.2",
     "tailwindcss": "^4",
+    "tsup": "^8.5.0",
     "typescript": "^5",
     "typescript-eslint": "^8.60.1"
   }
