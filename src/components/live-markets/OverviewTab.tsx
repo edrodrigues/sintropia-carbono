@@ -185,6 +185,7 @@ export async function OverviewTab({
                   <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("registry")}</th>
                   <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("score")}</th>
                   <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("price")}</th>
+                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("volume")}</th>
                   <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("geography")}</th>
                   <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("updated")}</th>
                 </tr>
@@ -227,6 +228,14 @@ export async function OverviewTab({
                         <span className="text-sm font-mono font-bold text-emerald-600">{formatPrice(item, displayCurrency, rates)}</span>
                         <span className="block text-[10px] text-gray-500">{item.currency || "—"} / {item.unit || "—"}</span>
                       </td>
+                      <td className="px-4 py-3 text-right hidden sm:table-cell">
+                        <span className="text-sm font-mono text-gray-900">
+                          {item.volume != null ? Number(item.volume).toLocaleString("pt-BR") : "—"}
+                        </span>
+                        {item.volume != null && (
+                          <span className="block text-[10px] text-gray-500">{item.unit || ""}</span>
+                        )}
+                      </td>
                       <td className="px-4 py-3 text-xs text-gray-600 hidden sm:table-cell">
                         {item.country || item.technology || "—"}
                       </td>
@@ -238,7 +247,7 @@ export async function OverviewTab({
                 })}
                 {allAssets.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="px-4 py-12 text-center">
+                    <td colSpan={8} className="px-4 py-12 text-center">
                       <div className="flex flex-col items-center gap-3">
                         <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
                           <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

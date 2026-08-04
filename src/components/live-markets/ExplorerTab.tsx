@@ -103,6 +103,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("price_type")}</th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("score")}</th>
                 <th className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("price")}</th>
+                <th className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("volume")}</th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("attributes")}</th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("source")}</th>
                 <th className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("updated")}</th>
@@ -152,6 +153,14 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                       <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</span>
                       <span className="block text-[10px] text-gray-500">{item.currency || "—"} / {item.unit || "—"}</span>
                     </td>
+                    <td className="px-3 py-3 text-right hidden sm:table-cell">
+                      <span className="text-sm font-mono text-gray-900">
+                        {item.volume != null ? Number(item.volume).toLocaleString("pt-BR") : "—"}
+                      </span>
+                      {item.volume != null && (
+                        <span className="block text-[10px] text-gray-500">{item.unit || ""}</span>
+                      )}
+                    </td>
                     <td className="px-3 py-3 hidden sm:table-cell">
                       <span className="text-[11px] text-gray-500">
                         {[item.vintage_year, item.country, item.registry, item.technology].filter(Boolean).join(" · ")}
@@ -184,7 +193,7 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
               })}
               {assets.length === 0 && (
                 <tr>
-                  <td colSpan={8} className="px-4 py-12 text-center">
+                  <td colSpan={9} className="px-4 py-12 text-center">
                     <div className="flex flex-col items-center gap-3">
                       <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
                         <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

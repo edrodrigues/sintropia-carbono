@@ -1377,6 +1377,7 @@
         "price_type": "Tipo de precio",
         "attributes": "Atributos",
         "registry": "Registro",
+        "volume": "Volumen disponible",
         "time_now": "ahora",
         "time_min": "{n} min",
         "time_hour": "{n}h",
