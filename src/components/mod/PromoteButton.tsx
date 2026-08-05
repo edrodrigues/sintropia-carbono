@@ -7,9 +7,15 @@ interface PromoteButtonProps {
   userId: string;
   username: string;
   currentRole: string;
+  /**
+   * Role of the signed-in moderator. Granting roles is admin-only, so the
+   * control is hidden for plain moderators; the server action enforces this
+   * independently.
+   */
+  viewerRole: "moderator" | "admin";
 }
 
-export function PromoteButton({ userId, currentRole }: PromoteButtonProps) {
+export function PromoteButton({ userId, currentRole, viewerRole }: PromoteButtonProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -29,6 +35,10 @@ export function PromoteButton({ userId, currentRole }: PromoteButtonProps) {
     setSuccess(true);
     setLoading(false);
   };
+
+  if (viewerRole !== "admin") {
+    return null;
+  }
 
   if (currentRole === "admin" || currentRole === "moderator") {
     return null;

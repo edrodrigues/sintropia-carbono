@@ -5,6 +5,7 @@ import { ReportsList } from "@/components/mod/ReportsList";
 import { UsersList } from "@/components/mod/UsersList";
 import { PostsList } from "@/components/mod/PostsList";
 import { ModSearch } from "@/components/mod/ModSearch";
+import { MODERATION_ROLES } from "@/lib/auth/server";
 import type { Report } from "@/types";
 
 export default async function ModDashboard() {
@@ -24,7 +25,7 @@ export default async function ModDashboard() {
     .eq("id", user.id)
     .single();
 
-  if (!profile || !["moderator", "admin"].includes(profile.role ?? "")) {
+  if (!profile || !(MODERATION_ROLES as readonly string[]).includes(profile.role ?? "")) {
     redirect("/");
   }
 
@@ -214,7 +215,7 @@ export default async function ModDashboard() {
           </div>
         </div>
 
-        <ModSearch />
+        <ModSearch viewerRole={profile.role === "admin" ? "admin" : "moderator"} />
 
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div className="p-4 border-b border-gray-200 dark:border-gray-700">
@@ -222,7 +223,7 @@ export default async function ModDashboard() {
               Usuários Recentes
             </h2>
           </div>
-          <UsersList />
+          <UsersList viewerRole={profile.role === "admin" ? "admin" : "moderator"} />
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">

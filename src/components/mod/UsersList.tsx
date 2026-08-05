@@ -12,7 +12,12 @@ import { BanUserButton } from "./BanUserButton";
 
 const USERS_PER_PAGE = 10;
 
-export function UsersList() {
+interface UsersListProps {
+  /** Role of the signed-in moderator viewing this list. */
+  viewerRole: "moderator" | "admin";
+}
+
+export function UsersList({ viewerRole }: UsersListProps) {
   const [users, setUsers] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -153,6 +158,7 @@ export function UsersList() {
                 userId={user.id}
                 username={user.username}
                 currentRole={user.role || "user"}
+                viewerRole={viewerRole}
               />
               {user.role !== "banned" && user.role !== "admin" && (
                 <>

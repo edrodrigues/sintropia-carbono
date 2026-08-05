@@ -46,6 +46,76 @@ export function isDevelopmentEnvironment() {
   return process.env.NODE_ENV !== "production";
 }
 
+/**
+ * Roles allowed to use moderation tooling. Single source of truth — do not
+ * re-inline this list at call sites.
+ */
+export const MODERATION_ROLES = ["moderator", "admin"] as const satisfies readonly UserRole[];
+
+export type ActionAuthFailure = { ok: false; error: string };
+
+export interface ActionAuthSuccess {
+  ok: true;
+  role: UserRole;
+  supabase: Awaited<ReturnType<typeof createClient>>;
+  user: User;
+}
+
+export type ActionAuthResult = ActionAuthSuccess | ActionAuthFailure;
+
+/**
+ * Require an authenticated user for a server action.
+ *
+ * Returns a discriminated result instead of throwing, so callers can surface
+ * the message to the client directly.
+ */
+export async function requireActionUser(): Promise<ActionAuthResult> {
+  const context = await getServerAuthContext();
+
+  if (!context.user) {
+    return { ok: false, error: "Usuário não autenticado" };
+  }
+
+  return {
+    ok: true,
+    supabase: context.supabase,
+    user: context.user,
+    role: context.role ?? "user",
+  };
+}
+
+/**
+ * Require an authenticated user whose role is in `allowedRoles`.
+ *
+ * `deniedError` is shown when the user is authenticated but lacks the role,
+ * so each action can phrase its own refusal.
+ */
+export async function requireActionRole(
+  allowedRoles: readonly UserRole[],
+  deniedError: string,
+): Promise<ActionAuthResult> {
+  const auth = await requireActionUser();
+  if (!auth.ok) {
+    return auth;
+  }
+
+  if (!allowedRoles.includes(auth.role)) {
+    return { ok: false, error: deniedError };
+  }
+
+  return auth;
+}
+
+/** Require a moderator or admin for a server action. */
+export async function requireModerator(deniedError: string): Promise<ActionAuthResult> {
+  return requireActionRole(MODERATION_ROLES, deniedError);
+}
+
+/** Require an admin for a server action. */
+export async function requireAdmin(deniedError: string): Promise<ActionAuthResult> {
+  return requireActionRole(["admin"], deniedError);
+}
+
 export async function requireAdminApiAccess(options?: {
   developmentOnly?: boolean;
 }): Promise<

@@ -37,7 +37,12 @@ interface Post {
   } | null;
 }
 
-export function ModSearch() {
+interface ModSearchProps {
+  /** Role of the signed-in moderator using the search panel. */
+  viewerRole: "moderator" | "admin";
+}
+
+export function ModSearch({ viewerRole }: ModSearchProps) {
   const [query, setQuery] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -203,7 +208,7 @@ export function ModSearch() {
                             </div>
                           </Link>
                           <div className="flex items-center gap-2">
-                            <PromoteButton userId={user.id} username={user.username} currentRole={user.role || "user"} />
+                            <PromoteButton userId={user.id} username={user.username} currentRole={user.role || "user"} viewerRole={viewerRole} />
                             {user.role !== "banned" && user.role !== "admin" && (
                               <WarnUserButton userId={user.id} username={user.username} />
                             )}

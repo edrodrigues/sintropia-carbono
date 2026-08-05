@@ -1,9 +1,11 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { banUserSchema, promoteToModeratorSchema, warnUserSchema, deletePostSchema } from "@/lib/validation";
+import { requireAdmin, requireModerator } from "@/lib/auth/server";
 import { logger } from "@/lib/utils/logger";
+
+const BAN_DURATION_7_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
 export async function banUser(
   userId: string,
@@ -15,27 +17,39 @@ export async function banUser(
     return { success: false, error: parsed.error.issues[0]?.message || "Dados inválidos" };
   }
 
-  const supabase = await createClient();
-
-  const { data: { user: currentUser } } = await supabase.auth.getUser();
-
-  if (!currentUser) {
-    return { success: false, error: "Usuário não autenticado" };
+  const auth = await requireModerator("Sem permissão para banir usuários");
+  if (!auth.ok) {
+    return { success: false, error: auth.error };
   }
+  const { supabase, user: currentUser } = auth;
 
-  const { data: profile } = await supabase
+  // A moderator must not be able to ban a moderator or an admin; only an admin
+  // may act on privileged accounts.
+  const { data: target } = await supabase
     .from("profiles")
     .select("role")
-    .eq("id", currentUser.id)
-    .single();
+    .eq("id", userId)
+    .maybeSingle();
 
-  if (!profile || !["moderator", "admin"].includes(profile.role ?? "")) {
-    return { success: false, error: "Sem permissão para banir usuários" };
+  if (!target) {
+    return { success: false, error: "Usuário não encontrado" };
+  }
+
+  if (target.role === "admin") {
+    return { success: false, error: "Não é possível banir um administrador" };
+  }
+
+  if (target.role === "moderator" && auth.role !== "admin") {
+    return { success: false, error: "Apenas um administrador pode banir um moderador" };
+  }
+
+  if (userId === currentUser.id) {
+    return { success: false, error: "Não é possível banir a si mesmo" };
   }
 
   const expiresAt = duration === "permanent"
     ? null
-    : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+    : new Date(Date.now() + BAN_DURATION_7_DAYS_MS).toISOString();
 
   const { error: banError } = await supabase.from("bans").insert({
     user_id: userId,
@@ -60,7 +74,6 @@ export async function banUser(
   }
 
   revalidatePath("/", "layout");
-  revalidatePath("/", "layout");
 
   return { success: true };
 }
@@ -73,29 +86,20 @@ export async function promoteToModerator(
     return { success: false, error: "ID de usuário inválido" };
   }
 
-  const supabase = await createClient();
-
-  const { data: { user: currentUser } } = await supabase.auth.getUser();
-
-  if (!currentUser) {
-    return { success: false, error: "Usuário não autenticado" };
+  // Granting roles is an admin-only operation. Previously any moderator could
+  // promote other users, which let a moderator escalate the privileges of an
+  // account they controlled.
+  const auth = await requireAdmin("Apenas um administrador pode promover usuários");
+  if (!auth.ok) {
+    return { success: false, error: auth.error };
   }
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", currentUser.id)
-    .single();
-
-  if (!profile || !["moderator", "admin"].includes(profile.role ?? "")) {
-    return { success: false, error: "Sem permissão para promover usuários" };
-  }
+  const { supabase } = auth;
 
   const { data: targetUser } = await supabase
     .from("profiles")
     .select("role")
     .eq("id", userId)
-    .single();
+    .maybeSingle();
 
   if (!targetUser) {
     return { success: false, error: "Usuário não encontrado" };
@@ -116,7 +120,6 @@ export async function promoteToModerator(
   }
 
   revalidatePath("/", "layout");
-  revalidatePath("/", "layout");
 
   return { success: true };
 }
@@ -130,23 +133,11 @@ export async function warnUser(
     return { success: false, error: parsed.error.issues[0]?.message || "Dados inválidos" };
   }
 
-  const supabase = await createClient();
-
-  const { data: { user: currentUser } } = await supabase.auth.getUser();
-
-  if (!currentUser) {
-    return { success: false, error: "Usuário não autenticado" };
+  const auth = await requireModerator("Sem permissão para advertir usuários");
+  if (!auth.ok) {
+    return { success: false, error: auth.error };
   }
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", currentUser.id)
-    .single();
-
-  if (!profile || !["moderator", "admin"].includes(profile.role ?? "")) {
-    return { success: false, error: "Sem permissão para adverti usuários" };
-  }
+  const { supabase, user: currentUser } = auth;
 
   const { error: warnError } = await supabase.from("warnings").insert({
     user_id: userId,
@@ -159,7 +150,6 @@ export async function warnUser(
     return { success: false, error: "Erro ao criar advertência" };
   }
 
-  revalidatePath("/", "layout");
   revalidatePath("/", "layout");
 
   return { success: true };
@@ -176,23 +166,11 @@ export async function deletePost(
 
   const { postId: validPostId, reason: validReason } = parsed.data;
 
-  const supabase = await createClient();
-
-  const { data: { user: currentUser } } = await supabase.auth.getUser();
-
-  if (!currentUser) {
-    return { success: false, error: "Usuário não autenticado" };
+  const auth = await requireModerator("Sem permissão para deletar posts");
+  if (!auth.ok) {
+    return { success: false, error: auth.error };
   }
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", currentUser.id)
-    .single();
-
-  if (!profile || !["moderator", "admin"].includes(profile.role ?? "")) {
-    return { success: false, error: "Sem permissão para deletar posts" };
-  }
+  const { supabase, user: currentUser } = auth;
 
   const { error: deleteError } = await supabase
     .from("posts")
@@ -212,7 +190,6 @@ export async function deletePost(
     });
   }
 
-  revalidatePath("/", "layout");
   revalidatePath("/", "layout");
 
   return { success: true };
