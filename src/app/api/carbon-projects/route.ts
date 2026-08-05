@@ -120,11 +120,24 @@ function clampInt(raw: string | null, fallback: number, min: number, max: number
 }
 
 /**
- * Escape a user-supplied term for use inside a PostgREST `ilike` pattern in an
- * `.or()` filter, where , . : ( ) and quotes are structural.
+ * Quote a user-supplied term for use as a PostgREST filter value inside `.or()`.
+ *
+ * In an `.or()` filter string `, . : ( )` are structural. Stripping them, as
+ * this previously did, silently mangles legitimate queries: carbon project
+ * names routinely contain commas and parentheses, e.g.
+ * "Cookstoves, Phase II (Kenya)". PostgREST instead allows the value to be
+ * double-quoted, which makes those characters literal; inside the quotes only
+ * a double quote and a backslash need escaping.
+ *
+ * LIKE wildcards are neutralised too, so a term cannot widen its own match --
+ * a bare % would otherwise turn a lookup into a full table scan.
  */
-function escapePostgrestPattern(term: string): string {
-  return term.replace(/[,.:()"']/g, " ").trim();
+function toIlikeFilterValue(term: string): string {
+  const escaped = term
+    .replace(/\\/g, "\\\\")
+    .replace(/"/g, '\\"')
+    .replace(/([%_])/g, "\\$1");
+  return '"%' + escaped + '%"';
 }
 
 export async function GET(request: NextRequest) {
@@ -169,10 +182,8 @@ export async function GET(request: NextRequest) {
     }
 
     if (search) {
-      // PostgREST treats , . : ( ) and quotes as filter syntax, so an
-      // unescaped term could alter the query rather than be matched literally.
-      const safeSearch = escapePostgrestPattern(search);
-      query = query.or(`name.ilike.%${safeSearch}%,project_id.ilike.%${safeSearch}%`);
+      const value = toIlikeFilterValue(search);
+      query = query.or(`name.ilike.${value},project_id.ilike.${value}`);
     }
 
     // Fetch the page. `count: "exact"` on the select above already returns the

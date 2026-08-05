@@ -20,7 +20,7 @@
     "test:ui": "playwright test --ui",
     "prepare": "husky",
     "build:ds": "tsup && tailwindcss -i src/app/globals.css -o dist/styles.css --content \"./src/components/ui/**/*.{ts,tsx}\"",
-    "db:verify": "node scripts/verify-migrations.cjs",
+    "db:verify": "node scripts/verify-migrations.cjs && node scripts/verify-schema-contract.cjs && node scripts/verify-app-queries.cjs",
     "db:baseline": "node scripts/generate-schema-baseline.cjs"
   },
   "dependencies": {

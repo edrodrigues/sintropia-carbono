@@ -75,17 +75,29 @@ project and committed.
 
 ## Verifying a rebuild
 
-`scripts/verify-migrations.cjs` replays the entire directory, in filename order,
-against an empty in-memory Postgres:
+Three checks run in sequence, against a schema built from nothing but this
+directory in an in-process Postgres:
 
 ```bash
-npm install --no-save @electric-sql/pglite
-node scripts/verify-migrations.cjs
+npm install --no-save @electric-sql/pglite   # dev-only, not a saved dependency
+npm run db:verify
 ```
 
-Current result: **37 applied, 0 failed, 2 skipped**. The two skips
-(`setup_cron`, `schedule_ingest_carbonmark`) need `pg_cron`, which PGlite does
-not provide; they only schedule jobs.
+| Script | Question it answers |
+| --- | --- |
+| `verify-migrations.cjs` | Does every migration apply, from empty, in filename order? |
+| `verify-schema-contract.cjs` | Does the result contain every table and column the application's type contract requires? |
+| `verify-app-queries.cjs` | Do the queries the app actually issues run against it — including views, filters, ORDER BY columns, join keys and RPCs? |
+
+Current result: **37 migrations applied, 0 failed, 2 skipped**; **43/43 app
+tables with no missing columns**; **24/24 representative app queries run**. The
+two skips (`setup_cron`, `schedule_ingest_carbonmark`) only schedule jobs and
+need `pg_cron`, which PGlite does not provide.
+
+The layering matters. "Migrations apply" is weaker than it sounds: a migration
+set can apply cleanly and still produce a schema the application cannot use. The
+second and third checks are what actually establish that a rebuilt environment
+is usable.
 
 This check is worth running before any migration lands. It already caught a real
 pre-existing bug: `carbon_stakeholders` was created without `volume_2026` or
