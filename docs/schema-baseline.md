@@ -65,6 +65,26 @@ absent**:
 > files, and commit the corrections. Until then, treat a rebuilt environment as
 > approximate.
 
+### The constraints file is additive, and must stay that way
+
+Migrations run against the **live** database as well as a fresh one. The
+constraints file therefore only ever *adds*: each foreign key and unique
+constraint is wrapped in a guard that creates it solely when no constraint
+already exists on that column.
+
+> [!WARNING]
+> Never rewrite these as `DROP CONSTRAINT ... ADD CONSTRAINT ... ON DELETE
+> CASCADE`. The `CASCADE` in this file is an assumption for a from-scratch
+> rebuild; the real referential actions live only in the database and are not
+> recoverable from the generated types. Dropping and re-adding would replace
+> them with `CASCADE`, so if `posts.author_id` is really `ON DELETE SET NULL`,
+> deleting a profile would begin deleting that user's posts.
+
+`scripts/verify-constraints-safe.cjs` enforces this. It builds a database whose
+foreign key is deliberately `SET NULL`, applies the shipped migration, and
+asserts the action is unchanged and that a post survives its author's deletion —
+while also confirming the key *is* created on an empty database.
+
 ### RLS is deny-by-default
 
 Every baselined table gets `ENABLE ROW LEVEL SECURITY` with **no policies**.
@@ -88,9 +108,11 @@ npm run db:verify
 | `verify-migrations.cjs` | Does every migration apply, from empty, in filename order? |
 | `verify-schema-contract.cjs` | Does the result contain every table and column the application's type contract requires? |
 | `verify-app-queries.cjs` | Do the queries the app actually issues run against it — including views, filters, ORDER BY columns, join keys and RPCs? |
+| `verify-constraints-safe.cjs` | Is the constraints migration a genuine no-op against a live database, preserving its real ON DELETE behaviour? |
 
 Current result: **37 migrations applied, 0 failed, 2 skipped**; **43/43 app
-tables with no missing columns**; **24/24 representative app queries run**. The
+tables with no missing columns**; **24/24 representative app queries run**; and
+the constraints migration proven to be a no-op on an existing database. The
 two skips (`setup_cron`, `schedule_ingest_carbonmark`) only schedule jobs and
 need `pg_cron`, which PGlite does not provide.
 
