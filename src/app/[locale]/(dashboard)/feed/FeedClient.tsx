@@ -19,6 +19,7 @@ type ViewMode = "feed" | "challenges";
 
 export default function FeedClient({ initialPosts, referralCode }: { initialPosts: PostWithRelations[]; referralCode: string }) {
   const t = useTranslations("Community.feed");
+  const tc = useTranslations("Community.challenges");
   const [posts, setPosts] = useState(initialPosts);
   const [challenges, setChallenges] = useState<ChallengeWithRelations[]>([]);
   const [selectedPost, setSelectedPost] = useState<PostWithRelations | null>(null);
@@ -119,7 +120,7 @@ export default function FeedClient({ initialPosts, referralCode }: { initialPost
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-3">
               <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-                {viewMode === "feed" ? t("todayFeed") : "Desafios Ambientais"}
+                {viewMode === "feed" ? t("todayFeed") : tc("tabTitle")}
               </h1>
               <div className="flex gap-1 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl">
                 <button
@@ -138,7 +139,7 @@ export default function FeedClient({ initialPosts, referralCode }: { initialPost
                     : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
                   }`}
                 >
-                  Desafios
+                  {tc("tabLabel")}
                 </button>
               </div>
             </div>
@@ -160,7 +161,7 @@ export default function FeedClient({ initialPosts, referralCode }: { initialPost
             )}
           </div>
           <p className="text-gray-600 dark:text-gray-400">
-            {viewMode === "feed" ? t("shareInsight") : "Organizações compartilham desafios ESG reais. Contribua com suas ideias."}
+            {viewMode === "feed" ? t("shareInsight") : tc("tabSubtitle")}
           </p>
         </div>
 
@@ -208,8 +209,8 @@ export default function FeedClient({ initialPosts, referralCode }: { initialPost
                 ) : (
                   <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700">
                     <div className="text-5xl mb-4">🏔️</div>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Nenhum desafio encontrado</h3>
-                    <p className="text-gray-500">Seja o primeiro a compartilhar um desafio ESG!</p>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{tc("emptyTitle")}</h3>
+                    <p className="text-gray-500">{tc("emptyBeFirst")}</p>
                   </div>
                 )}
               </div>

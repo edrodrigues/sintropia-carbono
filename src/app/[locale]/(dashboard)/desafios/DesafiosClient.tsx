@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { ChallengeCard } from "@/components/challenges/ChallengeCard";
 import { CreateChallengeButton } from "@/components/challenges/CreateChallengeButton";
@@ -9,6 +10,7 @@ import { ChallengeWithRelations, CHALLENGE_CATEGORIES } from "@/types";
 import { User } from "@supabase/supabase-js";
 
 export default function DesafiosClient({ initialChallenges }: { initialChallenges: ChallengeWithRelations[] }) {
+  const t = useTranslations("Community.challenges");
   const [challenges, setChallenges] = useState(initialChallenges);
   const [selectedChallenge, setSelectedChallenge] = useState<ChallengeWithRelations | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -59,9 +61,9 @@ export default function DesafiosClient({ initialChallenges }: { initialChallenge
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Desafios ESG</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{t("pageTitle")}</h1>
             <p className="text-gray-600 dark:text-gray-400 mt-1">
-              Organizações compartilham desafios ESG reais. Contribua com suas ideias e soluções.
+              {t("pageSubtitle")}
             </p>
           </div>
         </div>
@@ -76,7 +78,7 @@ export default function DesafiosClient({ initialChallenges }: { initialChallenge
                 : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
             }`}
           >
-            Todos
+            {t("filterAll")}
           </button>
           {CHALLENGE_CATEGORIES.map(cat => (
             <button
@@ -88,7 +90,7 @@ export default function DesafiosClient({ initialChallenges }: { initialChallenge
                   : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
               }`}
             >
-              {cat}
+              {t.has(`categories.${cat}`) ? t(`categories.${cat}`) : cat}
             </button>
           ))}
         </div>
@@ -112,10 +114,10 @@ export default function DesafiosClient({ initialChallenges }: { initialChallenge
             <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700">
               <div className="text-5xl mb-4">🏔️</div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                Nenhum desafio encontrado
+                {t("emptyTitle")}
               </h3>
               <p className="text-gray-500">
-                {categoryFilter !== "all" ? "Nenhum desafio nesta categoria ainda." : "Seja o primeiro a compartilhar um desafio ESG!"}
+                {categoryFilter !== "all" ? t("emptyCategoryFiltered") : t("emptyBeFirst")}
               </p>
             </div>
           )}

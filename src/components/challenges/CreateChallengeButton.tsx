@@ -3,12 +3,14 @@
 import { createClient } from "@/lib/supabase/client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { sanitizeInput } from "@/lib/utils/sanitize";
 import { CHALLENGE_CATEGORIES } from "@/types";
 
 const MAX_IMAGES = 3;
 
 export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreated?: () => void }) {
+  const t = useTranslations("Community.challenges");
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
@@ -78,7 +80,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
         });
 
       if (uploadError) {
-        throw new Error("Erro ao enviar imagem: " + uploadError.message);
+        throw new Error(t("createButton.errors.imageUpload", { message: uploadError.message }));
       }
 
       const { data: { publicUrl } } = supabase.storage
@@ -94,11 +96,11 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
     e.preventDefault();
     setError(null);
 
-    if (!title.trim()) { setError("O título é obrigatório"); return; }
-    if (!category) { setError("Selecione uma categoria"); return; }
-    if (!context.trim()) { setError("O contexto é obrigatório"); return; }
-    if (!expectedResult.trim()) { setError("O resultado esperado é obrigatório"); return; }
-    if (!reward.trim()) { setError("O incentivo/recompensa é obrigatório"); return; }
+    if (!title.trim()) { setError(t("createButton.errors.titleRequired")); return; }
+    if (!category) { setError(t("createButton.errors.categoryRequired")); return; }
+    if (!context.trim()) { setError(t("createButton.errors.contextRequired")); return; }
+    if (!expectedResult.trim()) { setError(t("createButton.errors.expectedRequired")); return; }
+    if (!reward.trim()) { setError(t("createButton.errors.rewardRequired")); return; }
 
     const {
       data: { user },
@@ -112,12 +114,12 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
       .single();
 
     if (profile?.role === "banned") {
-      setError("Sua conta foi banida.");
+      setError(t("createButton.errors.banned"));
       return;
     }
 
     if (!["company", "ong", "government"].includes(profile?.user_type ?? "")) {
-      setError("Apenas perfis do tipo Empresa, ONG ou Governo podem criar desafios.");
+      setError(t("createButton.errors.notAllowedType"));
       return;
     }
 
@@ -158,7 +160,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
       router.refresh();
       onChallengeCreated?.();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro ao criar desafio");
+      setError(err instanceof Error ? err.message : t("createButton.errors.generic"));
     } finally {
       setLoading(false);
     }
@@ -171,9 +173,9 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
       <button
         onClick={() => setIsOpen(true)}
         className="w-full flex items-center justify-between p-4 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-2xl border border-emerald-200 dark:border-emerald-800 shadow-sm hover:border-emerald-500 transition-all text-emerald-700 dark:text-emerald-300 group"
-        aria-label="Criar novo desafio"
+        aria-label={t("createButton.aria")}
       >
-        <span className="font-medium group-hover:text-emerald-600">Sua organização tem um desafio ESG? Lance um Desafio!</span>
+        <span className="font-medium group-hover:text-emerald-600">{t("createButton.prompt")}</span>
         <div className="bg-emerald-600 p-2 rounded-xl text-white">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M12 9v4" />
@@ -195,11 +197,11 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
         >
           <div className="bg-white dark:bg-gray-800 w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Criar Desafio ESG</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t("createButton.modalTitle")}</h2>
               <button
                 onClick={() => { setIsOpen(false); setError(null); }}
                 className="text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 p-2 rounded-full transition-colors"
-                aria-label="Fechar modal"
+                aria-label={t("createButton.closeModalAria")}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M18 6 6 18" /><path d="M6 6l12 12" />
@@ -215,12 +217,12 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
               )}
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Título do Desafio</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">{t("createButton.titleLabel")}</label>
                 <input
                   type="text"
                   value={title}
                   onChange={e => setTitle(e.target.value)}
-                  placeholder="Ex: Como reduzir emissões na nossa cadeia logística?"
+                  placeholder={t("createButton.titlePlaceholder")}
                   maxLength={200}
                   className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
                   required
@@ -229,7 +231,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Categoria</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">{t("createButton.categoryLabel")}</label>
                 <div className="grid grid-cols-2 gap-2">
                   {CHALLENGE_CATEGORIES.map(cat => (
                     <button
@@ -242,7 +244,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
                           : "bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-emerald-300"
                       }`}
                     >
-                      {cat}
+                      {t.has(`categories.${cat}`) ? t(`categories.${cat}`) : cat}
                     </button>
                   ))}
                 </div>
@@ -250,17 +252,17 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
 
               {companySector && (
                 <div className="p-3 rounded-xl bg-mint-tint dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-                  <span className="text-xs font-bold text-blue-600 dark:text-electric-emerald uppercase tracking-wide">Setor da empresa</span>
+                  <span className="text-xs font-bold text-blue-600 dark:text-electric-emerald uppercase tracking-wide">{t("createButton.companySectorLabel")}</span>
                   <p className="text-sm text-blue-700 dark:text-blue-300 mt-0.5">{companySector}</p>
                 </div>
               )}
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">O Problema (Contexto)</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">{t("createButton.contextLabel")}</label>
                 <textarea
                   value={context}
                   onChange={e => setContext(e.target.value)}
-                  placeholder="Descreva detalhadamente o problema ou desafio ESG que sua organização enfrenta..."
+                  placeholder={t("createButton.contextPlaceholder")}
                   maxLength={3000}
                   className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 outline-none transition-all h-32 resize-none"
                   required
@@ -269,11 +271,11 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Resultado Esperado</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">{t("createButton.expectedLabel")}</label>
                 <textarea
                   value={expectedResult}
                   onChange={e => setExpectedResult(e.target.value)}
-                  placeholder="O que sua empresa espera alcançar com a solução deste desafio?"
+                  placeholder={t("createButton.expectedPlaceholder")}
                   maxLength={2000}
                   className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 outline-none transition-all h-24 resize-none"
                   required
@@ -282,11 +284,11 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Incentivo / Recompensa</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">{t("createButton.rewardLabel")}</label>
                 <textarea
                   value={reward}
                   onChange={e => setReward(e.target.value)}
-                  placeholder="Ex: Mentoria com nossa equipe de sustentabilidade, vale-presente, reconhecimento público, ou o que sua empresa oferece."
+                  placeholder={t("createButton.rewardPlaceholder")}
                   maxLength={1000}
                   className="w-full p-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 outline-none transition-all h-24 resize-none"
                   required
@@ -295,7 +297,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">Imagens (opcional, até {MAX_IMAGES})</label>
+                <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">{t("createButton.imagesLabel", { max: MAX_IMAGES })}</label>
                 <div className="flex flex-wrap gap-3">
                   {images.map((img, index) => (
                     <div key={index} className="relative w-24 h-24 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
@@ -304,7 +306,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
                         type="button"
                         onClick={() => removeImage(index)}
                         className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600"
-                        aria-label="Remover imagem"
+                        aria-label={t("createButton.removeImageAria")}
                       >
                         ×
                       </button>
@@ -321,7 +323,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
                         <polyline points="17 8 12 3 7 8" />
                         <line x1="12" y1="3" x2="12" y2="15" />
                       </svg>
-                      <span className="text-xs">Upload</span>
+                      <span className="text-xs">{t("createButton.uploadLabel")}</span>
                     </button>
                   )}
                 </div>
@@ -341,14 +343,14 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
                   onClick={() => { setIsOpen(false); setError(null); }}
                   className="flex-1 px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                 >
-                  Cancelar
+                  {t("createButton.cancel")}
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
                   className="flex-1 px-6 py-3 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 disabled:opacity-50 transition-colors"
                 >
-                  {loading ? "Criando..." : "Criar Desafio"}
+                  {loading ? t("createButton.submitting") : t("createButton.submit")}
                 </button>
               </div>
             </form>

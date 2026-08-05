@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { createClient } from "@/lib/supabase/client";
 import { ChallengeWithRelations, CommentWithRelations } from "@/types";
 import { sanitizeInput } from "@/lib/utils/sanitize";
@@ -16,6 +17,8 @@ interface ChallengeDetailModalProps {
 }
 
 export function ChallengeDetailModal({ challenge, onClose, currentUser, onChallengeUpdated }: ChallengeDetailModalProps) {
+  const t = useTranslations("Community.challenges");
+  const locale = useLocale();
   const [comments, setComments] = useState<CommentWithRelations[]>([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -80,8 +83,8 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
     setShowLoginPrompt(false);
 
     const trimmed = newComment.trim();
-    if (!trimmed) { setError("O comentário não pode estar vazio"); return; }
-    if (trimmed.length > 1000) { setError("Máximo de 1000 caracteres"); return; }
+    if (!trimmed) { setError(t("detail.commentEmpty")); return; }
+    if (trimmed.length > 1000) { setError(t("detail.commentTooLong")); return; }
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { setShowLoginPrompt(true); return; }
@@ -93,7 +96,7 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
       .single();
 
     if (profile?.role === "banned") {
-      setError("Sua conta foi banida.");
+      setError(t("detail.commentBanned"));
       return;
     }
 
@@ -105,7 +108,7 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
       content: sanitizedContent,
     });
 
-    if (insertError) setError("Erro ao enviar: " + insertError.message);
+    if (insertError) setError(t("detail.commentSendError", { message: insertError.message }));
     else { setNewComment(""); setError(null); }
     setLoading(false);
   };
@@ -149,9 +152,9 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
               <path d="M12 9v4" /><path d="M12 17h.01" />
               <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
             </svg>
-            <span className="text-white text-sm font-bold uppercase tracking-wider">Desafio ESG</span>
+            <span className="text-white text-sm font-bold uppercase tracking-wider">{t("card.badge")}</span>
           </div>
-          <button onClick={onClose} className="text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors" aria-label="Fechar">
+          <button onClick={onClose} className="text-white/80 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors" aria-label={t("detail.closeAria")}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 6 6 18" /><path d="M6 6l12 12" />
             </svg>
@@ -190,32 +193,32 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
           {/* Category */}
           <div>
             <span className="inline-flex items-center px-3 py-1.5 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-sm font-semibold rounded-xl">
-              {challenge.category}
+              {t.has(`categories.${challenge.category}`) ? t(`categories.${challenge.category}`) : challenge.category}
             </span>
           </div>
 
           {/* Context */}
           <div>
-            <h4 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">O Problema (Contexto)</h4>
+            <h4 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">{t("detail.problem")}</h4>
             <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed whitespace-pre-wrap">{challenge.context}</p>
           </div>
 
           {/* Expected Result */}
           <div className="p-4 rounded-xl bg-mint-tint dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-            <h4 className="text-sm font-bold text-blue-600 dark:text-electric-emerald uppercase tracking-wide mb-1">Resultado Esperado</h4>
+            <h4 className="text-sm font-bold text-blue-600 dark:text-electric-emerald uppercase tracking-wide mb-1">{t("detail.expected")}</h4>
             <p className="text-blue-700 dark:text-blue-300 text-sm leading-relaxed whitespace-pre-wrap">{challenge.expected_result}</p>
           </div>
 
           {/* Reward */}
           <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
-            <h4 className="text-sm font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wide mb-1">Incentivo / Recompensa</h4>
+            <h4 className="text-sm font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wide mb-1">{t("detail.reward")}</h4>
             <p className="text-amber-700 dark:text-amber-300 text-sm leading-relaxed whitespace-pre-wrap">{challenge.reward}</p>
           </div>
 
           {/* Images */}
           {challenge.images && challenge.images.length > 0 && (
             <div>
-              <h4 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Imagens</h4>
+              <h4 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">{t("detail.images")}</h4>
               <div className="grid grid-cols-3 gap-3">
                 {challenge.images.map((img, i) => (
                   <button
@@ -241,13 +244,13 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
           {/* Divider */}
           <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
             <h4 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">
-              Ideias e Sugestões ({comments.length})
+              {t("detail.ideas", { count: comments.length })}
             </h4>
 
             {showLoginPrompt && (
               <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 rounded-lg text-sm border border-yellow-100 dark:border-yellow-800">
-                Você precisa estar logado para comentar.{" "}
-                <Link href="/login" className="underline font-semibold text-[#0a382c] dark:text-electric-emerald">Faça login</Link>
+                {t("detail.loginPrompt")}{" "}
+                <Link href="/login" className="underline font-semibold text-[#0a382c] dark:text-electric-emerald">{t("detail.loginLink")}</Link>
               </div>
             )}
 
@@ -261,7 +264,7 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
               <textarea
                 value={newComment}
                 onChange={e => setNewComment(e.target.value)}
-                placeholder="Compartilhe sua ideia ou sugestão para resolver este desafio..."
+                placeholder={t("detail.commentPlaceholder")}
                 maxLength={1000}
                 className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 outline-none transition-all resize-none h-24"
               />
@@ -272,14 +275,14 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
                   disabled={loading || !newComment.trim()}
                   className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors"
                 >
-                  {loading ? "Enviando..." : "Enviar Ideia"}
+                  {loading ? t("detail.sending") : t("detail.sendIdea")}
                 </button>
               </div>
             </form>
 
             <div className="space-y-4">
               {comments.length === 0 ? (
-                <p className="text-gray-500 text-center py-4">Nenhuma ideia ainda. Seja o primeiro a contribuir!</p>
+                <p className="text-gray-500 text-center py-4">{t("detail.noIdeas")}</p>
               ) : (
                 comments.map(comment => {
                   const isSolution = challenge.solution_comment_id === comment.id;
@@ -301,13 +304,13 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
                           </div>
                           <span className="text-sm font-bold text-gray-900 dark:text-gray-100">{comment.author?.username}</span>
                         </Link>
-                        <span className="text-xs text-gray-500">• {comment.created_at ? new Date(comment.created_at).toLocaleDateString("pt-BR") : ""}</span>
+                        <span className="text-xs text-gray-500">• {comment.created_at ? new Date(comment.created_at).toLocaleDateString(locale) : ""}</span>
                         {isSolution && (
                           <span className="ml-auto flex items-center gap-1 text-emerald-600 dark:text-emerald-400 text-xs font-bold">
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
                               <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            Solução
+                            {t("detail.solutionBadge")}
                           </span>
                         )}
                       </div>
@@ -317,7 +320,7 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
                           onClick={() => handleMarkSolution(comment.id)}
                           className="mt-2 text-xs text-emerald-600 dark:text-emerald-400 font-semibold hover:underline"
                         >
-                          Aceitar como solução
+                          {t("detail.acceptSolution")}
                         </button>
                       )}
                     </div>
@@ -332,7 +335,7 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
                   onClick={handleRemoveSolution}
                   className="text-xs text-red-500 hover:underline font-semibold"
                 >
-                  Remover solução aceita
+                  {t("detail.removeSolution")}
                 </button>
               </div>
             )}

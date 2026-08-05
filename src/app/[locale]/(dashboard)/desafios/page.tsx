@@ -5,8 +5,14 @@ import { ChallengeWithRelations } from "@/types";
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
 
+  const titles: Record<string, string> = {
+    pt: "Desafios ESG | Sintropia",
+    es: "Desafíos ESG | Sintropia",
+    en: "ESG Challenges | Sintropia",
+  };
+
   return {
-    title: locale === "pt" ? "Desafios ESG | Sintropia" : "ESG Challenges | Sintropia",
+    title: titles[locale] ?? titles.en,
     robots: {
       index: false,
       follow: false,
