@@ -2705,6 +2705,22 @@ export type Database = {
         Returns: Json
       }
       clean_old_notifications: { Args: never; Returns: undefined }
+      consume_rate_limit: {
+        Args: {
+          p_key: string
+          p_max_requests: number
+          p_window_seconds: number
+        }
+        Returns: {
+          allowed: boolean
+          remaining: number
+          reset_in_seconds: number
+        }[]
+      }
+      prune_rate_limits: {
+        Args: { p_older_than_seconds?: number }
+        Returns: number
+      }
       delete_post: { Args: { post_id: string }; Returns: undefined }
       generate_referral_code: { Args: never; Returns: string }
       get_users_for_drip: {

@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { sendWelcomeEmail } from "@/lib/email";
-import { checkRateLimit } from "@/lib/rate-limiter";
+import { buildRateLimitKey, checkRateLimit } from "@/lib/rate-limiter";
 import { loginSchema, signupSchema, resetPasswordSchema, updatePasswordSchema } from "@/lib/validation";
 
 const LOGIN_TIMEOUT_MS = 10000;
@@ -26,7 +26,7 @@ async function getLocale(): Promise<string> {
 async function getRateLimitKey(type: string): Promise<string> {
   const hdrs = await headers();
   const ip = hdrs.get("x-forwarded-for")?.split(",")[0]?.trim() || hdrs.get("x-real-ip") || "unknown";
-  return `auth:${type}:${ip}`;
+  return buildRateLimitKey(type, ip);
 }
 
 function safeNextPath(raw: unknown, locale: string): string {
@@ -55,9 +55,9 @@ export async function login(formData: FormData) {
   }
 
   const rateKey = await getRateLimitKey("login");
-  const rateCheck = checkRateLimit(rateKey);
+  const rateCheck = await checkRateLimit(rateKey);
   if (!rateCheck.allowed) {
-    const retryAfter = Math.ceil(rateCheck.resetIn / 1000);
+    const retryAfter = rateCheck.resetIn;
     redirect(`/${locale}/login?error=Muitas tentativas. Tente novamente em ${retryAfter} segundos.`);
   }
 
@@ -96,9 +96,9 @@ export async function signup(formData: FormData) {
   const { email, password, name, username, user_type } = parsed.data;
 
   const rateKey = await getRateLimitKey("signup");
-  const rateCheck = checkRateLimit(rateKey);
+  const rateCheck = await checkRateLimit(rateKey);
   if (!rateCheck.allowed) {
-    const retryAfter = Math.ceil(rateCheck.resetIn / 1000);
+    const retryAfter = rateCheck.resetIn;
     redirect(`/${locale}/register?error=Muitas tentativas. Tente novamente em ${retryAfter} segundos.`);
   }
 
@@ -194,9 +194,9 @@ export async function resetPassword(formData: FormData) {
   const origin = (await headers()).get("origin");
 
   const rateKey = await getRateLimitKey("reset-password");
-  const rateCheck = checkRateLimit(rateKey);
+  const rateCheck = await checkRateLimit(rateKey);
   if (!rateCheck.allowed) {
-    const retryAfter = Math.ceil(rateCheck.resetIn / 1000);
+    const retryAfter = rateCheck.resetIn;
     redirect(`/${locale}/forgot-password?error=Muitas tentativas. Tente novamente em ${retryAfter} segundos.`);
   }
 

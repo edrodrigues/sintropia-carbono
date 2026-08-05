@@ -1,56 +1,82 @@
-// In-memory rate limiter for auth endpoints
-// Note: For multi-instance deployments (Vercel), consider using @upstash/ratelimit
-// or a database-backed approach for production-grade rate limiting.
+import { createHash } from "crypto";
 
-interface RateLimitEntry {
-  count: number;
-  resetAt: number;
-}
+import { createClient } from "@/lib/supabase/server";
+import { logger } from "@/lib/utils/logger";
 
-const store = new Map<string, RateLimitEntry>();
+/**
+ * Persistent rate limiting for auth endpoints.
+ *
+ * Backed by the `consume_rate_limit` SQL function (see the rate_limits
+ * migration) because the previous implementation kept counters in a
+ * module-level Map. Every serverless instance had its own Map, so the limit was
+ * effectively multiplied by the number of warm instances and reset on each cold
+ * start.
+ */
 
-const WINDOW_MS = 60 * 1000;
-const MAX_REQUESTS = 5;
+export const DEFAULT_WINDOW_SECONDS = 60;
+export const DEFAULT_MAX_REQUESTS = 5;
 
-const CLEANUP_INTERVAL_MS = 60 * 1000;
-
-function getClientIp(): string {
-  if (typeof globalThis !== "undefined" && typeof (globalThis as Record<string, unknown>).Request === "undefined") {
-    return "server";
-  }
-  return "unknown";
-}
-
-export function checkRateLimit(key: string): {
+export interface RateLimitResult {
   allowed: boolean;
   remaining: number;
+  /** Seconds until the current window rolls over. */
   resetIn: number;
-} {
-  const now = Date.now();
-  const entry = store.get(key);
-
-  if (!entry || now > entry.resetAt) {
-    store.set(key, { count: 1, resetAt: now + WINDOW_MS });
-    return { allowed: true, remaining: MAX_REQUESTS - 1, resetIn: WINDOW_MS };
-  }
-
-  if (entry.count >= MAX_REQUESTS) {
-    const resetIn = entry.resetAt - now;
-    return { allowed: false, remaining: 0, resetIn };
-  }
-
-  entry.count++;
-  return { allowed: true, remaining: MAX_REQUESTS - entry.count, resetIn: entry.resetAt - now };
 }
 
-// Clean up expired entries periodically
-if (typeof setInterval !== "undefined" && typeof globalThis !== "undefined") {
-  setInterval(() => {
-    const now = Date.now();
-    for (const [key, entry] of store.entries()) {
-      if (now > entry.resetAt) {
-        store.delete(key);
-      }
+interface RateLimitOptions {
+  maxRequests?: number;
+  windowSeconds?: number;
+}
+
+/**
+ * Build a bucket key from an action name and a client identifier.
+ *
+ * The identifier (usually an IP address) is hashed: it is personal data, and the
+ * limiter only ever needs equality, never the original value.
+ */
+export function buildRateLimitKey(action: string, identifier: string): string {
+  const digest = createHash("sha256").update(identifier).digest("base64url").slice(0, 32);
+  return `auth:${action}:${digest}`;
+}
+
+/**
+ * Consume one unit from `key`'s budget.
+ *
+ * Fails CLOSED: if the limiter cannot be reached we deny the request rather than
+ * silently letting unlimited traffic through, since these buckets guard
+ * credential endpoints.
+ */
+export async function checkRateLimit(
+  key: string,
+  options?: RateLimitOptions,
+): Promise<RateLimitResult> {
+  const maxRequests = options?.maxRequests ?? DEFAULT_MAX_REQUESTS;
+  const windowSeconds = options?.windowSeconds ?? DEFAULT_WINDOW_SECONDS;
+
+  try {
+    const supabase = await createClient();
+
+    const { data, error } = await supabase
+      .rpc("consume_rate_limit", {
+        p_key: key,
+        p_max_requests: maxRequests,
+        p_window_seconds: windowSeconds,
+      })
+      .single();
+
+    if (error || !data) {
+      logger.error("Rate limiter indisponível; negando requisição", { error, key });
+      return { allowed: false, remaining: 0, resetIn: windowSeconds };
     }
-  }, CLEANUP_INTERVAL_MS);
+
+    return {
+      allowed: data.allowed,
+      remaining: data.remaining,
+      resetIn: data.reset_in_seconds,
+    };
+  }
+  catch (error) {
+    logger.error("Erro inesperado no rate limiter; negando requisição", { error, key });
+    return { allowed: false, remaining: 0, resetIn: windowSeconds };
+  }
 }
