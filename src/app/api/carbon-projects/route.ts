@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { getSupabaseAdmin } from "@/lib/supabase/admin";
 import { logger } from "@/lib/utils/logger";
 
@@ -110,31 +109,50 @@ const countryToContinent: Record<string, string> = {
   "Romania": "Europe",
 };
 
+const DEFAULT_LIMIT = 100;
+const MAX_LIMIT = 1000;
+
+/** Parse an integer query param, falling back and clamping to a safe range. */
+function clampInt(raw: string | null, fallback: number, min: number, max: number): number {
+  const parsed = Number.parseInt(raw ?? "", 10);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.min(Math.max(parsed, min), max);
+}
+
+/**
+ * Escape a user-supplied term for use inside a PostgREST `ilike` pattern in an
+ * `.or()` filter, where , . : ( ) and quotes are structural.
+ */
+function escapePostgrestPattern(term: string): string {
+  return term.replace(/[,.:()"']/g, " ").trim();
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const country = searchParams.get("country");
     const category = searchParams.get("category");
     const search = searchParams.get("search");
-    const limit = parseInt(searchParams.get("limit") || "100");
-    const offset = parseInt(searchParams.get("offset") || "0");
 
-    // Use admin client to bypass RLS and get all records
+    // Clamp pagination: parseInt previously let NaN or an unbounded limit
+    // through, producing a broken range or an enormous response.
+    const limit = clampInt(searchParams.get("limit"), DEFAULT_LIMIT, 1, MAX_LIMIT);
+    const offset = clampInt(searchParams.get("offset"), 0, 0, Number.MAX_SAFE_INTEGER);
+
+    // This endpoint reports corpus-wide totals, so it deliberately uses the
+    // service-role client to see every row. Falling back to the anon client (as
+    // this route used to) silently returns an RLS-filtered subset that is
+    // indistinguishable from a complete answer, so a misconfigured environment
+    // would quietly publish understated statistics. Fail loudly instead.
     let supabase;
     try {
       supabase = getSupabaseAdmin();
     }
-    catch {
-      // Fallback to anon client if admin not available
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-      const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-      if (!supabaseUrl || !supabaseAnonKey) {
-        return NextResponse.json({
-          error: "Database not configured",
-          fallback: true,
-        }, { status: 500 });
-      }
-      supabase = createClient(supabaseUrl, supabaseAnonKey);
+    catch (error) {
+      logger.error("Cliente admin indisponível em carbon-projects", { error });
+      return NextResponse.json({
+        error: "Database not configured",
+      }, { status: 500 });
     }
 
     // Build query
@@ -151,16 +169,17 @@ export async function GET(request: NextRequest) {
     }
 
     if (search) {
-      query = query.or(`name.ilike.%${search}%,project_id.ilike.%${search}%`);
+      // PostgREST treats , . : ( ) and quotes as filter syntax, so an
+      // unescaped term could alter the query rather than be matched literally.
+      const safeSearch = escapePostgrestPattern(search);
+      query = query.or(`name.ilike.%${safeSearch}%,project_id.ilike.%${safeSearch}%`);
     }
 
-    // Get total count first
-    const { count } = await supabase
-      .from("carbon_projects")
-      .select("*", { count: "exact", head: true });
-
-    // Fetch paginated data
-    const { data: projects, error } = await query
+    // Fetch the page. `count: "exact"` on the select above already returns the
+    // matching total, so the previous separate head-count query was both
+    // redundant and wrong: it ignored the filters and always counted the whole
+    // table.
+    const { data: projects, error, count } = await query
       .range(offset, offset + limit - 1)
       .order("country", { ascending: true });
 
