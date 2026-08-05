@@ -65,25 +65,42 @@ absent**:
 > files, and commit the corrections. Until then, treat a rebuilt environment as
 > approximate.
 
-### The constraints file is additive, and must stay that way
+### Both generated files are strict no-ops on an existing database
 
-Migrations run against the **live** database as well as a fresh one. The
-constraints file therefore only ever *adds*: each foreign key and unique
-constraint is wrapped in a guard that creates it solely when no constraint
-already exists on that column.
+Migrations run against the **live** database as well as a fresh one, so both
+generated files are written to change nothing that already exists:
+
+- **Tables.** Each `CREATE TABLE` sits inside a `to_regclass(...) IS NULL`
+  guard, and `ENABLE ROW LEVEL SECURITY` runs **inside that same guard**.
+- **Constraints.** Each foreign key and unique constraint is created only when
+  no constraint already exists on that column.
 
 > [!WARNING]
-> Never rewrite these as `DROP CONSTRAINT ... ADD CONSTRAINT ... ON DELETE
-> CASCADE`. The `CASCADE` in this file is an assumption for a from-scratch
-> rebuild; the real referential actions live only in the database and are not
-> recoverable from the generated types. Dropping and re-adding would replace
-> them with `CASCADE`, so if `posts.author_id` is really `ON DELETE SET NULL`,
-> deleting a profile would begin deleting that user's posts.
+> Two changes to these files would cause real damage, and both look harmless:
+>
+> 1. **Never rewrite the constraints as `DROP CONSTRAINT ... ADD CONSTRAINT ...
+>    ON DELETE CASCADE`.** The `CASCADE` here is an assumption for a
+>    from-scratch rebuild; the real referential actions exist only in the
+>    database and are not recoverable from the generated types. Dropping and
+>    re-adding would replace them with `CASCADE`, so if `posts.author_id` is
+>    really `ON DELETE SET NULL`, deleting a profile would begin deleting that
+>    user's posts.
+> 2. **Never hoist `ENABLE ROW LEVEL SECURITY` out of the table guards.**
+>    Enabling RLS on a live table that deliberately has it off, with no policies
+>    present, denies every non-service-role read and takes the site down.
 
-`scripts/verify-constraints-safe.cjs` enforces this. It builds a database whose
-foreign key is deliberately `SET NULL`, applies the shipped migration, and
-asserts the action is unchanged and that a post survives its author's deletion —
-while also confirming the key *is* created on an empty database.
+`scripts/verify-constraints-safe.cjs` enforces both, in both directions. It
+pre-creates **all 27** foreign keys with `ON DELETE SET NULL` (deliberately not
+the assumed `CASCADE`) and RLS switched off, applies both migrations, then
+asserts:
+
+- the schema is **byte-identical** afterwards (columns, RLS flags, constraints)
+- **no** foreign key anywhere was converted to `CASCADE`
+- RLS was not switched on for any existing table
+- deleting a parent row does not cascade to its children
+- re-applying a second time still changes nothing
+- and, on an empty database, the tables *are* created with RLS on and the
+  foreign keys *are* added
 
 ### RLS is deny-by-default
 
@@ -108,11 +125,11 @@ npm run db:verify
 | `verify-migrations.cjs` | Does every migration apply, from empty, in filename order? |
 | `verify-schema-contract.cjs` | Does the result contain every table and column the application's type contract requires? |
 | `verify-app-queries.cjs` | Do the queries the app actually issues run against it — including views, filters, ORDER BY columns, join keys and RPCs? |
-| `verify-constraints-safe.cjs` | Is the constraints migration a genuine no-op against a live database, preserving its real ON DELETE behaviour? |
+| `verify-constraints-safe.cjs` | Are both generated files genuine no-ops against an existing database, preserving its real ON DELETE actions and RLS flags? |
 
 Current result: **37 migrations applied, 0 failed, 2 skipped**; **43/43 app
 tables with no missing columns**; **24/24 representative app queries run**; and
-the constraints migration proven to be a no-op on an existing database. The
+both generated migrations proven byte-identical no-ops on an existing database. The
 two skips (`setup_cron`, `schedule_ingest_carbonmark`) only schedule jobs and
 need `pg_cron`, which PGlite does not provide.
 

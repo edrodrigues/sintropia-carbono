@@ -177,8 +177,22 @@ function main() {
       defs.push(def);
     }
 
+    // Guarded so this is a strict no-op when the table already exists. RLS is
+    // enabled in the same branch: doing it unconditionally would switch RLS on
+    // for a live table that deliberately has it off, and with no policies that
+    // denies every non-service-role read.
     tableSql.push(
-      "CREATE TABLE IF NOT EXISTS public." + t.name + " (\n" + defs.join(",\n") + "\n);",
+      "DO $$\n"
+      + "BEGIN\n"
+      + "  IF to_regclass('public." + t.name + "') IS NULL THEN\n"
+      + "    CREATE TABLE public." + t.name + " (\n"
+      + defs.map(d => "  " + d).join(",\n") + "\n"
+      + "    );\n"
+      + "\n"
+      + "    -- Deny-by-default: safe failure mode for a rebuilt environment.\n"
+      + "    ALTER TABLE public." + t.name + " ENABLE ROW LEVEL SECURITY;\n"
+      + "  END IF;\n"
+      + "END $$;",
     );
 
     // Foreign keys are added afterwards so table order never matters and a
@@ -282,10 +296,18 @@ function main() {
     "-- database credentials before treating this as canonical.",
     "-- See docs/schema-baseline.md.",
     "--",
-    "-- RLS is enabled with NO policies for every table: deny-by-default is the",
-    "-- safe failure mode for a rebuilt environment. The real policies must be",
-    "-- recovered from the live project and committed alongside this file, or",
-    "-- authenticated reads will return nothing.",
+    "-- EVERY statement here is a strict no-op when the table already exists:",
+    "-- each CREATE is wrapped in an existence check, and RLS is enabled only in",
+    "-- that same branch. This file therefore changes nothing on the live",
+    "-- database. Do NOT hoist the ENABLE ROW LEVEL SECURITY statements out of",
+    "-- the guards: switching RLS on for a live table that deliberately has it",
+    "-- off, with no policies present, denies every non-service-role read and",
+    "-- takes the application down.",
+    "--",
+    "-- On a fresh rebuild the tables are created WITH RLS enabled and no",
+    "-- policies: deny-by-default is the safe failure mode. The real policies",
+    "-- must be recovered from the live project and committed alongside this",
+    "-- file, or authenticated reads will return nothing.",
     "-- ============================================================",
     "",
   ].join("\n");
@@ -293,14 +315,6 @@ function main() {
   const tablesDoc = [
     header,
     tableSql.join("\n\n"),
-    "",
-    "",
-    "-- ------------------------------------------------------------",
-    "-- Deny-by-default RLS. Real policies must be recovered from the",
-    "-- live project and committed alongside this file.",
-    "-- ------------------------------------------------------------",
-    "",
-    missing.map(t => "ALTER TABLE public." + t.name + " ENABLE ROW LEVEL SECURITY;").join("\n"),
     "",
   ].join("\n");
 
