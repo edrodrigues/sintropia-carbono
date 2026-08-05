@@ -1,5 +1,5 @@
 // src/lib/queries/carbon-prices.ts
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import { cache } from "react";
 import { withMonitoring } from "@/lib/utils/monitoring";
 import { logger } from "@/lib/utils/logger";
@@ -20,7 +20,7 @@ export interface CarbonPrice {
 
 export const getCarbonPrices = cache(async (marketType?: "compliance" | "voluntary") => {
   return withMonitoring(`getCarbonPrices(${marketType || "all"})`, async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     let query = supabase
       .from("carbon_prices")

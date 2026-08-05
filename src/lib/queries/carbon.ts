@@ -1,5 +1,5 @@
 // src/lib/queries/carbon.ts
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import { cache } from "react";
 import { withMonitoring } from "@/lib/utils/monitoring";
 import { logger } from "@/lib/utils/logger";
@@ -35,7 +35,7 @@ export interface CarbonFullStats {
 
 export const getCarbonStakeholders = cache(async (region: "brazil" | "world" = "brazil") => {
   return withMonitoring(`getCarbonStakeholders(${region})`, async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data, error } = await supabase
       .from("carbon_stakeholders")
@@ -61,7 +61,7 @@ export interface CarbonDashboardStats {
 
 export const getCarbonStats = cache(async (region: "brazil" | "world" = "brazil"): Promise<CarbonDashboardStats> => {
   return withMonitoring(`getCarbonStats(${region})`, async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // Use the view for stats
     const { data, error } = await supabase
@@ -111,7 +111,7 @@ export const getCarbonStats = cache(async (region: "brazil" | "world" = "brazil"
 
 export const getCarbonStakeholdersBySector = cache(async (setor: string, region: "brazil" | "world" = "brazil") => {
   return withMonitoring(`getCarbonStakeholdersBySector(${setor}, ${region})`, async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data, error } = await supabase
       .from("carbon_stakeholders")
@@ -131,7 +131,7 @@ export const getCarbonStakeholdersBySector = cache(async (setor: string, region:
 
 export const searchCarbonStakeholders = cache(async (query: string, region: "brazil" | "world" = "brazil") => {
   return withMonitoring(`searchCarbonStakeholders(${query}, ${region})`, async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data, error } = await supabase
       .from("carbon_stakeholders")

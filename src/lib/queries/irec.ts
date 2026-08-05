@@ -1,5 +1,5 @@
 // src/lib/queries/irec.ts
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import { cache } from "react";
 import { withMonitoring } from "@/lib/utils/monitoring";
 import { logger } from "@/lib/utils/logger";
@@ -37,7 +37,7 @@ export interface IrecFullStats {
 
 export const getIrecStakeholders = cache(async (region: "brazil" | "world" = "brazil") => {
   return withMonitoring(`getIrecStakeholders(${region})`, async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data, error } = await supabase
       .from("irec_stakeholders")
@@ -56,7 +56,7 @@ export const getIrecStakeholders = cache(async (region: "brazil" | "world" = "br
 
 export const getIrecStakeholdersBySector = cache(async (setor: string, region: "brazil" | "world" = "brazil") => {
   return withMonitoring(`getIrecStakeholdersBySector(${setor}, ${region})`, async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data, error } = await supabase
       .from("irec_stakeholders")
@@ -76,7 +76,7 @@ export const getIrecStakeholdersBySector = cache(async (setor: string, region: "
 
 export const getTopIrecStakeholders = cache(async (limit: number = 10, region: "brazil" | "world" = "brazil") => {
   return withMonitoring(`getTopIrecStakeholders(${limit}, ${region})`, async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data, error } = await supabase
       .from("irec_stakeholders")
@@ -103,7 +103,7 @@ export interface IrecDashboardStats {
 
 export const getIrecStats = cache(async (region: "brazil" | "world" | "world_total" = "brazil"): Promise<IrecDashboardStats> => {
   return withMonitoring(`getIrecStats(${region})`, async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // Use corrected view that includes Brazil in world totals
     const viewName = region === "world_total" ? "v_irec_dashboard_corrected" : "v_irec_dashboard";
@@ -184,7 +184,7 @@ export interface IrecPrice {
 
 export const getIrecPrices = cache(async (category: string) => {
   return withMonitoring(`getIrecPrices(${category})`, async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data, error } = await supabase
       .from("irec_prices")
@@ -203,7 +203,7 @@ export const getIrecPrices = cache(async (category: string) => {
 
 export const searchIrecStakeholders = cache(async (query: string, region: "brazil" | "world" = "brazil") => {
   return withMonitoring(`searchIrecStakeholders(${query}, ${region})`, async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data, error } = await supabase
       .from("irec_stakeholders")

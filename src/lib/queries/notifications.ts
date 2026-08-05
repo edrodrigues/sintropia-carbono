@@ -1,3 +1,6 @@
+// Browser-only query module: uses the browser Supabase client and is consumed
+// from client components (see NotificationBell). Do not import this from a
+// server component or server action - use @/lib/supabase/server there.
 import { createClient } from "@/lib/supabase/client";
 import type { Notification, NotificationType } from "@/types";
 import { logger } from "@/lib/utils/logger";
