@@ -23,6 +23,12 @@ const MIGRATIONS_DIR = path.join("supabase", "migrations");
 // Excluded so this baseline describes only this repo's schema.
 const FOREIGN_TABLES = new Set(["fotos", "musicas", "presentes"]);
 
+// This generator's own output. Excluded when scanning for existing coverage so
+// the script is idempotent.
+const TABLES_FILE = "20260101000000_schema_baseline_tables.sql";
+const CONSTRAINTS_FILE = "20260805000001_schema_baseline_constraints.sql";
+const GENERATED_FILES = new Set([TABLES_FILE, CONSTRAINTS_FILE]);
+
 // `profiles.id` is the user's auth id, not an independently generated key.
 const AUTH_BACKED_PK = new Set(["profiles"]);
 
@@ -72,8 +78,11 @@ function parseTables(types) {
 function tablesCreatedByMigrations() {
   const created = new Set();
   if (!fs.existsSync(MIGRATIONS_DIR)) return created;
+  // Skip this generator's own output: counting it as existing coverage would
+  // make a re-run believe nothing is missing and emit empty files.
   const sql = fs.readdirSync(MIGRATIONS_DIR)
     .filter(f => f.endsWith(".sql"))
+    .filter(f => !GENERATED_FILES.has(f))
     .map(f => fs.readFileSync(path.join(MIGRATIONS_DIR, f), "utf8"))
     .join("\n");
   const re = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?(?:public\.)?"?([a-z0-9_]+)"?/gi;
@@ -182,12 +191,30 @@ function main() {
         uniqueTargets.get(ref.table).add(ref.column);
       }
       const cname = t.name + "_" + col + "_fkey";
+      // Additive only: never drop or redefine an existing constraint, because
+      // this file also runs against the live database, where the real ON DELETE
+      // behaviour is authoritative and is NOT recoverable from the types.
       fkSql.push(
-        "ALTER TABLE public." + t.name + "\n"
-        + "  DROP CONSTRAINT IF EXISTS " + cname + ",\n"
-        + "  ADD CONSTRAINT " + cname + "\n"
-        + "  FOREIGN KEY (" + col + ") REFERENCES public." + ref.table + "(" + ref.column + ")\n"
-        + "  ON DELETE CASCADE;",
+        "DO $$\n"
+        + "BEGIN\n"
+        + "  IF NOT EXISTS (\n"
+        + "    SELECT 1 FROM pg_constraint con\n"
+        + "    JOIN pg_class rel ON rel.oid = con.conrelid\n"
+        + "    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace\n"
+        + "    WHERE nsp.nspname = 'public'\n"
+        + "      AND rel.relname = '" + t.name + "'\n"
+        + "      AND con.contype = 'f'\n"
+        + "      AND con.conkey = ARRAY[\n"
+        + "        (SELECT attnum FROM pg_attribute\n"
+        + "          WHERE attrelid = rel.oid AND attname = '" + col + "')\n"
+        + "      ]::smallint[]\n"
+        + "  ) THEN\n"
+        + "    ALTER TABLE public." + t.name + "\n"
+        + "      ADD CONSTRAINT " + cname + "\n"
+        + "      FOREIGN KEY (" + col + ") REFERENCES public." + ref.table + "(" + ref.column + ")\n"
+        + "      ON DELETE CASCADE;\n"
+        + "  END IF;\n"
+        + "END $$;",
       );
     }
   }
@@ -196,10 +223,28 @@ function main() {
   for (const [table, cols] of uniqueTargets) {
     for (const col of cols) {
       const cname = table + "_" + col + "_key";
+      // Additive only, for the same reason as the foreign keys below: a unique
+      // constraint may already exist under a different name, and dropping the
+      // live one could take an index (and any FK depending on it) with it.
       uniqueSql.push(
-        "ALTER TABLE public." + table + "\n"
-        + "  DROP CONSTRAINT IF EXISTS " + cname + ",\n"
-        + "  ADD CONSTRAINT " + cname + " UNIQUE (" + col + ");",
+        "DO $$\n"
+        + "BEGIN\n"
+        + "  IF NOT EXISTS (\n"
+        + "    SELECT 1 FROM pg_constraint con\n"
+        + "    JOIN pg_class rel ON rel.oid = con.conrelid\n"
+        + "    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace\n"
+        + "    WHERE nsp.nspname = 'public'\n"
+        + "      AND rel.relname = '" + table + "'\n"
+        + "      AND con.contype IN ('u', 'p')\n"
+        + "      AND con.conkey = ARRAY[\n"
+        + "        (SELECT attnum FROM pg_attribute\n"
+        + "          WHERE attrelid = rel.oid AND attname = '" + col + "')\n"
+        + "      ]::smallint[]\n"
+        + "  ) THEN\n"
+        + "    ALTER TABLE public." + table + "\n"
+        + "      ADD CONSTRAINT " + cname + " UNIQUE (" + col + ");\n"
+        + "  END IF;\n"
+        + "END $$;",
       );
     }
   }
@@ -270,10 +315,17 @@ function main() {
     "-- example challenges). Applying them here keeps a from-scratch replay of",
     "-- this directory working in filename order.",
     "--",
-    "-- ON DELETE CASCADE is ASSUMED everywhere: the generated TypeScript types",
-    "-- record which columns are foreign keys and what they reference, but not",
-    "-- the referential action. Verify against the live database before relying",
-    "-- on this. See docs/schema-baseline.md.",
+    "-- Every statement here is ADDITIVE and idempotent: a constraint is created",
+    "-- only when one does not already exist on that column. That matters because",
+    "-- this file also runs against the LIVE database, where these constraints",
+    "-- already exist with their real referential actions.",
+    "--",
+    "-- ON DELETE CASCADE below is an ASSUMPTION for a from-scratch rebuild only.",
+    "-- The generated types record which columns are foreign keys and what they",
+    "-- reference, but NOT the referential action. Never convert these into",
+    "-- DROP + ADD: that would replace the live ON DELETE behaviour with CASCADE",
+    "-- and could turn deleting one row into a cascading data loss.",
+    "-- See docs/schema-baseline.md.",
     "-- ============================================================",
     "",
     "-- Uniqueness required by the foreign keys below, for targets that are not",
@@ -298,8 +350,16 @@ function main() {
     return;
   }
 
-  const tablesFile = "supabase/migrations/20260101000000_schema_baseline_tables.sql";
-  const constraintsFile = "supabase/migrations/20260805000001_schema_baseline_constraints.sql";
+  const tablesFile = path.join(MIGRATIONS_DIR, TABLES_FILE);
+  const constraintsFile = path.join(MIGRATIONS_DIR, CONSTRAINTS_FILE);
+  if (!missing.length) {
+    console.error(
+      "Refusing to write an empty baseline: no uncaptured tables were found.\n"
+      + "That usually means src/types/supabase.ts could not be parsed.",
+    );
+    process.exit(1);
+  }
+
   fs.writeFileSync(tablesFile, tablesDoc);
   fs.writeFileSync(constraintsFile, constraintsDoc);
   console.log("Wrote " + tablesFile);

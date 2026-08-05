@@ -8,180 +8,607 @@
 -- example challenges). Applying them here keeps a from-scratch replay of
 -- this directory working in filename order.
 --
--- ON DELETE CASCADE is ASSUMED everywhere: the generated TypeScript types
--- record which columns are foreign keys and what they reference, but not
--- the referential action. Verify against the live database before relying
--- on this. See docs/schema-baseline.md.
+-- Every statement here is ADDITIVE and idempotent: a constraint is created
+-- only when one does not already exist on that column. That matters because
+-- this file also runs against the LIVE database, where these constraints
+-- already exist with their real referential actions.
+--
+-- ON DELETE CASCADE below is an ASSUMPTION for a from-scratch rebuild only.
+-- The generated types record which columns are foreign keys and what they
+-- reference, but NOT the referential action. Never convert these into
+-- DROP + ADD: that would replace the live ON DELETE behaviour with CASCADE
+-- and could turn deleting one row into a cascading data loss.
+-- See docs/schema-baseline.md.
 -- ============================================================
 
 -- Uniqueness required by the foreign keys below, for targets that are not
 -- a primary key.
 
-ALTER TABLE public.carbon_projects
-  DROP CONSTRAINT IF EXISTS carbon_projects_project_id_key,
-  ADD CONSTRAINT carbon_projects_project_id_key UNIQUE (project_id);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'carbon_projects'
+      AND con.contype IN ('u', 'p')
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'project_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.carbon_projects
+      ADD CONSTRAINT carbon_projects_project_id_key UNIQUE (project_id);
+  END IF;
+END $$;
 
 
 -- Foreign keys.
 
-ALTER TABLE public.alerts
-  DROP CONSTRAINT IF EXISTS alerts_user_id_fkey,
-  ADD CONSTRAINT alerts_user_id_fkey
-  FOREIGN KEY (user_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'alerts'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'user_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.alerts
+      ADD CONSTRAINT alerts_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.api_keys
-  DROP CONSTRAINT IF EXISTS api_keys_user_id_fkey,
-  ADD CONSTRAINT api_keys_user_id_fkey
-  FOREIGN KEY (user_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'api_keys'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'user_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.api_keys
+      ADD CONSTRAINT api_keys_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.audit_log
-  DROP CONSTRAINT IF EXISTS audit_log_organization_id_fkey,
-  ADD CONSTRAINT audit_log_organization_id_fkey
-  FOREIGN KEY (organization_id) REFERENCES public.organizations(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'audit_log'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'organization_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.audit_log
+      ADD CONSTRAINT audit_log_organization_id_fkey
+      FOREIGN KEY (organization_id) REFERENCES public.organizations(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.audit_log
-  DROP CONSTRAINT IF EXISTS audit_log_user_id_fkey,
-  ADD CONSTRAINT audit_log_user_id_fkey
-  FOREIGN KEY (user_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'audit_log'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'user_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.audit_log
+      ADD CONSTRAINT audit_log_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.bans
-  DROP CONSTRAINT IF EXISTS bans_moderator_id_fkey,
-  ADD CONSTRAINT bans_moderator_id_fkey
-  FOREIGN KEY (moderator_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'bans'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'moderator_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.bans
+      ADD CONSTRAINT bans_moderator_id_fkey
+      FOREIGN KEY (moderator_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.bans
-  DROP CONSTRAINT IF EXISTS bans_user_id_fkey,
-  ADD CONSTRAINT bans_user_id_fkey
-  FOREIGN KEY (user_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'bans'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'user_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.bans
+      ADD CONSTRAINT bans_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.carbon_credits
-  DROP CONSTRAINT IF EXISTS carbon_credits_project_id_fkey,
-  ADD CONSTRAINT carbon_credits_project_id_fkey
-  FOREIGN KEY (project_id) REFERENCES public.carbon_projects(project_id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'carbon_credits'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'project_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.carbon_credits
+      ADD CONSTRAINT carbon_credits_project_id_fkey
+      FOREIGN KEY (project_id) REFERENCES public.carbon_projects(project_id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.comments
-  DROP CONSTRAINT IF EXISTS comments_author_id_fkey,
-  ADD CONSTRAINT comments_author_id_fkey
-  FOREIGN KEY (author_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'comments'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'author_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.comments
+      ADD CONSTRAINT comments_author_id_fkey
+      FOREIGN KEY (author_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.comments
-  DROP CONSTRAINT IF EXISTS comments_challenge_id_fkey,
-  ADD CONSTRAINT comments_challenge_id_fkey
-  FOREIGN KEY (challenge_id) REFERENCES public.challenges(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'comments'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'challenge_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.comments
+      ADD CONSTRAINT comments_challenge_id_fkey
+      FOREIGN KEY (challenge_id) REFERENCES public.challenges(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.comments
-  DROP CONSTRAINT IF EXISTS comments_parent_id_fkey,
-  ADD CONSTRAINT comments_parent_id_fkey
-  FOREIGN KEY (parent_id) REFERENCES public.comments(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'comments'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'parent_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.comments
+      ADD CONSTRAINT comments_parent_id_fkey
+      FOREIGN KEY (parent_id) REFERENCES public.comments(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.comments
-  DROP CONSTRAINT IF EXISTS comments_post_id_fkey,
-  ADD CONSTRAINT comments_post_id_fkey
-  FOREIGN KEY (post_id) REFERENCES public.posts(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'comments'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'post_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.comments
+      ADD CONSTRAINT comments_post_id_fkey
+      FOREIGN KEY (post_id) REFERENCES public.posts(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.karma_transactions
-  DROP CONSTRAINT IF EXISTS karma_transactions_post_id_fkey,
-  ADD CONSTRAINT karma_transactions_post_id_fkey
-  FOREIGN KEY (post_id) REFERENCES public.posts(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'karma_transactions'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'post_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.karma_transactions
+      ADD CONSTRAINT karma_transactions_post_id_fkey
+      FOREIGN KEY (post_id) REFERENCES public.posts(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.karma_transactions
-  DROP CONSTRAINT IF EXISTS karma_transactions_user_id_fkey,
-  ADD CONSTRAINT karma_transactions_user_id_fkey
-  FOREIGN KEY (user_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'karma_transactions'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'user_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.karma_transactions
+      ADD CONSTRAINT karma_transactions_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.notifications
-  DROP CONSTRAINT IF EXISTS notifications_user_id_fkey,
-  ADD CONSTRAINT notifications_user_id_fkey
-  FOREIGN KEY (user_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'notifications'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'user_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.notifications
+      ADD CONSTRAINT notifications_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.post_deletions
-  DROP CONSTRAINT IF EXISTS post_deletions_moderator_id_fkey,
-  ADD CONSTRAINT post_deletions_moderator_id_fkey
-  FOREIGN KEY (moderator_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'post_deletions'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'moderator_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.post_deletions
+      ADD CONSTRAINT post_deletions_moderator_id_fkey
+      FOREIGN KEY (moderator_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.post_deletions
-  DROP CONSTRAINT IF EXISTS post_deletions_post_id_fkey,
-  ADD CONSTRAINT post_deletions_post_id_fkey
-  FOREIGN KEY (post_id) REFERENCES public.posts(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'post_deletions'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'post_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.post_deletions
+      ADD CONSTRAINT post_deletions_post_id_fkey
+      FOREIGN KEY (post_id) REFERENCES public.posts(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.posts
-  DROP CONSTRAINT IF EXISTS posts_author_id_fkey,
-  ADD CONSTRAINT posts_author_id_fkey
-  FOREIGN KEY (author_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'posts'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'author_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.posts
+      ADD CONSTRAINT posts_author_id_fkey
+      FOREIGN KEY (author_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.profiles
-  DROP CONSTRAINT IF EXISTS profiles_organization_id_fkey,
-  ADD CONSTRAINT profiles_organization_id_fkey
-  FOREIGN KEY (organization_id) REFERENCES public.organizations(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'profiles'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'organization_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.profiles
+      ADD CONSTRAINT profiles_organization_id_fkey
+      FOREIGN KEY (organization_id) REFERENCES public.organizations(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.profiles
-  DROP CONSTRAINT IF EXISTS profiles_referred_by_fkey,
-  ADD CONSTRAINT profiles_referred_by_fkey
-  FOREIGN KEY (referred_by) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'profiles'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'referred_by')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.profiles
+      ADD CONSTRAINT profiles_referred_by_fkey
+      FOREIGN KEY (referred_by) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.reports
-  DROP CONSTRAINT IF EXISTS reports_reporter_id_fkey,
-  ADD CONSTRAINT reports_reporter_id_fkey
-  FOREIGN KEY (reporter_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'reports'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'reporter_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.reports
+      ADD CONSTRAINT reports_reporter_id_fkey
+      FOREIGN KEY (reporter_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.saved_searches
-  DROP CONSTRAINT IF EXISTS saved_searches_user_id_fkey,
-  ADD CONSTRAINT saved_searches_user_id_fkey
-  FOREIGN KEY (user_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'saved_searches'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'user_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.saved_searches
+      ADD CONSTRAINT saved_searches_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.user_achievements
-  DROP CONSTRAINT IF EXISTS user_achievements_user_id_fkey,
-  ADD CONSTRAINT user_achievements_user_id_fkey
-  FOREIGN KEY (user_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'user_achievements'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'user_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.user_achievements
+      ADD CONSTRAINT user_achievements_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.votes
-  DROP CONSTRAINT IF EXISTS votes_user_id_fkey,
-  ADD CONSTRAINT votes_user_id_fkey
-  FOREIGN KEY (user_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'votes'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'user_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.votes
+      ADD CONSTRAINT votes_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.warnings
-  DROP CONSTRAINT IF EXISTS warnings_moderator_id_fkey,
-  ADD CONSTRAINT warnings_moderator_id_fkey
-  FOREIGN KEY (moderator_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'warnings'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'moderator_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.warnings
+      ADD CONSTRAINT warnings_moderator_id_fkey
+      FOREIGN KEY (moderator_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.warnings
-  DROP CONSTRAINT IF EXISTS warnings_user_id_fkey,
-  ADD CONSTRAINT warnings_user_id_fkey
-  FOREIGN KEY (user_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'warnings'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'user_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.warnings
+      ADD CONSTRAINT warnings_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.watchlist_items
-  DROP CONSTRAINT IF EXISTS watchlist_items_watchlist_id_fkey,
-  ADD CONSTRAINT watchlist_items_watchlist_id_fkey
-  FOREIGN KEY (watchlist_id) REFERENCES public.watchlists(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'watchlist_items'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'watchlist_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.watchlist_items
+      ADD CONSTRAINT watchlist_items_watchlist_id_fkey
+      FOREIGN KEY (watchlist_id) REFERENCES public.watchlists(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
 
-ALTER TABLE public.watchlists
-  DROP CONSTRAINT IF EXISTS watchlists_user_id_fkey,
-  ADD CONSTRAINT watchlists_user_id_fkey
-  FOREIGN KEY (user_id) REFERENCES public.profiles(id)
-  ON DELETE CASCADE;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint con
+    JOIN pg_class rel ON rel.oid = con.conrelid
+    JOIN pg_namespace nsp ON nsp.oid = rel.relnamespace
+    WHERE nsp.nspname = 'public'
+      AND rel.relname = 'watchlists'
+      AND con.contype = 'f'
+      AND con.conkey = ARRAY[
+        (SELECT attnum FROM pg_attribute
+          WHERE attrelid = rel.oid AND attname = 'user_id')
+      ]::smallint[]
+  ) THEN
+    ALTER TABLE public.watchlists
+      ADD CONSTRAINT watchlists_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES public.profiles(id)
+      ON DELETE CASCADE;
+  END IF;
+END $$;
