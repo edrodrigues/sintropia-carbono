@@ -262,22 +262,29 @@ export const getMarketOverviewStats = cache(async (assetIds?: string[]) => {
     const carbonPrices = items.filter(a => a.asset_type === "carbon_credit" && a.price !== null && a.currency);
     const irecPrices = items.filter(a => a.asset_type === "irec" && a.price !== null && a.currency);
 
-    function avgPerCurrency(prices: (typeof items), assetType: string): [Record<string, { avg: number; count: number }>, number | null] {
-      const byCurr: Record<string, { sum: number; count: number }> = {};
+    function avgPerCurrency(prices: (typeof items), assetType: string): [Record<string, { avg: number; weight: number; count: number }>, number | null] {
+      const byCurr: Record<string, { priceVolSum: number; volSum: number; priceSum: number; count: number }> = {};
       let overallCount = 0;
       for (const a of prices) {
         const c = a.currency!;
-        byCurr[c] = byCurr[c] || { sum: 0, count: 0 };
-        byCurr[c].sum += Number(a.price!);
+        byCurr[c] = byCurr[c] || { priceVolSum: 0, volSum: 0, priceSum: 0, count: 0 };
+        const price = Number(a.price!);
+        const volume = a.volume != null ? Number(a.volume) : 0;
+        byCurr[c].priceVolSum += price * volume;
+        byCurr[c].volSum += volume;
+        byCurr[c].priceSum += price;
         byCurr[c].count += 1;
         overallCount++;
       }
-      const avgByCurr: Record<string, { avg: number; count: number }> = {};
+      const avgByCurr: Record<string, { avg: number; weight: number; count: number }> = {};
       for (const [c, v] of Object.entries(byCurr)) {
-        avgByCurr[c] = { avg: v.sum / v.count, count: v.count };
+        // Ponderado pelo estoque (volume) disponível; sem volume cadastrado, cai para média simples.
+        const avg = v.volSum > 0 ? v.priceVolSum / v.volSum : v.priceSum / v.count;
+        const weight = v.volSum > 0 ? v.volSum : v.count;
+        avgByCurr[c] = { avg, weight, count: v.count };
       }
       const overall = overallCount > 0
-        ? Object.values(byCurr).reduce((s, v) => s + v.sum, 0) / overallCount
+        ? Object.values(byCurr).reduce((s, v) => s + v.priceSum, 0) / overallCount
         : null;
       return [avgByCurr, overall];
     }

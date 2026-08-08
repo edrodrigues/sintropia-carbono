@@ -20,19 +20,19 @@ export function formatPrice(item: { price?: number | null; price_display?: strin
 }
 
 export function formatAvgPrice(
-  byCurr: Record<string, { avg: number; count: number }> | undefined,
+  byCurr: Record<string, { avg: number; weight: number }> | undefined,
   toCurrency: string,
   rates?: ConversionRates,
 ): string {
   if (!byCurr || Object.keys(byCurr).length === 0) return "—";
-  let totalCount = 0;
+  let totalWeight = 0;
   let weightedSum = 0;
-  for (const [fromCurr, { avg, count }] of Object.entries(byCurr)) {
+  for (const [fromCurr, { avg, weight }] of Object.entries(byCurr)) {
     const converted = convertPrice(avg, fromCurr, toCurrency, rates);
-    weightedSum += converted * count;
-    totalCount += count;
+    weightedSum += converted * weight;
+    totalWeight += weight;
   }
-  const weightedAvg = weightedSum / totalCount;
+  const weightedAvg = weightedSum / totalWeight;
   const sym = getCurrencySymbol(toCurrency);
   return `${sym}${weightedAvg.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 4 })}`;
 }

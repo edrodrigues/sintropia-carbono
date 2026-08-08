@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getUserMarketNotifications, getUserWatchlist } from "@/lib/queries/user-market-data";
 import { getTranslations } from "next-intl/server";
 import { CadTrustScore } from "./CadTrustScore";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { formatPrice, formatAvgPrice, timeAgo, assetTypeLabel, referenceBadge } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
@@ -68,6 +69,7 @@ export async function OverviewTab({
             sub={`${displayCurrency} / tCO2e (média)`}
             change={stats.carbonChange}
             color="text-emerald-600"
+            tooltip="Média dos preços de cada crédito de carbono, ponderada pelo estoque (volume) disponível de cada um — créditos com mais volume disponível pesam mais no cálculo. Valores em outras moedas são convertidos para a moeda selecionada antes da ponderação."
           />
           <KPICard
             label="I-REC"
@@ -352,16 +354,33 @@ function KPICard({
   sub,
   change,
   color,
+  tooltip,
 }: {
   label: string;
   value: string;
   sub?: string;
   change?: number | null;
   color?: string;
+  tooltip?: string;
 }) {
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-      <h3 className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide mb-2">{label}</h3>
+      <div className="flex items-center gap-1 mb-2">
+        <h3 className="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{label}</h3>
+        {tooltip && (
+          <Tooltip content={tooltip}>
+            <button
+              type="button"
+              aria-label="Como este preço é calculado"
+              className="text-gray-400 hover:text-gray-600"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+          </Tooltip>
+        )}
+      </div>
       <p className={`text-2xl font-bold font-mono ${color || "text-gray-900"}`}>{value}</p>
       {change !== null && change !== undefined && (
         <p className={`inline-flex items-center gap-0.5 text-xs font-semibold mt-1 ${change >= 0 ? "text-emerald-700" : "text-red-700"}`}>
