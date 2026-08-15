@@ -25,7 +25,7 @@
     "db:baseline": "node scripts/generate-schema-baseline.cjs"
   },
   "dependencies": {
-    "@privy-io/js-sdk-core": "^0.69.1",
+    "@privy-io/js-sdk-core": "0.69.0",
     "@remixicon/react": "^4.9.0",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.98.0",
