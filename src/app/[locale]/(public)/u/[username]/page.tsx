@@ -7,7 +7,6 @@ import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { ProfileHeader } from "@/components/profile/ProfileHeader";
 import { StatsDashboard } from "@/components/profile/StatsDashboard";
 import { calculateAchievements } from "@/lib/achievements";
-import { decodeHtmlServer } from "@/lib/utils/sanitize";
 import type { Database } from "@/types/supabase";
 import Link from "next/link";
 

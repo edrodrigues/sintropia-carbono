@@ -2,9 +2,6 @@ import { createClient } from "@/lib/supabase/server";
 import { cache } from "react";
 import { withMonitoring } from "@/lib/utils/monitoring";
 import { logger } from "@/lib/utils/logger";
-import type { Database } from "@/types/supabase";
-
-type PriceSeriesRow = Database["public"]["Views"]["price_series"]["Row"];
 
 export interface PriceSeriesPoint {
   day: string;

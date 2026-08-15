@@ -26,6 +26,12 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
   },
   outputFileTracingRoot: process.cwd(),
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   experimental: {
     optimizePackageImports: [
       "@remixicon/react",

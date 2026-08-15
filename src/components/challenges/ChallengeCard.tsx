@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 import { getUserTypeIcon } from "@/lib/utils/user";
 import type { ChallengeWithRelations } from "@/types";
@@ -54,9 +55,9 @@ export function ChallengeCard({ challenge, onOpenDetail }: ChallengeCardProps) {
         <div className="flex items-center gap-3 mb-4">
           <Link href={`/u/${challenge.author?.username}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity" onClick={e => e.stopPropagation()}>
             <div className="size-10 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 p-[2px] shadow-sm flex-shrink-0">
-              <div className="w-full h-full rounded-[0.35rem] bg-white dark:bg-gray-900 flex items-center justify-center text-base overflow-hidden">
+              <div className="relative w-full h-full rounded-[0.35rem] bg-white dark:bg-gray-900 flex items-center justify-center text-base overflow-hidden">
                 {challenge.author?.avatar_url
-                  ? <img src={challenge.author.avatar_url} alt="" className="w-full h-full object-cover" />
+                  ? <Image src={challenge.author.avatar_url} alt="" fill sizes="40px" className="object-cover" />
                   : <span>{getUserTypeIcon(challenge.author?.user_type)}</span>
                 }
               </div>
@@ -106,8 +107,8 @@ export function ChallengeCard({ challenge, onOpenDetail }: ChallengeCardProps) {
         {challenge.images && challenge.images.length > 0 && (
           <div className="flex gap-2 mb-3">
             {challenge.images.slice(0, 3).map((img, i) => (
-              <div key={i} className="w-20 h-20 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 flex-shrink-0">
-                <img src={img} alt="" className="w-full h-full object-cover" />
+              <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 flex-shrink-0">
+                <Image src={img} alt="" fill sizes="80px" className="object-cover" />
               </div>
             ))}
           </div>

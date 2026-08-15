@@ -126,8 +126,8 @@ export default async function CarbonoProjetosPage({ params }: { params: Promise<
           </p>
           <div className="flex flex-wrap gap-4">
             <a
-              href="/dados/CarbonPlan/projects.csv"
-              download
+              href="https://tashftatbucseafjlfdw.supabase.co/storage/v1/object/public/carbon-plan-data/CarbonPlan/projects.csv"
+              download="projects.csv"
               className="inline-flex items-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition-colors"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,14 +136,16 @@ export default async function CarbonoProjetosPage({ params }: { params: Promise<
               {t("downloadProjects")}
             </a>
             <a
-              href="/dados/CarbonPlan/credits.csv"
-              download
+              href="https://tashftatbucseafjlfdw.supabase.co/storage/v1/object/public/carbon-plan-data/CarbonPlan/credits.csv.gz"
+              download="credits.csv.gz"
               className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
               {t("downloadCredits")}
+              {" "}
+              (.gz)
             </a>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import { cache } from "react";
 import { withMonitoring } from "@/lib/utils/monitoring";
-import { logger } from "@/lib/utils/logger";
 
 const AWESOMEAPI_BASE = "https://economia.awesomeapi.com.br/json";
 

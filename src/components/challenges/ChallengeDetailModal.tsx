@@ -7,6 +7,7 @@ import { ChallengeWithRelations, CommentWithRelations } from "@/types";
 import { sanitizeInput } from "@/lib/utils/sanitize";
 import { getUserTypeIcon } from "@/lib/utils/user";
 import Link from "next/link";
+import Image from "next/image";
 import { User } from "@supabase/supabase-js";
 
 interface ChallengeDetailModalProps {
@@ -166,9 +167,9 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
           <div className="flex items-center gap-3">
             <Link href={`/u/${challenge.author?.username}`} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
               <div className="size-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 p-[2px] shadow-sm flex-shrink-0">
-                <div className="w-full h-full rounded-[0.35rem] bg-white dark:bg-gray-900 flex items-center justify-center text-xl overflow-hidden">
+                <div className="relative w-full h-full rounded-[0.35rem] bg-white dark:bg-gray-900 flex items-center justify-center text-xl overflow-hidden">
                   {challenge.author?.avatar_url
-                    ? <img src={challenge.author.avatar_url} alt="" className="w-full h-full object-cover" />
+                    ? <Image src={challenge.author.avatar_url} alt="" fill sizes="48px" className="object-cover" />
                     : <span>{getUserTypeIcon(challenge.author?.user_type)}</span>
                   }
                 </div>
@@ -224,9 +225,9 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
                   <button
                     key={i}
                     onClick={() => setSelectedImage(selectedImage === img ? null : img)}
-                    className="aspect-video rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:ring-2 hover:ring-emerald-400 transition-all"
+                    className="relative aspect-video rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 hover:ring-2 hover:ring-emerald-400 transition-all"
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover" />
+                    <Image src={img} alt="" fill sizes="200px" className="object-cover" />
                   </button>
                 ))}
               </div>
@@ -235,7 +236,14 @@ export function ChallengeDetailModal({ challenge, onClose, currentUser, onChalle
                   className="fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-4"
                   onClick={() => setSelectedImage(null)}
                 >
-                  <img src={selectedImage} alt="" className="max-w-full max-h-full rounded-2xl" />
+                  <Image
+                    src={selectedImage}
+                    alt=""
+                    width={1600}
+                    height={1600}
+                    unoptimized
+                    className="max-w-full max-h-full w-auto h-auto object-contain rounded-2xl"
+                  />
                 </div>
               )}
             </div>

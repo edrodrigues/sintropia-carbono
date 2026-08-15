@@ -262,7 +262,7 @@ export const getMarketOverviewStats = cache(async (assetIds?: string[]) => {
     const carbonPrices = items.filter(a => a.asset_type === "carbon_credit" && a.price !== null && a.currency);
     const irecPrices = items.filter(a => a.asset_type === "irec" && a.price !== null && a.currency);
 
-    function avgPerCurrency(prices: (typeof items), assetType: string): [Record<string, { avg: number; weight: number; count: number }>, number | null] {
+    function avgPerCurrency(prices: (typeof items), _assetType: string): [Record<string, { avg: number; weight: number; count: number }>, number | null] {
       const byCurr: Record<string, { priceVolSum: number; volSum: number; priceSum: number; count: number }> = {};
       let overallCount = 0;
       for (const a of prices) {

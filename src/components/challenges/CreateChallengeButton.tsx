@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/client";
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { sanitizeInput } from "@/lib/utils/sanitize";
 import { CHALLENGE_CATEGORIES } from "@/types";
@@ -301,7 +302,7 @@ export function CreateChallengeButton({ onChallengeCreated }: { onChallengeCreat
                 <div className="flex flex-wrap gap-3">
                   {images.map((img, index) => (
                     <div key={index} className="relative w-24 h-24 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-                      <img src={img.preview} alt="" className="w-full h-full object-cover" />
+                      <Image src={img.preview} alt="" fill unoptimized sizes="96px" className="object-cover" />
                       <button
                         type="button"
                         onClick={() => removeImage(index)}
