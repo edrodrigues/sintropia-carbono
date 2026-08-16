@@ -13,6 +13,7 @@ import { WatchlistTab } from "@/components/live-markets/WatchlistTab";
 import { ListingsTabInner } from "@/components/live-markets/listings/ListingsTab";
 import { AssetDrawer } from "@/components/live-markets/AssetDrawer";
 import { CurrencySelector } from "@/components/live-markets/CurrencySelector";
+import { VolumeFilterToggle } from "@/components/live-markets/VolumeFilterToggle";
 import {
   getMarketSnapshot,
   getMarketByFilters,
@@ -64,6 +65,7 @@ export default async function CarbonoLiveMarketsPage({
   const activeTab = validTabs.includes(tab) ? tab : "overview";
 
   const displayCurrency = typeof sp.displayCurrency === "string" ? sp.displayCurrency : "USD";
+  const showAllAssets = sp.volume === "all";
   const rates = await fetchAllRates();
 
   const explorerFilters = {
@@ -77,6 +79,7 @@ export default async function CarbonoLiveMarketsPage({
   };
 
   const snapshot = await getMarketSnapshot(true);
+  const filteredSnapshot = showAllAssets ? snapshot : snapshot.filter((a) => a.volume != null && Number(a.volume) > 1);
 
   let drawerAsset: (typeof snapshot)[number] | undefined = undefined;
   let drawerSeries: Awaited<ReturnType<typeof getPriceSeries>> = [];
@@ -152,7 +155,10 @@ export default async function CarbonoLiveMarketsPage({
                 {t("subtitle")}
               </p>
             </div>
-            <CurrencySelector />
+            <div className="flex items-center gap-4">
+              <CurrencySelector />
+              <VolumeFilterToggle />
+            </div>
           </div>
         </div>
 
@@ -164,13 +170,15 @@ export default async function CarbonoLiveMarketsPage({
               locale={locale}
               displayCurrency={displayCurrency}
               rates={rates}
-              snapshot={snapshot}
+              snapshot={filteredSnapshot}
             />
           )}
 
           {activeTab === "explorer" && (
             <ExplorerTabInner
-              assets={await getMarketByFilters({ ...explorerFilters, recentOnly: true })}
+              assets={(await getMarketByFilters({ ...explorerFilters, recentOnly: true })).filter(
+                (a) => showAllAssets || (a.volume != null && Number(a.volume) > 1)
+              )}
               filterOptions={filterOptions}
               displayCurrency={displayCurrency}
               rates={rates}
