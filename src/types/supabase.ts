@@ -942,6 +942,7 @@ export type Database = {
       }
       carbon_credits: {
         Row: {
+          chain_tx_hash: string | null
           created_at: string | null
           id: number
           project_id: string | null
@@ -951,11 +952,13 @@ export type Database = {
           retirement_beneficiary_harmonized: string | null
           retirement_note: string | null
           retirement_reason: string | null
+          source: string | null
           transaction_date: string | null
           transaction_type: string | null
           vintage: number | null
         }
         Insert: {
+          chain_tx_hash?: string | null
           created_at?: string | null
           id?: number
           project_id?: string | null
@@ -965,11 +968,13 @@ export type Database = {
           retirement_beneficiary_harmonized?: string | null
           retirement_note?: string | null
           retirement_reason?: string | null
+          source?: string | null
           transaction_date?: string | null
           transaction_type?: string | null
           vintage?: number | null
         }
         Update: {
+          chain_tx_hash?: string | null
           created_at?: string | null
           id?: number
           project_id?: string | null
@@ -979,6 +984,7 @@ export type Database = {
           retirement_beneficiary_harmonized?: string | null
           retirement_note?: string | null
           retirement_reason?: string | null
+          source?: string | null
           transaction_date?: string | null
           transaction_type?: string | null
           vintage?: number | null
@@ -1725,6 +1731,81 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      onchain_retirements: {
+        Row: {
+          beneficiary: string | null
+          certificate_id: string | null
+          chain: string | null
+          country: string | null
+          created_at: string | null
+          event_id: string | null
+          id: string
+          message: string | null
+          methodology: string | null
+          original_data: Json | null
+          project_id: string | null
+          provider: string
+          quantity: number | null
+          registry: string | null
+          retired_at: string | null
+          retiring_address: string | null
+          retiring_entity: string | null
+          subgraph_id: string
+          token_address: string | null
+          token_symbol: string | null
+          tx_hash: string | null
+          vintage: number | null
+        }
+        Insert: {
+          beneficiary?: string | null
+          certificate_id?: string | null
+          chain?: string | null
+          country?: string | null
+          created_at?: string | null
+          event_id?: string | null
+          id?: string
+          message?: string | null
+          methodology?: string | null
+          original_data?: Json | null
+          project_id?: string | null
+          provider: string
+          quantity?: number | null
+          registry?: string | null
+          retired_at?: string | null
+          retiring_address?: string | null
+          retiring_entity?: string | null
+          subgraph_id: string
+          token_address?: string | null
+          token_symbol?: string | null
+          tx_hash?: string | null
+          vintage?: number | null
+        }
+        Update: {
+          beneficiary?: string | null
+          certificate_id?: string | null
+          chain?: string | null
+          country?: string | null
+          created_at?: string | null
+          event_id?: string | null
+          id?: string
+          message?: string | null
+          methodology?: string | null
+          original_data?: Json | null
+          project_id?: string | null
+          provider?: string
+          quantity?: number | null
+          registry?: string | null
+          retired_at?: string | null
+          retiring_address?: string | null
+          retiring_entity?: string | null
+          subgraph_id?: string
+          token_address?: string | null
+          token_symbol?: string | null
+          tx_hash?: string | null
+          vintage?: number | null
+        }
+        Relationships: []
       }
       organizations: {
         Row: {

@@ -104,8 +104,9 @@ export default async function CarbonoLiveMarketsPage({
 
   const dataSources = [
     { name: "Sintropia Carbono", url: "https://sintropia.space" },
-    { name: "I-TRACK Foundation", url: "https://trackingstandard.org" },
-    { name: "BloombergNEF", url: "https://about.bnef.com" },
+    { name: "Carbonmark", url: "https://carbonmark.com" },
+    { name: "Toucan Protocol", url: "https://toucan.earth" },
+    { name: "KlimaDAO", url: "https://www.klimadao.finance" },
   ];
 
   const [assetTypes, geographies, registries, technologies, currencies, referenceTypes] = await Promise.all([

@@ -259,6 +259,7 @@ export async function GET(request: NextRequest) {
       vintage: number;
       quantity: number;
       project_id: string;
+      transaction_type: string | null;
     }
     let allCredits: CreditStat[] = [];
     let creditPage = 0;
@@ -267,7 +268,7 @@ export async function GET(request: NextRequest) {
     while (true) {
       const { data: creditBatch } = await supabase
         .from("carbon_credits")
-        .select("vintage, quantity, project_id")
+        .select("vintage, quantity, project_id, transaction_type")
         .range(creditPage * creditPageSize, (creditPage + 1) * creditPageSize - 1);
 
       if (!creditBatch || creditBatch.length === 0) break;
@@ -276,12 +277,20 @@ export async function GET(request: NextRequest) {
       if (creditBatch.length < creditPageSize) break;
     }
 
-    // Calculate totalCredits from allCredits
-    const totalCredits = (allCredits || []).reduce((sum, c) => sum + (c.quantity || 0), 0);
+    // "Issued" credits exclude retirements so on-chain retirement rows
+    // (carbon_credits.transaction_type === 'retirement', e.g. from
+    // ingest-toucan-klima) don't double-count the same tonnage that was
+    // already counted when it was issued/bridged.
+    const issuedCredits = allCredits.filter((c) => c.transaction_type !== "retirement");
+    const retiredCredits = allCredits.filter((c) => c.transaction_type === "retirement");
+
+    // Calculate totalCredits from issued credits
+    const totalCredits = issuedCredits.reduce((sum, c) => sum + (c.quantity || 0), 0);
+    const totalRetired = retiredCredits.reduce((sum, c) => sum + (c.quantity || 0), 0);
 
     // Calculate vintageStats
     const vintageStats: Record<string, number> = {};
-    (allCredits || []).forEach((c) => {
+    issuedCredits.forEach((c) => {
       if (c.vintage) {
         vintageStats[c.vintage.toString()] = (vintageStats[c.vintage.toString()] || 0) + (c.quantity || 0);
       }
@@ -289,7 +298,7 @@ export async function GET(request: NextRequest) {
 
     // Credits by country
     const creditsByCountry: Record<string, number> = {};
-    (allCredits || []).forEach((c) => {
+    issuedCredits.forEach((c) => {
       const country = projectCountryMap[c.project_id];
       if (country) {
         creditsByCountry[country] = (creditsByCountry[country] || 0) + (c.quantity || 0);
@@ -304,6 +313,7 @@ export async function GET(request: NextRequest) {
         countries,
         continents,
         totalCredits,
+        totalRetired,
         countryStats,
         continentStats,
         categoryStats,

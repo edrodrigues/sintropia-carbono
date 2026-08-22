@@ -12,6 +12,9 @@ import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
 
+type SortField = "price" | "volume";
+type SortDir = "asc" | "desc";
+
 interface ExplorerTabProps {
   assets: SnapshotRow[];
   filterOptions: {
@@ -67,6 +70,42 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
 
   const isAllSelected = assets.length > 0 && assets.every((a) => selectedIds.includes(a.asset_id ?? ""));
 
+  const sortField = searchParams.get("sortBy") as SortField | null;
+  const sortDir = (searchParams.get("sortDir") as SortDir | null) || "desc";
+
+  const toggleSort = useCallback(
+    (field: SortField) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (sortField === field) {
+        if (sortDir === "desc") {
+          params.set("sortBy", field);
+          params.set("sortDir", "asc");
+        } else {
+          params.delete("sortBy");
+          params.delete("sortDir");
+        }
+      } else {
+        params.set("sortBy", field);
+        params.set("sortDir", "desc");
+      }
+      router.push(`?${params.toString()}`, { scroll: false });
+    },
+    [router, searchParams, sortField, sortDir],
+  );
+
+  const sortedAssets = useMemo(() => {
+    if (!sortField) return assets;
+    const dir = sortDir === "asc" ? 1 : -1;
+    return [...assets].sort((a, b) => {
+      const av = a[sortField];
+      const bv = b[sortField];
+      if (av == null && bv == null) return 0;
+      if (av == null) return 1;
+      if (bv == null) return -1;
+      return (Number(av) - Number(bv)) * dir;
+    });
+  }, [assets, sortField, sortDir]);
+
   return (
     <div className="space-y-4 pb-20">
       <FilterPanel filterOptions={filterOptions} />
@@ -102,15 +141,41 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("asset")}</th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("price_type")}</th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("score")}</th>
-                <th className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("price")}</th>
-                <th className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("volume")}</th>
+                <th
+                  className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide"
+                  aria-sort={sortField === "price" ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
+                >
+                  <button
+                    type="button"
+                    onClick={() => toggleSort("price")}
+                    className="inline-flex items-center gap-1 cursor-pointer hover:text-gray-700"
+                    aria-label={`Ordenar por ${t("price").toLowerCase()}`}
+                  >
+                    {t("price")}
+                    <SortIndicator active={sortField === "price"} dir={sortDir} />
+                  </button>
+                </th>
+                <th
+                  className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell"
+                  aria-sort={sortField === "volume" ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
+                >
+                  <button
+                    type="button"
+                    onClick={() => toggleSort("volume")}
+                    className="inline-flex items-center gap-1 cursor-pointer hover:text-gray-700"
+                    aria-label={`Ordenar por ${t("volume").toLowerCase()}`}
+                  >
+                    {t("volume")}
+                    <SortIndicator active={sortField === "volume"} dir={sortDir} />
+                  </button>
+                </th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("attributes")}</th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("source")}</th>
                 <th className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("updated")}</th>
               </tr>
             </thead>
             <tbody>
-              {assets.map((item) => {
+              {sortedAssets.map((item) => {
                 const ref = referenceBadge(item.reference_type);
                 const isSelected = selectedIds.includes(item.asset_id ?? "");
                 return (
@@ -217,5 +282,19 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
         onClearSelection={clearSelection}
       />
     </div>
+  );
+}
+
+function SortIndicator({ active, dir }: { active: boolean; dir: SortDir }) {
+  return (
+    <svg
+      className={`w-3 h-3 transition-transform ${active ? "text-gray-700" : "text-gray-300"} ${active && dir === "asc" ? "rotate-180" : ""}`}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+    </svg>
   );
 }

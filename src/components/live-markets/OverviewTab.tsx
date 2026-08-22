@@ -1,14 +1,31 @@
-import { getPriceChanges, getMarketOverviewStats, getMarketByAssetIds } from "@/lib/queries/live-markets";
+import Image from "next/image";
+import { getMarketOverviewStats, getMarketByAssetIds } from "@/lib/queries/live-markets";
 import { createClient } from "@/lib/supabase/server";
 import { getUserMarketNotifications, getUserWatchlist } from "@/lib/queries/user-market-data";
 import { getTranslations } from "next-intl/server";
 import { CadTrustScore } from "./CadTrustScore";
+import { LastUpdatedCard } from "./LastUpdatedCard";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { formatPrice, formatAvgPrice, timeAgo, assetTypeLabel, referenceBadge } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
 type SnapshotRow = Database["public"]["Views"]["v_market_snapshot"]["Row"];
+
+const MARKET_SOURCES = [
+  {
+    name: "Carbonmark",
+    url: "https://carbonmark.com",
+    logo: "/images/sources/carbonmark.png",
+    description: "Marketplace global de créditos de carbono, conectando compradores, vendedores e desenvolvedores de projetos a múltiplos registros com liquidação on-chain instantânea.",
+  },
+  {
+    name: "KlimaDAO",
+    url: "https://www.klimadao.finance",
+    logo: "/images/sources/klimadao.png",
+    description: "Protocolo on-chain que tokeniza créditos de carbono (TCO2) e mantém pools de liquidez com preços de mercado em tempo real para ativos ambientais.",
+  },
+];
 
 export async function OverviewTab({
   locale,
@@ -27,9 +44,8 @@ export async function OverviewTab({
 
   const recentAssetIds = snapshot.map((a) => a.asset_id).filter(Boolean) as string[];
   const idParam = recentAssetIds.length > 0 ? recentAssetIds : undefined;
-  const [stats, changes, notifications, watchlistAssets] = await Promise.all([
+  const [stats, notifications, watchlistAssets] = await Promise.all([
     getMarketOverviewStats(idParam),
-    getPriceChanges(idParam),
     user ? getUserMarketNotifications(user.id, 5) : Promise.resolve([]),
     user
       ? getUserWatchlist(user.id).then((items) => {
@@ -39,17 +55,12 @@ export async function OverviewTab({
       : Promise.resolve([]),
   ]);
 
-  const topMovers = changes.filter((c) => c.change_pct !== null).slice(0, 8);
   const allAssets = snapshot.filter((a) => a.price !== null).slice(0, 20);
 
-  const scoreMap = new Map<string, { rating_bezero: string | null; rating_sylvera: string | null; is_ccp_aligned: boolean | null }>();
+  const sourceCounts = new Map<string, number>();
   for (const s of snapshot) {
-    if (s.asset_id) {
-      scoreMap.set(s.asset_id, {
-        rating_bezero: s.rating_bezero,
-        rating_sylvera: s.rating_sylvera,
-        is_ccp_aligned: s.is_ccp_aligned,
-      });
+    if (s.source_name) {
+      sourceCounts.set(s.source_name, (sourceCounts.get(s.source_name) ?? 0) + 1);
     }
   }
 
@@ -78,98 +89,46 @@ export async function OverviewTab({
             change={stats.irecChange}
             color="text-sky-600"
           />
-          <KPICard
-            label="Última atualização"
-            value={stats.lastUpdate ? new Date(stats.lastUpdate).toLocaleDateString("pt-BR") : "—"}
-            sub="fonte mais recente"
-            color="text-gray-600"
-          />
+          <LastUpdatedCard initialLastUpdate={stats.lastUpdate || null} />
         </div>
 
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100">
             <h3 className="text-base font-semibold text-gray-900">
-              Movimentações do mercado
+              Mercados conectados
             </h3>
-            <p className="text-xs text-gray-500 mt-0.5">Ativos com maior variação de preço</p>
+            <p className="text-xs text-gray-500 mt-0.5">De onde vêm os preços exibidos nesta página</p>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-100 bg-gray-50/50">
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("asset")}</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("type")}</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("score")}</th>
-                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("price")}</th>
-                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("change")}</th>
-                  <th className="text-left px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("source")}</th>
-                  <th className="text-right px-4 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">{t("updated")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {topMovers.map((m) => {
-                  const type = assetTypeLabel(m.asset_type);
-                  const pct = m.change_pct !== null ? Number(m.change_pct) : null;
-                  return (
-                    <tr key={m.asset_id} className="border-b border-gray-50 hover:bg-sky-50/50 transition-colors">
-                      <td className="px-4 py-3">
-                        <span className="text-sm font-semibold text-gray-900">{m.asset_name}</span>
-                        <span className="block text-[11px] text-gray-500">{m.country || m.technology || ""}</span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full ${type.color}`}>
-                          {type.label}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 hidden md:table-cell">
-                        <CadTrustScore
-                          ratingBezero={scoreMap.get(m.asset_id ?? "")?.rating_bezero}
-                          ratingSylvera={scoreMap.get(m.asset_id ?? "")?.rating_sylvera}
-                          isCcpAligned={scoreMap.get(m.asset_id ?? "")?.is_ccp_aligned}
-                          variant="compact"
-                        />
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <span className="text-sm font-mono font-bold text-gray-900">{formatPrice({ price: m.current_price, currency: m.currency }, displayCurrency, rates)}</span>
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        {pct !== null ? (
-                          <span className={`inline-flex items-center gap-0.5 text-sm font-mono font-bold ${pct >= 0 ? "text-emerald-700" : "text-red-700"}`}>
-                            <svg className={`w-3.5 h-3.5 ${pct >= 0 ? "" : "rotate-180"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M7 17l9.2-9.2M17 17V7H7" />
-                            </svg>
-                            {pct >= 0 ? "+" : ""}{pct.toFixed(1)}%
-                          </span>
-                        ) : (
-                          <span className="text-gray-500">—</span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 text-xs text-gray-500 hidden md:table-cell">
-                        {m.country || m.technology || "—"}
-                      </td>
-                      <td className="px-4 py-3 text-right text-xs text-gray-500 font-mono hidden md:table-cell">
-                        {m.current_date ? timeAgo(m.current_date, t) : "—"}
-                      </td>
-                    </tr>
-                  );
-                })}
-                {topMovers.length === 0 && (
-                  <tr>
-                    <td colSpan={7} className="px-4 py-12 text-center">
-                      <div className="flex flex-col items-center gap-3">
-                        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
-                          <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                          </svg>
-                        </div>
-                        <p className="text-sm text-gray-500 font-medium">Nenhuma movimentação disponível</p>
-                        <p className="text-xs text-gray-500">Os dados de movimentação do mercado aparecerão aqui quando houver atualizações</p>
-                      </div>
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
+            {MARKET_SOURCES.map((source) => (
+              <a
+                key={source.name}
+                href={source.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex gap-4 p-6 hover:bg-gray-50/50 transition-colors"
+              >
+                <Image
+                  src={source.logo}
+                  alt={source.name}
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 rounded-full object-cover shrink-0 border border-gray-100"
+                />
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h4 className="text-sm font-semibold text-gray-900">{source.name}</h4>
+                    {sourceCounts.get(source.name) ? (
+                      <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700">
+                        {sourceCounts.get(source.name)} ativos
+                      </span>
+                    ) : null}
+                  </div>
+                  <p className="text-xs text-blue-600 truncate">{source.url.replace(/^https?:\/\//, "")}</p>
+                  <p className="text-xs text-gray-500 mt-2 leading-relaxed">{source.description}</p>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
 

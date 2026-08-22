@@ -89,7 +89,7 @@ async function rebuild(PGlite) {
   await check("filtered page with exact count",
     "SELECT *, count(*) OVER () FROM carbon_projects WHERE country = $1 ORDER BY country ASC LIMIT 100 OFFSET 0", ["Brazil"]);
   await check("credits stats pagination",
-    "SELECT vintage, quantity, project_id FROM carbon_credits LIMIT 1000 OFFSET 0");
+    "SELECT vintage, quantity, project_id, transaction_type FROM carbon_credits LIMIT 1000 OFFSET 0");
   await check("credits -> projects join key",
     "SELECT c.project_id FROM carbon_credits c JOIN carbon_projects p ON p.project_id = c.project_id LIMIT 1");
 

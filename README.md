@@ -145,6 +145,7 @@ Os dados locais e públicos ficam em `dados/` e `public/dados/`. Os scripts em `
 - `sync-irec-stakeholders.ts`
 - `sync-carbon-brazil-top50.ts`
 - `sync-carbonmark-prices.ts`
+- `sync-toucan-klima.ts`
 - `sync-contacts-to-resend.ts`
 - `fix-and-sync-irec-data.ts`
 
