@@ -97,6 +97,16 @@ export function referenceLabel(type: string | null): string {
   return map[type || ""] || "—";
 }
 
+export function registryStatusLabel(status: string | null | undefined): string {
+  if (!status) return "—";
+  const map: Record<string, string> = {
+    Registered: "Registrado",
+    Listed: "Listado",
+    Completed: "Concluído",
+  };
+  return map[status] || status;
+}
+
 export function typeLabel(type: string | null): string {
   const map: Record<string, string> = {
     carbon_credit: "Carbono (crédito)",

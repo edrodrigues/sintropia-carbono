@@ -2603,6 +2603,11 @@ export type Database = {
           asset_id: string | null
           asset_name: string | null
           asset_type: string | null
+          cad_trust_location_country: string | null
+          cad_trust_project_link: string | null
+          cad_trust_project_status: string | null
+          cad_trust_units_issued: number | null
+          cad_trust_units_retired: number | null
           country: string | null
           currency: string | null
           fetched_at: string | null

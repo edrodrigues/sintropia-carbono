@@ -3,10 +3,11 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { ExternalLink } from "lucide-react";
 import { FilterPanel } from "./FilterPanel";
 import { ComparisonBar } from "./ComparisonBar";
 import { CadTrustScore } from "./CadTrustScore";
-import { formatPrice, timeAgo, referenceBadge } from "@/lib/utils/market-helpers";
+import { formatPrice, timeAgo, referenceBadge, registryStatusLabel } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
@@ -207,12 +208,26 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                       </span>
                     </td>
                     <td className="px-3 py-3 hidden sm:table-cell">
-                      <CadTrustScore
-                        ratingBezero={item.rating_bezero}
-                        ratingSylvera={item.rating_sylvera}
-                        isCcpAligned={item.is_ccp_aligned}
-                        variant="compact"
-                      />
+                      <div className="flex items-center gap-1 flex-wrap">
+                        <CadTrustScore
+                          ratingBezero={item.rating_bezero}
+                          ratingSylvera={item.rating_sylvera}
+                          isCcpAligned={item.is_ccp_aligned}
+                          variant="compact"
+                        />
+                        {item.cad_trust_project_link && (
+                          <a
+                            href={item.cad_trust_project_link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            title={`${registryStatusLabel(item.cad_trust_project_status)} no registro oficial`}
+                            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-semibold rounded bg-gray-100 text-gray-600 hover:underline hover:text-gray-800"
+                          >
+                            <ExternalLink className="w-3 h-3" aria-hidden="true" />
+                          </a>
+                        )}
+                      </div>
                     </td>
                     <td className="px-3 py-3 text-right">
                       <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</span>

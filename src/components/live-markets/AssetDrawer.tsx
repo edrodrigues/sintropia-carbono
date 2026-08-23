@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { X, Star, Bell } from "lucide-react";
 import { PriceBarChart } from "./PriceChart";
 import { CadTrustScore } from "./CadTrustScore";
-import { formatPrice, timeAgo, assetTypeLabel, referenceLabel } from "@/lib/utils/market-helpers";
+import { formatPrice, timeAgo, assetTypeLabel, referenceLabel, registryStatusLabel } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { PriceSeriesPoint } from "@/lib/queries/price-series";
 import type { Database } from "@/types/supabase";
@@ -195,11 +195,24 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
                     )
                   ) : "—" },
                   { label: "Categoria", value: asset.project_category || "—" },
+                  { label: "Status no registro", value: registryStatusLabel(asset.cad_trust_project_status) },
+                  { label: "Ver no registro", value: asset.cad_trust_project_link ? (
+                    <a
+                      href={asset.cad_trust_project_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline"
+                    >
+                      Abrir projeto ↗
+                    </a>
+                  ) : "—" },
+                  { label: "Emitido (CAD Trust)", value: asset.cad_trust_units_issued != null ? Number(asset.cad_trust_units_issued).toLocaleString("pt-BR") : "—" },
+                  { label: "Retirado (CAD Trust)", value: asset.cad_trust_units_retired != null ? Number(asset.cad_trust_units_retired).toLocaleString("pt-BR") : "—" },
                 ].map((attr, idx) => (
                   <div
                     key={attr.label}
                     className={`py-3 ${idx % 2 === 0 ? "pr-4 border-r border-gray-100" : "pl-4"} ${
-                      idx < 6 ? "border-b border-gray-100" : ""
+                      idx < 10 ? "border-b border-gray-100" : ""
                     }`}
                   >
                     <dt className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide">{attr.label}</dt>
