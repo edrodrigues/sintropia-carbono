@@ -54,7 +54,7 @@ export async function ComparatorTab({
     { label: "Tipo de ativo", values: items.map((i) => typeLabel(i.asset_type)) },
     { label: "Registro / programa", values: items.map((i) => i.registry || "—") },
     {
-      label: "Score CAD Trust",
+      label: "Ratings CAD Trust",
       values: items.map((i) => (
         <CadTrustScore
           key={i.asset_id}
