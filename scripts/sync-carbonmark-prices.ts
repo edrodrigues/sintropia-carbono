@@ -39,12 +39,34 @@ interface CarbonmarkPrice {
     creditId: { vintage: number; projectId: string };
     token: { name: string };
     sellerId: string;
+    expiresAfter: number;
   };
   klimaprotocol?: {
     creditId: { vintage: number; projectId: string; creditId: string };
     token: { name: string };
     carbonClass: { id: string };
   };
+}
+
+const CARBONMARK_PRICE_REFERENCE_TYPES = ["carbonmark_listing", "carbonmark_pool"];
+
+// Keep in sync with supabase/functions/ingest-carbonmark/index.ts: a listing
+// that already expired is stale even though /prices still returned it, and
+// `supply` can include illiquid amounts for pools per Carbonmark's own
+// schema docs ("Use liquidSupply instead"), so liquidSupply is the correct
+// "available now" figure for both listings and pools.
+function isLivePrice(pp: CarbonmarkPrice): boolean {
+  if (pp.purchasePrice == null) return false;
+  const expiresAfter = pp.listing?.expiresAfter;
+  if (expiresAfter != null && expiresAfter * 1000 < Date.now()) return false;
+  const availableSupply = pp.liquidSupply ?? pp.supply ?? 0;
+  return availableSupply > 0;
+}
+
+function chunk<T>(arr: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
 }
 
 interface CarbonmarkProject {
@@ -64,6 +86,7 @@ async function run() {
   console.log("Fetching prices from Carbonmark...");
   const prices: CarbonmarkPrice[] = await carbonmarkFetch("/prices");
   console.log(`Got ${prices.length} price entries`);
+  const liveSourceIds = new Set(prices.filter(isLivePrice).map((p) => p.sourceId));
 
   const projectKeys = new Set<string>();
   for (const p of prices) {
@@ -111,6 +134,7 @@ async function run() {
 
   let assetCount = 0;
   let priceCount = 0;
+  let priceSkippedStale = 0;
 
   for (const [projectKey, proj] of projects) {
     const category = proj.methodologies?.[0]?.category ?? null;
@@ -154,6 +178,12 @@ async function run() {
     );
 
     for (const pp of projectPrices) {
+      if (!isLivePrice(pp)) {
+        priceSkippedStale++;
+        continue;
+      }
+      const availableSupply = pp.liquidSupply ?? pp.supply;
+
       const vintage = pp.listing?.creditId.vintage ?? pp.klimaprotocol?.creditId.vintage ?? null;
       const refType = pp.type === "listing" ? "carbonmark_listing" : "carbonmark_pool";
       const tokenName = pp.listing?.token?.name ?? pp.klimaprotocol?.token?.name ?? "";
@@ -167,7 +197,7 @@ async function run() {
           currency: "USD",
           unit: "tCO2e",
           vintage_year: vintage,
-          volume: pp.supply,
+          volume: availableSupply,
           volume_unit: "tonnes",
           reference_date: new Date().toISOString(),
           reference_type: refType,
@@ -185,7 +215,42 @@ async function run() {
     }
   }
 
-  console.log(`Done. ${assetCount} assets upserted, ${priceCount} price references inserted.`);
+  // Reconcile: remove price rows for listings/pools that sold out, expired,
+  // or vanished from /prices entirely, so a stale entry doesn't linger as
+  // the "latest" snapshot for its asset. Keep in sync with
+  // supabase/functions/ingest-carbonmark/index.ts.
+  let priceReconciled = 0;
+  const { data: existingCarbonmarkPrices, error: existingErr } = await supabase
+    .from("price_references")
+    .select("source_identifier")
+    .eq("data_source_id", dataSourceId)
+    .in("reference_type", CARBONMARK_PRICE_REFERENCE_TYPES);
+
+  if (existingErr) {
+    console.warn(`Reconcile lookup failed: ${existingErr.message}`);
+  } else {
+    const staleIds = (existingCarbonmarkPrices ?? [])
+      .map((r) => r.source_identifier as string | null)
+      .filter((id): id is string => !!id && !liveSourceIds.has(id));
+
+    for (const batch of chunk(staleIds, 100)) {
+      const { error: delErr, count } = await supabase
+        .from("price_references")
+        .delete({ count: "exact" })
+        .eq("data_source_id", dataSourceId)
+        .in("reference_type", CARBONMARK_PRICE_REFERENCE_TYPES)
+        .in("source_identifier", batch);
+      if (delErr) {
+        console.warn(`Reconcile delete failed: ${delErr.message}`);
+      } else {
+        priceReconciled += count ?? batch.length;
+      }
+    }
+  }
+
+  console.log(
+    `Done. ${assetCount} assets upserted, ${priceCount} price references inserted, ${priceSkippedStale} stale/sold-out entries skipped, ${priceReconciled} stale rows reconciled away.`,
+  );
 }
 
 run().catch((err) => {

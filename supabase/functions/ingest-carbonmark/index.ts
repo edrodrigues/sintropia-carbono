@@ -36,6 +36,28 @@ async function carbonmarkFetch(path: string, apiKey: string) {
   return res.json();
 }
 
+const CARBONMARK_PRICE_REFERENCE_TYPES = ["carbonmark_listing", "carbonmark_pool"];
+
+// A listing that already expired is stale even though the /prices response
+// still returned it in this page. Carbonmark's own schema documents `supply`
+// as potentially including illiquid amounts for pools ("some of this may be
+// illiquid. Use liquidSupply instead"), so liquidSupply -- not supply -- is
+// the correct "available now" figure for both listings and pools. A
+// listing/pool with nothing left to buy isn't real market inventory.
+function isLivePrice(pp: any): boolean {
+  if (pp.purchasePrice == null) return false;
+  const expiresAfter = pp.listing?.expiresAfter;
+  if (expiresAfter != null && expiresAfter * 1000 < Date.now()) return false;
+  const availableSupply = pp.liquidSupply ?? pp.supply ?? 0;
+  return availableSupply > 0;
+}
+
+function chunk<T>(arr: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
+}
+
 serve(async (_req) => {
   try {
     const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
@@ -43,6 +65,9 @@ serve(async (_req) => {
 
     const prices: any[] = await carbonmarkFetch("/prices", apiKey);
     console.log(`Got ${prices.length} price entries`);
+    const liveSourceIds = new Set(
+      prices.filter(isLivePrice).map((p) => p.sourceId),
+    );
 
     const projectKeys = new Set<string>();
     for (const p of prices) {
@@ -75,6 +100,7 @@ serve(async (_req) => {
     let priceCount = 0;
     let assetErrors = 0;
     let priceErrors = 0;
+    let priceSkippedStale = 0;
 
     const entries = Array.from(projectKeys);
     for (let i = 0; i < entries.length; i += 5) {
@@ -137,7 +163,12 @@ serve(async (_req) => {
         );
 
         for (const pp of projectPrices) {
-          if (pp.purchasePrice == null) continue;
+          if (!isLivePrice(pp)) {
+            priceSkippedStale++;
+            continue;
+          }
+          const availableSupply = pp.liquidSupply ?? pp.supply;
+
           const vintage =
             pp.listing?.creditId?.vintage ??
             pp.klimaprotocol?.creditId?.vintage ??
@@ -153,7 +184,7 @@ serve(async (_req) => {
               currency: "USD",
               unit: "tCO2e",
               vintage_year: vintage ? Number(vintage) : null,
-              volume: pp.supply ?? null,
+              volume: availableSupply,
               volume_unit: "tonnes",
               reference_date: new Date().toISOString().slice(0, 10),
               reference_type: refType,
@@ -174,7 +205,51 @@ serve(async (_req) => {
       }
     }
 
-    const result = { ok: true, assetCount, priceCount, assetErrors, priceErrors };
+    // Rows for listings/pools that sold out, expired, or vanished from
+    // /prices entirely are never touched by the upsert above (it only
+    // writes source_identifiers still present in the current fetch), so
+    // without this pass they'd sit in price_references indefinitely with
+    // their last-known positive volume -- and could keep winning
+    // v_market_snapshot's "most recent price per asset" pick forever once
+    // no fresher price exists for that asset.
+    let priceReconciled = 0;
+    const { data: existingCarbonmarkPrices, error: existingErr } = await supabase
+      .from("price_references")
+      .select("source_identifier")
+      .eq("data_source_id", dataSourceId)
+      .in("reference_type", CARBONMARK_PRICE_REFERENCE_TYPES);
+
+    if (existingErr) {
+      console.warn(`Reconcile lookup: ${existingErr.message}`);
+    } else {
+      const staleIds = (existingCarbonmarkPrices ?? [])
+        .map((r) => r.source_identifier)
+        .filter((id): id is string => !!id && !liveSourceIds.has(id));
+
+      for (const batch of chunk(staleIds, 100)) {
+        const { error: delErr, count } = await supabase
+          .from("price_references")
+          .delete({ count: "exact" })
+          .eq("data_source_id", dataSourceId)
+          .in("reference_type", CARBONMARK_PRICE_REFERENCE_TYPES)
+          .in("source_identifier", batch);
+        if (delErr) {
+          console.warn(`Reconcile delete: ${delErr.message}`);
+        } else {
+          priceReconciled += count ?? batch.length;
+        }
+      }
+    }
+
+    const result = {
+      ok: true,
+      assetCount,
+      priceCount,
+      assetErrors,
+      priceErrors,
+      priceSkippedStale,
+      priceReconciled,
+    };
     console.log(JSON.stringify(result));
     return new Response(JSON.stringify(result), {
       headers: { "Content-Type": "application/json" },
