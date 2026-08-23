@@ -353,7 +353,7 @@ export default async function CarbonoPage({
                   {locale === "pt" ? "O que são créditos de carbono?" : locale === "en" ? "What are carbon credits?" : "¿Qué son los créditos de carbono?"}
                 </span>
                 <span className="transition group-open:rotate-180">
-                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                  <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24">
                     <path d="M6 9l6 6 6-6"></path>
                   </svg>
                 </span>
@@ -373,7 +373,7 @@ export default async function CarbonoPage({
                   {locale === "pt" ? "Como funciona o mercado de carbono?" : locale === "en" ? "How does the carbon market work?" : "¿Cómo funciona el mercado de carbono?"}
                 </span>
                 <span className="transition group-open:rotate-180">
-                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                  <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24">
                     <path d="M6 9l6 6 6-6"></path>
                   </svg>
                 </span>
@@ -393,7 +393,7 @@ export default async function CarbonoPage({
                   {locale === "pt" ? "Quais são os principais certificadores?" : locale === "en" ? "Who are the main certifiers?" : "¿Quiénes son los principales certificadores?"}
                 </span>
                 <span className="transition group-open:rotate-180">
-                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                  <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24">
                     <path d="M6 9l6 6 6-6"></path>
                   </svg>
                 </span>

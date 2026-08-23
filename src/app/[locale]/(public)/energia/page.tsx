@@ -353,7 +353,7 @@ export default async function EnergiaPage({
                   {locale === "pt" ? "O que é I-REC?" : locale === "en" ? "What is I-REC?" : "¿Qué es I-REC?"}
                 </span>
                 <span className="transition group-open:rotate-180">
-                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                  <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24">
                     <path d="M6 9l6 6 6-6"></path>
                   </svg>
                 </span>
@@ -373,7 +373,7 @@ export default async function EnergiaPage({
                   {locale === "pt" ? "Como funciona o mercado de I-REC?" : locale === "en" ? "How does the I-REC market work?" : "¿Cómo funciona el mercado de I-REC?"}
                 </span>
                 <span className="transition group-open:rotate-180">
-                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                  <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24">
                     <path d="M6 9l6 6 6-6"></path>
                   </svg>
                 </span>
@@ -393,7 +393,7 @@ export default async function EnergiaPage({
                   {locale === "pt" ? "Quais empresas podem comprar I-REC?" : locale === "en" ? "Which companies can buy I-RECs?" : "¿Qué empresas pueden comprar I-REC?"}
                 </span>
                 <span className="transition group-open:rotate-180">
-                  <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+                  <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24">
                     <path d="M6 9l6 6 6-6"></path>
                   </svg>
                 </span>

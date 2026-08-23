@@ -5,6 +5,7 @@ import { useEffect, useRef, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { X, Star, Bell } from "lucide-react";
 import { PriceBarChart } from "./PriceChart";
+import { CadTrustScore } from "./CadTrustScore";
 import { formatPrice, timeAgo, assetTypeLabel, referenceLabel } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { PriceSeriesPoint } from "@/lib/queries/price-series";
@@ -150,12 +151,20 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
               <p className="text-xs text-gray-500 mt-2">
                 {t("updated")} {timeAgo(asset.reference_date, t)}
               </p>
+              <div className="mt-3">
+                <CadTrustScore
+                  ratingBezero={asset.rating_bezero}
+                  ratingSylvera={asset.rating_sylvera}
+                  isCcpAligned={asset.is_ccp_aligned}
+                  variant="row"
+                />
+              </div>
             </div>
 
             {priceSeries.length > 0 && (
               <div className="px-6 py-4 border-b border-gray-100">
                 <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Histórico de preços</h4>
-                <div role="img" aria-label={`Price history chart for ${asset.asset_name} showing data from ${priceSeries[0]?.day} to ${priceSeries[priceSeries.length - 1]?.day}`}>
+                <div role="img" aria-label={`Price history chart for ${asset.asset_name} showing data from ${priceSeries[0]?.day} to ${priceSeries[priceSeries.length - 1]?.day}`} style={{ height: 180 }}>
                   <PriceBarChart data={priceSeries} height={180} />
                 </div>
               </div>

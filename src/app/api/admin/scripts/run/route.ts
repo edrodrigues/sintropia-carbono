@@ -22,6 +22,7 @@ const ALLOWED_SCRIPTS = [
   "send-drip-emails.ts",
   "send-newsletter.ts",
   "summary-drip.ts",
+  "sync-cadtrust-ratings.ts",
   "sync-contacts-to-resend.ts",
   "verify-drip-status.ts",
 ] as const;
