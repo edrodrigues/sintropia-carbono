@@ -181,6 +181,7 @@ export async function OverviewTab({
                         <CadTrustScore
                           ratingBezero={item.rating_bezero}
                           ratingSylvera={item.rating_sylvera}
+                          ratingRenoster={item.rating_renoster}
                           isCcpAligned={item.is_ccp_aligned}
                           variant="compact"
                         />

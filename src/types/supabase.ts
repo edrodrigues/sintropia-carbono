@@ -2603,7 +2603,9 @@ export type Database = {
           asset_id: string | null
           asset_name: string | null
           asset_type: string | null
+          cad_trust_developer: string | null
           cad_trust_location_country: string | null
+          cad_trust_methodology: string | null
           cad_trust_project_link: string | null
           cad_trust_project_status: string | null
           cad_trust_units_issued: number | null
@@ -2620,6 +2622,7 @@ export type Database = {
           project_category: string | null
           project_registry_id: string | null
           rating_bezero: string | null
+          rating_renoster: string | null
           rating_sylvera: string | null
           reference_date: string | null
           reference_type: string | null

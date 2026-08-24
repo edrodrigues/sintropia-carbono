@@ -155,6 +155,7 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
                 <CadTrustScore
                   ratingBezero={asset.rating_bezero}
                   ratingSylvera={asset.rating_sylvera}
+                  ratingRenoster={asset.rating_renoster}
                   isCcpAligned={asset.is_ccp_aligned}
                   variant="row"
                 />
@@ -206,13 +207,15 @@ export function AssetDrawer({ asset, priceSeries = [], relatedAssets = [], displ
                       Abrir projeto ↗
                     </a>
                   ) : "—" },
+                  { label: "Desenvolvedor", value: asset.cad_trust_developer || "—" },
+                  { label: "Metodologia", value: asset.cad_trust_methodology || "—" },
                   { label: "Emitido (CAD Trust)", value: asset.cad_trust_units_issued != null ? Number(asset.cad_trust_units_issued).toLocaleString("pt-BR") : "—" },
                   { label: "Retirado (CAD Trust)", value: asset.cad_trust_units_retired != null ? Number(asset.cad_trust_units_retired).toLocaleString("pt-BR") : "—" },
                 ].map((attr, idx) => (
                   <div
                     key={attr.label}
                     className={`py-3 ${idx % 2 === 0 ? "pr-4 border-r border-gray-100" : "pl-4"} ${
-                      idx < 10 ? "border-b border-gray-100" : ""
+                      idx < 12 ? "border-b border-gray-100" : ""
                     }`}
                   >
                     <dt className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide">{attr.label}</dt>

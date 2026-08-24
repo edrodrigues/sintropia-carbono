@@ -5,13 +5,15 @@ import { ShieldCheck } from "lucide-react";
 interface CadTrustScoreProps {
   ratingBezero: string | null | undefined;
   ratingSylvera: string | null | undefined;
+  ratingRenoster: string | null | undefined;
   isCcpAligned: boolean | null | undefined;
   variant?: "row" | "compact";
 }
 
-const AGENCY_URLS: Record<"bezero" | "sylvera", string> = {
+const AGENCY_URLS: Record<"bezero" | "sylvera" | "renoster", string> = {
   bezero: "https://bezerocarbon.com",
   sylvera: "https://www.sylvera.com",
+  renoster: "https://www.renoster.co",
 };
 
 function ratingColor(value: string): string {
@@ -26,12 +28,14 @@ function ratingColor(value: string): string {
 export function CadTrustScore({
   ratingBezero,
   ratingSylvera,
+  ratingRenoster,
   isCcpAligned,
   variant = "row",
 }: CadTrustScoreProps) {
   const hasAny =
     (ratingBezero && ratingBezero.trim()) ||
     (ratingSylvera && ratingSylvera.trim()) ||
+    (ratingRenoster && ratingRenoster.trim()) ||
     isCcpAligned;
 
   if (!hasAny) {
@@ -67,6 +71,18 @@ export function CadTrustScore({
             SV:{ratingSylvera}
           </a>
         )}
+        {ratingRenoster && ratingRenoster.trim() && (
+          <a
+            href={AGENCY_URLS.renoster}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            title="Renoster"
+            className={`inline-flex px-1.5 py-0.5 text-[10px] font-semibold rounded hover:underline ${ratingColor(ratingRenoster)}`}
+          >
+            RN:{ratingRenoster}
+          </a>
+        )}
         {isCcpAligned && (
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" aria-label="CCP Aligned" />
         )}
@@ -96,6 +112,17 @@ export function CadTrustScore({
           className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full hover:underline ${ratingColor(ratingSylvera)}`}
         >
           Sylvera: {ratingSylvera}
+        </a>
+      )}
+      {ratingRenoster && ratingRenoster.trim() && (
+        <a
+          href={AGENCY_URLS.renoster}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full hover:underline ${ratingColor(ratingRenoster)}`}
+        >
+          Renoster: {ratingRenoster}
         </a>
       )}
       {isCcpAligned && (

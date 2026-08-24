@@ -1,5 +1,15 @@
 # Enrich Live Markets listings with more CAD Trust data
 
+## Status (2026-08-24)
+
+Implementation is **complete and locally verified, but not committed**. Execution was
+paused once mid-way (commits had appeared on `main` from another session working the
+same feature area in real time); on resuming, `main` was unchanged since the pause, so
+work continued safely on top of it. All code/migration changes are done; all
+verification that can run without a deployed Supabase project (db:verify, typecheck,
+lint) passes. Deploy-dependent verification (running the edge function live, checking
+the UI in a browser) has not been done — see the Verification section.
+
 ## Context
 
 Sintropia's Live Markets feature (`/carbono/mercados-ao-vivo`) already enriches listed
@@ -31,7 +41,7 @@ The validation/verification + co-benefits/labels direction is deferred.
 
 ## Changes
 
-### 1. `supabase/functions/ingest-cadtrust-ratings/index.ts`
+### 1. `supabase/functions/ingest-cadtrust-ratings/index.ts` — ✅ done (uncommitted)
 
 - Extend `CadtProject` with `projectDeveloper`, `methodology`, `methodology2`, and
   `projectLocations?: { country?: string | null }[] | null`.
@@ -47,7 +57,7 @@ The validation/verification + co-benefits/labels direction is deferred.
 - Add `locationsUpserted` / `locationUpsertErrors` to `Stats` and the final JSON result,
   matching the existing counters.
 
-### 2. Migrations (new files, after `20260823000007`)
+### 2. Migrations (new files, after `20260823000007`) — ✅ files created (untracked, not yet applied/deployed)
 
 **`20260823000008_cad_trust_project_developer_methodology.sql`**
 - `ALTER TABLE cad_trust_projects ADD COLUMN project_methodology TEXT, ADD COLUMN project_methodology_secondary TEXT;` (`proponent` already exists — it's an unused legacy CSV-seed column being repurposed, consistent with this pipeline's existing pattern of live data overwriting the one-time seed.)
@@ -61,15 +71,18 @@ The validation/verification + co-benefits/labels direction is deferred.
 
 ### 3. Frontend
 
-- **`src/components/live-markets/CadTrustScore.tsx`**: add `ratingRenoster` prop, include it in the `hasAny` check, add it to `AGENCY_URLS` (confirm Renoster's real site URL before hardcoding — don't guess), and render a third badge in both `compact` (`RN:{value}`) and `row` (`Renoster: {value}`) variants, matching the BeZero/Sylvera pattern exactly.
-- Pass `ratingRenoster={...rating_renoster}` at all 5 existing call sites: `AssetDrawer.tsx:156-157`, `WatchlistTab.tsx:105-106`, `ComparatorTab.tsx:61-62`, `OverviewTab.tsx:182-183`, `ExplorerTab.tsx:213-214`.
-- **`AssetDrawer.tsx`**: add two entries to the existing "Atributos" `dl` array (around line 197-210, near the other `cad_trust_*` fields): `{ label: "Desenvolvedor", value: asset.cad_trust_developer || "—" }` and `{ label: "Metodologia", value: asset.cad_trust_methodology || "—" }`.
-- **`src/types/supabase.ts`**: add `rating_renoster`, `cad_trust_developer`, `cad_trust_methodology` (all `string | null`) to `v_market_snapshot.Row` (~line 2602-2633). Regenerate via the Supabase MCP/CLI if available at implementation time; otherwise hand-edit to match.
+- ✅ **`src/components/live-markets/CadTrustScore.tsx`**: added `ratingRenoster` prop, included it in the `hasAny` check, added it to `AGENCY_URLS` (confirmed via web search: `https://www.renoster.co`), and rendered a third badge in both `compact` (`RN:{value}`) and `row` (`Renoster: {value}`) variants, matching the BeZero/Sylvera pattern exactly.
+- ✅ Passed `ratingRenoster={...rating_renoster}` at 4 of the originally-planned 5 call sites: `AssetDrawer.tsx`, `WatchlistTab.tsx`, `ComparatorTab.tsx`, `OverviewTab.tsx`. **`ExplorerTab.tsx` skipped** — a concurrent commit already removed its `CadTrustScore` usage entirely (replaced the ratings-badge column with a registry-ID column), so there's nothing to wire there anymore; re-check this file's current state before assuming otherwise.
+- ✅ **`AssetDrawer.tsx`**: added `ratingRenoster` to the `CadTrustScore` call, and two entries to the "Atributos" `dl` array (grouped with the other `cad_trust_*` fields, between "Ver no registro" and "Emitido (CAD Trust)"): `{ label: "Desenvolvedor", value: asset.cad_trust_developer || "—" }` and `{ label: "Metodologia", value: asset.cad_trust_methodology || "—" }`. Also bumped the row-border index threshold from 10 to 12 to match the new item count.
+- ✅ **`src/types/supabase.ts`**: added `cad_trust_developer`, `cad_trust_methodology`, `rating_renoster` (all `string | null`) to `v_market_snapshot.Row`, alphabetically ordered to match the existing convention. Hand-edited (Supabase MCP was unauthenticated this session) — regenerate via CLI/MCP next time it's available to confirm the hand-edit matches.
 
 ## Verification
 
-1. `npm run db:verify` — replays all migrations locally (PGlite) and checks the schema contract, app queries, and constraints; must pass after adding the two new migration files.
-2. `npm run typecheck` — catches any mismatch from the `supabase.ts` and component prop changes.
-3. Before wiring Renoster, confirm CAD Trust actually emits a `"Renoster"` `ratingType` somewhere in its live feed (the 3 sample projects fetched during exploration had empty `projectRatings`, so this wasn't directly confirmed) — spot-check a few more pages, or just ship it: absent data degrades to `—` exactly like BeZero/Sylvera already do.
-4. Deploy and manually trigger `ingest-cadtrust-ratings` (or wait for its daily cron), then check its JSON log for `locationsUpserted` > 0 and no new `locationUpsertErrors`.
-5. Load `/carbono/mercados-ao-vivo`, open the `AssetDrawer` for an asset with a linked `cad_trust_project_id`, and confirm: developer/methodology render when present, fall back to "—" when not (no layout breakage), and any Renoster rating shows alongside BeZero/Sylvera in both compact and row variants.
+1. ✅ `npm run db:verify` — all migrations replay cleanly including the two new ones (`ok`). One pre-existing, unrelated failure (`20260822000003_enable_realtime_price_references.sql`: `publication "supabase_realtime" does not exist`) — confirmed present in the local PGlite environment regardless of these changes; not something this work touches.
+2. ✅ `npm run typecheck` — passes with no errors.
+3. ✅ (bonus, not in original plan) `npx eslint` on all changed files — no errors or warnings.
+4. ⬜ Not run (needs a live feed check): confirm CAD Trust actually emits a `"Renoster"` `ratingType` somewhere in its live feed — the 3 sample projects fetched during planning had empty `projectRatings`, so this wasn't directly confirmed. Not blocking: absent data degrades to `—` exactly like BeZero/Sylvera already do.
+5. ⬜ Not run (needs a deployed Supabase project): deploy and manually trigger `ingest-cadtrust-ratings` (or wait for its daily cron), then check its JSON log for `locationsUpserted` > 0 and no new `locationUpsertErrors`.
+6. ⬜ Not run (needs a running dev server / browser): load `/carbono/mercados-ao-vivo`, open the `AssetDrawer` for an asset with a linked `cad_trust_project_id`, and confirm developer/methodology render when present, fall back to "—" when not, and any Renoster rating shows alongside BeZero/Sylvera in both compact and row variants.
+
+**Nothing has been committed.** All changes are in the working tree (`git status`) plus two untracked migration files, ready for review/commit.

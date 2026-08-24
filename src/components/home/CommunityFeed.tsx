@@ -13,7 +13,6 @@ export function CommunityFeed() {
   const [sortBy, setSortBy] = useState<"new" | "top">("new");
   const t = useTranslations("Index.feed");
   const router = useRouter();
-  const supabase = createClient();
 
   const handleOpenPost = (post: PostWithRelations) => {
     router.push(`/feed?post=${post.id}`);
@@ -22,6 +21,7 @@ export function CommunityFeed() {
   useEffect(() => {
     async function fetchPosts() {
       setLoading(true);
+      const supabase = createClient();
       let query = supabase
         .from("posts")
         .select(`*, author:profiles!inner(username, avatar_url, karma, linkedin_url, user_type, role)`)
@@ -41,7 +41,7 @@ export function CommunityFeed() {
     }
 
     fetchPosts();
-  }, [sortBy, supabase]);
+  }, [sortBy]);
 
   return (
     <div className="flex-[2]">

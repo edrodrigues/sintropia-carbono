@@ -60,6 +60,7 @@ export async function ComparatorTab({
           key={i.asset_id}
           ratingBezero={i.rating_bezero}
           ratingSylvera={i.rating_sylvera}
+          ratingRenoster={i.rating_renoster}
           isCcpAligned={i.is_ccp_aligned}
         />
       )),

@@ -107,6 +107,12 @@ interface CadtProjectRating {
   updatedAt?: string | null;
 }
 
+interface CadtProjectLocation {
+  country?: string | null;
+  inCountryRegion?: string | null;
+  geographicIdentifier?: string | null;
+}
+
 interface CadtProject {
   warehouseProjectId?: string | null;
   orgUid?: string | null;
@@ -123,6 +129,10 @@ interface CadtProject {
   projectStatus?: string | null;
   projectStatusDate?: string | null;
   unitMetric?: string | null;
+  projectDeveloper?: string | null;
+  methodology?: string | null;
+  methodology2?: string | null;
+  projectLocations?: CadtProjectLocation[] | null;
   projectRatings?: CadtProjectRating[] | null;
 }
 
@@ -155,6 +165,9 @@ interface ProjectRow {
   project_status: string;
   project_status_date: string | null;
   project_unit_metric: string;
+  proponent: string | null;
+  project_methodology: string | null;
+  project_methodology_secondary: string | null;
   updated_at: string;
 }
 
@@ -166,6 +179,8 @@ interface Stats {
   ratingsMatched: number;
   ratingsUpserted: number;
   ratingUpsertErrors: number;
+  locationsUpserted: number;
+  locationUpsertErrors: number;
   unmatchedRatedProjects: string[];
   unmappedRegistries: Set<string>;
   seenProjectIds: Set<string>;
@@ -181,6 +196,16 @@ interface Stats {
  * key are skipped entirely (not retried, not merged) -- ratings on a
  * skipped record just won't be matched against cad_trust_projects, same as
  * any other unmatched project. */
+// CAD Trust uses "n.a." as a placeholder for unknown projectDeveloper/methodology
+// values -- treat it the same as absent rather than storing the literal string.
+const NA_VALUES = new Set(["n.a.", "n/a", "na"]);
+function cleanText(value?: string | null): string | null {
+  if (!value) return null;
+  const trimmed = value.trim();
+  if (!trimmed || NA_VALUES.has(trimmed.toLowerCase())) return null;
+  return trimmed;
+}
+
 function toProjectRow(project: CadtProject, stats: Stats): ProjectRow | null {
   if (!project.warehouseProjectId) return null;
 
@@ -213,6 +238,9 @@ function toProjectRow(project: CadtProject, stats: Stats): ProjectRow | null {
     project_status: project.projectStatus ?? "Listed",
     project_status_date: project.projectStatusDate ?? null,
     project_unit_metric: project.unitMetric ?? "tCO2e",
+    proponent: cleanText(project.projectDeveloper),
+    project_methodology: cleanText(project.methodology),
+    project_methodology_secondary: cleanText(project.methodology2),
     updated_at: new Date().toISOString(),
   };
 }
@@ -377,10 +405,56 @@ async function upsertRatings(
   }
 }
 
+/** cad_trust_locations has no ongoing sync of its own -- it was only ever
+ * populated by the one-time 2026-07-17 CSV seed, so every project the daily
+ * sync has discovered since then has no location row at all. Upserts
+ * (project_id, country) pairs straight from CAD Trust's own projectLocations,
+ * so coverage grows with the live catalog instead of staying frozen. */
+async function upsertLocations(
+  supabase: SupabaseClient,
+  projects: CadtProject[],
+  idByWarehouseId: Map<string, string>,
+  stats: Stats,
+) {
+  for (const project of projects) {
+    const locations = project.projectLocations ?? [];
+    if (locations.length === 0) continue;
+
+    const localId = project.warehouseProjectId ? idByWarehouseId.get(project.warehouseProjectId) : undefined;
+    if (!localId) continue;
+
+    for (const loc of locations) {
+      const country = cleanText(loc.country);
+      if (!country) continue;
+
+      const { error } = await supabase
+        .from("cad_trust_locations")
+        .upsert(
+          {
+            cad_trust_project_id: localId,
+            country,
+            in_country_region: cleanText(loc.inCountryRegion),
+            geographic_identifier: cleanText(loc.geographicIdentifier),
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: "cad_trust_project_id,country" },
+        );
+
+      if (error) {
+        stats.locationUpsertErrors++;
+        console.warn(`Location upsert failed for warehouseProjectId ${project.warehouseProjectId}: ${error.message}`);
+        continue;
+      }
+      stats.locationsUpserted++;
+    }
+  }
+}
+
 async function processPage(data: CadtProject[], supabase: SupabaseClient, stats: Stats) {
   const rows = data.map((p) => toProjectRow(p, stats)).filter((r): r is ProjectRow => r !== null);
   const idByWarehouseId = await upsertProjectRows(supabase, rows, stats);
   await upsertRatings(supabase, data, idByWarehouseId, stats);
+  await upsertLocations(supabase, data, idByWarehouseId, stats);
 }
 
 /** PostgREST caps an unpaginated select at 1000 rows by default. Page
@@ -457,6 +531,8 @@ serve(async (_req: Request) => {
       ratingsMatched: 0,
       ratingsUpserted: 0,
       ratingUpsertErrors: 0,
+      locationsUpserted: 0,
+      locationUpsertErrors: 0,
       unmatchedRatedProjects: [],
       unmappedRegistries: new Set(),
       seenProjectIds: new Set(),
@@ -486,6 +562,8 @@ serve(async (_req: Request) => {
       ratingsMatched: stats.ratingsMatched,
       ratingsUpserted: stats.ratingsUpserted,
       ratingUpsertErrors: stats.ratingUpsertErrors,
+      locationsUpserted: stats.locationsUpserted,
+      locationUpsertErrors: stats.locationUpsertErrors,
       unmatchedRatedProjectCount: stats.unmatchedRatedProjects.length,
       unmappedRegistries: [...stats.unmappedRegistries],
       assetsRelinked,
