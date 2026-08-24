@@ -2618,6 +2618,7 @@ export type Database = {
           price_id: string | null
           price_low: number | null
           project_category: string | null
+          project_registry_id: string | null
           rating_bezero: string | null
           rating_sylvera: string | null
           reference_date: string | null

@@ -180,11 +180,15 @@ serve(async (req: Request) => {
       : Math.floor(Date.now() / 1000) - lookbackDays * 86400;
 
     const pooledBySymbol = new Map<string, number>();
-    for (let page = 0; page < 5; page++) {
-      const data = await graphFetch(graphEndpoint, POOLED_QUERY, {
-        first: PAGE_SIZE,
-        skip: page * PAGE_SIZE,
-      });
+    const pooledPages = await Promise.all(
+      Array.from({ length: 5 }, (_, page) =>
+        graphFetch(graphEndpoint, POOLED_QUERY, {
+          first: PAGE_SIZE,
+          skip: page * PAGE_SIZE,
+        })
+      ),
+    );
+    for (const data of pooledPages) {
       const rows: Any[] = data.pooledTokens ?? [];
       for (const r of rows) {
         const symbol = r.tco2Token?.symbol;
@@ -195,7 +199,6 @@ serve(async (req: Request) => {
           );
         }
       }
-      if (rows.length < PAGE_SIZE) break;
     }
 
     let assetCount = 0;

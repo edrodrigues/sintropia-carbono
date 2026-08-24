@@ -1463,6 +1463,7 @@
         "price_type": "Tipo de precio",
         "attributes": "Atributos",
         "registry": "Registro",
+        "project_id": "ID del proyecto",
         "volume": "Volumen disponible",
         "time_now": "ahora",
         "time_min": "{n} min",

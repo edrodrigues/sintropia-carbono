@@ -6,8 +6,7 @@ import { useTranslations } from "next-intl";
 import { ExternalLink } from "lucide-react";
 import { FilterPanel } from "./FilterPanel";
 import { ComparisonBar } from "./ComparisonBar";
-import { CadTrustScore } from "./CadTrustScore";
-import { formatPrice, timeAgo, referenceBadge, registryStatusLabel } from "@/lib/utils/market-helpers";
+import { formatPrice, timeAgo, registryStatusLabel } from "@/lib/utils/market-helpers";
 import type { ConversionRates } from "@/lib/services/currency-utils";
 import type { Database } from "@/types/supabase";
 
@@ -140,8 +139,8 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                   </label>
                 </th>
                 <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("asset")}</th>
-                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("price_type")}</th>
-                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("score")}</th>
+                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t("registry")}</th>
+                <th className="text-left px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide hidden sm:table-cell">{t("project_id")}</th>
                 <th
                   className="text-right px-3 py-2.5 text-[11px] font-semibold text-gray-500 uppercase tracking-wide"
                   aria-sort={sortField === "price" ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
@@ -177,7 +176,6 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
             </thead>
             <tbody>
               {sortedAssets.map((item) => {
-                const ref = referenceBadge(item.reference_type);
                 const isSelected = selectedIds.includes(item.asset_id ?? "");
                 return (
                   <tr
@@ -203,31 +201,32 @@ export function ExplorerTabInner({ assets, filterOptions, displayCurrency = "USD
                       <span className="block text-[11px] text-gray-500">{item.asset_type === "carbon_credit" ? "Carbono" : item.asset_type === "irec" ? "I-REC" : item.asset_type}</span>
                     </td>
                     <td className="px-3 py-3">
-                      <span className={`inline-flex px-2 py-0.5 text-[11px] font-semibold rounded-full ${ref.color}`}>
-                        {ref.label}
-                      </span>
+                      {item.registry ? (
+                        <span className="text-[11px] font-semibold text-gray-700">{item.registry}</span>
+                      ) : (
+                        <span className="text-[11px] text-gray-400">—</span>
+                      )}
                     </td>
                     <td className="px-3 py-3 hidden sm:table-cell">
-                      <div className="flex items-center gap-1 flex-wrap">
-                        <CadTrustScore
-                          ratingBezero={item.rating_bezero}
-                          ratingSylvera={item.rating_sylvera}
-                          isCcpAligned={item.is_ccp_aligned}
-                          variant="compact"
-                        />
-                        {item.cad_trust_project_link && (
+                      {item.project_registry_id ? (
+                        item.cad_trust_project_link ? (
                           <a
                             href={item.cad_trust_project_link}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
                             title={`${registryStatusLabel(item.cad_trust_project_status)} no registro oficial`}
-                            className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-semibold rounded bg-gray-100 text-gray-600 hover:underline hover:text-gray-800"
+                            className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 hover:underline"
                           >
-                            <ExternalLink className="w-3 h-3" aria-hidden="true" />
+                            {item.project_registry_id}
+                            <ExternalLink className="w-3 h-3 shrink-0" aria-hidden="true" />
                           </a>
-                        )}
-                      </div>
+                        ) : (
+                          <span className="text-[11px] font-semibold text-gray-700">{item.project_registry_id}</span>
+                        )
+                      ) : (
+                        <span className="text-[11px] text-gray-400">—</span>
+                      )}
                     </td>
                     <td className="px-3 py-3 text-right">
                       <span className="text-sm font-mono font-bold text-gray-900">{formatPrice(item, displayCurrency, rates)}</span>
