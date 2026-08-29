@@ -16,6 +16,7 @@ import {
   getCarbonStakeholders,
   getCarbonFullStats,
 } from "@/lib/queries/carbon";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -53,9 +54,7 @@ export async function generateMetadata({
           "largest carbon buyers",
           "Brazilian carbon market",
         ],
-    alternates: {
-      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}carbono/ranking-brasil`,
-    },
+    alternates: getLocalizedAlternates(locale, "/carbono/ranking-brasil"),
   };
 }
 

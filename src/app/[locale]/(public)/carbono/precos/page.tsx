@@ -10,6 +10,7 @@ import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell, Badge } from "@/components/ui/tremor";
 import { getCarbonPrices } from "@/lib/queries/carbon-prices";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -23,9 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: t("title"),
     description: t("subtitle"),
     keywords,
-    alternates: {
-      canonical: `https://sintropia.space/${locale}/carbono/precos`,
-    },
+    alternates: getLocalizedAlternates(locale, "/carbono/precos"),
   };
 }
 

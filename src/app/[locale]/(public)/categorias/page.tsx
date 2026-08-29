@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -15,9 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     keywords: locale === "pt"
       ? ["categorias carbono", "energia renovável", "I-REC", "créditos carbono", "inteligência mercado"]
       : ["carbon categories", "renewable energy", "I-REC", "carbon credits", "market intelligence"],
-    alternates: {
-      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}categorias`,
-    },
+    alternates: getLocalizedAlternates(locale, "/categorias"),
   };
 }
 

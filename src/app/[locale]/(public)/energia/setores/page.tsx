@@ -15,6 +15,7 @@ import {
   getIrecStakeholders,
   getIrecSectorDistribution,
 } from "@/lib/queries/irec";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -52,9 +53,7 @@ export async function generateMetadata({
           "sectoral energy transition",
           "I-REC by industry",
         ],
-    alternates: {
-      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}energia/setores`,
-    },
+    alternates: getLocalizedAlternates(locale, "/energia/setores"),
   };
 }
 

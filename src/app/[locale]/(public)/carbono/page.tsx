@@ -22,6 +22,7 @@ import {
   RiPriceTag3Line,
   RiFileList3Line,
 } from "@remixicon/react";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -73,9 +74,7 @@ export async function generateMetadata({
           "carbon neutrality",
           "decarbonization",
         ],
-    alternates: {
-      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}carbono`,
-    },
+    alternates: getLocalizedAlternates(locale, "/carbono"),
   };
 }
 

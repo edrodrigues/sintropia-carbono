@@ -23,6 +23,7 @@ import {
   RiBarChartBoxLine,
   RiPriceTag3Line,
 } from "@remixicon/react";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -72,9 +73,7 @@ export async function generateMetadata({
           "renewable certification",
           "carbon neutral market",
         ],
-    alternates: {
-      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}energia`,
-    },
+    alternates: getLocalizedAlternates(locale, "/energia"),
   };
 }
 

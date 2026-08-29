@@ -15,6 +15,7 @@ import {
   getIrecStakeholders,
   getIrecFullStats,
 } from "@/lib/queries/irec";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -52,9 +53,7 @@ export async function generateMetadata({
           "Big Tech renewable energy",
           "largest energy buyers",
         ],
-    alternates: {
-      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}energia/ranking-mundo`,
-    },
+    alternates: getLocalizedAlternates(locale, "/energia/ranking-mundo"),
   };
 }
 

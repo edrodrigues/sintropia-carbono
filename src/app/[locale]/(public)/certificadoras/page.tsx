@@ -10,6 +10,7 @@ import { EnergiaRenovavelChart } from "@/components/charts/EnergiaRenovavelChart
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -30,9 +31,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     keywords: locale === "pt"
       ? ["certificadoras carbono", "Verra", "Gold Standard", "I-REC", "RenovaBio", "certificação energia renovável"]
       : ["carbon certifiers", "Verra", "Gold Standard", "I-REC", "RenovaBio", "renewable energy certification"],
-    alternates: {
-      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}certificadoras`,
-    },
+    alternates: getLocalizedAlternates(locale, "/certificadoras"),
   };
 }
 

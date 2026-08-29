@@ -15,6 +15,7 @@ import {
   getIrecStakeholders,
   getIrecFullStats,
 } from "@/lib/queries/irec";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -52,9 +53,7 @@ export async function generateMetadata({
           "I-REC certificates",
           "largest I-REC buyers",
         ],
-    alternates: {
-      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}energia/ranking-brasil`,
-    },
+    alternates: getLocalizedAlternates(locale, "/energia/ranking-brasil"),
   };
 }
 

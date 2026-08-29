@@ -1,6 +1,7 @@
-import { redirect } from "@/i18n/routing";
+import { permanentRedirect } from "next/navigation";
+import { localizedPath } from "@/lib/seo";
 
 export default async function CarbonoMundoRedirect({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  redirect({ href: "/carbono/ranking-mundo", locale });
+  permanentRedirect(localizedPath(locale, "/carbono/ranking-mundo"));
 }

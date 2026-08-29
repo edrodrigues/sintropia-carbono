@@ -9,11 +9,94 @@ import { StatsDashboard } from "@/components/profile/StatsDashboard";
 import { calculateAchievements } from "@/lib/achievements";
 import type { Database } from "@/types/supabase";
 import Link from "next/link";
+import type { Metadata } from "next";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 type Post = Database["public"]["Tables"]["posts"]["Row"];
 
 interface PageProps {
   params: Promise<{ locale: string; username: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale, username } = await params;
+
+  const fallbackTitle =
+    locale === "pt"
+      ? `${username} | Sintropia`
+      : locale === "es"
+        ? `${username} | Sintropia`
+        : `${username} | Sintropia`;
+
+  const alternates = getLocalizedAlternates(locale, `/u/${username}`);
+
+  try {
+    const supabase = await createClient();
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("username, display_name, headline, bio, organization, role")
+      .eq("username", username)
+      .maybeSingle();
+
+    if (!profile || profile.role === "banned") {
+      notFound();
+    }
+
+    const name = profile.display_name || username;
+    const headline = profile.headline || "";
+    const org = profile.organization || "";
+    const bio = profile.bio || "";
+
+    const title =
+      locale === "pt"
+        ? `${name}${headline ? ` — ${headline}` : ""} | Sintropia`
+        : locale === "es"
+          ? `${name}${headline ? ` — ${headline}` : ""} | Sintropia`
+          : `${name}${headline ? ` — ${headline}` : ""} | Sintropia`;
+
+    const description =
+      locale === "pt"
+        ? `${name}${org ? ` em ${org}` : ""}. ${headline}${bio ? `. ${bio.slice(0, 120)}` : ""} — Perfil na rede profissional de mercados ambientais e sustentabilidade.`
+        : locale === "es"
+          ? `${name}${org ? ` en ${org}` : ""}. ${headline}${bio ? `. ${bio.slice(0, 120)}` : ""} — Perfil en la red profesional de mercados ambientales y sostenibilidad.`
+          : `${name}${org ? ` at ${org}` : ""}. ${headline}${bio ? `. ${bio.slice(0, 120)}` : ""} — Profile on the professional network for environmental markets and sustainability.`;
+
+    const keywords =
+      locale === "pt"
+        ? [name, headline, org, "mercados ambientais", "sustentabilidade", "carbono", "ESG"]
+        : [name, headline, org, "environmental markets", "sustainability", "carbon", "ESG"];
+
+    return {
+      title,
+      description,
+      keywords,
+      alternates,
+      openGraph: {
+        title,
+        description,
+        url: alternates.canonical,
+        siteName: "Sintropia",
+        type: "profile",
+      },
+      twitter: {
+        card: "summary",
+        title,
+        description,
+      },
+    };
+  } catch {
+    return {
+      title: fallbackTitle,
+      description:
+        locale === "pt"
+          ? "Perfil profissional na rede Sintropia para mercados ambientais e sustentabilidade."
+          : locale === "es"
+            ? "Perfil profesional en la red Sintropia para mercados ambientales y sostenibilidad."
+            : "Professional profile on Sintropia for environmental markets and sustainability.",
+      alternates,
+      robots: { index: true, follow: true },
+    };
+  }
 }
 
 export default async function PublicProfilePage(props: PageProps) {

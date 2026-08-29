@@ -10,6 +10,7 @@ import { LastUpdated } from "@/components/ui/LastUpdated";
 import { DataSources } from "@/components/ui/DataSources";
 import { Card, Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/tremor";
 import { getIrecPrices } from "@/lib/queries/irec";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -23,9 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: t("title"),
     description: t("subtitle"),
     keywords,
-    alternates: {
-      canonical: `https://sintropia.space/${locale}/energia/precos`,
-    },
+    alternates: getLocalizedAlternates(locale, "/energia/precos"),
   };
 }
 

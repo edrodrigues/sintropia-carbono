@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -13,9 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     keywords: locale === "pt"
       ? ["termos de uso", "condições de uso", "Sintropia", "políticas plataforma"]
       : ["terms of use", "terms and conditions", "Sintropia", "platform policies"],
-    alternates: {
-      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}termos`,
-    },
+    alternates: getLocalizedAlternates(locale, "/termos"),
   };
 }
 

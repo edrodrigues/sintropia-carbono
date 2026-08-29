@@ -1,4 +1,10 @@
 import { Link } from "@/i18n/routing";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Página não encontrada | Sintropia",
+  robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
   return (

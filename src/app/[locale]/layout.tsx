@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const currentTitle = titles[locale] || titles.pt;
   const currentDescription = descriptions[locale] || descriptions.pt;
   const siteUrl = "https://sintropia.space";
+  const alternates = getLocalizedAlternates(locale, "/");
 
   return {
     title: currentTitle,
@@ -36,14 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     creator: "Comunidade Sintropia",
     publisher: "Sintropia",
     metadataBase: new URL(siteUrl),
-    alternates: {
-      canonical: siteUrl,
-      languages: {
-        "pt-BR": siteUrl,
-        "en-US": `${siteUrl}/en`,
-        "es-ES": `${siteUrl}/es`,
-      },
-    },
+    alternates,
     openGraph: {
       title: currentTitle,
       description: currentDescription,

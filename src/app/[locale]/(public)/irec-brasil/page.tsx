@@ -1,6 +1,7 @@
-import { redirect } from "@/i18n/routing";
+import { permanentRedirect } from "next/navigation";
+import { localizedPath } from "@/lib/seo";
 
-export default async function RedirectPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function IrecBrasilRedirect({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
-  redirect({ href: "/energia/ranking-brasil", locale });
+  permanentRedirect(localizedPath(locale, "/energia/ranking-brasil"));
 }

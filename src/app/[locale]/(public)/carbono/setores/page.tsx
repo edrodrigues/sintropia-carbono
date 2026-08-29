@@ -15,6 +15,7 @@ import {
   getCarbonStakeholders,
   getCarbonSectorDistribution,
 } from "@/lib/queries/carbon";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -52,9 +53,7 @@ export async function generateMetadata({
           "sectoral carbon offset",
           "carbon credits industry",
         ],
-    alternates: {
-      canonical: `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}carbono/setores`,
-    },
+    alternates: getLocalizedAlternates(locale, "/carbono/setores"),
   };
 }
 

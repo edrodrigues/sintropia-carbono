@@ -25,6 +25,7 @@ import { fetchAllRates } from "@/lib/services/currency-converter";
 import { DataSources } from "@/components/ui/DataSources";
 import { LastUpdated } from "@/components/ui/LastUpdated";
 import { getLatestReferenceDate } from "@/lib/utils/market-helpers";
+import { getLocalizedAlternates } from "@/lib/seo";
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -38,9 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     title: t("title"),
     description: t("subtitle"),
     keywords,
-    alternates: {
-      canonical: `https://sintropia.space/${locale}/carbono/mercados-ao-vivo`,
-    },
+    alternates: getLocalizedAlternates(locale, "/carbono/mercados-ao-vivo"),
   };
 }
 
