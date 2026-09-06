@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/dashboard/", "/auth/", "/admin/"],
       },
     ],
-    sitemap: "https://sintropia.space/sitemap.xml",
+    sitemap: "https://www.sintropia.space/sitemap.xml",
   };
 }

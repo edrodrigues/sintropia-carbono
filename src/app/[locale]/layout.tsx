@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
   const currentTitle = titles[locale] || titles.pt;
   const currentDescription = descriptions[locale] || descriptions.pt;
-  const siteUrl = "https://sintropia.space";
+  const siteUrl = "https://www.sintropia.space";
   const alternates = getLocalizedAlternates(locale, "/");
 
   return {
@@ -143,7 +143,7 @@ export default async function RootLayout({
                 "@type": "Organization",
                 "inLanguage": locale,
                 "name": "Sintropia",
-                "url": "https://sintropia.space",
+                "url": "https://www.sintropia.space",
                 "description": "A rede profissional para mercados ambientais e sustentabilidade. Dados abertos, comunidade colaborativa.",
                 "sameAs": [
                   "https://github.com/edrodrigues/sintropia-carbono",
@@ -151,9 +151,9 @@ export default async function RootLayout({
                 "contactPoint": {
                   "@type": "ContactPoint",
                   "contactType": "community",
-                  "url": `https://sintropia.space/${locale}/feed`,
+                  "url": `https://www.sintropia.space/${locale}/feed`,
                 },
-                "logo": "https://sintropia.space/favicon.svg",
+                "logo": "https://www.sintropia.space/favicon.svg",
               }),
             }}
           />
@@ -166,11 +166,11 @@ export default async function RootLayout({
                 "@type": "WebSite",
                 "inLanguage": locale,
                 "name": "Sintropia",
-                "url": "https://sintropia.space",
+                "url": "https://www.sintropia.space",
                 "description": "A rede profissional para mercados ambientais e sustentabilidade.",
                 "potentialAction": {
                   "@type": "SearchAction",
-                  "target": `https://sintropia.space/${locale}/feed?q={search_term_string}`,
+                  "target": `https://www.sintropia.space/${locale}/feed?q={search_term_string}`,
                   "query-input": "required name=search_term_string",
                 },
               }),

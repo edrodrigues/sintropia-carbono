@@ -81,7 +81,7 @@ export function Breadcrumb() {
     return null;
   }
 
-  const siteUrl = "https://sintropia.space";
+  const siteUrl = "https://www.sintropia.space";
 
   const jsonLd = {
     "@context": "https://schema.org",

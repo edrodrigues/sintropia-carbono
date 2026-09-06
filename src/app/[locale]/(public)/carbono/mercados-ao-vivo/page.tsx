@@ -102,7 +102,7 @@ export default async function CarbonoLiveMarketsPage({
   }
 
   const dataSources = [
-    { name: "Sintropia Carbono", url: "https://sintropia.space" },
+    { name: "Sintropia Carbono", url: "https://www.sintropia.space" },
     { name: "Carbonmark", url: "https://carbonmark.com" },
     { name: "Toucan Protocol", url: "https://toucan.earth" },
     { name: "KlimaDAO", url: "https://www.klimadao.finance" },

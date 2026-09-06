@@ -1,6 +1,6 @@
 import { routing } from "@/i18n/routing";
 
-export const SITE_URL = "https://sintropia.space";
+export const SITE_URL = "https://www.sintropia.space";
 
 export const LOCALE_LANGUAGE_CODES: Record<string, string> = {
   pt: "pt-BR",

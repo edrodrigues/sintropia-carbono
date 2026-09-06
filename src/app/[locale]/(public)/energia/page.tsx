@@ -428,7 +428,7 @@ export default async function EnergiaPage({
             "@graph": [
               {
                 "@type": "Dataset",
-                "@id": "https://sintropia.space/energia#dataset",
+                "@id": "https://www.sintropia.space/energia#dataset",
                 "inLanguage": locale,
                 "name": locale === "pt" ? "Rankings e Dados do Mercado I-REC" : locale === "en" ? "I-REC Market Rankings and Data" : "Rankings y Datos del Mercado I-REC",
                 "description": locale === "pt"
@@ -436,21 +436,21 @@ export default async function EnergiaPage({
                   : locale === "en"
                     ? "Comprehensive dataset on the I-REC renewable energy certificate market, including rankings of leading companies in Brazil and worldwide, trading volumes, regional pricing, and sectoral analysis."
                     : "Conjunto de datos completo sobre el mercado de certificados de energía renovable I-REC, incluyendo rankings de las principales empresas de Brasil y el mundo, volúmenes de comercialización, precios por región y análisis sectorial.",
-                "url": `https://sintropia.space/${locale === "pt" ? "" : locale + "/"}energia`,
+                "url": `https://www.sintropia.space/${locale === "pt" ? "" : locale + "/"}energia`,
                 "datePublished": "2025-01-01",
                 "dateModified": new Date().toISOString().split("T")[0],
                 "creator": {
                   "@type": "Organization",
                   "name": "Sintropia",
-                  "url": "https://sintropia.space",
+                  "url": "https://www.sintropia.space",
                 },
                 "publisher": {
                   "@type": "Organization",
                   "name": "Sintropia",
-                  "url": "https://sintropia.space",
+                  "url": "https://www.sintropia.space",
                   "logo": {
                     "@type": "ImageObject",
-                    "url": "https://sintropia.space/logo.png",
+                    "url": "https://www.sintropia.space/logo.png",
                   },
                 },
                 "license": "https://creativecommons.org/licenses/by/4.0/",
@@ -461,7 +461,7 @@ export default async function EnergiaPage({
                 ],
                 "distribution": {
                   "@type": "DataDownload",
-                  "contentUrl": "https://sintropia.space/dados/dados.md",
+                  "contentUrl": "https://www.sintropia.space/dados/dados.md",
                   "encodingFormat": "text/markdown",
                 },
                 "spatialCoverage": {
