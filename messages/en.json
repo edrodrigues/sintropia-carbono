@@ -864,7 +864,8 @@
             "invalidEmail": "Invalid email",
             "required": "Required field"
         },
-        "referralApplied": "Referral applied! You will earn 50 Karma points after completing your profile."
+        "referralApplied": "Referral applied! You will earn 50 Karma points after completing your profile.",
+        "passwordMismatch": "Passwords do not match."
     },
     "PasswordRequirements": {
         "length": "Minimum 8 characters",

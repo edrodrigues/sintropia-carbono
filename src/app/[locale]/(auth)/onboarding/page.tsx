@@ -11,7 +11,8 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-export default async function OnboardingPage() {
+export default async function OnboardingPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const supabase = await createClient();
 
   const {
@@ -19,7 +20,7 @@ export default async function OnboardingPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login");
+    redirect(`/${locale}/login`);
   }
 
   const { data: profile } = await supabase
@@ -32,7 +33,7 @@ export default async function OnboardingPage() {
   const hasDisplayName = profile?.display_name && profile.display_name.trim().length > 0;
 
   if (hasUsername && hasDisplayName) {
-    redirect("/dashboard");
+    redirect(`/${locale}/dashboard`);
   }
 
   const isNewUser = !hasUsername;

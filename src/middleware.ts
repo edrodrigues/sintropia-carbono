@@ -2,6 +2,7 @@ import createIntlMiddleware from "next-intl/middleware";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { routing } from "./i18n/routing";
+import { hasIncompleteProfile } from "@/lib/auth/profile-completeness";
 
 const intlMiddleware = createIntlMiddleware(routing);
 
@@ -82,16 +83,7 @@ export async function middleware(request: NextRequest) {
 
   // Step 5: Check profile completeness
   try {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("username, display_name")
-      .eq("id", user.id)
-      .single();
-
-    const hasUsername = profile?.username && (profile.username as string).trim().length > 0;
-    const hasDisplayName = profile?.display_name && (profile.display_name as string).trim().length > 0;
-
-    if (!hasUsername || !hasDisplayName) {
+    if (await hasIncompleteProfile(supabase, user.id)) {
       const localeMatch = request.nextUrl.pathname.match(/^\/(pt|en|es)/);
       const locale = localeMatch ? localeMatch![1] : routing.defaultLocale;
       const onboardingUrl = new URL(`/${locale}/onboarding`, request.url);

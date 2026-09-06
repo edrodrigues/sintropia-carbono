@@ -7,9 +7,10 @@ import { useState } from "react";
 interface GoogleButtonProps {
   text?: string;
   errorRedirect?: string;
+  locale?: string;
 }
 
-export function GoogleButton({ text = "Google", errorRedirect = "/login" }: GoogleButtonProps) {
+export function GoogleButton({ text = "Google", errorRedirect = "/login", locale = "pt" }: GoogleButtonProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -23,7 +24,7 @@ export function GoogleButton({ text = "Google", errorRedirect = "/login" }: Goog
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(`/${locale}`)}`,
       },
     });
 

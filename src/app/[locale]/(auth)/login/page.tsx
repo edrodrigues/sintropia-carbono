@@ -20,6 +20,7 @@ export default async function LoginPage(props: {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const { locale } = await props.params;
   const searchParams = await props.searchParams;
   const t = await getTranslations("Auth");
   const next = typeof searchParams.next === "string" ? searchParams.next : "";
@@ -39,6 +40,7 @@ export default async function LoginPage(props: {
 
         <form className="mt-8 space-y-6">
           <input type="hidden" name="next" value={next} />
+          <input type="hidden" name="locale" value={locale} />
           <div className="rounded-md shadow-sm -space-y-px">
             <div className="mb-4">
               <label htmlFor="email-address" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -107,7 +109,7 @@ export default async function LoginPage(props: {
               </div>
             </div>
 
-            <GoogleButton />
+            <GoogleButton locale={locale} errorRedirect={`/${locale}/login`} />
 
             <div className="mt-2 text-xs text-center text-gray-500 font-semibold block">
               {t("noAccount")}

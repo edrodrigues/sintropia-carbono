@@ -17,6 +17,7 @@ export default async function ResetPasswordPage(props: {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const { locale } = await props.params;
   const searchParams = await props.searchParams;
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 px-4">
@@ -32,6 +33,7 @@ export default async function ResetPasswordPage(props: {
         </div>
 
         <form className="mt-8 space-y-6">
+          <input type="hidden" name="locale" value={locale} />
           <div>
             <label htmlFor="password" className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">
               Nova Senha

@@ -19,6 +19,7 @@ export default async function RegisterPage(props: {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ message: string; error: string }>;
 }) {
+  const { locale } = await props.params;
   const searchParams = await props.searchParams;
   const t = await getTranslations("Auth");
 
@@ -35,7 +36,7 @@ export default async function RegisterPage(props: {
           </p>
         </div>
 
-        <RegisterForm error={searchParams?.error} />
+        <RegisterForm error={searchParams?.error} locale={locale} />
 
         <div className="text-center mt-4">
           <Link href="/" className="text-xs text-gray-500 hover:text-blue-600 transition-colors">

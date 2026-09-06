@@ -260,7 +260,8 @@
             "invalidEmail": "E-mail inválido",
             "required": "Campo obrigatório"
         },
-        "referralApplied": "Indicação aplicada! Você ganhará 50 pontos de Karma após completar seu perfil."
+        "referralApplied": "Indicação aplicada! Você ganhará 50 pontos de Karma após completar seu perfil.",
+        "passwordMismatch": "As senhas não coincidem."
     },
     "PasswordRequirements": {
         "length": "Mínimo 8 caracteres",

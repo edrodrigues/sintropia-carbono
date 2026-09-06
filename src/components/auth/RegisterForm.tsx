@@ -1,63 +1,64 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/client";
+import { signup } from "@/app/[locale]/(auth)/login/actions";
 import { PasswordRequirements } from "./PasswordRequirements";
 
 interface RegisterFormProps {
   error?: string;
+  locale: string;
 }
 
-export function RegisterForm({ error: initialError }: RegisterFormProps) {
-  const router = useRouter();
+export function RegisterForm({ error: initialError, locale }: RegisterFormProps) {
   const searchParams = useSearchParams();
-  const supabase = createClient();
   const t = useTranslations("Auth");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(initialError);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const referralCode = searchParams.get("ref");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
     setError(undefined);
 
-    const { error: signupError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          user_type: "individual",
-          referred_by_code: referralCode,
-        },
-      },
-    });
-
-    if (signupError) {
-      setError(signupError.message);
-      setLoading(false);
+    if (password !== confirmPassword) {
+      setError(t("passwordMismatch"));
       return;
     }
 
-    router.push(`/login?message=${encodeURIComponent(t("signUpSuccessMessage"))}`);
+    setLoading(true);
+
+    // Routed through the signup server action (not supabase.auth.signUp directly)
+    // so this goes through rate limiting, server-side validation and the welcome email.
+    const formData = new FormData();
+    formData.set("email", email);
+    formData.set("password", password);
+    formData.set("locale", locale);
+    if (referralCode) {
+      formData.set("referred_by_code", referralCode);
+    }
+
+    await signup(formData);
   };
 
   const handleGoogleSignUp = async () => {
     setLoading(true);
     setError(undefined);
 
+    const supabase = createClient();
     await supabase.auth.signOut();
 
     const { error: googleError } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback${referralCode ? `?ref=${referralCode}` : ""}`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(`/${locale}`)}${referralCode ? `&ref=${referralCode}` : ""}`,
         queryParams: referralCode ? { ref: referralCode } : undefined,
       },
     });
@@ -178,9 +179,30 @@ export function RegisterForm({ error: initialError }: RegisterFormProps) {
           {password.length > 0 && <PasswordRequirements password={password} />}
         </div>
 
+        <div>
+          <label htmlFor="confirmPassword" className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">
+            {t("confirmPasswordLabel")}
+          </label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type={showPassword ? "text" : "password"}
+            autoComplete="new-password"
+            required
+            minLength={8}
+            value={confirmPassword}
+            onChange={e => setConfirmPassword(e.target.value)}
+            className="appearance-none rounded-xl relative block w-full px-4 py-3 border border-gray-300 dark:border-gray-700 placeholder-gray-400 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#0a382c] focus:border-transparent sm:text-sm dark:bg-gray-800 transition-all"
+            placeholder="••••••••"
+          />
+          {confirmPassword.length > 0 && confirmPassword !== password && (
+            <p className="mt-1 ml-1 text-xs text-red-500 font-medium">{t("passwordMismatch")}</p>
+          )}
+        </div>
+
         <button
           type="submit"
-          disabled={loading || password.length < 8}
+          disabled={loading || password.length < 8 || confirmPassword !== password}
           className="group relative w-full flex justify-center py-3.5 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-[#0a382c] hover:bg-charcoal-ink focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-deep-forest transition-all shadow-lg shadow-deep-forest/25 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100"
         >
           {loading ? t("creatingAccount") : t("createAccountFree")}

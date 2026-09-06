@@ -887,7 +887,8 @@
             "invalidEmail": "Correo electrónico inválido",
             "required": "Campo obligatorio"
         },
-        "referralApplied": "¡Referencia aplicada! Ganarás 50 puntos de Karma después de completar tu perfil."
+        "referralApplied": "¡Referencia aplicada! Ganarás 50 puntos de Karma después de completar tu perfil.",
+        "passwordMismatch": "Las contraseñas no coinciden."
     },
     "PasswordRequirements": {
         "length": "Mínimo 8 caracteres",

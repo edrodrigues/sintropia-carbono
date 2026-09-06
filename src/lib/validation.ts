@@ -17,6 +17,7 @@ export const signupSchema = z.object({
   name: z.string().max(100).optional().default(""),
   username: usernameSchema.optional().default(""),
   user_type: z.enum(["individual", "company", "ong", "government", "professor", "broker"]).optional().default("individual"),
+  referred_by_code: z.string().max(50).optional().default(""),
 });
 
 export const resetPasswordSchema = z.object({
